@@ -1,0 +1,188 @@
+ ORIGAMI summer project 2017 ----> Master's project
+ ---------------------------
+    This goal of this project will be to learn how to interact with N-body simulation data, especially halo catalogs.
+
+
+    The student will:
+    * submit jobs to a cluster to run a subhalo finder on 100s of N-body simulations; 
+
+    * research available merger tree codes and identify a suitable public code to run on these halo catalogs;
+
+    * and write functions to read simulation data (particle positions and velocities, halo tables, and particle IDs within halos) in python.
+
+
+    If available, the student may also test a prototype of the “FileDB” database framework to interact with the simulation data in both python and SQL. 
+
+
+============================>
+Comprehensive Extensive Helpful INDRA Dataset Reading Software And Manipulator With Python....
+
+Comprehensive Reader of Indra Simulations with PYthon - CRISPY
+Python-kit for Indra Reading and Applied Science - PIRATES
+Python-kit for Indra Reading and Extended Analysis of Data - PIREAD
+Toolkit for Handling Extensive Reading and Analysis using Python on Indra - THERAPI
+Science Toolkit with Reader and Analyzing Indra with PYthon - STRIPY
+
+---
++--[ RSA 4096]----+
+|                 |
+|                 |
+|        E o      |
+|       . + +     |
+|        S o . .  |
+|         o o = + |
+|        .oo + B .|
+|        =. + o o |
+|       . oo . ...|
++-----------------+
+---
+git tutorial: =============================
+https://try.github.io/levels/1/challenges/1
+
+tmux cheat sheet: =========================
+https://gist.github.com/MohamedAlaa/2961058
+
+
+
+######### IREAD
+
+
+ssh -X magnucb@gwln2.pha.jhu.edu
+         C\Users\Boffen\Dropbox\uni\master\indraRead\read_project
+scp /mnt/c/Users/Boffen/Dropbox/uni/master/indraRead/read_project/*.py magnucb@gwln2.pha.jhu.edu:~/iRead
+###
+
+########## ORIGAMI
+
+*** local folder address:
+/mnt/c/Users/Boffen/Dropbox/uni/master/origami/testing_params
+
+***  parameters update for i200tmp sf63:
+scp /mnt/c/Users/Boffen/Dropbox/uni/master/origami/testing_params/params_i200tmp_sf63.txt magnucb@gwln2.pha.jhu.edu:~/oriread/testrun/params_i200tmp_sf63.txt
+
+*** remote parameter folder address:
+/home/magnucb/oriread/testrun
+    + params_i200tmp_sf63.txt
+
+*** remote output folder address:
+/home/magnucb/oriread/testrun/output_i200tmp_sf63
+
+*** retrieval for remote, when currently on local machine:
+scp magnucb@gwln2.pha.jhu.edu:~/indraData/pos_i200tmp_sf63/pos_i200tmp_sf63.png /mnt/c/Users/Boffen/Dropbox/uni/master/indraData/pos_i200tmp_sf63/pos_i200tmp_sf63.png
+
+*** run "./origamitag" from foldersystem's "code" folder :
+~/origami-2.0/code/./origamitag ~/oriread/testrun/params_i200tmp_sf63.txt
+###########
+
+*** check current free RAM
+aram () { free -m | awk '{print $4}' | head -2 | tail -1; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+***     Comments so far
+
+133602296 bytes * 256 * 64 * 65 * 8  ~ 1.14 terabyte # for snapshots
+
+
+
+
+
+
+
+
+
+
+
+
+==== CURRENT STATUS: (OUTDATED)
+
+Legend:
+*** Header
+*   Specific category/stage
+->  Question/challenge
+=>  Idea of solution
+=   Repr. of progress bar, 1 bar is ~25%, 4 bars is 100%
+
+
+***     To-do list:
+*   Figure out, sketch, construct basic python program structure. - --- --- --- --- --- --- --- --- --- --- --- # |====| (DONE)
+    ->  Class-based?
+        =>  Yes. Seems like the best solution, for a lot of versatility.
+    ->  Parent/child programs, or all combined as a single document?
+        =>  Yes, the former: Parent/child programs;
+            the reading tools should be apart from the program's operating structure.
+                ->  Maybe even have the specific cmdline argument interpreter as a specialized class module as well?
+                    =>  Yes. Right now, why not. Classes can inherit more than 1 set of funcs.
+            ->  With modularisation, how extremely shall the tool scripts be specialized vs maximum versatility for the functions? 
+                =>  Rather have more functions, highly specialized. Maybe even more scripts to contain different categories of tools?
+
+*   Finish the _rough_ sketch of the IDL -> python translation. --- --- --- --- --- --- --- --- --- --- --- --- # |====| (DONE)
+    => Pos+vel function          - sketched
+        =>  was basically just an import of source code,
+            creating an overview of code to keep or to get rid of,
+            and fixing library dependencies.
+    => Pos function              - sketched
+        ->  make dummy what can be made dummy
+            (to optimize memory+speed)
+    => Vel function              - sketched
+        ->  make dummy what can be made dummy
+            (to optimize memory+speed)
+    => FFT-function              - sketched
+    => FOF/group finder function - sketched
+    => Subhalo finder function   - sketched
+    -> Just throw me suggestions for more functions! :)
+
+*   Correct deviances from rough sketch, conforming intended use with python functionality. --- --- --- --- --- # |=== | (ONGOING)
+    ->  Check case sensitive variable names, establish variable continuity within python scripts -- --- --- --- # |====| (DONE)
+    
+    ->  Double check intended lengths of arrays, read by fromfile, and how to read all requested information -- # |====| (DONE)
+    
+    ->  Make no. of files read in FOF & sub functions variable, depending on files' params  --- --- --- --- --- # |====| (DONE)
+        =>  Decided on a method using glob to retrieve actual list of files + no. of files
+    
+    ->  Fuck. A big one, potentially, but VERY important: Fix array index ordering... - --- --- --- --- --- --- # |====| (DONE)
+
+    =>  The above points seem to be taking a while, as I double check everything tediously, but they're coming along.
+        =>  Lots of stuff fixed; the procedure was more efficient after I'd managed to compartmentalize better.
+
+    ->  General debugging stage --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- # |=   | (CURRENT STAGE)
+        ->  Double checking IDL's ishft usage, documentation 
+
+    ->  Pos and Vel readers should have option to sort by the particle IDs. --- --- --- --- --- --- --- --- --- # |    | (ETA N/A)
+        (e.g., all ORIGAMI output is sorted by particle ID already, so it will be useful to sort)
+
+*   (OPTIONAL) Optimize scripts' functions for memory consumption.
+    ->  Only store necessary information
+        =>  Hopefully this is achieved by the base program in a useful manner.
+
+    ->  Dump memory belonging to information no longer in use/just finished its purpose
+        ->  Maybe python handles this well to begin with?
+            =>  Research into how python handles memory
+        
+        ->  Maybe even implement parallellisation, as these vast sets of data potentially should be able to be read and interpreted side-by-side?
+            =>  More researching of python
+
+*   (OPTIONAL) Implement multiple dataset reading functionality.
+    =>  Program should be able to run over a range of varying indraN, iA, and iB.
+        -> Specific indraN, or ranges of indraN with specific start and end?
+        -> Specific iA, or ranges of iA with specific start and end?
+        -> Specific iB, or ranges of iB with specific start and end?
