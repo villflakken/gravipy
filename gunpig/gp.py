@@ -553,3 +553,15 @@ pl.plot([1,2,3],[6,5,6])
 pl.savefig("4.png")
 pl.close()
 
+tmpfolder = True
+readtext = "\t Accessing file:\tindra{0}{1}/snap{2}/file.{3} ({4}) ..."
+tmpftxt = "tmp" if tmpfolder == True else ""
+indraN = 2
+subfolder = 63
+i = 52
+what = "pos"
+Npart = 928
+readtext = readtext.format( indraN, tmpftxt, 
+                           subfolder, i, what )
+print "i:", i, "| Npart (before boxing):", Npart
+print "itertext:  ", readtext
