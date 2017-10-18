@@ -234,10 +234,10 @@ class readTools(object):
         
         fig =  pl.figure()
 
-        if self.plotdim == 2 or self.plotdim == None:
+        if self.plotdim_set == 2 or self.plotdim_set == None:
             " Defaults to 2 dimensions in plot "
             ax  = fig.add_subplot(111, projection='2d') # 2d as default
-        if self.plotdim == 3:
+        if self.plotdim_set == 3:
             " In case of 3d "
             ax  = fig.add_subplot(111, projection='3d')
 
@@ -257,12 +257,12 @@ class readTools(object):
             self.itertextPrinter(itertext, i, iterLen, 10)
             
             " Scatter plot "
-            if self.plotdim == 2: # 2D
+            if self.plotdim_set == 2: # 2D
                 ax.scatter(posA[i,:NpartA[i],0], # x-elements
                            posA[i,:NpartA[i],1], # y-elements
                                 depthshade=True, s=1)
 
-            if self.plotdim == 3: # 3D
+            if self.plotdim_set == 3: # 3D
                 ax.scatter(posA[i,:NpartA[i],0], # x-elements
                            posA[i,:NpartA[i],1], # y-elements
                            posA[i,:NpartA[i],2], # z-elements
@@ -271,7 +271,7 @@ class readTools(object):
 
         ax.set_xlabel('x-position Mpc/h')
         ax.set_ylabel('y-position Mpc/h')
-        if box.shape == (3,2):
+        if self.plotdim_set == 3:
             ax.set_zlabel('z-position Mpc/h')
         plotname = self.outputPather(self.subfolder)+".png"
         print "Saving plot"
