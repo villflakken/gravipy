@@ -62,7 +62,7 @@ class readProcedures(readSifters, readTools):
         IDsL   = []
         NpartA = N.zeros(iterLen, dtype=N.int64)
 
-        readtext = "\t Accessing file:\tindra{0}{1}/snap{2}/file.{3} ({4}) ..."
+        readtext = "\t Accessing file:\tindra{0}{1}/snap{2}/file:{3} ({4}) ..."
         tmpftxt = "tmp" if self.tmpfolder == True else ""
 
         for i in N.arange(0, iterLen):
@@ -72,11 +72,11 @@ class readProcedures(readSifters, readTools):
             filepath = snappath + str(i)
             try:
                 with open(filepath, 'rb') as openfile:
-                    readtext = readtext.format( self.indraN, tmpftxt, 
-                                               self.subfolder, i, self.what )
                     # self.itertextPrinter(readtext, i, iterLen, 10)
 
                     pos, vel, IDsArr, Npart = self.posvel_sifter(openfile, i)
+                    readtext = readtext.format( self.indraN, tmpftxt, 
+                                               self.subfolder, i, self.what )
                     print "i:", i, "| Npart (before boxing):", Npart
                     print "itertext:  ", readtext
                     print "filepath:", filepath
