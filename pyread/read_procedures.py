@@ -62,7 +62,7 @@ class readProcedures(readSifters, readTools):
         IDsL   = []
         NpartA = N.zeros(iterLen, dtype=N.int64)
 
-        readtext = "\t Accessing file:\tindra{0}{1}/snap{2}/file.{3:<3} ({4}) ..."
+        readtext = "\t Accessing file:\tindra{0}{1}/snap{2}/file.{3:<3} ({4}%) ..."
         tmpftxt = "tmp" if self.tmpfolder == True else ""
 
         for i in N.arange(0, iterLen):
@@ -139,7 +139,7 @@ class readProcedures(readSifters, readTools):
             - Commencing method for sorting positions and velocities.
             """.format(iterLen, self.subfolder)
 
-            IDsA, IDsSargA = self.sort_IDs(iterLen, maxN, NpartA)
+            IDsA, IDsSargA = self.sort_IDs(iterLen, maxN, NpartA, IDsA)
 
             " Choose one to deal with less data "
             if self.what == "pos":
