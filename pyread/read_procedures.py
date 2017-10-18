@@ -100,15 +100,16 @@ class readProcedures(readSifters, readTools):
                 self.readLoopError(filepath, 1, 1, i)
                 pass
             continue
-
+        countedNpart = N.sum(NpartA)
         maxN         = N.max( NpartA )
         Intermission = """
         Byte sifter has done its job. 
-        Max particle number:          {0}
-        Sum of particles / (1024**3): {1} / {2}
-        Maximum indra particles read?:          {3}
+        Max particle number:               {0}
+        Sum of particles read / (1024**3): {1} / {2} ( {3:3.2f} )
+        Maximum indra particles read?:     {4}
         => Now converting memory storage form from lists to arrays.
-        """.format( maxN, N.sum(NpartA), 1024**3, (N.sum(NpartA)==1024**3) )
+        """.format( maxN, countedNpart, 1024**3, 100*countedNpart/(1024.**3.)
+                   (N.sum(NpartA)==1024**3) )
         print Intermission
 
         # """
@@ -116,12 +117,15 @@ class readProcedures(readSifters, readTools):
         # into a single (bigger) array.
         # """
         IDsA = self.list_to_arrays(IDsL, NpartA, \
-                    (iterLen, maxN   ), N.int64  , "IDs")
-        posA = self.list_to_arrays(posL, NpartA, \
-                    (iterLen, maxN, 3), N.float32, "pos")
-        velA = self.list_to_arrays(velL, NpartA, \
-                    (iterLen, maxN, 3), N.float32, "vel")
-
+                                   (iterLen, maxN   ), N.int64  , "IDs")
+        if self.what == "pos":
+            posA = self.list_to_arrays(posL, NpartA, \
+                                       (iterLen, maxN, 3), N.float32, "pos")
+        elif self.what == "vel":
+            velA = self.list_to_arrays(velL, NpartA, \
+                                       (iterLen, maxN, 3), N.float32, "vel")
+        else:
+            print " Sorting selector test failed "
 
         # """
         # Release memory taken by lists.
@@ -132,32 +136,47 @@ class readProcedures(readSifters, readTools):
         # sys.exit("\nTest done\n")
         
         if self.boolcheck(self.sortIDs):
-            SortMessage = """
-            Array conversion completed, 
-            now sorting particles by assigned 64-bit ID tag.
-            """
-            posA, velA, IDsA = self.sort_posvel_func(           \
-                                    iterLen, maxN, NpartA,      \
-                                    posA, velA, IDsA            )
+            print """
+            Sifter has completed reading all {0} files of subfolder {1}.
+            - Commencing method for sorting positions and velocities.
+            """.format(iterLen, self.subfolder)
+
+            IDsA, IDsSargA = self.sort_IDs(iterLen, maxN, NpartA)
+
+            " Choose one to deal with less data "
+            if self.what == "pos":
+                " Sorts positions "
+                posA = self.sort_dataByIDs( iterLen, maxN, NpartA, \
+                                            posA, IDsSargA )
+            elif self.what == "vel":
+                " Sorts velocities"
+                velA = self.sort_dataByIDs( iterLen, maxN, NpartA, \
+                                            velA, IDsSargA )
+            # elif "pos" in self.what_set and "vel" in self.what_set:
+            #     " Sorts both "
+            #     posA = self.sort_dataByIDs( iterLen, maxN, NpartA, \
+            #                                 posA, IDsA )
+            #     velA = self.sort_dataByIDs( iterLen, maxN, NpartA, \
+            #                                 velA, IDsA )
+            else:
+                print " Sorting selector test failed "
+
+            # posA, velA, IDsA = self.sort_posvel_func(           \
+            #                         iterLen, maxN, NpartA,      \
+            #                         posA, velA, IDsA            )
             pass
 
         endread = "\nFinished reading '"+str(self.what)+"' of files, indra"\
                 +str(self.indraN)+', iA='+str(self.iA)+', iB='+str(self.iB)    \
                 +', snapshot='+str(self.subfolder)
-
         if self.boolcheck(self.sortIDs):
             endread+=",\n and matrices are now sorted after IDs' values.\n"
             pass
-
-        # print posA[:5, :5,:]
         print endread
-        matsizes = IDsA.nbytes + posA.nbytes + velA.nbytes + NpartA.nbytes
-        # print " * Size of matrices IDsA, posA, velA, NpartA:", \
-        #        (matsizes/(1024.**3.)), " GBs *\n"
 
+        matsizes = IDsA.nbytes + posA.nbytes + velA.nbytes + NpartA.nbytes
         print " * Size of matrices IDsA, posA, velA, NpartA:" \
                + self.item_size_printer(matsizes) +" *\n"
-
 
         return IDsA, posA, velA, iterLen, NpartA
 

@@ -121,7 +121,8 @@ class readTools(object):
         for i in N.arange(0, iterLen):
             " Put them into the right places, independent of sorting "            
             itertext = \
-            "\tAssigning (unsorted) {0:>9s} values to array"\
+            " * Assigning (unsorted) {0:>9s} values to array"\
+                .format(itername)\
                 +" - Set ({1:>3d} / {2}) ..."\
                 .format(itername, i, (iterLen-1))
             " Less spam in the terminal "
@@ -167,22 +168,13 @@ class readTools(object):
         with time and structure development.
         * Sort IDs from every step.
         """
-        print """
-        Sifter has completed reading all {0} files of subfolder {1}.
-        - Commencing method for sorting positions and velocities.
-        """.format(iterLen, self.subfolder)
-
         # Prepare variables and arrays for sorting
         posMat   = N.zeros( (iterLen, maxN, 3),
                           dtype=N.float32 )
         velMat   = N.zeros( (iterLen, maxN, 3), 
                           dtype=N.float32 )
-        argsIDsS = N.zeros( ( iterLen, maxN ),
-                          dtype=N.int64 )
         IDsS     = N.zeros( ( iterLen, maxN ),
                           dtype=N.int64 )
-        # IDsSarg  = N.zeros( ( iterLen, maxN ),
-        #                   dtype=N.int64 )
 
         for i in N.arange(0, iterLen):
             """
@@ -214,12 +206,75 @@ class readTools(object):
                 velA[ i, IDsSarg , :] # Shapes.. should match?
 
             continue
-        
-        # User might want merely a box/slice of the positions.
-        # if self.box_param == True:
-        #     posMat, velMat, IDsS, NpartA = self.boxer(posMat, velMat, IDsS, iterLen, NpartA)
 
         return posMat, velMat, IDsS
+
+
+    def sort_IDs(self, iterLen, maxN, NpartA, IDsA ):
+        """
+        Function for sorting stuff.
+        * Find longest list of IDs, just in case IDs may disappear
+        with time and structure development.
+        * Sort IDs from every step.
+        """
+        # Prepare variables and arrays for sorting
+        IDsS     = N.zeros( ( iterLen, maxN ),
+                          dtype=N.int64 )
+        IDsSargA  = N.zeros( ( iterLen, maxN ),
+                          dtype=N.int64 )
+
+        for i in N.arange(0, iterLen):
+            """
+            * Stores numbers of groups in each iteration of the simulation
+            * Sorts & stores the IDs
+            * Stores positions from sorted indexation
+            """
+            itertext = " * Sorting IDs, {0:>3d}/{1} ..."\
+                        .format(i, (iterLen-1))
+            " Less spam in the terminal "
+            self.itertextPrinter(itertext, i, iterLen, 10)
+            
+            IDsSarg = N.argsort( IDsA[ i, :NpartA[i] ])
+            IDsSargA[ i, :NpartA[i] ] = IDsSarg
+            
+            # Storing sorted IDs
+            IDsS[ i, :NpartA[i] ] = IDsA[ i, IDsSarg ]
+
+            continue
+
+        return IDsS, IDsSargA
+
+
+    def sort_dataByIDs(self, iterLen, maxN, NpartA, \
+                               inMat, IDsA ):
+        """
+        Function for sorting stuff.
+        * Find longest list of IDs, just in case IDs may disappear
+        with time and structure development.
+        * Sort IDs from every step.
+        """
+        # Prepare variables and arrays for sorting
+        utMat    = N.zeros( (iterLen, maxN, 3),
+                          dtype=N.float32 )
+
+        for i in N.arange(0, iterLen):
+            """
+            * Stores numbers of groups in each iteration of the simulation
+            * Sorts & stores the IDs
+            * Stores positions from sorted indexation
+            """
+            itertext = " * Sorting {0:>9s} values, {1:>3d}/{2} ..."\
+                        .format(self.what, i, (iterLen-1))
+            " Less spam in the terminal "
+            self.itertextPrinter(itertext, i, iterLen, 10)
+
+
+            utMat[ i , :NpartA[i] , : ] = \
+                inMat[ i, IDsSargA[i,:NpartA[i]], :] # Shapes.. should match?
+
+            continue
+
+        return utMat
 
 
     def plot_pos(self, IDsA, posA, iterLen, NpartA):
