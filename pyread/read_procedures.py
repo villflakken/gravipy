@@ -83,6 +83,8 @@ class readProcedures(readSifters, readTools):
                     """ Boxed parameters check here:
                     => Potentially strong reduction in memory usage!
                     """
+                    print "self.not_NoneFalse(self.box_params == True):",\
+                           self.not_NoneFalse(self.box_params == True)
                     if self.not_NoneFalse(self.box_params == True):
                         " Overwerites current data extraction variables "
                         pos, vel, IDsArr, Npart = self.boxer(pos, vel, IDsArr)
