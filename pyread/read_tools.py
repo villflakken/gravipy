@@ -140,6 +140,8 @@ class readTools(object):
         xmin, xmax = self.box_params[0]
         ymin, ymax = self.box_params[1]
         zmin, zmax = self.box_params[2]
+        print self.box_params
+        print N.array( pos[:,:,0] >= xmin )
 
         " Bool'ed indexation "
         box3D =  N.array( pos[:,:,0] >= xmin ) \
@@ -585,6 +587,7 @@ class readTools(object):
 
     def not_NoneFalse(self, arg):
         """ I need SOME kind of check...
+        Returns True when arg's value is true.
         """
         return all([arg != 0, arg != False, arg != None])
 
