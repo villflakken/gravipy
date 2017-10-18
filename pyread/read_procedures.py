@@ -62,7 +62,7 @@ class readProcedures(readSifters, readTools):
         IDsL   = []
         NpartA = N.zeros(iterLen, dtype=N.int64)
 
-        readtext = "\t Accessing file:\tindra{0}{1}/snap{2}/file:{3} ({4}) ..."
+        readtext = "\t Accessing file:\tindra{0}{1}/snap{2}/file{3} ({4}) ..."
         tmpftxt = "tmp" if self.tmpfolder == True else ""
 
         for i in N.arange(0, iterLen):
