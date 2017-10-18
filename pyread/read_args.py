@@ -105,23 +105,6 @@ class readArgs(object):
                "box_params" :   0   ,
                   "plotdim" :   2
             }
-        self.default_vals = \
-            { # Old dict that would allow user to choose a default preset.
-                     "what" :"posvel", 
-                   "indraN" :    0   ,
-                       "iA" :    0   , 
-                       "iB" :    0   , 
-                "subfolder" :    0   , 
-                  "fftfile" :    0   , 
-                  "sortIDs" :    0   ,
-                "lessprint" :    1   ,
-                "tmpfolder" :    0   ,
-                      "w2f" :    0   ,
-                 "plotdata" :    1   ,
-               "outputpath" :  None  ,
-               "box_params" :  None  ,
-                  "plotdim" :    2
-            }
         """
         end of init
         """

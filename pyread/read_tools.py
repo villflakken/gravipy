@@ -275,7 +275,7 @@ class readTools(object):
             ax.set_zlabel('z-position Mpc/h')
         plotname = self.outputPather(self.subfolder)+".png"
         print "Saving plot"
-        pl.savefig(plotname+"_{0}d".format(self.box_params), dpi=200)
+        pl.savefig(plotname+"_{0}d".format(self.box_params_set), dpi=200)
         pl.close()
 
         return 0
