@@ -106,7 +106,7 @@ class readProcedures(readSifters, readTools):
         Sum of particles read / Tot in simulation: {1} / {2} ( {3:3.2f} )
         Maximum indra particles read?:             {4}
         => Now converting memory storage form from lists to arrays.
-        """.format( maxN, countedNpart, 1024**3, 100*countedNpart/(1024.**3.)
+        """.format( maxN, countedNpart, 1024**3, 100*countedNpart/(1024.**3.),
                    (countedNpart==1024**3) )
         print Intermission
 
