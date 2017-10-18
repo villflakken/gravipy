@@ -84,7 +84,7 @@ class readArgs(object):
              "subfolder" : range(0,64),
                "fftfile" : range(0,505),
                "plotdim" : range(2,4)
-            }
+            } # Rember format: [x0, ..., x1 - 1]
         """
         Dictionaries: parameter values
         """
@@ -121,32 +121,16 @@ class readArgs(object):
         3. Check boundaries of value, 
             one range corresponding to each type.
         """
-        # print
-        # print " * Inside self.callArgsChecker()"
-        # print " * Initializing self.collect_userArgs()"
         " 1. "
         self.collect_userArgs()
-        # print " * self.collect_userArgs() done!; self.keys_read:"
-        # print " *", self.keys_read
-        # print " * Initializing self.loaded_parameters()"
-        # print
+
         " 1.1) Program initialized with... "
         self.loaded_parameters() # Screen-printed overview
-        # print
-        # print " * self.loaded_parameters() done!"
         
         for key in self.keys_read:
             " 2. & 3., individual functions " 
-
-            # print
-            # print " * Initializing parameter interp.,\
-            #         key =", key, "| value =", self.read_params[key]
             self.param_incorp[key](self.read_params[key], key)
-            # print " *", key, "initialization done, moving on to next."
-            
             continue # Less output is good news!
-        # print 
-        # print " * Parameter interpretation & incorporation finished!"
         
         print self.argsOKtext
         return 0
@@ -161,7 +145,7 @@ class readArgs(object):
             
             if self.read_params[key] == None:
                 self.missingkeys.append(key)
-                # self.keys_read.append(key) # Not interesting to the user
+                # self.keys_read.append(key) # Not useful to the user
                 pass
             
             elif self.read_params[key] != None:
@@ -170,7 +154,7 @@ class readArgs(object):
 
             else:
                 print " WTFery-error for key   " , \
-                        key , ":" , self.read_params[key]
+                    key , ":" , self.read_params[key]
                 pass
             
             continue
@@ -184,7 +168,6 @@ class readArgs(object):
             """
             sys.exit(neither_fft_sf)
 
-        # print self.missingkeys
         return 0
 
 
@@ -193,14 +176,12 @@ class readArgs(object):
         Screen-printed summary shows what values that  the user 
         has assigned as parameters for the arguments.
         """
-        # print " ** Inside loaded_parameters()"
         print "\n Total parameters loaded:", len(self.keys_read)
         print " Parameters initialized with values:"
         for key in self.keys_read:
             print "{0:>12s} : {1:>6s}".format( key, \
                    str(self.read_params[key]).strip("") )
             continue
-        # print 
         return 0
 
 
@@ -208,14 +189,11 @@ class readArgs(object):
         """
         Incorporates user input task name(s).
         """
-        # print " ** Inside self.taskname_incorp! "
-        # print " ** key =", name, "| uinput =", uinput
-
         tasknameErrortext = """
         Invalid task name specification(s), or format(s) thereof: {0}
         Allowed task names listed below.
         """.format(uinput)
-        column_of_actions = ""
+        column_of_actions = "\t"
         for action in self.actionkeys:
             column_of_actions = column_of_actions+action+"\n"+(8*" ")
             continue
@@ -255,11 +233,8 @@ class readArgs(object):
 
     def integer_incorp(self, uinput, name):
         """
-        Incorporates user input integer number for 
+        Incorporates user input integer number for any ints
         """
-        # print " ** Inside self.integer_incorp! "
-        # print " ** key =", name, "| uinput =", uinput
-
         integererrortext = """
         Invalid number specified for {0}: '{1}'.
         Allowed range: integer in [{2},{3}]

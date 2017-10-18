@@ -76,26 +76,13 @@ class readDo(readArgs, readProcedures):
         1 - Validate arguments given.
         2 - Begin reading and initiate corresponding output.
         """
-        # print "\n"*3 # Clearing the screen
         tmp = sp.call('clear',shell=True)
-        print
         
-        # print """
-        # Inside readDo __call__ function
-        # """
-        # print " Setting read_params to self.read_params"
         self.read_params = read_params
-        # print " self.read_params:"
-        # print self.read_params
-        
-        # print " Initializing self.callArgsChecker() "
         " 1. "
         self.callArgsChecker()
-        # print " self.callArgsChecker() done! "
         
-        # print " Initializing self.beginReading()"
         " 2. "
-        # print 
         return self.beginReading()
 
 
@@ -108,7 +95,6 @@ class readDo(readArgs, readProcedures):
         Will try to avoid that. But then it will be ugly.
         Assumes that parameters in arglist have been set.
         """
-        # print " * Inside self.beginReading()! "
         parsed_datasets_list = []
         """
         Prime example on how complex a set of permutations can become!
