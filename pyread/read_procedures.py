@@ -80,6 +80,7 @@ class readProcedures(readSifters, readTools):
                     print "itertext:  ", readtext
                     print "a_filepath:", filepath
                     print "i:", i, "| Npart (before boxing):", Npart
+                    print
                     """ Boxed parameters check here:
                     => Potentially strong reduction in memory usage!
                     """
