@@ -141,16 +141,16 @@ class readTools(object):
         ymin, ymax = self.box_params[1]
         zmin, zmax = self.box_params[2]
         # print self.box_params
-        print N.array( pos[:,:,0] >= xmin )
+        # print N.array( pos[:,0] >= xmin )
 
         " Bool'ed indexation "
-        box3D =  N.array( pos[:,:,0] >= xmin ) \
-               * N.array( pos[:,:,1] >= ymin ) \
-               * N.array( pos[:,:,2] >= zmin ) \
-                                               \
-               * N.array( pos[:,:,0] <= xmax ) \
-               * N.array( pos[:,:,1] <= ymax ) \
-               * N.array( pos[:,:,2] <= zmax )
+        box3D =  N.array( pos[:,0] >= xmin ) \
+               * N.array( pos[:,1] >= ymin ) \
+               * N.array( pos[:,2] >= zmin ) \
+                                             \
+               * N.array( pos[:,0] <= xmax ) \
+               * N.array( pos[:,1] <= ymax ) \
+               * N.array( pos[:,2] <= zmax )
 
         posMat, velMat, IDsM = pos[box3D], vel[box3D], IDs[box3D]
 
