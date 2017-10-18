@@ -121,10 +121,10 @@ class readTools(object):
         for i in N.arange(0, iterLen):
             " Put them into the right places, independent of sorting "            
             itertext = \
-            " * Assigning (unsorted) {0:>9s} values to array"\
+            " * Assigning (unsorted) {0:>8s} values to array"\
                 .format(itername)\
-                +" - Set ({1:>3d} / {2}) ..."\
-                .format(itername, i, (iterLen-1))
+                +" - set ({0:>3d} / {1}) ..."\
+                .format(i, (iterLen-1))
             " Less spam in the terminal "
             self.itertextPrinter(itertext, i, iterLen, 20)
             outarr[ i, :NpartA[i] ] = inlist[i][:]
@@ -217,8 +217,11 @@ class readTools(object):
         * Find longest list of IDs, just in case IDs may disappear
         with time and structure development.
         * Sort IDs from every step.
+        ***:Naming convention examples: 
+            IDsA     = IDs Array
+            IDsSargA = IDs Sorted args Array
         """
-        # Prepare variables and arrays for sorting
+        # Prepare array variables to memory for sorting
         IDsS     = N.zeros( ( iterLen, maxN ),
                           dtype=N.int64 )
         IDsSargA  = N.zeros( ( iterLen, maxN ),
@@ -240,14 +243,13 @@ class readTools(object):
             
             # Storing sorted IDs
             IDsS[ i, :NpartA[i] ] = IDsA[ i, IDsSarg ]
-
             continue
 
         return IDsS, IDsSargA
 
 
     def sort_dataByIDs(self, iterLen, maxN, NpartA, \
-                               inMat, IDsA ):
+                               inMat, IDsSargA ):
         """
         Function for sorting stuff.
         * Find longest list of IDs, just in case IDs may disappear
@@ -264,7 +266,7 @@ class readTools(object):
             * Sorts & stores the IDs
             * Stores positions from sorted indexation
             """
-            itertext = " * Sorting {0:>9s} values, {1:>3d}/{2} ..."\
+            itertext = " * Sorting {0:>8s} values, {1:>3d}/{2} ..."\
                         .format(self.what, i, (iterLen-1))
             " Less spam in the terminal "
             self.itertextPrinter(itertext, i, iterLen, 10)
@@ -272,7 +274,6 @@ class readTools(object):
 
             utMat[ i , :NpartA[i] , : ] = \
                 inMat[ i, IDsSargA[i,:NpartA[i]], :] # Shapes.. should match?
-
             continue
 
         return utMat
