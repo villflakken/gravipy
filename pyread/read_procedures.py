@@ -62,7 +62,7 @@ class readProcedures(readSifters, readTools):
         IDsL   = []
         NpartA = N.zeros(iterLen, dtype=N.int64)
 
-        readtext = "\t Accessing file:\tindra{0}{1}/snap{2}/file{3} ({4}) ..."
+        readtext = "\t Accessing file:\tindra{0}{1}/snap{2}/file.{3:<3} ({4}) ..."
         tmpftxt = "tmp" if self.tmpfolder == True else ""
 
         for i in N.arange(0, iterLen):
@@ -99,15 +99,15 @@ class readProcedures(readSifters, readTools):
                 pass
             continue
         countedNpart = N.sum(NpartA)
-        maxN         = N.max( NpartA )
+        maxN         = N.max(NpartA)
         Intermission = """
         Byte sifter has done its job. 
-        Max particle number:               {0}
-        Sum of particles read / (1024**3): {1} / {2} ( {3:3.2f} )
-        Maximum indra particles read?:     {4}
+        Max particle number:                       {0}
+        Sum of particles read / Tot in simulation: {1} / {2} ( {3:3.2f} )
+        Maximum indra particles read?:             {4}
         => Now converting memory storage form from lists to arrays.
         """.format( maxN, countedNpart, 1024**3, 100*countedNpart/(1024.**3.)
-                   (N.sum(NpartA)==1024**3) )
+                   (countedNpart==1024**3) )
         print Intermission
 
         # """
