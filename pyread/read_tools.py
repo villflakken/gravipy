@@ -155,7 +155,7 @@ class readTools(object):
         posMat, velMat, IDsM = pos[box3D], vel[box3D], IDs[box3D]
 
 
-        return posMat[box3D], velMat[box3D], IDsM[box3D], N.sum(box3D)
+        return posMat, velMat, IDsM, N.sum(box3D)
 
 
     def sort_posvel_func(self, iterLen, maxN, NpartA, \
