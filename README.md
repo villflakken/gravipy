@@ -1,17 +1,22 @@
-# GRAVIPy
+# *GRAVIPy*
 ======
 
-General Routines for Analyzing and Visualizing Indra with Python
+*General Routines for Analyzing and Visualizing Indra with Python*
 
-Software initialized by an intertwined class system, with call functionality.
-May be initialized by way of a config file; not currently implemented.
-Every option for post processing or parameter settings are included in the file
-'pyread/testrun.py'
+All necessary scripts are located in folder *pyread*.
+Other folders and files are my own resources for project overview and debug
+sketching.
+
+Initially translated from IDL into Python.
+
+Python oftware initialized by an intertwined class system, with call 
+functionality.
+Every option for post processing or setting the reader's parameters are 
+included in the file '*pyread/testrun.py*'
+Initialization by way of a config file not currently implemented.
 
 If the program ever starts quoting the movie The Princess Bride (1987),
 then rest assured and know that you have done something horribly wrong.
-Try restoring the configuration file. A script has been included for this 
-purpose.
 
 If you're interested in reading the code itself, you'll see that I've made
 comments with abbreviations/acronyms in some places:
@@ -28,5 +33,6 @@ possible to be readily available.
 
 ###### Project by
 ------
-Bridget Falck, ITA, UiO      (supervisor) - bridget.falck (at) astro.uio.no
-Magnus Chr. Bareid, ITA, UiO (developer)  - magnucb (at) astro.uio.no
+*Bridget Falck, ITA, UiO*      (supervisor) - bridget.falck (at) astro.uio.no
+
+*Magnus Chr. Bareid, ITA, UiO* (developer)  - magnucb (at) astro.uio.no
