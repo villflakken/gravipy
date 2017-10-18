@@ -77,10 +77,9 @@ class readProcedures(readSifters, readTools):
                     # self.itertextPrinter(readtext, i, iterLen, 10)
 
                     pos, vel, IDsArr, Npart = self.posvel_sifter(openfile, i)
-                    print "itertext:  ", readtext
-                    print "a_filepath:", filepath
                     print "i:", i, "| Npart (before boxing):", Npart
-                    print
+                    print "itertext:  ", readtext
+                    print "filepath:", filepath
                     """ Boxed parameters check here:
                     => Potentially strong reduction in memory usage!
                     """
@@ -88,6 +87,7 @@ class readProcedures(readSifters, readTools):
                         " Overwerites current data extraction variables "
                         pos, vel, IDsArr, Npart = self.boxer(pos, vel, IDsArr)
                     print "i:", i, "| Npart  (after boxing):", Npart
+                    print
 
                     posL.append( pos    )
                     velL.append( vel    )

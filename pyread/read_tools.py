@@ -138,7 +138,9 @@ class readTools(object):
         self.box_params = [ [0.,20.],[0.,20.],[0.,5.] ] 
         """
         xmin, xmax = self.box_params[0]
-        print xmin, xmax
+        print "xmin, xmax:", xmin, xmax
+        print "ymin, ymax:", ymin, ymax
+        print "zmin, zmax:", zmin, zmax
         ymin, ymax = self.box_params[1]
         zmin, zmax = self.box_params[2]
         # print self.box_params
