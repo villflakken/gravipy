@@ -72,22 +72,20 @@ class readProcedures(readSifters, readTools):
             filepath = snappath + str(i)
             try:
                 with open(filepath, 'rb') as openfile:
-                    # self.itertextPrinter(readtext, i, iterLen, 10)
                     pos, vel, IDsArr, Npart = self.posvel_sifter(openfile, i)
                     
                     itertext = readtext.format( self.indraN, tmpftxt, 
                                                self.subfolder, i, self.what )
-                    # print "i:", i, "| Npart (before boxing):", Npart
-                    print "itertext:  ", itertext
-                    # print "filepath:", filepath
+                    self.itertextPrinter(itertext, i, iterLen, 10)
+
                     """ Boxed parameters check here:
                     => Potentially strong reduction in memory usage!
+                    Default: False - Normally left to the user on deciding how
+                    to determine dataset.
                     """
                     if self.not_NoneFalse(self.box_params):
                         " Overwerites current data extraction variables "
                         pos, vel, IDsArr, Npart = self.boxer(pos, vel, IDsArr)
-                    print "i:", i, "| Npart  (after boxing):", Npart
-                    print
 
                     posL.append( pos    )
                     velL.append( vel    )

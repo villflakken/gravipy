@@ -130,6 +130,7 @@ class readTools(object):
             outarr[ i, :NpartA[i] ] = inlist[i][:]
             continue
         print
+        
         return outarr
 
 
