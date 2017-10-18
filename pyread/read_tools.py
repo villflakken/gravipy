@@ -140,11 +140,9 @@ class readTools(object):
         xmin, xmax = self.box_params[0]
         ymin, ymax = self.box_params[1]
         zmin, zmax = self.box_params[2]
-        print "xmin, xmax:", xmin, xmax
-        print "ymin, ymax:", ymin, ymax
-        print "zmin, zmax:", zmin, zmax
-        # print self.box_params
-        # print N.array( pos[:,0] >= xmin )
+        # print "xmin, xmax:", xmin, xmax
+        # print "ymin, ymax:", ymin, ymax
+        # print "zmin, zmax:", zmin, zmax
 
         " Bool'ed indexation "
         box3D =  N.array( pos[:,0] >= xmin ) \
