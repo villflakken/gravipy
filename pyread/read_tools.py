@@ -138,11 +138,11 @@ class readTools(object):
         self.box_params = [ [0.,20.],[0.,20.],[0.,5.] ] 
         """
         xmin, xmax = self.box_params[0]
+        ymin, ymax = self.box_params[1]
+        zmin, zmax = self.box_params[2]
         print "xmin, xmax:", xmin, xmax
         print "ymin, ymax:", ymin, ymax
         print "zmin, zmax:", zmin, zmax
-        ymin, ymax = self.box_params[1]
-        zmin, zmax = self.box_params[2]
         # print self.box_params
         # print N.array( pos[:,0] >= xmin )
 
