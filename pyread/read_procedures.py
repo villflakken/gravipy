@@ -73,13 +73,13 @@ class readProcedures(readSifters, readTools):
             try:
                 with open(filepath, 'rb') as openfile:
                     # self.itertextPrinter(readtext, i, iterLen, 10)
-                    self.i = i
                     pos, vel, IDsArr, Npart = self.posvel_sifter(openfile, i)
-                    readtext = readtext.format( self.indraN, tmpftxt, 
-                                               self.subfolder, self.i, self.what )
-                    print "i:", i, "| Npart (before boxing):", Npart
-                    print "itertext:  ", readtext
-                    print "filepath:", filepath
+                    
+                    itertext = readtext.format( self.indraN, tmpftxt, 
+                                               self.subfolder, i, self.what )
+                    # print "i:", i, "| Npart (before boxing):", Npart
+                    print "itertext:  ", itertext
+                    # print "filepath:", filepath
                     """ Boxed parameters check here:
                     => Potentially strong reduction in memory usage!
                     """
