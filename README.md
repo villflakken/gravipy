@@ -1,6 +1,7 @@
-# GRAVIPY
+# GRAVIPy
+======
 
-General Routines for Analyzing and Visualizing Indra with PYthon
+General Routines for Analyzing and Visualizing Indra with Python
 
 Software initialized by an intertwined class system, with call functionality.
 May be initialized by way of a config file; not currently implemented.
@@ -25,6 +26,7 @@ adapted for python 2.6, an intentional choice. It has also been made to work
 as robustly as I can think of how to make it, with as much functionality as 
 possible to be readily available.
 
-- Project by
-* Bridget Falck, ITA, UiO      (supervisor) - bridget.falck (at) astro.uio.no
-* Magnus Chr. Bareid, ITA, UiO (developer)  - magnucb (at) astro.uio.no
+###### Project by
+------
+Bridget Falck, ITA, UiO      (supervisor) - bridget.falck (at) astro.uio.no
+Magnus Chr. Bareid, ITA, UiO (developer)  - magnucb (at) astro.uio.no
