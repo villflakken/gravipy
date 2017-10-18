@@ -348,8 +348,8 @@ class readTools(object):
             fileName   = fileName.format(   
                             self.what, self.indraN, self.iA, self.iB, "tmp", num )
             # Examples   : \
-            " folderpath : 'indraData/{0}_i{1}{2}{3}{tmp}_sf{5}/' "
-            " filename   :           '{0}_i{1}{2}{3}{tmp}_sf{5}'  "
+            " folderpath : 'output_gravipy/{0}_i{1}{2}{3}{tmp}_sf{5}/' "
+            " filename   :                '{0}_i{1}{2}{3}{tmp}_sf{5}'  "
             pass
         else:
             " When normal data structures are processed "
@@ -358,8 +358,8 @@ class readTools(object):
             fileName   = fileName.format(   
                             self.what, self.indraN, self.iA, self.iB, "", num )
             # Examples   : \
-            " folderpath : 'indraData/{0}_i{1}{2}{3}{None}_sf{5}/' "
-            " filename   :           '{0}_i{1}{2}{3}{None}_sf{5}'  "
+            " folderpath : 'output_gravipy/{0}_i{1}{2}{3}{None}_sf{5}/' "
+            " filename   :                '{0}_i{1}{2}{3}{None}_sf{5}'  "
             pass
         
         self.fileName = fileName 

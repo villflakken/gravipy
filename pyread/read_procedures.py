@@ -77,10 +77,8 @@ class readProcedures(readSifters, readTools):
                     # self.itertextPrinter(readtext, i, iterLen, 10)
 
                     pos, vel, IDsArr, Npart = self.posvel_sifter(openfile, i)
-                    print "i:", i
-                    print "itertext:", readtext
-                    print "Npart:", Npart
-                    print
+                    print "i:", i, "| Npart:", Npart
+                    print "| itertext:", readtext
                     
                     """ Boxed parameters check here:
                     => Potentially strong reduction in memory usage!

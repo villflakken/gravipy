@@ -23,19 +23,7 @@ Python-kit for Indra Reading and Extended Analysis of Data - PIREAD
 Toolkit for Handling Extensive Reading and Analysis using Python on Indra - THERAPI
 Science Toolkit with Reader and Analyzing Indra with PYthon - STRIPY
 
----
-+--[ RSA 4096]----+
-|                 |
-|                 |
-|        E o      |
-|       . + +     |
-|        S o . .  |
-|         o o = + |
-|        .oo + B .|
-|        =. + o o |
-|       . oo . ...|
-+-----------------+
----
+
 git tutorial: =============================
 https://try.github.io/levels/1/challenges/1
 
@@ -44,13 +32,15 @@ https://gist.github.com/MohamedAlaa/2961058
 
 
 
-######### IREAD
+######### GRAVIPY
 
 
 ssh -X magnucb@gwln2.pha.jhu.edu
-         C\Users\Boffen\Dropbox\uni\master\indraRead\read_project
-scp /mnt/c/Users/Boffen/Dropbox/uni/master/indraRead/read_project/*.py magnucb@gwln2.pha.jhu.edu:~/iRead
+         C\Users\Boffen\Dropbox\uni\master\gravipy\pyreader
+scp /mnt/c/Users/Boffen/Dropbox/uni/master/gravipy/pyreader/*.py magnucb@gwln2.pha.jhu.edu:~/iRead
 ###
+*** retrieval for remote, when currently on local machine:
+scp magnucb@gwln2.pha.jhu.edu:~/indraData/pos_i200tmp_sf63/pos_i200tmp_sf63.png /mnt/c/Users/Boffen/Dropbox/uni/master/output_gravipy/pos_i200tmp_sf63/pos_i200tmp_sf63.png
 
 ########## ORIGAMI
 
@@ -67,8 +57,6 @@ scp /mnt/c/Users/Boffen/Dropbox/uni/master/origami/testing_params/params_i200tmp
 *** remote output folder address:
 /home/magnucb/oriread/testrun/output_i200tmp_sf63
 
-*** retrieval for remote, when currently on local machine:
-scp magnucb@gwln2.pha.jhu.edu:~/indraData/pos_i200tmp_sf63/pos_i200tmp_sf63.png /mnt/c/Users/Boffen/Dropbox/uni/master/indraData/pos_i200tmp_sf63/pos_i200tmp_sf63.png
 
 *** run "./origamitag" from foldersystem's "code" folder :
 ~/origami-2.0/code/./origamitag ~/oriread/testrun/params_i200tmp_sf63.txt
