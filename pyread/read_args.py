@@ -54,7 +54,8 @@ class readArgs(object):
                 "w2f"        ,
                 "plotdata"   ,
                 "outputpath" ,
-                "box_params"  
+                "box_params" ,
+                "plotdim"
             ]
         self.param_incorp = \
             { # Function library: parameter validation
@@ -69,6 +70,7 @@ class readArgs(object):
                 "lessprint" : self.toggles_incorp    ,
                 "tmpfolder" : self.toggles_incorp    ,
                "box_params" : self.boxparams_incorp  ,
+                  "plotdim" : self.integer_incorp    ,
               # Output related
                "outputpath" : self.outputpath_incorp ,
                       "w2f" : self.toggles_incorp    ,
@@ -80,26 +82,28 @@ class readArgs(object):
                     "iA" : range(0,8),
                     "iB" : range(0,8),
              "subfolder" : range(0,64),
-               "fftfile" : range(0,505)
+               "fftfile" : range(0,505),
+               "plotdim" : range(2,4)
             }
         """
         Dictionaries: parameter values
         """
         self.read_params = \
             { # None-types are ignored in flow after validation.
-                     "what" :  [] ,
-                   "indraN" : None,
-                       "iA" : None,
-                       "iB" : None, 
-                "subfolder" : None, 
-                  "fftfile" : None, 
-                  "sortIDs" : None,
-                "lessprint" : None,
-                "tmpfolder" : None,
-                      "w2f" : None,
-                 "plotdata" : None,
-               "outputpath" : None,
-               "box_params" : None  
+                     "what" :["pos"],
+                   "indraN" :   0   ,
+                       "iA" :   0   ,
+                       "iB" :   0   , 
+                "subfolder" :  None , 
+                  "fftfile" :  None , 
+                  "sortIDs" :   1   ,
+                "lessprint" :   1   ,
+                "tmpfolder" :   0   ,
+                      "w2f" :   0   ,
+                 "plotdata" :   1   ,
+               "outputpath" :  None ,
+               "box_params" :   0   ,
+                  "plotdim" :   2
             }
         self.default_vals = \
             { # Old dict that would allow user to choose a default preset.
@@ -115,7 +119,8 @@ class readArgs(object):
                       "w2f" :    0   ,
                  "plotdata" :    1   ,
                "outputpath" :  None  ,
-               "box_params" :  None 
+               "box_params" :  None  ,
+                  "plotdim" :    2
             }
         """
         end of init

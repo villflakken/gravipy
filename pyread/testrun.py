@@ -18,6 +18,7 @@ data_params = \
     "box_params" :( [ 0.,20. ], [ 0.,20. ], [ 0.,5. ] ), 
         # Apply floats as "([min,max], [min,max], [min,max])" in Mpc/h units,
         # respectively for directions x, y, z. # Turned off w/: None/False
+        "plotdim":(      2 ), # Dimensions projected in plot
 
         # Write 2 file: Probably a bad idea ...
            "w2f" :(  False ),

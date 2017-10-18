@@ -233,7 +233,14 @@ class readTools(object):
             self.indraN, self.iA, self.iB, self.subfolder)
         
         fig =  pl.figure()
-        ax  = fig.add_subplot(111, projection='3d')
+
+        if self.plotdim == 2 or self.plotdim == None:
+            " Defaults to 2 dimensions in plot "
+            ax  = fig.add_subplot(111, projection='2d') # 2d as default
+        if self.plotdim == 3:
+            " In case of 3d "
+            ax  = fig.add_subplot(111, projection='3d')
+
         for i in N.arange(0, iterLen):
             """ Runs through ".i" ; i is int \in 
             * [0, 256) for [ posvel, fof, subhalo ]
@@ -247,21 +254,28 @@ class readTools(object):
                 + " [Total: {0:>10d}/{1:g} ( {2:>3d}% ) ]".format(
                                       iterNtot, totalNtot,
                                       int(percent_complete) )
-
             self.itertextPrinter(itertext, i, iterLen, 10)
+            
             " Scatter plot "
-            ax.scatter(posA[i,:NpartA[i],0], # x-elements
-                       posA[i,:NpartA[i],1], # y-elements
-                       posA[i,:NpartA[i],2], # z-elements
-                            depthshade=True, s=1)
+            if self.plotdim == 2: # 2D
+                ax.scatter(posA[i,:NpartA[i],0], # x-elements
+                           posA[i,:NpartA[i],1], # y-elements
+                                depthshade=True, s=1)
+
+            if self.plotdim == 3: # 3D
+                ax.scatter(posA[i,:NpartA[i],0], # x-elements
+                           posA[i,:NpartA[i],1], # y-elements
+                           posA[i,:NpartA[i],2], # z-elements
+                                depthshade=True, s=1)
             continue
 
         ax.set_xlabel('x-position Mpc/h')
         ax.set_ylabel('y-position Mpc/h')
-        ax.set_zlabel('z-position Mpc/h')
+        if box.shape == (3,2):
+            ax.set_zlabel('z-position Mpc/h')
         plotname = self.outputPather(self.subfolder)+".png"
         print "Saving plot"
-        pl.savefig(plotname, dpi=200)
+        pl.savefig(plotname+"_{0}d".format(self.box_params), dpi=200)
         pl.close()
 
         return 0
