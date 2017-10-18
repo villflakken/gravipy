@@ -132,7 +132,7 @@ class readTools(object):
         return outarr
 
 
-    def boxer(self, pos, vel):
+    def boxer(self, pos, vel, IDs):
         """
         Extracts slices of data, determined from 3D positions.
         self.box_params = [ [0.,20.],[0.,20.],[0.,5.] ] 
@@ -140,7 +140,7 @@ class readTools(object):
         xmin, xmax = self.box_params[0]
         ymin, ymax = self.box_params[1]
         zmin, zmax = self.box_params[2]
-        print self.box_params
+        # print self.box_params
         print N.array( pos[:,:,0] >= xmin )
 
         " Bool'ed indexation "
@@ -152,8 +152,10 @@ class readTools(object):
                * N.array( pos[:,:,1] <= ymax ) \
                * N.array( pos[:,:,2] <= zmax )
 
+        posMat, velMat, IDsM = pos[box3D], vel[box3D], IDs[box3D]
 
-        return posMat[box3D], velMat[box3D], IDsS[box3D], N.sum(box3D)
+
+        return posMat[box3D], velMat[box3D], IDsM[box3D], N.sum(box3D)
 
 
     def sort_posvel_func(self, iterLen, maxN, NpartA, \
