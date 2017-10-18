@@ -1,5 +1,5 @@
 **GRAVIPy**
-======
+------
 
 ### **G**eneral **R**esource for **A**nalyzing and **V**isualizing **I**ndra with **P**ython
 
@@ -7,12 +7,15 @@ All necessary scripts are located in folder **pyread**.
 Other folders and files are my own resources for project overview and debug
 sketching.
 
-Initially translated from IDL into Python.
+Scripts were initially translated from IDL into Python.
 
-Python oftware initialized by an intertwined class system, with call 
+Python software initialized through an intertwined class system with call 
 functionality.
 Every option for post processing or setting the reader's parameters are 
-included in the file '**pyread/testrun.py**'
+included in the file '**pyread/testrun.py**'.
+
+[Output repository](https://github.uio.no/magnucb/output_gravipy)
+
 Initialization by way of a config file not currently implemented.
 
 If the program ever starts quoting the movie The Princess Bride (1987),
