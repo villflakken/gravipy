@@ -78,10 +78,10 @@ class readProcedures(readSifters, readTools):
                                                self.subfolder, i, self.what )
                     self.itertextPrinter(itertext, i, iterLen, 10)
 
-                    """ Boxed parameters check used to be here in 0.500.
+                    """ Boxed parameters check here:
                     => Potentially strong reduction in memory usage!
-                    (All completed matrices been clocked to around ~40GB of RAM)
-                     * This is now left as a function to the user.
+                    Default: False - Normally left to the user on deciding how
+                    to determine dataset.
                     """
                     if self.not_NoneFalse(self.box_params):
                         " Overwerites current data extraction variables "
@@ -98,9 +98,6 @@ class readProcedures(readSifters, readTools):
                 self.readLoopError(filepath, 1, 1, i)
                 pass
             continue
-
-        # File reading loop completed
-
         countedNpart = N.sum(NpartA)
         maxN         = N.max(NpartA)
         Intermission = """
@@ -115,7 +112,7 @@ class readProcedures(readSifters, readTools):
 
         # """
         # Converts input list (with arrays)
-        # into a single (bigger) array (because arrays are better)
+        # into a single (bigger) array.
         # """
         IDsA = self.list_to_arrays(IDsL, NpartA, \
                                    (iterLen, maxN   ), N.int64  , "IDs")

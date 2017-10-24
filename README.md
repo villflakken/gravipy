@@ -1,10 +1,10 @@
-**GRAVIPy**
+## **GRAVIPy**
 ###### 
 ------
 
 ### **G**eneral **R**esource for **A**nalyzing and **V**isualizing **I**ndra with **P**ython
 
-All necessary scripts are located in folder **pyread**.
+All necessary scripts are located in folder **pyread/**.
 Other folders and files are my own resources for project overview and debug
 sketching.
 
@@ -16,6 +16,31 @@ Every option for post processing or setting the reader's parameters are
 included in the file '**pyread/testrun.py**'.
 
 [Output repository](https://github.uio.no/magnucb/output_gravipy)
+
+##### Current features:
+* One
+* Two
+
+#### Changelog:
+
+All changes currently reflect the state of the function handling reading of positions.
+
+**0.50 to 0.51**: ###### **Currently unfinished edit**
+* Differentiated between `read_misctools.py`, and `read_usertools.py` - making it easier to go in and view user-relevant tools.
+* Thinking of making a specific document for the general plotting tools only, as syntax with that may be quite long-winded indeed - even if these do not need to be included; data may be simply plotted outside of the class structure (for overly specific visualizations).
+* Parameter boxing moved out of binary reading loop and is now simply callable as an object outside - so even if one attempts to box, then all data may still be available in memory (benefit for Jupyter systems).
+* Fixed array structure from 
+```python
+positions = 256(number of read files) * N_i(the i'th file's particle count) * 3(xyz coords)
+```
+into more manageable
+```python
+positions = N(total particle number in simulation) * 3(xyz coords)
+```
+* Implementing binary reading of **Origami** output (particle tagging, sorted by ID).
+
+**0.40 to 0.50**:
+* Write these.
 
 Initialization by way of a config file not currently implemented.
 

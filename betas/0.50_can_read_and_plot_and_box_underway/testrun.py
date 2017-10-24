@@ -31,5 +31,35 @@ data_params = \
 " The class function call "
 read_particles = readDo() # Initializes structure
 output = read_particles( data_params )
-# IDsA, posA, velA, iterLen, NpartA = output # example
+# IDsA, posA, velA, iterLen, NpartA = output
 
+
+
+# =============================== Old function call
+# from read import read_particles
+# # Data structure parameters
+# what      = "pos"
+# indraN    = 2
+# iA        = 0
+# iB        = 0
+# subfolder = 63
+# fftfile   = None
+
+# # Options
+# sortIDs    = True        #   1/0     <=>     on/off
+# lessprint  = True        #   1/0     <=>     on/off
+# tmpfolder  = True    # When using ".../indra'X'_tmp/..." data
+
+# # Output forms
+# outputpath = False
+# w2f        = False    # When wanting file-written output. ....probably a bad idea.
+# plotdata   = False    # Most likely wanted output
+# # If all of these are 'False', program simply returns data for user to use.
+# " Function formulation, still uses original class' structure "
+# out = read_particles( data=what,                                \
+#                       indraN=indraN,   iA=iA,   iB=iB,          \
+#                       foldNum=subfolder,   fftNum=fftfile,      \
+#                       sortIDs=sortIDs,     lessprint=lessprint, \
+#                       tmpfolder=tmpfolder,                      \
+#                       w2f=w2f,             plotdata=plotdata,   \
+#                       outputpath=outputpath )

@@ -35,7 +35,7 @@ class readDo(readArgs, readProcedures):
     """
     Commences data reading, sets into motion what to do.
     """
-    def __init__(self):
+    def __init__(self, functioncall=[]):
         """
         If args initialized through function import
         """
