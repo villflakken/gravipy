@@ -1,8 +1,7 @@
-## **GRAVIPy**
-###### 
+# **GRAVIPy**
 ------
 
-### **G**eneral **R**esource for **A**nalyzing and **V**isualizing **I**ndra with **P**ython
+## **G**eneral **R**esource for **A**nalyzing and **V**isualizing **I**ndra with **P**ython
 
 All necessary scripts are located in folder **pyread/**.
 Other folders and files are my own resources for project overview and debug
@@ -17,11 +16,13 @@ included in the file '**pyread/testrun.py**'.
 
 [Output repository](https://github.uio.no/magnucb/output_gravipy)
 
-##### Current features:
+------
+### Current features:
 * One
 * Two
 
-#### Changelog:
+------
+### Changelog:
 
 All changes currently reflect the state of the function handling reading of positions.
 
@@ -44,6 +45,7 @@ positions = N(total particle number in simulation) * 3(xyz coords)
 
 Initialization by way of a config file not currently implemented.
 
+------
 If the program ever starts quoting the movie The Princess Bride (1987),
 then rest assured and know that you have done something horribly wrong.
 
