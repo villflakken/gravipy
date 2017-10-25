@@ -12,14 +12,15 @@ class readProcedures(readSifters, readTools):
     Contains structures which read the data in question.
     I.o.w.: Every read_*-function shows the program flow of reading procedures.
     Misc. tools for post-processing or other functionalities 
-      are imported from read_tools.
+      are imported from read_*tools classes.
     """
     def __init__(self):
         """
         Inheritance and variables
         """
         readSifters.__init__(self)
-        readTools.__init__(self)
+        readUserTools.__init__(self)
+        readMiscTools.__init__(self)
         self.missingfiles = 0
             # Counter - assumes only 1 type of dataset will be read.
 
@@ -407,14 +408,14 @@ class readProcedures(readSifters, readTools):
                 continue
             pass
 
-        print "Finished reading '"+str(self.what)+"', indra"      \
-                +str(self.indraN)+', iA='+str(self.iA)+', iB='+str(self.iB)  \
+        print "Finished reading '"+str(self.what)+"', indra"                \
+                +str(self.indraN)+', iA='+str(self.iA)+', iB='+str(self.iB) \
                 +', snapshot='+str(self.subfolder)
         return 0 # stenger
 
     def read_FFT(self):
         """
-        reads FFT data relevant
+        FFT data reading procedure
         """
         indrapath = self.dsp + "/indra%d/%d_%d_%d" \
             % (self.indraN, self.indraN, self.iA, self.iB)
@@ -434,6 +435,12 @@ class readProcedures(readSifters, readTools):
 
         return 0
 
+
+    def read_origami(self):
+        """
+        Reads ORIGAMI's data output
+        """
+        oridatapath = self.
 
 
 if __name__ == '__main__':

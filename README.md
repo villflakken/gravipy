@@ -27,7 +27,7 @@ included in the file '**pyread/testrun.py**'.
 
    All changes currently reflect the state of the function handling reading of positions.
 
-###### __0.51 from 0.50__: ###### **Currently unfinished edit**
+###### **0.51 from 0.50**: ###### **Currently unfinished edit**
 * Differentiated between `read_misctools.py`, and `read_usertools.py` - making it easier to go in and view user-relevant tools.
 * Thinking of making a specific document for the general plotting tools only, as syntax with that may be quite long-winded indeed - even if these do not need to be included; data may be simply plotted outside of the class structure (for overly specific visualizations).
 * Parameter boxing moved out of binary reading loop and is now simply callable as an object outside - so even if one attempts to box, then all data may still be available in memory (benefit for Jupyter systems).
@@ -41,7 +41,7 @@ included in the file '**pyread/testrun.py**'.
 
 * Implementing binary reading of **Origami** output (particle tagging, sorted by ID).
 
-###### __0.50 from 0.40__:
+###### **0.50 from 0.40**:
 * Write these.
 
 Initialization by way of a config file not currently implemented.
@@ -53,11 +53,11 @@ then rest assured and know that you have done something horribly wrong.
 If you're interested in reading the code itself, you'll see that I've made
 comments with abbreviations/acronyms in some places:
 ```
-    DNN     = Declaration Not Needed (becase IDL source code _did_ need)
-    DNC     = Declaration Need Confirmed (for python's interpretation)
-    DT      = Debugging Tool (that I used myself)
-    LDT     = Legacy Debug Tool (from IDL source code)
-    LIDA    = LongID Assumed (hard coded; source code w/option for 32-bit ID)
+DNN  = Declaration Not Needed (becase IDL source code _did_ need)
+DNC  = Declaration Need Confirmed (for python's interpretation)
+DT   = Debugging Tool (that I used myself)
+LDT  = Legacy Debug Tool (from IDL source code)
+LIDA = LongID Assumed (hard coded; source code w/option for 32-bit ID)
 ```
 
 And if you do indeed read through it, you may notice that the code has been

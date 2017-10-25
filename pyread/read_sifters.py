@@ -264,7 +264,7 @@ class readSifters(object):
             print "len(uniques FirstSubOfHalo):", len(N.unique(FirstSubOfHalo)),"\n"
 
             print
-            print "differences that SHOULD >= 0:"
+            print "differences that SHOULD >= 0 ?? :"
             print "----------------------------------------------------------"
             print "len(FSOH) - len(FSOH.uniq)                 =", \
                   len(FirstSubOfHalo) - len(N.unique(FirstSubOfHalo))
@@ -407,6 +407,15 @@ class readSifters(object):
         f.close()
 
         return time2, nsize, fft_re, fft_im
+
+
+    def origami_sifter(self, f):
+        """
+        Sifts through Origami binary data.
+        """
+        npart = N.fromfile(f, N.int32, 1)
+        tag   = N.fromfile(f, N.int8, npart)
+        return npart, tag
 
 if __name__ == '__main__':
     sys.exit("Attempt at running code from unintended source. \n\

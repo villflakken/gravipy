@@ -44,21 +44,6 @@ class readMiscTools(object):
         return outarr
 
 
-    def linewriter(self, datalist, w):
-        """
-        This is a function that will write listed data as needed
-        """
-        maxlen = len(datalist)
-
-        lineToWrite = ""
-        for i in range(len(datalist)):
-            lineToWrite += "{0:>20}".format(datalist[i])
-            continue
-
-        w.write(lineToWrite)
-        return 0
-
-
     def indraPathParser(self):
         """
         If program is supposed to run from 'indraX_tmp' data file structure,
@@ -101,6 +86,118 @@ class readMiscTools(object):
             return "{0:.2f} TBs".format(byte)
         elif int(1.e15) <= byte < int(1.e18):
             return "{0:.2f} PBs".format(byte)
+
+
+    def linewriter(self, datalist, w):
+        """
+        This is a function that will write listed data as needed
+        """
+        maxlen = len(datalist)
+
+        lineToWrite = ""
+        for i in range(len(datalist)):
+            lineToWrite += "{0:>20}".format(datalist[i])
+            continue
+
+        w.write(lineToWrite)
+        return 0
+
+
+    def pp_selector(self, parsed_data, num):
+        """
+          * Accessed when class system is given a set of parameters;
+            in order to automatically post-process a predetermined,
+            greater sequence of data.
+        Selects a post process method depending on
+        which task procedure is currently in the environment.
+        # Unfinished.
+        """
+        self.outputPather(num)
+
+
+        " Just prints wether or not plotting is involved"
+        if self.boolcheck(self.plotdata) == True:
+            " Plot or not? Is it heinous? Is it hot? "
+            self.plottingEngagedText = """
+            Engaging plot method for the {0} data retriever.
+            Plot location and name: ' {1} '"""
+            pass
+
+        # REWRITE BELOW INTO DICTIONARY FORM!!!
+        # " Maybe engage plot like this? "
+        # if self.boolcheck(self.plotdata) == True:
+        #     self.plot_funcs[self.what]
+        if self.what == "pos":
+            # 
+            IDsA, posA, velA, iterLen, NpartA = parsed_data
+            if self.boolcheck(self.plotdata) == True:
+                # 
+                self.plottingEngagedText\
+                    .format(self.what, self.outfilePath+".png")
+                self.plot_pos(IDsA, posA, iterLen, NpartA)
+                pass
+            pass
+
+        elif self.what == "vel":
+            # 
+            IDsA, posA, velA, iterLen, NpartA = parsed_data
+            if self.boolcheck(self.plotdata) == True:
+                # 
+                self.plot_vel(IDsA, velA, iterLen, NpartA)
+                pass
+            pass
+
+            # Finish writing the following:
+        elif self.what == "fof":
+            if self.boolcheck(self.plotdata) == True:
+                self.plot_fof("fof input")
+                pass
+            pass
+
+        elif self.what == "subhalo":
+            if self.boolcheck(self.plotdata) == True:
+                self.plot_subhalo("subhalo input")
+                pass
+            pass
+
+        elif self.what == "fft":
+            if self.boolcheck(self.plotdata) == True:
+                self.plot_fft("fft input")
+                pass
+            pass
+
+        else:
+            print " No plotting asked for in the parameters. "
+            pass # "No camels!", said Indy.
+
+        return 0
+
+
+    def boxer(self, pos, vel, IDs):
+        """
+        Extracts slices of data, determined from 3D positions.
+        self.box_params = [ [0.,20.],[0.,20.],[0.,5.] ] 
+        """
+        xmin, xmax = self.box_params[0]
+        ymin, ymax = self.box_params[1]
+        zmin, zmax = self.box_params[2]
+        # print "xmin, xmax:", xmin, xmax
+        # print "ymin, ymax:", ymin, ymax
+        # print "zmin, zmax:", zmin, zmax
+
+        " Bool'ed indexation "
+        box3D =  N.array( pos[:,0] >= xmin ) \
+               * N.array( pos[:,1] >= ymin ) \
+               * N.array( pos[:,2] >= zmin ) \
+                                             \
+               * N.array( pos[:,0] <= xmax ) \
+               * N.array( pos[:,1] <= ymax ) \
+               * N.array( pos[:,2] <= zmax )
+
+        posMat, velMat, IDsM = pos[box3D], vel[box3D], IDs[box3D]
+
+
+        return posMat, velMat, IDsM, N.sum(box3D)
 
 
     def funcNameOver(self, where="1up"):
@@ -158,6 +255,7 @@ class readMiscTools(object):
 
         return 0
 
+
     def intendedMachine(self):
         """
         Simple function that exits the program
@@ -193,6 +291,7 @@ class readMiscTools(object):
             pass
 
         return 0
+
 
     def item_size_calc(self, L=[]):
         """
@@ -254,6 +353,7 @@ class readMiscTools(object):
         print messToScreen.fill("* Error encountered inside function:")
         print messToScreen.fill(str("'"+self.funcNameOver("1up")+"'"))
         sys.exit()
+
 
 if __name__ == '__main__':
     sys.exit("Attempt at running code from unintended source. \n\

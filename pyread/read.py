@@ -55,16 +55,18 @@ class readDo(readArgs, readProcedures):
                 "vel",     
                 "fof",     
                 "subhalo", 
-                "fft"      
+                "fft",
+                "origami"
             ]
         self.action = \
             { # Function library for initializing data reading.
-                "posvel"    : self.read_posvel  , 
-                "pos"       : self.read_posvel  , 
-                "vel"       : self.read_posvel  , 
-                "fof"       : self.read_FOF     , 
-                "subhalo"   : self.read_subhalo , 
-                "fft"       : self.read_FFT
+                "posvel"  : self.read_posvel  , 
+                "pos"     : self.read_posvel  , 
+                "vel"     : self.read_posvel  , 
+                "fof"     : self.read_FOF     , 
+                "subhalo" : self.read_subhalo , 
+                "fft"     : self.read_FFT     ,
+                "origami" : self.read_origami
             }
         """
         end of init
@@ -95,7 +97,7 @@ class readDo(readArgs, readProcedures):
         Will try to avoid that. But then it will be ugly.
         Assumes that parameters in arglist have been set.
         """
-        parsed_datasets_list = []
+        parsed_datasets_dict = {}
         """
         Prime example on how complex a set of permutations can become!
         """
@@ -142,11 +144,14 @@ class readDo(readArgs, readProcedures):
                             parsed_data = self.action[self.what]()
                             " >: Main component of program. "
 
+                            " Creates 'candidate' for folder- and/or filename "
+                            self.outputPather(num)
+
                             " Function calls post processes as paramatrized: "
                             if any((self.w2f, self.plotdata)) == True:
                                 self.pp_selector(parsed_data, num)
                             else:
-                                parsed_datasets_list.append(parsed_data)
+                                parsed_datasets_dict[self.fileName] = parsed_data
                             
                             continue
                         continue
@@ -157,7 +162,10 @@ class readDo(readArgs, readProcedures):
         Might be useful outside of function,
         that returned object is not mutable: return a tuple.
         """
-        return tuple(parsed_datasets_list)
+        if len(parsed_datasets_dict.keys()) == 1:
+            return parsed_datasets_dict[parsed_datasets_dict.keys()[0]]
+        else:
+            return parsed_datasets_dict
 
 
     def currentTaskParamsParser(self):
