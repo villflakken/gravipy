@@ -33,15 +33,16 @@ included in the file '**pyread/testrun.py**'.
 * Parameter boxing moved out of binary reading loop and is now simply callable as an object outside - so even if one attempts to box, then all data may still be available in memory (benefit for Jupyter systems).
 * Fixed array structure from 
 
-> ```python
+```python
 positions = 256(number of read files) * N_i(the i'th file's particle count) * 3(xyz coords)
 ```
 
    into more manageable
 
-> ```python
+```python
 positions = N(total particle number in simulation) * 3(xyz coords)
 ```
+
 * Implementing binary reading of **Origami** output (particle tagging, sorted by ID).
 
 **0.50 from 0.40**:
