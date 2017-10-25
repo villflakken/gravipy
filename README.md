@@ -31,9 +31,12 @@ included in the file '**pyread/testrun.py**'.
 * Differentiated between `read_misctools.py`, and `read_usertools.py` - making it easier to go in and view user-relevant tools.
 * Thinking of making a specific document for the general plotting tools only, as syntax with that may be quite long-winded indeed - even if these do not need to be included; data may be simply plotted outside of the class structure (for overly specific visualizations).
 * Parameter boxing moved out of binary reading loop and is now simply callable as an object outside - so even if one attempts to box, then all data may still be available in memory (benefit for Jupyter systems).
-* Fixed array structure from 
+* Fixed array structure from
+
    `positions = 256(number of read files) * N_i(the i'th file's particle count) * 3(xyz coords)`
+
    into the more manageable
+   
    `positions = N(total particle number in simulation) * 3(xyz coords)`
 
 * Implementing binary reading of **Origami** output (particle tagging, sorted by ID).
