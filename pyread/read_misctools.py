@@ -173,33 +173,6 @@ class readMiscTools(object):
         return 0
 
 
-    def boxer(self, pos, vel, IDs):
-        """
-        Extracts slices of data, determined from 3D positions.
-        self.box_params = [ [0.,20.],[0.,20.],[0.,5.] ] 
-        """
-        xmin, xmax = self.box_params[0]
-        ymin, ymax = self.box_params[1]
-        zmin, zmax = self.box_params[2]
-        # print "xmin, xmax:", xmin, xmax
-        # print "ymin, ymax:", ymin, ymax
-        # print "zmin, zmax:", zmin, zmax
-
-        " Bool'ed indexation "
-        box3D =  N.array( pos[:,0] >= xmin ) \
-               * N.array( pos[:,1] >= ymin ) \
-               * N.array( pos[:,2] >= zmin ) \
-                                             \
-               * N.array( pos[:,0] <= xmax ) \
-               * N.array( pos[:,1] <= ymax ) \
-               * N.array( pos[:,2] <= zmax )
-
-        posMat, velMat, IDsM = pos[box3D], vel[box3D], IDs[box3D]
-
-
-        return posMat, velMat, IDsM, N.sum(box3D)
-
-
     def funcNameOver(self, where="1up"):
         """
         :return: Name of nested function in which this function is called.

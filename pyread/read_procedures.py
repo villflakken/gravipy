@@ -155,10 +155,21 @@ class readProcedures(readSifters, readTools):
         print " * Size of matrices IDsA, posA, velA, NpartA:" \
                + self.item_size_printer(matsizes) +" *\n"
 
-        " Let's try a plot: "
-        self.plot_pos(IDsA, posA)
+        " Let's try a box and plot: "
+        box  = self.box_indexation(posA)
+        if self.what == "pos":
+            posA = posA[box]
+            self.plot_pos(IDsA, posA)
+            pass
 
-        return IDsA, posA, velA, iterLen, NpartA
+        elif self.what == "vel":
+            velA = velA[box]
+            pass
+
+        else:
+            sys.exit("Meh.")
+
+        return IDsA, posA, velA
 
 
     def read_FOF(self):
