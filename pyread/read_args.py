@@ -379,7 +379,7 @@ class readArgs(object):
         return 0
 
 
-    def self.in_path_incorp(self, uinput, name):
+    def in_path_incorp(self, uinput, name):
         """
         Incorporates origami's path as environment variable.
         """
