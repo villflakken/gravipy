@@ -5,9 +5,10 @@ import os, sys
 import numpy as N
 import pylab as pl
 from read_sifters import readSifters
-from read_tools import readTools
+from read_usertools import readUserTools
+from read_misctools import readMiscTools
 
-class readProcedures(readSifters, readTools):
+class readProcedures(readSifters, readUserTools, readMiscTools):
     """
     Contains structures which read the data in question.
     I.o.w.: Every read_*-function shows the program flow of reading procedures.
