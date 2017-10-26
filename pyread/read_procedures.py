@@ -85,10 +85,6 @@ class readProcedures(readSifters, readTools):
                     """ Boxed parameters check used to be here in 0.50
                      * This is now left as a function to the user.
                     """
-                    if self.not_NoneFalse(self.box_params):
-                        " Overwerites current data extraction variables "
-                        pos, vel, IDsArr, Npart = self.boxer(pos, vel, IDsArr)
-                        pass
 
                     # End shape: ( 1024**3 , 3 )
                     posA[ci:Npart, :] = pos
@@ -119,7 +115,6 @@ class readProcedures(readSifters, readTools):
     """.format( maxN, countedNpart, 1024**3,
                  100*countedNpart/(1024.**3.), (countedNpart==1024**3) )
         print Intermission
-
         
         if self.boolcheck(self.sortIDs):
             print """ Sifter has completed reading all {0} files of snap {1}.
@@ -144,6 +139,7 @@ class readProcedures(readSifters, readTools):
 
             else:
                 print " Sorting selector test failed "
+                pass
 
             pass
 
@@ -158,6 +154,9 @@ class readProcedures(readSifters, readTools):
         matsizes = IDsA.nbytes + posA.nbytes + velA.nbytes + NpartA.nbytes
         print " * Size of matrices IDsA, posA, velA, NpartA:" \
                + self.item_size_printer(matsizes) +" *\n"
+
+        " Let's try a plot: "
+        self.plot_pos(IDsA, posA)
 
         return IDsA, posA, velA, iterLen, NpartA
 

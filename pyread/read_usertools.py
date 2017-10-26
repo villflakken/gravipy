@@ -106,7 +106,7 @@ class readUserTools(object):
         return utMat
 
 
-    def plot_pos(self, IDsA, posA, iterLen, NpartA):
+    def plot_pos(self, IDsA, posA):
         """
         Plots positional data output.
         """
@@ -126,29 +126,20 @@ class readUserTools(object):
             ax  = fig.add_subplot(111, projection='3d')
 
     
-        iterNtot         = N.sum(NpartA[:i+1])
-        percent_complete = 100.*iterNtot/totalNtot
 
-        itertext = " Snapshot #{0:<3d} | No. of new plot elements {1:6d} -"\
-                            .format(i, NpartA[i])\
-            + " [Total: {0:>10d}/{1:g} ( {2:>3d}% ) ]".format(
-                                  iterNtot, totalNtot,
-                                  int(percent_complete) )
-        self.itertextPrinter(itertext, i, iterLen, 10)
-        
         " Scatter plot "
         if self.plotdim_set == 2: # 2D
-            ax.scatter(posA[i,:NpartA[i],0], # x-elements
-                       posA[i,:NpartA[i],1], # y-elements
+            ax.scatter(posA[:,0], # x-elements
+                       posA[:,1], # y-elements
                             depthshade=True, s=1)
             pass
 
         elif self.plotdim_set == 3: # 3D
             # in the voice of an authorative Patrick Stewart:
             " ENGAGE 3D VIZUALIZATION "
-            ax.scatter(posA[i,:NpartA[i],0], # x-elements
-                       posA[i,:NpartA[i],1], # y-elements
-                       posA[i,:NpartA[i],2], # z-elements
+            ax.scatter(posA[:,0], # x-elements
+                       posA[:,1], # y-elements
+                       posA[:,2], # z-elements
                             depthshade=True, s=1)
             pass
         else:
@@ -161,8 +152,8 @@ class readUserTools(object):
             pass
 
         plotname = self.outputPather(self.subfolder)+".png"
-        print " Saving plot (1) "
-        pl.savefig(plotname+"_{0}d".format(self.box_params_set), dpi=200)
+        print " Saving plot (pos) "
+        pl.savefig(plotname+"_{0}d".format(self.plotdim_set), dpi=200)
         pl.close()
 
         return 0
