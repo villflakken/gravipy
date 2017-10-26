@@ -37,10 +37,6 @@ class readDo(readArgs, readProcedures):
     """
     def __init__(self):
         """
-        If args initialized through function import
-        """
-        self.functioncall = functioncall
-        """
         Inherits two other scripts' classes and functionality.
         """
         readArgs.__init__(self)
