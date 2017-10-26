@@ -57,15 +57,18 @@ class readProcedures(readSifters, readTools):
         Do a for-loop that counts particles and determines array size
             Let's try a variant that uses lists,
             and see how badly it affects memory... (not very, it seems!)
+        Never mind that. Total number of particles are 1024**3 anyway.
         """
-        posL   = []
-        velL   = []
-        IDsL   = []
-        NpartA = N.zeros(iterLen, dtype=N.int64)
+        Npart_tot = 1024**3
+        posA      = N.zeros( (Npart_tot,3), dtype=N.float32 )
+        velA      = N.zeros( (Npart_tot,3), dtype=N.float32 )
+        IDsA      = N.zeros(  Npart_tot   , dtype=N.float32 )
+        NpartA    = N.zeros(  iterLen     , dtype=N.int64   )
 
         readtext = " * Accessing file:\tindra{0}{1}/snap{2}/file.{3:<3} ({4}) ..."
-        tmpftxt = "tmp" if self.tmpfolder == True else ""
+        tmpftxt  = "tmp" if self.tmpfolder == True else ""
 
+        ci = 0 # Current index to update
         for i in N.arange(0, iterLen):
             """
             Will cover all files.
@@ -79,26 +82,30 @@ class readProcedures(readSifters, readTools):
                                                self.subfolder, i, self.what )
                     self.itertextPrinter(itertext, i, iterLen, 10)
 
-                    """ Boxed parameters check used to be here in 0.500.
-                    => Potentially strong reduction in memory usage!
-                    (All completed matrices been clocked to around ~40GB of RAM)
+                    """ Boxed parameters check used to be here in 0.50
                      * This is now left as a function to the user.
                     """
                     if self.not_NoneFalse(self.box_params):
                         " Overwerites current data extraction variables "
                         pos, vel, IDsArr, Npart = self.boxer(pos, vel, IDsArr)
+                        pass
 
-                    posL.append( pos    )
-                    velL.append( vel    )
-                    IDsL.append( IDsArr )
+                    # End shape: ( 1024**3 , 3 )
+                    posA[ci:Npart, :] = pos
+                    velA[ci:Npart, :] = vel
+                    IDsA[ci:Npart]    = IDsArr
+                    # ... Those shapes should match
+                    NpartA[i]         = Npart
 
-                    NpartA[i] =  Npart
-                continue
+                    ci += Npart
+
+                continue # Next binary file's turn
 
             except IOError:
                 self.readLoopError(filepath, 1, 1, i)
                 pass
-            continue
+
+            continue # Next binary file's turn
 
         # File reading loop completed
 
@@ -109,62 +116,35 @@ class readProcedures(readSifters, readTools):
     Max particle number:                        {0}
     Sum of particles read / Tot. in simulation: {1} / {2} ( {3:g}% )
     Maximum indra particles read?:              {4}
-    => Now converting memory storage form from lists to arrays.
     """.format( maxN, countedNpart, 1024**3,
                  100*countedNpart/(1024.**3.), (countedNpart==1024**3) )
         print Intermission
 
-        # """
-        # Converts input list (with arrays)
-        # into a single (bigger) array (because arrays are better)
-        # """
-        IDsA = self.list_to_arrays(IDsL, NpartA, \
-                                   (iterLen, maxN   ), N.int64  , "IDs")
-        if self.what == "pos":
-            posA = self.list_to_arrays(posL, NpartA, \
-                                       (iterLen, maxN, 3), N.float32, "pos")
-        elif self.what == "vel":
-            velA = self.list_to_arrays(velL, NpartA, \
-                                       (iterLen, maxN, 3), N.float32, "vel")
-        else:
-            print " Sorting selector test failed "
-
-        # """
-        # Release memory taken by lists.
-        # """
-        IDsL = None; posL = None; velL = None
-
-        # TODO: check if all IDs are unique!
-        # sys.exit("\nTest done\n")
         
         if self.boolcheck(self.sortIDs):
             print """ Sifter has completed reading all {0} files of snap {1}.
         - Commencing method for sorting positions and velocities.
             """.format(iterLen, self.subfolder)
 
-            IDsA, IDsSargA = self.sort_IDs(iterLen, maxN, NpartA, IDsA)
+            IDsSargA = N.argsort(IDsA)
+            IDsA = IDsA[IDsSargA]
 
             " Choose one to deal with less data "
             if self.what == "pos":
                 " Sorts positions "
-                posA = self.sort_dataByIDs( iterLen, maxN, NpartA, \
-                                            posA, IDsSargA )
+                posA = posA[IDsSargA]
+                print "\n \=> positions' array now sorted by ID tag.\n"
+                pass
+
             elif self.what == "vel":
                 " Sorts velocities"
-                velA = self.sort_dataByIDs( iterLen, maxN, NpartA, \
-                                            velA, IDsSargA )
-            # elif "pos" in self.what_set and "vel" in self.what_set:
-            #     " Sorts both "
-            #     posA = self.sort_dataByIDs( iterLen, maxN, NpartA, \
-            #                                 posA, IDsA )
-            #     velA = self.sort_dataByIDs( iterLen, maxN, NpartA, \
-            #                                 velA, IDsA )
+                velA = velA[IDsSargA]
+                print "\n \=> velocities' array now sorted by ID tag.\n"
+                pass
+
             else:
                 print " Sorting selector test failed "
 
-            # posA, velA, IDsA = self.sort_posvel_func(           \
-            #                         iterLen, maxN, NpartA,      \
-            #                         posA, velA, IDsA            )
             pass
 
         endread = "\nFinished reading '"+str(self.what)+"' of files, indra"\
@@ -440,7 +420,22 @@ class readProcedures(readSifters, readTools):
         """
         Reads ORIGAMI's data output
         """
-        oridatapath = self.
+        oridatapath = self.origamipath
+        ori_open_error_str = """
+        Could not find origami file at specified path: {0:s}
+        """.format(oridatapath)
+
+        try:
+            with open(oridatapath, 'rb') as openfile:
+                # Npart, tag = self.origami_sifter(openfile)
+                Npart = N.fromfile(openfile, N.int32, 1)
+                tag   = N.fromfile(openfile, N.int8, Npart)
+            pass
+        except IOError:
+            sys.exit(ori_open_error_str)
+            pass
+
+        return Npart, tag
 
 
 if __name__ == '__main__':

@@ -55,7 +55,8 @@ class readArgs(object):
                 "plotdata"   ,
                 "outputpath" ,
                 "box_params" ,
-                "plotdim"
+                "plotdim"    ,
+                "origamipath"
             ]
         self.param_incorp = \
             { # Function library: parameter validation
@@ -74,7 +75,8 @@ class readArgs(object):
               # Output related
                "outputpath" : self.outputpath_incorp ,
                       "w2f" : self.toggles_incorp    ,
-                 "plotdata" : self.toggles_incorp    
+                 "plotdata" : self.toggles_incorp    ,
+              "origamipath" : self.in_path_incorp
             }
         self.intRange_dict = \
             { # Ranges of integer numbers.
@@ -362,9 +364,7 @@ class readArgs(object):
                         pass
 
                     pass
-                
                 continue # 3 items.
-            
             pass
 
         elif uinput == False:
@@ -377,6 +377,18 @@ class readArgs(object):
         """)
 
         return 0
+
+
+    def self.in_path_incorp(self, uinput, name):
+        """
+        Incorporates origami's path as environment variable.
+        """
+        if type(uinput) == str:
+            setattr(self, name, uinput)
+            pass
+        # Well, how strict can one be with a user's own preferences?
+        return 0 
+
 
 
     def errhand_userinput(self, problemstring):

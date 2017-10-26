@@ -149,22 +149,37 @@ class readDo(readArgs, readProcedures):
 
                             " Function calls post processes as paramatrized: "
                             if any((self.w2f, self.plotdata)) == True:
+                                """
+                                The program handles data post processing
+                                and storage thereof.
+                                """
                                 self.pp_selector(parsed_data, num)
-                            else:
-                                parsed_datasets_dict[self.fileName] = parsed_data
-                            
-                            continue
-                        continue
-                    continue
-                continue
-            continue
+                                pass
+                            """
+                            Output put for user to manipulate.
+                            """
+                            parsed_datasets_dict[self.fileName] = parsed_data
+
+                            continue # to next loop of 'num' (snapnum/fftfile)...
+                        continue # to next loop of iB...
+                    continue # to next loop of iA...
+                continue # to next loop of iN...
+            continue # to next loop of user-specified tasks...
         """
         Might be useful outside of function,
         that returned object is not mutable: return a tuple.
         """
         if len(parsed_datasets_dict.keys()) == 1:
+            """
+            So that user is given its tuple of values,
+            without having to pack them out of a dictionary.
+            """
             return parsed_datasets_dict[parsed_datasets_dict.keys()[0]]
         else:
+            """
+            Returns the whole dataset for the user
+            to pack out from the dictionary.
+            """
             return parsed_datasets_dict
 
 

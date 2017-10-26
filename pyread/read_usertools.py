@@ -37,57 +37,6 @@ class readUserTools(object):
         """
         End of init
         """
-    
-
-    def sort_posvel_func(self, iterLen, maxN, NpartA, \
-                               posA, velA, IDsA ):
-        """
-        Function for sorting stuff.
-        * Find longest list of IDs, just in case IDs may disappear
-        with time and structure development.
-        * Sort IDs from every step.
-        """
-        # Prepare variables and arrays for sorting
-        posMat   = N.zeros( (iterLen, maxN, 3),
-                          dtype=N.float32 )
-        velMat   = N.zeros( (iterLen, maxN, 3), 
-                          dtype=N.float32 )
-        IDsS     = N.zeros( ( iterLen, maxN ),
-                          dtype=N.int64 )
-
-        for i in N.arange(0, iterLen):
-            """
-            * Stores numbers of groups in each iteration of the simulation
-            * Sorts & stores the IDs
-            * Stores positions from sorted indexation
-            """
-            itertext = " * Assigning sorted values, {0:>3d}/{1} ..."\
-                        .format(i, (iterLen-1))
-            " Less spam in the terminal "
-            self.itertextPrinter(itertext, i, iterLen, 10)
-
-            # Creating array set of sorted indices
-            # IDsSarg[   i , :NpartA[i] ] = \
-            #     N.argsort( IDsA[ i , :NpartA[i] ])
-            # - No need to store the arguments of the sorted indices
-            IDsSarg = N.argsort( IDsA[ i , :NpartA[i] ])
-            
-            # Storing sorted IDs
-            IDsS[ i , :NpartA[i] ] = \
-                IDsA[ i, IDsSarg ]
-
-            # Sorting positions after IDs
-            posMat[ i , :NpartA[i] , : ] = \
-                posA[ i, IDsSarg , :] # Shapes.. should match?
-
-            # Sorting velocities after IDs
-            velMat[ i , :NpartA[i] , : ] = \
-                velA[ i, IDsSarg , :] # Shapes.. should match?
-
-            continue
-
-        return posMat, velMat, IDsS
-
 
     def sort_IDs(self, iterLen, maxN, NpartA, IDsA ):
         """
@@ -176,40 +125,43 @@ class readUserTools(object):
             " In case of 3d "
             ax  = fig.add_subplot(111, projection='3d')
 
-        for i in N.arange(0, iterLen):
-            """ Runs through ".i" ; i is int \in 
-            * [0, 256) for [ posvel, fof, subhalo ]
-            * [0, 505) for [ fft                  ]
-            """            
-            iterNtot         = N.sum(NpartA[:i+1])
-            percent_complete = 100.*iterNtot/totalNtot
+    
+        iterNtot         = N.sum(NpartA[:i+1])
+        percent_complete = 100.*iterNtot/totalNtot
 
-            itertext = " Snapshot #{0:<3d} | No. of new plot elements {1:6d} -"\
-                                .format(i, NpartA[i])\
-                + " [Total: {0:>10d}/{1:g} ( {2:>3d}% ) ]".format(
-                                      iterNtot, totalNtot,
-                                      int(percent_complete) )
-            self.itertextPrinter(itertext, i, iterLen, 10)
-            
-            " Scatter plot "
-            if self.plotdim_set == 2: # 2D
-                ax.scatter(posA[i,:NpartA[i],0], # x-elements
-                           posA[i,:NpartA[i],1], # y-elements
-                                depthshade=True, s=1)
+        itertext = " Snapshot #{0:<3d} | No. of new plot elements {1:6d} -"\
+                            .format(i, NpartA[i])\
+            + " [Total: {0:>10d}/{1:g} ( {2:>3d}% ) ]".format(
+                                  iterNtot, totalNtot,
+                                  int(percent_complete) )
+        self.itertextPrinter(itertext, i, iterLen, 10)
+        
+        " Scatter plot "
+        if self.plotdim_set == 2: # 2D
+            ax.scatter(posA[i,:NpartA[i],0], # x-elements
+                       posA[i,:NpartA[i],1], # y-elements
+                            depthshade=True, s=1)
+            pass
 
-            if self.plotdim_set == 3: # 3D
-                ax.scatter(posA[i,:NpartA[i],0], # x-elements
-                           posA[i,:NpartA[i],1], # y-elements
-                           posA[i,:NpartA[i],2], # z-elements
-                                depthshade=True, s=1)
-            continue
+        elif self.plotdim_set == 3: # 3D
+            # in the voice of an authorative Patrick Stewart:
+            " ENGAGE 3D VIZUALIZATION "
+            ax.scatter(posA[i,:NpartA[i],0], # x-elements
+                       posA[i,:NpartA[i],1], # y-elements
+                       posA[i,:NpartA[i],2], # z-elements
+                            depthshade=True, s=1)
+            pass
+        else:
+            sys.exit(" * Unbelievable error. ")
 
         ax.set_xlabel('x-position Mpc/h')
         ax.set_ylabel('y-position Mpc/h')
         if self.plotdim_set == 3:
             ax.set_zlabel('z-position Mpc/h')
+            pass
+
         plotname = self.outputPather(self.subfolder)+".png"
-        print "Saving plot"
+        print " Saving plot (1) "
         pl.savefig(plotname+"_{0}d".format(self.box_params_set), dpi=200)
         pl.close()
 
