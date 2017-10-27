@@ -77,15 +77,17 @@ class readMiscTools(object):
         if 0 <= byte < int(1.e3):
             return "{0:.2f} bytes".format(byte)
         elif int(1.e3) <= byte < int(1.e6):
-            return "{0:.2f} KBs".format(byte)
+            return "{0:.2f} KBs".format(byte/1e3)
         elif int(1.e6) <= byte < int(1.e9):
-            return "{0:.2f} MBs".format(byte)
+            return "{0:.2f} MBs".format(byte/1e6)
         elif int(1.e9) <= byte < int(1.e12):
-            return "{0:.2f} GBs".format(byte)
+            return "{0:.2f} GBs".format(byte/1e9)
         elif int(1.e12) <= byte < int(1.e15):
-            return "{0:.2f} TBs".format(byte)
+            return "{0:.2f} TBs".format(byte/1e12)
         elif int(1.e15) <= byte < int(1.e18):
-            return "{0:.2f} PBs".format(byte)
+            return "{0:.2f} PBs".format(byte/1e15)
+        elif int(1.e18) <= byte < int(1.e21):
+            return "{0:.2f} EBs".format(byte/1e18)
 
 
     def linewriter(self, datalist, w):

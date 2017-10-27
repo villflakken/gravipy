@@ -139,7 +139,7 @@ class readProcedures(readSifters, readAutoTools, readMiscTools):
 
         # The reading is done, the bells have tolled;
         # print out the stats, parameters, and all!
-        endread = "\nFinished reading '"+str(self.what)+"' of files, indra"\
+        endread = "\n Finished reading '"+str(self.what)+"' of files, indra"\
                 +str(self.indraN)+', iA='+str(self.iA)+', iB='+str(self.iB)    \
                 +', snapshot='+str(self.subfolder)
         if self.boolcheck(self.sortIDs):
@@ -148,7 +148,7 @@ class readProcedures(readSifters, readAutoTools, readMiscTools):
         print endread
         matsizes = IDsA.nbytes + posA.nbytes + velA.nbytes + NpartA.nbytes
         print " * Size of matrices IDsA, posA, velA, NpartA:" \
-               + self.item_size_printer(matsizes) +" *\n"
+               + self.item_size_printer(matsizes) +" \n"
 
         # Easy place to put checks, currently
         " Let's try a box and plot: "
