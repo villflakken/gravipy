@@ -195,9 +195,10 @@ class readUserTools(object):
             ax.set_zlabel('z-position Mpc/h')
             pass
 
-        plotname = self.outputPather(self.subfolder)+".png"
+        plotname = self.outputPather(self.subfolder)\
+                   + "_{0}d".format(self.plotdim_set) + ".png"
         print " Saving plot (pos) "
-        pl.savefig(plotname+"_{0}d".format(self.plotdim_set), dpi=200)
+        pl.savefig(plotname, dpi=200)
         pl.close()
 
         return 0

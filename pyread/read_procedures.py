@@ -84,12 +84,11 @@ class readProcedures(readSifters, readUserTools, readMiscTools):
                     self.itertextPrinter(itertext, i, iterLen, 10)
 
                     # End shape: ( 1024**3 , 3 )
-                    print "posA[ci:Npart, :].shape : ", posA[ci:ci+Npart, :].shape 
-                    print "pos (from file).shape   : ", pos.shape
+                    # print "posA[ci:Npart, :].shape : ", posA[ci:ci+Npart, :].shape 
+                    # print "pos (from file).shape   : ", pos.shape
                     posA[ci:ci+Npart, :] = pos
                     velA[ci:ci+Npart, :] = vel
                     IDsA[ci:ci+Npart]    = IDsArr
-                    # ... Those shapes should match
                     NpartA[i]            = Npart
 
                     ci += Npart
@@ -116,24 +115,28 @@ class readProcedures(readSifters, readUserTools, readMiscTools):
         print Intermission
         
         if self.boolcheck(self.sortIDs):
-            print """ Sifter has completed reading all {0} files of snap {1}.
-        - Commencing method for sorting positions and velocities.
-            """.format(iterLen, self.subfolder)
+            print """
+    Sifter has completed reading all {0} files of snap {1}.
+    - Commencing method for sorting positions and velocities.
+        * Sorting IDs now ...""".format(iterLen, self.subfolder)
 
             IDsSargA = N.argsort(IDsA)
             IDsA = IDsA[IDsSargA]
+            print "\t \=> IDs sorted."
 
             " Choose one to deal with less data "
             if self.what == "pos":
                 " Sorts positions "
+                print "\t* Sorting positions."
                 posA = posA[IDsSargA]
-                print "\n \=> positions' array now sorted by ID tag.\n"
+                print "\t \=> positions' array now sorted by ID tag.\n"
                 pass
 
             elif self.what == "vel":
                 " Sorts velocities"
+                print "\t* Sorting velocities."
                 velA = velA[IDsSargA]
-                print "\n \=> velocities' array now sorted by ID tag.\n"
+                print "\t \=> velocities' array now sorted by ID tag.\n"
                 pass
 
             else:
