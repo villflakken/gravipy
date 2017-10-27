@@ -153,6 +153,8 @@ class readDo(readArgs, readProcedures):
                             #     pass
                             """
                             Output put for user to manipulate.
+                            * Base of filename a good candidate for 
+                              dictionary indexation.
                             """
                             parsed_datasets_dict[self.fileName] = parsed_data
 

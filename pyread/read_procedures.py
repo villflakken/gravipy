@@ -5,10 +5,10 @@ import os, sys
 import numpy as N
 import pylab as pl
 from read_sifters import readSifters
-from read_usertools import readUserTools
+from read_autotools import readAutoTools
 from read_misctools import readMiscTools
 
-class readProcedures(readSifters, readUserTools, readMiscTools):
+class readProcedures(readSifters, readAutoTools, readMiscTools):
     """
     Contains structures which read the data in question.
     I.o.w.: Every read_*-function shows the program flow of reading procedures.
@@ -20,10 +20,10 @@ class readProcedures(readSifters, readUserTools, readMiscTools):
         Inheritance and variables
         """
         readSifters.__init__(self)
-        readUserTools.__init__(self)
+        readAutoTools.__init__(self)
         readMiscTools.__init__(self)
         self.missingfiles = 0
-            # Counter - assumes only 1 type of dataset will be read.
+        # Counter - assumes only 1 type of dataset will be read.
 
         self.dummypath1 = '/datascope/indra%d/%d_%d_%d' % (0, 0, 0, 0)
         self.dummypath2 = '/snapdir_%03d/snapshot_%03d.' % (0, 0)
@@ -35,7 +35,6 @@ class readProcedures(readSifters, readUserTools, readMiscTools):
                                 ### supplements also in case of base address
                                 ### changes, easy to find.
                                 ###### Modify as needed.
-
         """
         End of init           # but will halt if there's more, inside func below.
         """
@@ -44,10 +43,6 @@ class readProcedures(readSifters, readUserTools, readMiscTools):
         """
         Analyzes positions and velocities dataset.
         """
-        # indrapath = self.dsp + "/indra%d/%d_%d_%d" \
-        #     % (self.indraN, self.indraN, self.iA, self.iB)
-        # snappath = indrapath + '/snapdir_%03d/snapshot_%03d.' \
-        #     % (self.subfolder, self.subfolder)
         indrapath = self.dsp + self.indraPathParser()
         snappath = indrapath + '/snapdir_{0:03d}/snapshot_{0:03d}.'\
                                 .format(self.subfolder)
@@ -55,10 +50,7 @@ class readProcedures(readSifters, readUserTools, readMiscTools):
         maxfileCount = self.findCount(snappath)
         iterLen      = maxfileCount + 1
         """
-        Do a for-loop that counts particles and determines array size
-            Let's try a variant that uses lists,
-            and see how badly it affects memory... (not very, it seems!)
-        Never mind that. Total number of particles are 1024**3 anyway.
+        Total no. of particles is set.
         """
         Npart_tot = 1024**3
         posA      = N.zeros( (Npart_tot,3), dtype=N.float32 )
@@ -101,8 +93,7 @@ class readProcedures(readSifters, readUserTools, readMiscTools):
 
             continue # Next binary file's turn
 
-        # File reading loop completed
-
+        # File reading loop completed; print status
         countedNpart = N.sum(NpartA)
         maxN         = N.max(NpartA)
         Intermission = """
@@ -114,6 +105,7 @@ class readProcedures(readSifters, readUserTools, readMiscTools):
             (countedNpart==1024**3) )
         print Intermission
         
+        # ID sorting block
         if self.boolcheck(self.sortIDs):
             print """
     Sifter has completed reading all {0} files of snap {1}.
@@ -122,7 +114,7 @@ class readProcedures(readSifters, readUserTools, readMiscTools):
 
             IDsSargA = N.argsort(IDsA)
             IDsA = IDsA[IDsSargA]
-            print "\t \=> IDs sorted."
+            print "\t  \=> IDs sorted."
 
             " Choose one to deal with less data "
             if self.what == "pos":
@@ -145,6 +137,8 @@ class readProcedures(readSifters, readUserTools, readMiscTools):
 
             pass
 
+        # The reading is done, the bells have tolled;
+        # print out the stats, parameters, and all!
         endread = "\nFinished reading '"+str(self.what)+"' of files, indra"\
                 +str(self.indraN)+', iA='+str(self.iA)+', iB='+str(self.iB)    \
                 +', snapshot='+str(self.subfolder)
@@ -152,14 +146,14 @@ class readProcedures(readSifters, readUserTools, readMiscTools):
             endread+=",\n and matrices are now sorted after IDs' values.\n"
             pass
         print endread
-
         matsizes = IDsA.nbytes + posA.nbytes + velA.nbytes + NpartA.nbytes
         print " * Size of matrices IDsA, posA, velA, NpartA:" \
                + self.item_size_printer(matsizes) +" *\n"
 
+        # Easy place to put checks, currently
         " Let's try a box and plot: "
-        box  = self.box_indexation(posA)
         if self.what == "pos":
+            box  = self.box_indexation(posA)
             posA = posA[box]
             self.plot_pos(IDsA, posA)
             pass
