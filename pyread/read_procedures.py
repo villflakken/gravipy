@@ -88,8 +88,8 @@ class readProcedures(readSifters, readUserTools, readMiscTools):
                     """
 
                     # End shape: ( 1024**3 , 3 )
-                    print "posA[ci:Npart, :].shape() : ", posA[ci:Npart, :].shape() 
-                    print "pos (from file).shape()   : ", pos.shape()
+                    print "posA[ci:Npart, :].shape : ", posA[ci:Npart, :].shape 
+                    print "pos (from file).shape   : ", pos.shape
                     posA[ci:Npart, :] = pos
                     velA[ci:Npart, :] = vel
                     IDsA[ci:Npart]    = IDsArr
