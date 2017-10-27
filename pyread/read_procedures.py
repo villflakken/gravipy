@@ -90,11 +90,11 @@ class readProcedures(readSifters, readUserTools, readMiscTools):
                     # End shape: ( 1024**3 , 3 )
                     print "posA[ci:Npart, :].shape : ", posA[ci:Npart, :].shape 
                     print "pos (from file).shape   : ", pos.shape
-                    posA[ci:Npart, :] = pos
-                    velA[ci:Npart, :] = vel
-                    IDsA[ci:Npart]    = IDsArr
+                    posA[ci:ci+Npart, :] = pos
+                    velA[ci:ci+Npart, :] = vel
+                    IDsA[ci:ci+Npart]    = IDsArr
                     # ... Those shapes should match
-                    NpartA[i]         = Npart
+                    NpartA[i]            = Npart
 
                     ci += Npart
 
