@@ -30,10 +30,10 @@ included in the file '**pyread/testrun.py**'.
    All changes currently reflect the state of the function handling reading of positions.
 
 ###### To consider:
-* Thinking of making a specific document for the general plotting tools only, as syntax with that may be quite long-winded indeed - even if these do not need to be included; data may be simply plotted outside of the class structure (for overly specific visualizations)...   
-   - or basically, if I write very specific plot functions underway that I may want to use again at a later point; this is where they may be stored.
+* Thinking of making a specific document for the general plotting tools only, as syntax with that may be quite long-winded indeed - even if these do not need to be included; data may be simply plotted outside of the class structure (for overly specific visualizations)...
+   * or basically, if I write very specific plot functions underway that I may want to use again at a later point; this is where they may be stored.
 
-* Figure out the best way with which to return the data when finished with the reading;   
+* Figure out the best way with which to return the data when finished with the reading;
    1. For a single-set reading, only returning the that set's data, pure and simple.   
    2. For multi-set reading, return a dictionary..? Would be hard to handle with predetermined scripts, maybe?...  
       * But controlling these on Jupyter would be simple, to keep the datasets apart - just refer to the indexes from a printed list of said dictionary's keys! :D
@@ -66,8 +66,8 @@ included in the file '**pyread/testrun.py**'.
    1. `read.py` is the class system's initiator. It handles the general flow depending on wether the class was initialized to be used as a function call, or a pre-determined set of INDRA-variables to be read and processed. Then it sifts through the INDRA data as set by the user, and, if enabled, engages post processing.
    2. `read_args.py` handles reading of arguments. In the beginning, this was designed to process
       * command line variables for the INDRA parameters.
-      * config file initialization containing INDRA parameter variables.
-         * ...with a corresponding program to restore a "default parameter" config file.
+      * config file initialization containing INDRA parameter variables (called `read_cfg`).
+         * ...with a corresponding program to restore a "default parameter" config file (called `restore_default_cfg.py`).
       * user input INDRA parameters through a call function.
       At the time this script contained all these functions, it was well over 1k lines, and desperately needed tidying up.
    3. `read_procedures.py` outlines each data type's reading's program flow.
@@ -76,8 +76,7 @@ included in the file '**pyread/testrun.py**'.
    6. `testrun.py` is a simple script that shows an example of how one may initiate the system, and contains all the parameters one could need - a user is meant to run this function or copy-paste its contents, with as much parameters as the user would need.
 
 ---
-###### If the program ever starts quoting the movie The Princess Bride (1987),
-then rest assured of the fact, and know, that you have done something horribly wrong.
+###### If the program ever starts quoting the movie The Princess Bride (1987), then rest assured of the fact, and know, that you have done something horribly wrong.
 
 If you're interested in reading the code itself, you'll see that I've made
 comments with abbreviations/acronyms in some places:
