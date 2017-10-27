@@ -143,14 +143,14 @@ class readDo(readArgs, readProcedures):
                             " Creates 'candidate' for folder- and/or filename "
                             self.outputPather(num)
 
-                            " Function calls post processes as paramatrized: "
-                            if any((self.w2f, self.plotdata)) == True:
-                                """
-                                The program handles data post processing
-                                and storage thereof.
-                                """
-                                self.pp_selector(parsed_data, num)
-                                pass
+                            # " Function calls post processes as paramatrized: "
+                            # if any((self.w2f, self.plotdata)) == True:
+                            #     """
+                            #     The program handles data post processing
+                            #     and storage thereof.
+                            #     """
+                            #     self.pp_selector(parsed_data, num)
+                            #     pass
                             """
                             Output put for user to manipulate.
                             """

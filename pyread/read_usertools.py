@@ -156,7 +156,7 @@ class readUserTools(object):
         """
         totalNtot = 1024**3 # Total number of elements
         # Try a scatterplot first
-        print "\tInitiating scatter plot of positions in simulation: \
+        print " * Initiating scatter plot of positions in simulation: \
             {0}_{1}_{2}/snapshot_{3}".format(
             self.indraN, self.iA, self.iB, self.subfolder)
         
@@ -169,7 +169,6 @@ class readUserTools(object):
             " In case of 3d "
             ax  = fig.add_subplot(111, projection='3d')
 
-    
 
         " Scatter plot "
         if self.plotdim_set == 2: # 2D

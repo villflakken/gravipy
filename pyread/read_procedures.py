@@ -109,9 +109,9 @@ class readProcedures(readSifters, readUserTools, readMiscTools):
     Byte sifter completed. 
     Max particle number in a file:              {0}
     Sum of particles read / Tot. in simulation: {1} / {2} ( {3:g}% )
-    Maximum indra particles read?:              {4}
-    """.format( maxN, countedNpart, 1024**3,
-                 100*countedNpart/(1024.**3.), (countedNpart==1024**3) )
+    Maximum indra particles read?:              {4}""".format( 
+            maxN, countedNpart, 1024**3, 100*countedNpart/(1024.**3.),
+            (countedNpart==1024**3) )
         print Intermission
         
         if self.boolcheck(self.sortIDs):
@@ -129,14 +129,14 @@ class readProcedures(readSifters, readUserTools, readMiscTools):
                 " Sorts positions "
                 print "\t* Sorting positions."
                 posA = posA[IDsSargA]
-                print "\t \=> positions' array now sorted by ID tag.\n"
+                print "\t  \=> positions' array now sorted by ID tag.\n"
                 pass
 
             elif self.what == "vel":
                 " Sorts velocities"
                 print "\t* Sorting velocities."
                 velA = velA[IDsSargA]
-                print "\t \=> velocities' array now sorted by ID tag.\n"
+                print "\t  \=> velocities' array now sorted by ID tag.\n"
                 pass
 
             else:
