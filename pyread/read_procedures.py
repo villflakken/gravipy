@@ -83,12 +83,8 @@ class readProcedures(readSifters, readUserTools, readMiscTools):
                                                self.subfolder, i, self.what )
                     self.itertextPrinter(itertext, i, iterLen, 10)
 
-                    """ Boxed parameters check used to be here in 0.50
-                     * This is now left as a function to the user.
-                    """
-
                     # End shape: ( 1024**3 , 3 )
-                    print "posA[ci:Npart, :].shape : ", posA[ci:Npart, :].shape 
+                    print "posA[ci:Npart, :].shape : ", posA[ci:ci+Npart, :].shape 
                     print "pos (from file).shape   : ", pos.shape
                     posA[ci:ci+Npart, :] = pos
                     velA[ci:ci+Npart, :] = vel
@@ -112,7 +108,7 @@ class readProcedures(readSifters, readUserTools, readMiscTools):
         maxN         = N.max(NpartA)
         Intermission = """
     Byte sifter completed. 
-    Max particle number:                        {0}
+    Max particle number in a file:              {0}
     Sum of particles read / Tot. in simulation: {1} / {2} ( {3:g}% )
     Maximum indra particles read?:              {4}
     """.format( maxN, countedNpart, 1024**3,
