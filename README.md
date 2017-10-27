@@ -34,8 +34,8 @@ included in the file '**pyread/testrun.py**'.
   * or basically, if I write very specific plot functions underway that I may want to use again at a later point; this is where they may be stored.
 
 * Figure out the best way with which to return the data when finished with the reading;
-  1. For a single-set reading, only returning the that set's data, pure and simple.
-  2. For multi-set reading, return a dictionary..? Would be hard to handle with predetermined scripts, maybe?...
+  * For a single-set reading, only returning the that set's data, pure and simple.
+  * For multi-set reading, return a dictionary..? Would be hard to handle with predetermined scripts, maybe?...
     * But controlling these on Jupyter would be simple, to keep the datasets apart - just refer to the indexes from a printed list of said dictionary's keys! :D
 
 ------
