@@ -7,62 +7,39 @@ import subprocess as sp
 from read_args import readArgs
 from read_procedures import readProcedures
 
-def read_init( data="pos", indraN=0, iA=0, iB=0, foldNum=0, fftNum=None, \
-                    sortIDs=True, lessprint=True, tmpfolder=False,       \
-                    box_params=False, plotdim=2,                         \
-                    w2f=False, plotdata=True,                            \
-                    outputpath=None,                                     \
-                    origamipath=None                                     ):
+def read_particles( data=None, indraN=None, iA=None, iB=None,     \
+                    foldNum=None, fftNum=None,                    \
+                    sortIDs=None, lessprint=None, tmpfolder=None, \
+                    w2f=None, plotdata=None,                      \
+                    outputpath=None ):
     """
-    Simplified read function for importing externally;
-    initializes class for the user.
-    # WIP !
+    Simplified read function for importing externally
     """
-    data_params = \
-        {
-            # Data structure parameters:
-               "what" :( list(data) ),
-             "indraN" :( indraN     ),
-                 "iA" :( iA         ),
-                 "iB" :( iB         ),
-          "subfolder" :( foldNum    ),   
-            "fftfile" :( fftNum     ),
-            # Reading options:
-            "sortIDs" :( sortIDs    ),
-          "lessprint" :( lessprint  ),
-          "tmpfolder" :( tmpfolder  ),
-            
-            # Extracts data from a coordinate box at positions specified:
-         "box_params" :( box_params ), 
-            # Apply floats as "([min,max], [min,max], [min,max])" in Mpc/h units,
-            # respectively for directions x, y, z. # Turned off w/: None/False
-            "plotdim" :( plotdim    ), # Dimensions projected in plot
-            
-            # Write 2 file: Probably a bad idea ...
-                "w2f" :( w2f        ),
-           "plotdata" :( plotdata   ),
-            # Desired output filepath, 
-            # or False (program storing to user's own folder).
-         "outputpath" :( outputpath ),
-            # Origami functionality
-        "origamipath" :( origamipath)
-        }
+    paramslist = \
+        [ 
+           data, indraN, iA, iB, 
+           foldNum, fftNum, 
+           sortIDs, lessprint, tmpfolder,
+           w2f, plotdata, outputpath 
+        ]
 
-    tmp = sp.call('clear',shell=True)
-    ini = readDo()
-    ini.read_params = data_params
-    " 1. "
-    init.callArgsChecker()
-    
-    " 2. "
-    return init.beginReading()
+    redrum = readDo(paramslist) # insert parameters
+    redrum.initArgs()           # check parameters
+    redrum.beginReading()       # read data
+    redrum.stuff = "The Stuff That You Want"
+
+    return 
 
 
 class readDo(readArgs, readProcedures):
     """
     Commences data reading, sets into motion what to do.
     """
-    def __init__(self):
+    def __init__(self, functioncall=[]):
+        """
+        If args initialized through function import
+        """
+        self.functioncall = functioncall
         """
         Inherits two other scripts' classes and functionality.
         """
@@ -73,21 +50,21 @@ class readDo(readArgs, readProcedures):
         """
         self.actionkeys = \
             [ # The types of data available to read.
+                "posvel",  
                 "pos",     
                 "vel",     
                 "fof",     
                 "subhalo", 
-                "fft",
-                "origami"
+                "fft"      
             ]
         self.action = \
             { # Function library for initializing data reading.
-                "pos"     : self.read_posvel  , 
-                "vel"     : self.read_posvel  , 
-                "fof"     : self.read_FOF     , 
-                "subhalo" : self.read_subhalo , 
-                "fft"     : self.read_FFT     ,
-                "origami" : self.read_origami
+                "posvel"    : self.read_posvel  , 
+                "pos"       : self.read_posvel  , 
+                "vel"       : self.read_posvel  , 
+                "fof"       : self.read_FOF     , 
+                "subhalo"   : self.read_subhalo , 
+                "fft"       : self.read_FFT
             }
         """
         end of init
@@ -118,7 +95,7 @@ class readDo(readArgs, readProcedures):
         Will try to avoid that. But then it will be ugly.
         Assumes that parameters in arglist have been set.
         """
-        parsed_datasets_dict = {}
+        parsed_datasets_list = []
         """
         Prime example on how complex a set of permutations can become!
         """
@@ -165,46 +142,22 @@ class readDo(readArgs, readProcedures):
                             parsed_data = self.action[self.what]()
                             " >: Main component of program. "
 
-                            " Creates 'candidate' for folder- and/or filename "
-                            self.outputPather(num)
-
                             " Function calls post processes as paramatrized: "
                             if any((self.w2f, self.plotdata)) == True:
-                                """
-                                The program handles data post processing
-                                and storage thereof.
-                                """
                                 self.pp_selector(parsed_data, num)
-                                pass
-                            """
-                            Output for user to manipulate.
-                            * Base of filename seems a good candidate for 
-                              dictionary's indexation names.
-                              - Call on a list of the dictionary's keys, if confusion.
-                            """
-                            parsed_datasets_dict[self.fileName] = parsed_data
-
-                            continue # to next loop of 'num' (snapnum/fftfile)...
-                        continue # to next loop of iB...
-                    continue # to next loop of iA...
-                continue # to next loop of iN...
-            continue # to next loop of user-specified tasks...
+                            else:
+                                parsed_datasets_list.append(parsed_data)
+                            
+                            continue
+                        continue
+                    continue
+                continue
+            continue
         """
         Might be useful outside of function,
         that returned object is not mutable: return a tuple.
         """
-        if len(parsed_datasets_dict.keys()) == 1:
-            """
-            So that user is given its tuple of values,
-            without having to pack them out of a dictionary.
-            """
-            return parsed_datasets_dict[parsed_datasets_dict.keys()[0]]
-        else:
-            """
-            Returns the whole dataset for the user
-            to pack out from the dictionary.
-            """
-            return parsed_datasets_dict
+        return tuple(parsed_datasets_list)
 
 
     def currentTaskParamsParser(self):

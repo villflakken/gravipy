@@ -38,6 +38,8 @@ included in the file '**pyread/testrun.py**'.
   * For multi-set reading, return a dictionary..? Would be hard to handle with predetermined scripts, maybe?...
     * But controlling these on Jupyter would be simple, to keep the datasets apart - just refer to the indexes from a printed list of said dictionary's keys! :D
 
+...=> This is current format; as long as it seems to work.
+
 ------
 **0.52 from 0.51** (WIP):
 * Added the file and corresponding class `read_autotools.py` for when automated reading&postprocessing is wanted, but made `read_usertools.py` as a toolkit for live data manipulation w/ Jupyter - so that the latter's functions are less dependent on the parameters associated with the class' initialization.
@@ -45,6 +47,8 @@ included in the file '**pyread/testrun.py**'.
 * Allowing the automated initialization-system to work out wether it is run from a Jupyter instance on SciServer, or wether the script is run from the elephant clusters - in order to get the INDRA data retrieved - unless the user specifies datapath for these.
 
 * Verifying that the currently written method for reading of ORIGAMI works.
+
+* `read_function` as a simplified reading caller may be implemented
 
 ------
 **0.51, from 0.50**:
@@ -56,7 +60,7 @@ included in the file '**pyread/testrun.py**'.
 
 * Implementing binary reading of **Origami** output (particle tagging, sorted by ID).
 
-* Left the config file- and command line initializations behind as legacy features that may be re-implemented in the future. Now put in `betas/` folder.
+* Left the config file- and command line initializations behind as legacy features that may be re-implemented in the future. Now put in `_betas/` folder.
 
 * Particle boxing based on positions currently placed in reading procedures.
 
@@ -68,7 +72,8 @@ included in the file '**pyread/testrun.py**'.
     * command line variables for the INDRA parameters.
     * config file initialization containing INDRA parameter variables (called `read_cfg`).
       * ...with a corresponding program to restore a "default parameter" config file (called `restore_default_cfg.py`).
-    * user input INDRA parameters through a call function.  
+    * user input INDRA parameters through class' call function.
+    * user input INDRA parameters through and outside function which initializes the class system for the user.   
     At the time this script contained all these functions at the same time, it was well over 1k lines, and desperately needed tidying up... O.O
   * `read_procedures.py` outlines each data type's reading's program flow.
   * `read_misctools.py` contains miscellaneous tools; tools that would help the scripts function as intended - in most cases simply used as a a script in which to put smaller functions, thus increasing the programmer's ability to read the main program flow.

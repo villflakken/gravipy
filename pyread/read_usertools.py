@@ -5,13 +5,16 @@ import os, sys, glob, textwrap, platform
 import numpy as N
 import subprocess as sp
 import matplotlib.pyplot as pl
+from read_misctools import readMiscTools
 from mpl_toolkits.mplot3d import Axes3D
 
-class readUserTools(object):
+class userTools(readMiscTools):
     """
     User-activated tools that are used in the readProcedures instance.
     """
     def __init__(self):
+        readMiscTools.__init__(self)
+
         self.mult_miss_error = \
             """
             File(s) are missing.
@@ -38,82 +41,51 @@ class readUserTools(object):
         End of init
         """
 
-    def sort_IDs(self, iterLen, maxN, NpartA, IDsA ):
+    def linewriter(self, datalist, w):
         """
-        Function for sorting stuff.
-        * Find longest list of IDs, just in case IDs may disappear
-        with time and structure development.
-        * Sort IDs from every step.
-        ***:Naming convention examples: 
-            IDsA     = IDs Array
-            IDsSargA = IDs Sorted args Array
+        This is a function that will write listed data as needed
         """
-        # Prepare array variables to memory for sorting
-        IDsS     = N.zeros( ( iterLen, maxN ),
-                          dtype=N.int64 )
-        IDsSargA  = N.zeros( ( iterLen, maxN ),
-                          dtype=N.int64 )
+        maxlen = len(datalist)
 
-        for i in N.arange(0, iterLen):
-            """
-            * Stores numbers of groups in each iteration of the simulation
-            * Sorts & stores the IDs
-            * Stores positions from sorted indexation
-            """
-            itertext = " * Sorting IDs, {0:>3d}/{1} ..."\
-                        .format(i, (iterLen-1))
-            " Less spam in the terminal "
-            self.itertextPrinter(itertext, i, iterLen, 10)
-            
-            IDsSarg = N.argsort( IDsA[ i, :NpartA[i] ])
-            IDsSargA[ i, :NpartA[i] ] = IDsSarg
-            
-            # Storing sorted IDs
-            IDsS[ i, :NpartA[i] ] = IDsA[ i, IDsSarg ]
+        lineToWrite = ""
+        for i in range(len(datalist)):
+            lineToWrite += "{0:>20}".format(datalist[i])
             continue
 
-        return IDsS, IDsSargA
+        w.write(lineToWrite)
+        return 0
 
 
-    def sort_dataByIDs(self, iterLen, maxN, NpartA, \
-                               inMat, IDsSargA ):
+    def funcNameOver(self, where="1up"):
         """
-        Function for sorting stuff.
-        * Find longest list of IDs, just in case IDs may disappear
-        with time and structure development.
-        * Sort IDs from every step.
+        :return: Name of nested function in which this function is called.
+        Useful for debugging.
         """
-        # Prepare variables and arrays for sorting
-        utMat    = N.zeros( (iterLen, maxN, 3),
-                          dtype=N.float32 )
-
-        for i in N.arange(0, iterLen):
-            """
-            * Stores numbers of groups in each iteration of the simulation
-            * Sorts & stores the IDs
-            * Stores positions from sorted indexation
-            """
-            itertext = " * Sorting {0:>8s} values, {1:>3d}/{2} ..."\
-                        .format(self.what, i, (iterLen-1))
-            " Less spam in the terminal "
-            self.itertextPrinter(itertext, i, iterLen, 10)
+        ranks = {"inception": 0, "here": 1, "1up": 2, "2up": 3}
+        return str(sys._getframe(ranks[where]).f_code.co_name)
 
 
-            utMat[ i , :NpartA[i] , : ] = \
-                inMat[ i, IDsSargA[i,:NpartA[i]], :] # Shapes.. should match?
-            continue
+    def boolcheck(self, arg):
+        """ Don't want random user input cluttering;
+        only allows 1 and True as boolean statements from user. """
+        return any([arg == 1, arg == True])
 
-        return utMat
 
+    def not_NoneFalse(self, arg):
+        """ I need SOME kind of check...
+        Returns True when arg's value is true.
+        """
+        return all([arg != 0, arg != False, arg != None])
+        
 
-    def box_indexation(self, pos):
+    def box_indexation(self, pos, box_params):
         """
         Extracts slices of data, determined from 3D positions.
         self.box_params = [ [0.,20.],[0.,20.],[0.,5.] ] 
         """
-        xmin, xmax = self.box_params[0]
-        ymin, ymax = self.box_params[1]
-        zmin, zmax = self.box_params[2]
+        xmin, xmax = box_params[0]
+        ymin, ymax = box_params[1]
+        zmin, zmax = box_params[2]
 
         " Bool'ed indexation "
         box3D =  N.array( pos[:,0] >= xmin ) \
@@ -126,29 +98,7 @@ class readUserTools(object):
 
         return box3D
 
-
-    def boxer(self, pos, vel, IDs):
-        """
-        Extracts slices of data, determined from 3D positions.
-        self.box_params = [ [0.,20.],[0.,20.],[0.,5.] ] 
-        """
-        xmin, xmax = self.box_params[0]
-        ymin, ymax = self.box_params[1]
-        zmin, zmax = self.box_params[2]
-
-        " Bool'ed indexation "
-        box3D =  N.array( pos[:,0] >= xmin ) \
-               * N.array( pos[:,1] >= ymin ) \
-               * N.array( pos[:,2] >= zmin ) \
-                                             \
-               * N.array( pos[:,0] <= xmax ) \
-               * N.array( pos[:,1] <= ymax ) \
-               * N.array( pos[:,2] <= zmax )
-
-        posMat, velMat, IDsM = pos[box3D], vel[box3D], IDs[box3D]
-
-        return posMat, velMat, IDsM, N.sum(box3D)
-
+#### REWRITE THESE TO BE LESS DEPENDENT ON INSTANCE VARIABLES
 
     def plot_pos(self, IDsA, posA):
         """
@@ -199,38 +149,6 @@ class readUserTools(object):
         print " Saving plot (pos) "
         pl.savefig(plotname, dpi=200)
         pl.close()
-
-        return 0
-
-
-    def plot_vel(self, IDsA, velA, iterLen):
-        """
-        Plots velocitiy data output.
-        """
-
-        return 0
-
-
-    def plot_fof(self, fof_dat, iterLen):
-        """
-        Plots friends of friends data output.
-        """
-
-        return 0
-
-
-    def plot_subhalo(self, sub_dat, iterLen):
-        """
-        Plots subhalo data output.
-        """
-
-        return 0
-
-
-    def plot_fft(self, fft_dat, iterLen):
-        """
-        Plots FFT data output.
-        """
 
         return 0
 
@@ -296,6 +214,49 @@ class readUserTools(object):
         self.outfilePath = self.uname + outfilePath # this is easier, anyway.
 
         return self.outfilePath
+
+
+    def itertextPrinter(self, itertext, i, iterLen, modifier):
+        " Less spam in terminal window "
+        if self.boolcheck(self.lessprint) == False:
+            # No output reduction:
+            print itertext
+            pass
+        else:
+            # Output reduction:
+            if i % (self.printNth*modifier) == 0:
+                print itertext
+                pass
+            elif i == (iterLen-1):
+                print itertext
+                pass
+            else:
+                # When no progress is printed as output.
+                pass
+            pass
+        return 0
+
+    def indraPathParser(self):
+        """
+        If program is supposed to run from 'indraX_tmp' data file structure,
+        returns modified filepath for the reader.
+        """
+        indrapath = "/indra{0:d}{1:s}/{0:d}_{2:d}_{3:d}"
+        if self.boolcheck(self.tmpfolder) == True:
+            " Inserts 'tmp' into address line, i.e.: "
+            " /indra{iN}{_tmp}/{iN}_{iA}_{iB} "
+            indrapath = indrapath.format(
+                            self.indraN, "_tmp", self.iA, self.iB )
+            pass
+
+        else:
+            " /indra{iN}{}/{iN}_{iA}_{iB} "
+            print "normal folders acknowledged."
+            indrapath = indrapath.format(
+                            self.indraN, "", self.iA, self.iB )
+            pass
+
+        return indrapath
 
 
     def itertextPrinter(self, itertext, i, iterLen, modifier):

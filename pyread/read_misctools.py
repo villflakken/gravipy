@@ -12,36 +12,84 @@ class readMiscTools(object):
     Miscellaneous tools that are used in the readProcedures instance.
     """
     def __init__(self):
-
+        self.mult_miss_error = \
+            """
+            File(s) are missing.
+            Maybe the dataset should be properly completed first?
+            Aborting!
+            =========
+            """
+        self.printNth = 5
+        if sys.platform in ("linux", "linux2"):
+            self.uname = os.path.expanduser("~")+"/"
+        elif sys.platform in ("win32", "win64"):
+            self.uname = os.path.expanduser("~")+"\\"
+            # Purely for debugging reasons
         """
         End of init
         """
-    def list_to_arrays(self, inlist, NpartA, dimensions, datatype, name):
-        """
-        Converts input list into an array. Example call:
 
-        IDsA = self.list_to_arrays(IDsL, (iterLen, maxN   ), N.int64  , "IDs")
+    def outputPather(self, num):
         """
-        names     = {"IDs":"ID tag", "pos":"position", "vel":"velocity"}
-        itername = names[name]
-        iterLen   = dimensions[0]
-        #: All insignificant vars in loop are now local
+        Checks if output folder structure exists
+        & creates output path for output file 
+        & filepath- & name based on env. params.
+        * Note: based in user's home folder,
+                folder structure based on intended task.
+        """
+        self.outfilePath = None
 
-        outarr = N.zeros( dimensions, datatype)
-        for i in N.arange(0, iterLen):
-            " Put them into the right places, independent of sorting "            
-            itertext = \
-            " * Assigning (unsorted) {0:>8s} values to array"\
-                .format(itername)\
-                +" - set ({0:>3d} / {1}) ..."\
-                .format(i, (iterLen-1))
-            " Less spam in the terminal "
-            self.itertextPrinter(itertext, i, iterLen, 20)
-            outarr[ i, :NpartA[i] ] = inlist[i][:]
-            continue
-        print
+        if bool(self.outputpath) == True:
+            " User input specified data output path "
+            folderPath = self.outputpath
+            pass
+        else:
+            folderPath = "output_gravipy/{0}_i{1}{2}{3}{4}_sf{5}/"
+            pass
+
+        fileName = "{0}_i{1}{2}{3}{4}_sf{5}"
+        if self.what == "posvel":
+            pass
+        else:
+            pass
+
+        if self.boolcheck(self.tmpfolder) == True:
+            " When 'indraX_tmp' data is processed "
+            folderPath = folderPath.format( 
+                            self.what, self.indraN, self.iA, self.iB, "tmp", num )
+            fileName   = fileName.format(   
+                            self.what, self.indraN, self.iA, self.iB, "tmp", num )
+            # Examples   : \
+            " folderpath : 'output_gravipy/{0}_i{1}{2}{3}{tmp}_sf{5}/' "
+            " filename   :                '{0}_i{1}{2}{3}{tmp}_sf{5}'  "
+            pass
+        else:
+            " When normal data structures are processed "
+            folderPath = folderPath.format( 
+                            self.what, self.indraN, self.iA, self.iB, "", num )
+            fileName   = fileName.format(   
+                            self.what, self.indraN, self.iA, self.iB, "", num )
+            # Examples   : \
+            " folderpath : 'output_gravipy/{0}_i{1}{2}{3}{None}_sf{5}/' "
+            " filename   :                '{0}_i{1}{2}{3}{None}_sf{5}'  "
+            pass
         
-        return outarr
+        self.fileName = fileName 
+        outfilePath = folderPath + fileName
+
+        if not os.path.exists(self.uname + folderPath):
+            os.makedirs(self.uname + folderPath)
+            print "Creating output folder structure: ", \
+                   self.uname + folderPath, "\n"
+            pass
+        else:
+            print "Output folder already exists: ", \
+                   self.uname + folderPath, "\n"
+            pass
+
+        self.outfilePath = self.uname + outfilePath # this is easier, anyway.
+
+        return self.outfilePath
 
 
     def indraPathParser(self):
@@ -65,6 +113,27 @@ class readMiscTools(object):
             pass
 
         return indrapath
+
+
+    def itertextPrinter(self, itertext, i, iterLen, modifier):
+        " Less spam in terminal window "
+        if self.boolcheck(self.lessprint) == False:
+            # No output reduction:
+            print itertext
+            pass
+        else:
+            # Output reduction:
+            if i % (self.printNth*modifier) == 0:
+                print itertext
+                pass
+            elif i == (iterLen-1):
+                print itertext
+                pass
+            else:
+                # When no progress is printed as output.
+                pass
+            pass
+        return 0
 
 
     def item_size_printer(self, byte):
@@ -102,76 +171,6 @@ class readMiscTools(object):
             continue
 
         w.write(lineToWrite)
-        return 0
-
-
-    def pp_selector(self, parsed_data, num):
-        """
-          * Accessed when class system is given a set of parameters;
-            in order to automatically post-process a predetermined,
-            greater sequence of data.
-        Selects a post process method depending on
-        which task procedure is currently in the environment.
-        ### Unfinished !!! 
-        """
-        self.outputPather(num)
-
-
-        " Just prints wether or not plotting is involved"
-        if self.boolcheck(self.plotdata) == True:
-            " Plot or not? Is it heinous? Is it hot? "
-            self.plottingEngagedText = """
-            Engaging plot method for the {0} data retriever.
-            Plot location and name: ' {1} '"""
-            pass
-
-        # REWRITE BELOW INTO DICTIONARY FORM!!!
-        # " Maybe engage plot like this? "
-        # if self.boolcheck(self.plotdata) == True:
-        #     self.plot_funcs[self.what]
-        if self.what == "pos":
-            # 
-            IDsA, posA, velA, iterLen, NpartA = parsed_data
-            if self.boolcheck(self.plotdata) == True:
-                # 
-                self.plottingEngagedText\
-                    .format(self.what, self.outfilePath+".png")
-                self.plot_pos(IDsA, posA, iterLen, NpartA)
-                pass
-            pass
-
-        elif self.what == "vel":
-            # 
-            IDsA, posA, velA, iterLen, NpartA = parsed_data
-            if self.boolcheck(self.plotdata) == True:
-                # 
-                self.plot_vel(IDsA, velA, iterLen, NpartA)
-                pass
-            pass
-
-            # Finish writing the following:
-        elif self.what == "fof":
-            if self.boolcheck(self.plotdata) == True:
-                self.plot_fof("fof input")
-                pass
-            pass
-
-        elif self.what == "subhalo":
-            if self.boolcheck(self.plotdata) == True:
-                self.plot_subhalo("subhalo input")
-                pass
-            pass
-
-        elif self.what == "fft":
-            if self.boolcheck(self.plotdata) == True:
-                self.plot_fft("fft input")
-                pass
-            pass
-
-        else:
-            print " No plotting asked for in the parameters. "
-            pass # "No camels!", said Indy.
-
         return 0
 
 
@@ -266,68 +265,6 @@ class readMiscTools(object):
             pass
 
         return 0
-
-
-    def item_size_calc(self, L=[]):
-        """
-        Makes use of numpy and sys module to approximate
-        byte sizes of objects that are input.
-        !!!Currently does not work reliably!!!
-        """
-        size = 0.
-        if hasattr(L, '__iter__') == True:
-            " L is iterable "
-            
-            for item in L:
-                " Running through L's elements "
-                
-                if hasattr(item, '__iter__') == True:
-                    " L's items are iterable as well "
-
-                    for subitem in item:
-                        " adding the subitems' sizes to sum "
-                        size += subitem.nbytes
-                        continue
-                    pass
-
-                else:
-                    " Adding the items' sizes to sum "
-                    size += item.nbytes
-                    pass
-
-                continue 
-            return size
-
-        elif type(L) == int or type(L) == float:
-            " Object inserted is not iterable, but is a valid number "
-            return L.nbytes
-
-        else:
-            sys.exit("Object is foreign")
-
-        return 0
-
-
-    def bep(self):
-        """
-        "Better" Error Printer
-        Simple module that prints error messages in a "better" way
-        """
-        nl              = "\n"
-        prefix          = "\tPython's Error:"
-        errorType       = "* " + str(sys.exc_info()[0])[18:-2]
-        theBaseIndent   = textwrap.fill(prefix, replace_whitespace=False)[:-1]
-        nextLineIndent  = " "*(len(theBaseIndent)/2 -2)
-        messToScreen = textwrap.TextWrapper(initial_indent=nextLineIndent,
-                                            subsequent_indent=nextLineIndent)
-        errorDescr = "* " + str( sys.exc_info()[1] ).capitalize()
-              
-        print prefix
-        print messToScreen.fill(errorType)
-        print messToScreen.fill(errorDescr)
-        print messToScreen.fill("* Error encountered inside function:")
-        print messToScreen.fill(str("'"+self.funcNameOver("1up")+"'"))
-        sys.exit()
 
 
 if __name__ == '__main__':
