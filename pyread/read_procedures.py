@@ -4,11 +4,12 @@
 import os, sys
 import numpy as N
 import pylab as pl
-from read_sifters import readSifters
-from read_autotools import readAutoTools
-from read_misctools import readMiscTools
+from read_sifters import Sifters
+from read_autotools import AutoTools
+from read_misctools import MiscTools
+from read_usertools import UserTools
 
-class readProcedures(readSifters, readAutoTools, readMiscTools):
+class readProcedures(Sifters, AutoTools, MiscTools, UserTools):
     """
     Contains structures which read the data in question.
     I.o.w.: Every read_*-function shows the program flow of reading procedures.
@@ -19,9 +20,10 @@ class readProcedures(readSifters, readAutoTools, readMiscTools):
         """
         Inheritance and variables
         """
-        readSifters.__init__(self)
-        readAutoTools.__init__(self)
-        readMiscTools.__init__(self)
+        Sifters.__init__(self)
+        AutoTools.__init__(self)
+        MiscTools.__init__(self)
+        UserTools.__init__(self)
         self.missingfiles = 0
         # Counter - assumes only 1 type of dataset will be read.
 
@@ -104,37 +106,17 @@ class readProcedures(readSifters, readAutoTools, readMiscTools):
             maxN, countedNpart, 1024**3, 100*countedNpart/(1024.**3.),
             (countedNpart==1024**3) )
         print Intermission
-        
+        matsizes = IDsA.nbytes + posA.nbytes + velA.nbytes + NpartA.nbytes
+        print " * Size of matrices IDsA, posA, velA, NpartA:" \
+               + self.item_size_printer(matsizes) +" \n"
+
         # ID sorting block
         if self.boolcheck(self.sortIDs):
             print """
     Sifter has completed reading all {0} files of snap {1}.
-    - Commencing method for sorting positions and velocities.
-        * Sorting IDs now ...""".format(iterLen, self.subfolder)
-
-            IDsSargA = N.argsort(IDsA)
-            IDsA = IDsA[IDsSargA]
-            print "\t  \=> IDs sorted."
-
-            " Choose one to deal with less data "
-            if self.what == "pos":
-                " Sorts positions "
-                print "\t* Sorting positions."
-                posA = posA[IDsSargA]
-                print "\t  \=> positions' array now sorted by ID tag.\n"
-                pass
-
-            elif self.what == "vel":
-                " Sorts velocities"
-                print "\t* Sorting velocities."
-                velA = velA[IDsSargA]
-                print "\t  \=> velocities' array now sorted by ID tag.\n"
-                pass
-
-            else:
-                print " Sorting selector test failed "
-                pass
-
+    - Commencing method for sorting positions and velocities."""\
+                            .format(iterLen, self.subfolder)
+            IDsA, posA, velA = self.sort_IDsF(IDsA, posA, velA, self.what)
             pass
 
         # The reading is done, the bells have tolled;
@@ -146,10 +128,8 @@ class readProcedures(readSifters, readAutoTools, readMiscTools):
             endread+=",\n and matrices are now sorted after IDs' values.\n"
             pass
         print endread
-        matsizes = IDsA.nbytes + posA.nbytes + velA.nbytes + NpartA.nbytes
-        print " * Size of matrices IDsA, posA, velA, NpartA:" \
-               + self.item_size_printer(matsizes) +" \n"
 
+        """
         # Easy place to put checks, currently
         " Let's try a box and plot: "
         if self.what == "pos":
@@ -164,6 +144,7 @@ class readProcedures(readSifters, readAutoTools, readMiscTools):
 
         else:
             sys.exit("Meh.")
+        """
 
         return IDsA, posA, velA
 

@@ -7,7 +7,7 @@ import numpy as N
 
 
 
-class readSifters(object):
+class Sifters(object):
     """
     The down-to-the-byte data sifters.
     """

@@ -1,20 +1,19 @@
 # ==============================================
 # Read.& proc. toolkit for data sets' structure.
 # ==============================================
-import os, sys, glob, textwrap, platform
+import os, sys
 import numpy as N
 import subprocess as sp
 import matplotlib.pyplot as pl
-from read_misctools import readMiscTools
+from read_misctools import MiscTools
 from mpl_toolkits.mplot3d import Axes3D
+from matplotlib import rc
 
-class userTools(readMiscTools):
+class UserTools(object):
     """
     User-activated tools that are used in the readProcedures instance.
     """
     def __init__(self):
-        readMiscTools.__init__(self)
-
         self.mult_miss_error = \
             """
             File(s) are missing.
@@ -25,60 +24,16 @@ class userTools(readMiscTools):
         self.printNth = 5
         if sys.platform in ("linux", "linux2"):
             self.uname = os.path.expanduser("~")+"/"
+            pass
         elif sys.platform in ("win32", "win64"):
             self.uname = os.path.expanduser("~")+"\\"
+            pass
             # Purely for debugging reasons
-
-        self.plot_funcs = \
-            {
-                "pos"       : self.plot_pos     , 
-                "vel"       : self.plot_vel     , 
-                "fof"       : self.plot_fof     , 
-                "subhalo"   : self.plot_subhalo , 
-                "fft"       : self.plot_fft
-            }    
         """
         End of init
         """
 
-    def linewriter(self, datalist, w):
-        """
-        This is a function that will write listed data as needed
-        """
-        maxlen = len(datalist)
-
-        lineToWrite = ""
-        for i in range(len(datalist)):
-            lineToWrite += "{0:>20}".format(datalist[i])
-            continue
-
-        w.write(lineToWrite)
-        return 0
-
-
-    def funcNameOver(self, where="1up"):
-        """
-        :return: Name of nested function in which this function is called.
-        Useful for debugging.
-        """
-        ranks = {"inception": 0, "here": 1, "1up": 2, "2up": 3}
-        return str(sys._getframe(ranks[where]).f_code.co_name)
-
-
-    def boolcheck(self, arg):
-        """ Don't want random user input cluttering;
-        only allows 1 and True as boolean statements from user. """
-        return any([arg == 1, arg == True])
-
-
-    def not_NoneFalse(self, arg):
-        """ I need SOME kind of check...
-        Returns True when arg's value is true.
-        """
-        return all([arg != 0, arg != False, arg != None])
-        
-
-    def box_indexation(self, pos, box_params):
+    def box_indexer(self, pos, box_params):
         """
         Extracts slices of data, determined from 3D positions.
         self.box_params = [ [0.,20.],[0.,20.],[0.,5.] ] 
@@ -98,9 +53,59 @@ class userTools(readMiscTools):
 
         return box3D
 
-#### REWRITE THESE TO BE LESS DEPENDENT ON INSTANCE VARIABLES
 
-    def plot_pos(self, IDsA, posA):
+    def sort_IDsF(self, IDsA, posA, velA, focus):
+        """
+        Sorts IDs, and an accompanying array after sorted IDs.
+        focus is meant to be a string object, taking arguments either:
+        * "pos"    (- velocity array is returned as None          )
+        * "vel"    (- position array is returned as None          )
+        * "posvel" (- in case user wants both sorted and returned )
+        """
+        print "\t* Sorting IDs now ..." # ..need this sorted anyway.
+        IDsSargA = N.argsort(IDsA)
+        IDsA = IDsA[IDsSargA]
+        print "\t  \=> IDs sorted."
+
+        if focus == "pos":
+            " Sorts positions "
+            
+            print "\t* Sorting positions."
+            posA = posA[IDsSargA]
+            print "\t  \=> positions' array now sorted by ID tag.\n"
+            return IDsA, posA, None
+
+        elif focus == "vel":
+            " Sorts velocities"
+            
+            print "\t* Sorting velocities."
+            velA = velA[IDsSargA]
+            print "\t  \=> velocities' array now sorted by ID tag.\n"
+            return IDsA, None, velA
+
+        elif focus == "posvel":
+            " Sorts both "
+
+            print "\t* Sorting positions."
+            posA = posA[IDsSargA]
+            print "\t  \=> positions' array now sorted by ID tag.\n"
+            # ------------------------------ #
+            print "\t* Sorting velocities."
+            velA = velA[IDsSargA]
+            print "\t  \=> velocities' array now sorted by ID tag.\n"
+            return IDsA, posA, velA
+
+        else:
+            sort_of_errortext = " Sorting selector test failed (!?!) "
+            pass
+
+        print sort_of_errortext
+        return 0
+
+
+    #### REWRITE THESE TO BE LESS DEPENDENT ON INSTANCE VARIABLES
+
+    def plot_pos_scatter(self, IDsA, posA):
         """
         Plots positional data output.
         """
@@ -279,6 +284,44 @@ class userTools(readMiscTools):
             pass
         return 0
 
+    # Helpful functions below
+
+    def linewriter(self, datalist, w):
+        """
+        This is a function that will write listed data as needed
+        """
+        maxlen = len(datalist)
+
+        lineToWrite = ""
+        for i in range(len(datalist)):
+            lineToWrite += "{0:>20}".format(datalist[i])
+            continue
+
+        w.write(lineToWrite)
+        return 0
+
+
+    def funcNameOver(self, where="1up"):
+        """
+        :return: Name of nested function in which this function is called.
+        Useful for debugging.
+        """
+        ranks = {"inception": 0, "here": 1, "1up": 2, "2up": 3}
+        return str(sys._getframe(ranks[where]).f_code.co_name)
+
+
+    def boolcheck(self, arg):
+        """ Don't want random user input cluttering;
+        only allows 1 and True as boolean statements from user. """
+        return any([arg == 1, arg == True])
+
+
+    def not_NoneFalse(self, arg):
+        """ I need SOME kind of check...
+        Returns True when arg's value is true.
+        """
+        return all([arg != 0, arg != False, arg != None])
+        
 
 if __name__ == '__main__':
     sys.exit("Attempt at running code from unintended source. \n\

@@ -1,13 +1,15 @@
 # ==============================================
 # Reading toolkit for data sets' structure.
 # ==============================================
-import os, sys, glob, textwrap, platform
+import os, sys, textwrap, platform
 import numpy as N
-import subprocess as sp
 import matplotlib.pyplot as pl
 
 
-class readMiscTools(object):
+
+
+
+class MiscTools(object):
     """
     Miscellaneous tools that are used in the readProcedures instance.
     """
@@ -22,8 +24,10 @@ class readMiscTools(object):
         self.printNth = 5
         if sys.platform in ("linux", "linux2"):
             self.uname = os.path.expanduser("~")+"/"
+            pass
         elif sys.platform in ("win32", "win64"):
             self.uname = os.path.expanduser("~")+"\\"
+            pass
             # Purely for debugging reasons
         """
         End of init

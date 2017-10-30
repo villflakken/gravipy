@@ -327,7 +327,7 @@ class readArgs(object):
         elif uinput == False:
             """
             Allows program to decide where output should be stored:
-            [ ~/indraData/{what}_{indraN}{iA}{iB}{(tmp/not)}_sf{sf}/ ]
+            [ ~/indraData/{what}_{indraN}{iA}{iB}{tmp/None}_sf{sf}/ ]
             """
             setattr(self, name, uinput)
             pass

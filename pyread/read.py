@@ -7,12 +7,14 @@ import subprocess as sp
 from read_args import readArgs
 from read_procedures import readProcedures
 
-def read_init( data="pos", indraN=0, iA=0, iB=0, foldNum=0, fftNum=None, \
-                    sortIDs=True, lessprint=True, tmpfolder=False,       \
-                    box_params=False, plotdim=2,                         \
-                    w2f=False, plotdata=True,                            \
-                    outputpath=None,                                     \
-                    origamipath=None                                     ):
+
+
+def read_init( what="pos", indraN=0, iA=0, iB=0, subfolder=0, fftfile=None, \
+                    sortIDs=False, lessprint=True, tmpfolder=False,         \
+                    box_params=False, plotdim=2,                            \
+                    w2f=False, plotdata=False,                              \
+                    outputpath=None,                                        \
+                    origamipath=None                                        ):
     """
     Simplified read function for importing externally;
     initializes class for the user.
@@ -21,12 +23,12 @@ def read_init( data="pos", indraN=0, iA=0, iB=0, foldNum=0, fftNum=None, \
     data_params = \
         {
             # Data structure parameters:
-               "what" :( list(data) ),
+               "what" :( list(what) ),
              "indraN" :( indraN     ),
                  "iA" :( iA         ),
                  "iB" :( iB         ),
-          "subfolder" :( foldNum    ),   
-            "fftfile" :( fftNum     ),
+          "subfolder" :( subfolder  ),   
+            "fftfile" :( fftfile    ),
             # Reading options:
             "sortIDs" :( sortIDs    ),
           "lessprint" :( lessprint  ),
@@ -52,10 +54,10 @@ def read_init( data="pos", indraN=0, iA=0, iB=0, foldNum=0, fftNum=None, \
     ini = readDo()
     ini.read_params = data_params
     " 1. "
-    init.callArgsChecker()
+    ini.callArgsChecker()
     
     " 2. "
-    return init.beginReading()
+    return ini.beginReading()
 
 
 class readDo(readArgs, readProcedures):

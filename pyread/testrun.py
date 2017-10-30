@@ -1,4 +1,5 @@
-from read import readDo
+from read import readDo, read_init
+from read_misctools import MiscTools
 
 data_params = \
     {
@@ -30,8 +31,18 @@ data_params = \
    "origamipath" :( "filepath")
     }
 
-" The class function call "
-read_particles = readDo() # Initializes structure
-output = read_particles( data_params )
+" The class function call: "
+# read_particles = readDo() # Initializes structure
+# output = read_particles( data_params )
 # IDsA, posA, velA, iterLen, NpartA = output # example
 
+" The simplified function call: "
+output = read_init(
+                   what       = ["pos"],
+                   indraN     = 2,
+                   iA         = 0,
+                   iB         = 0,
+                   subfolder  = 63,
+                   tmpfolder  = True
+                  )
+IDsA, posA, velA = output

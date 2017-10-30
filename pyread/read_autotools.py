@@ -1,15 +1,14 @@
 # ==============================================
 # Read.& proc. toolkit for data sets' structure.
 # ==============================================
-import os, sys, glob, textwrap, platform
+import os, sys
 import numpy as N
-import subprocess as sp
 import matplotlib.pyplot as pl
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import rc
 rc('font',**{'family':'serif'})
 
-class readAutoTools(object):
+class AutoTools(object):
     """
     User-activated tools that are used in the readProcedures instance.
     """
@@ -18,25 +17,6 @@ class readAutoTools(object):
         End of init
         """
 
-    def auto_box_indexation(self, pos):
-        """
-        Extracts slices of data, determined from 3D positions.
-        self.box_params = [ [0.,20.],[0.,20.],[0.,5.] ] 
-        """
-        xmin, xmax = self.box_params[0]
-        ymin, ymax = self.box_params[1]
-        zmin, zmax = self.box_params[2]
-
-        " Bool'ed indexation "
-        box3D =  N.array( pos[:,0] >= xmin ) \
-               * N.array( pos[:,1] >= ymin ) \
-               * N.array( pos[:,2] >= zmin ) \
-                                             \
-               * N.array( pos[:,0] <= xmax ) \
-               * N.array( pos[:,1] <= ymax ) \
-               * N.array( pos[:,2] <= zmax )
-
-        return box3D
 
     def pp_selector(self, parsed_data, num):
         """
@@ -45,7 +25,7 @@ class readAutoTools(object):
             greater sequence of data.
         Selects a post process method depending on
         which task procedure is currently in the environment.
-        ### Unfinished !!! 
+        ### Unfinished !!! (But its principle seems to work)
         """
         self.pp_action = \
             { # Function library for post processing
@@ -78,14 +58,14 @@ class readAutoTools(object):
         IDsA, posA = parsed_data
 
         if hasattr(self.box_params, '__iter__') == True:
-            box = self.auto_box_indexation(posA)
+            box = self.box_indexer(posA, self.box_params)
             IDsA = IDsA[box]
             posA = posA[box]
             pass
 
         if self.boolcheck(self.plotdata):
             " Engage plotting! "
-            self.auto_plot_pos(IDsA, posA)
+            self.auto_plot_pos_scatter(IDsA, posA)
             pass
 
         # if otherstuff:
@@ -95,7 +75,7 @@ class readAutoTools(object):
         return 0
 
 
-    def auto_plot_pos(self, IDsA, posA):
+    def auto_plot_pos_scatter(self, IDsA, posA):
         """
         Plots positional data output.
         """
