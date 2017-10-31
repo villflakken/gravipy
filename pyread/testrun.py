@@ -39,14 +39,14 @@ data_params = \
 from read import read_ini
 from read_usertools import UserTools as do
 
-IDs, pos, vel = read_init(
+IDs, pos, vel = read_ini(
                             what       = ["pos"],
                             indraN     = 2,
                             iA         = 0,
                             iB         = 0,
                             subfolder  = 63,
                             tmpfolder  = True
-                         )
+                        )
 IDs, pos, vel = do.sort_from_IDsF(IDsA=IDs, posA=pos, velA=vel, focus="pos")
 # \=> Because focus=="pos", then vel==None.
 do.plot_pos_scatter(IDsA=IDs, posA=pos, plotname="functionScatterTest", plotdim=2)
