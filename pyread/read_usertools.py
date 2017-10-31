@@ -153,11 +153,21 @@ class UserTools(object):
             ax.set_xlabel('x-position Mpc/h')
             ax.set_ylabel('y-position Mpc/h')
             ax.set_zlabel('z-position Mpc/h')
-            # 2 lines below are supposed to fix aspect ratio:
-            scaling = N.array([getattr(ax, 'get_{}lim'.format(dim))() \
-                              for dim in 'xyz'])
-            ax.auto_scale_xyz(*[[N.min(scaling), N.max(scaling)]]*3)
-            # cudos to sebix @ stackoverflow!
+            # # 2 lines below are supposed to fix aspect ratio:
+            # scaling = N.array([getattr(ax, 'get_{}lim'.format(dim))() \
+            #                   for dim in 'xyz'])
+            # ax.auto_scale_xyz(*[[N.min(scaling), N.max(scaling)]]*3)
+            # # cudos to sebix @ stackoverflow! # ..had it only worked
+            ax.auto_scale_xyz(box[0],box[1],box[2])
+            # if above doesn't work, try:
+            # def axisEqual3D(ax):
+            #     extents = np.array([getattr(ax, 'get_{}lim'.format(dim))() for dim in 'xyz'])
+            #     sz = extents[:,1] - extents[:,0]
+            #     centers = np.mean(extents, axis=1)
+            #     maxsize = max(abs(sz))
+            #     r = maxsize/2
+            #     for ctr, dim in zip(centers, 'xyz'):
+            #         getattr(ax, 'set_{}lim'.format(dim))(ctr - r, ctr + r)
             pass
 
         else:
@@ -166,7 +176,7 @@ class UserTools(object):
         plotpath = self.outputPather(plotpath, plotname)
         plotpath = plotpath + "/" + plotname \
                    + "_{0}d".format(plotdim) + ".png"
-        print " Saving plot (pos), {0:d}D. \n".format(plotdim)
+        print "    Saving plot (pos), {0:d}D. \n".format(plotdim)
         pl.savefig(plotpath, dpi=200)
         pl.close()
 
