@@ -28,12 +28,14 @@ class MiscTools(object):
         elif sys.platform in ("win32", "win64"):
             self.uname = os.path.expanduser("~")+"\\"
             pass
+        else:
+            sys.exit("Error in MiscTools' init.")
             # Purely for debugging reasons
         """
         End of init
         """
 
-    def outputPather(self, num):
+    def auto_outputPather(self, num):
         """
         Checks if output folder structure exists
         & creates output path for output file 

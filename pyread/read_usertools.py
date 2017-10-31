@@ -15,11 +15,13 @@ class UserTools(object):
     def __init__(self):
         # Purely for debugging reasons
         if sys.platform in ("linux", "linux2"):
-            uname = os.path.expanduser("~")+"/"
+            self.uname = os.path.expanduser("~")+"/"
             pass
         elif sys.platform in ("win32", "win64"):
-            uname = os.path.expanduser("~")+"\\"
+            self.uname = os.path.expanduser("~")+"\\"
             pass
+        else:
+            sys.exit("Error in UserTools' init.")
         """
         End of init
         """
@@ -99,11 +101,13 @@ class UserTools(object):
         return 0
 
 
-    def plot_pos_scatter(self, IDsA, posA, plotname="misc_scatplot", plotdim=2):
+    def plot_pos_scatter(self, IDsA, posA, plotdim=2,
+                         plotname="misc_scatplot", plotpath="output_gravipy/"):
         """
         Plots positional data output.
         Example call:
-        plot_pos_scatter(IDsA=IDs, posA=pos, plotname="functionScatterTest", plotdim=2)
+        plot_pos_scatter(IDsA=IDs, posA=pos, plotdim=2,
+                         plotname="funcScatterTest", plotpath="output_gravipy/")
         """
         print " * Initiating scatter plot of positions from simulation data"
         
@@ -137,7 +141,8 @@ class UserTools(object):
         else:
             sys.exit(" * Unbelievable error. ")
 
-        plotname = plotname \
+        plotpath = self.outputPather(plotpath, plotname)
+        plotpath = plotname \
                    + "_{0}d".format(plotdim_set) + ".png"
         print " Saving plot (pos) "
         pl.savefig(plotname, dpi=200)
@@ -148,7 +153,7 @@ class UserTools(object):
 
     #### REWRITE THESE TO BE LESS DEPENDENT ON INSTANCE VARIABLES
 
-    def outputPather(self):
+    def outputPather(self, fileName, folderPath):
         """
         Checks if output folder structure exists
         & creates output path for output file 
@@ -156,39 +161,9 @@ class UserTools(object):
         * Note: based in user's home folder,
                 folder structure based on intended task.
         """
-        self.outfilePath = None
 
-        if bool(self.outputpath) == True:
-            " User input specified data output path "
-            folderPath = self.outputpath
-            pass
-        else:
-            folderPath = "output_gravipy/{0}_i{1}{2}{3}{4}_sf{5}/"
-            pass
+        folderPath = folderPath+fileName
 
-        fileName = "{0}_i{1}{2}{3}{4}_sf{5}"
-
-        if self.boolcheck(self.tmpfolder) == True:
-            " When 'indraX_tmp' data is processed "
-            folderPath = folderPath.format( 
-                            self.what, self.indraN, self.iA, self.iB, "tmp", num )
-            fileName   = fileName.format(   
-                            self.what, self.indraN, self.iA, self.iB, "tmp", num )
-            # Examples   : \
-            " folderpath : 'output_gravipy/{0}_i{1}{2}{3}{tmp}_sf{5}/' "
-            " filename   :                '{0}_i{1}{2}{3}{tmp}_sf{5}'  "
-            pass
-        else:
-            " When normal data structures are processed "
-            folderPath = folderPath.format( 
-                            self.what, self.indraN, self.iA, self.iB, "", num )
-            fileName   = fileName.format(   
-                            self.what, self.indraN, self.iA, self.iB, "", num )
-            # Examples   : \
-            " folderpath : 'output_gravipy/{0}_i{1}{2}{3}{None}_sf{5}/' "
-            " filename   :                '{0}_i{1}{2}{3}{None}_sf{5}'  "
-            pass
-        
         self.fileName = fileName 
         outfilePath = folderPath + fileName
 
@@ -202,11 +177,9 @@ class UserTools(object):
                    self.uname + folderPath, "\n"
             pass
 
-        self.outfilePath = self.uname + outfilePath # this is easier, anyway.
+        self.outfilePath = self.uname + outfilePath # This is easier, anyway.
 
         return self.outfilePath
-
-
 
 
     def indraPathParser(self, indraN, iA, iB, tmp, cluster):

@@ -122,7 +122,7 @@ class AutoTools(object):
             ax.set_zlabel('z-position Mpc/h')
             pass
 
-        plotname = self.outputPather(self.subfolder)\
+        plotname = self.auto_outputPather(self.subfolder)\
                    + "_{0}d".format(self.plotdim_set) + ".png"
         print " Saving plot (pos) to path :", plotname
         pl.savefig(plotname, dpi=200)

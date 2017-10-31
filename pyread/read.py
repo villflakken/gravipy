@@ -156,7 +156,7 @@ class readDo(readArgs, readProcedures):
                                 checking of task names.
                                 """
                                 self.subfolder = num
-                                # print self.outputPather(num)
+                                # print self.auto_outputPather(num)
                             else:
                                 " When task is fft reading. "
                                 self.fftfile   = num
@@ -168,7 +168,7 @@ class readDo(readArgs, readProcedures):
                             " >: Main component of program. "
 
                             " Creates 'candidate' for folder- and/or filename "
-                            self.outputPather(num)
+                            self.auto_outputPather(num)
 
                             " Function calls post processes as paramatrized: "
                             if any((self.w2f, self.plotdata)) == True:
