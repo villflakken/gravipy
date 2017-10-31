@@ -116,7 +116,7 @@ class UserTools(object):
         return 0
 
 
-    def plot_pos_scatter(self, IDsA, posA, plotdim=2, box,
+    def plot_pos_scatter(self, IDsA, posA, box, plotdim=2,
                          plotname="misc_scatplot", plotpath="output_gravipy/"):
         """
         Plots positional data output.

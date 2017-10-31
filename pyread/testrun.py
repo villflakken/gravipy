@@ -59,9 +59,9 @@ IDs, pos, vel = do.arrboxer(IDs, pos, vel, box_params) # ..And this would be ano
 IDs, pos, vel = do.sort_from_IDsF(IDsA=IDs, posA=pos, velA=vel, focus="pos")
     # \=> Because focus=="pos", then vel==None 
 
-do.plot_pos_scatter(IDsA=IDs, posA=pos, plotdim=2, # One in 2D
+do.plot_pos_scatter(IDsA=IDs, posA=pos, box=box_params, plotdim=2, # One in 2D
                     plotname="funcScatterTest", plotpath="output_gravipy/")
-do.plot_pos_scatter(IDsA=IDs, posA=pos, plotdim=3, # One in 3D
+do.plot_pos_scatter(IDsA=IDs, posA=pos, box=box_params, plotdim=3, # One in 3D
                     plotname="funcScatterTest", plotpath="output_gravipy/")
     # \=> 'plotdim' argument is optional; will make 2 dimensional plot by default.
 
