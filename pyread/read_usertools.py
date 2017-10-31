@@ -116,7 +116,7 @@ class UserTools(object):
         return 0
 
 
-    def plot_pos_scatter(self, IDsA, posA, plotdim=2,
+    def plot_pos_scatter(self, IDsA, posA, plotdim=2, box,
                          plotname="misc_scatplot", plotpath="output_gravipy/"):
         """
         Plots positional data output.
@@ -138,11 +138,7 @@ class UserTools(object):
                          s=1 )
             ax.set_xlabel('x-position Mpc/h')
             ax.set_ylabel('y-position Mpc/h')
-            # 2 lines below are supposed to fix aspect ratio:
-            scaling = N.array([getattr(ax, 'get_{}lim'.format(dim))() \
-                              for dim in 'xyz'])
-            ax.auto_scale_xyz(*[[N.min(scaling), N.max(scaling)]]*3)
-            # cudos to sebix @ stackoverflow!
+            ax.set_aspect('equal','box')
             pass
 
         elif plotdim == 3:
