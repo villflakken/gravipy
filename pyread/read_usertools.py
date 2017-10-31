@@ -9,17 +9,17 @@ from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import rc
 
 class UserTools(object):
-    # Purely for debugging reasons
-    if sys.platform in ("linux", "linux2"):
-        uname = os.path.expanduser("~")+"/"
-        pass
-    elif sys.platform in ("win32", "win64"):
-        uname = os.path.expanduser("~")+"\\"
-        pass
     """
     User-activated tools that are used in the readProcedures instance.
     """
     def __init__(self):
+        # Purely for debugging reasons
+        if sys.platform in ("linux", "linux2"):
+            uname = os.path.expanduser("~")+"/"
+            pass
+        elif sys.platform in ("win32", "win64"):
+            uname = os.path.expanduser("~")+"\\"
+            pass
         """
         End of init
         """

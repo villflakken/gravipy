@@ -37,8 +37,6 @@ data_params = \
 
 " The simplified function call: "
 from read import read_ini
-from read_usertools import UserTools as do
-
 IDs, pos, vel = read_ini(
                             what       = ["pos"],
                             indraN     = 2,
@@ -47,8 +45,14 @@ IDs, pos, vel = read_ini(
                             subfolder  = 63,
                             tmpfolder  = True
                         )
+
+from read_usertools import UserTools as do
+do = do() # Initialize toolkit
+
 IDs, pos, vel = do.sort_from_IDsF(IDsA=IDs, posA=pos, velA=vel, focus="pos")
-# \=> Because focus=="pos", then vel==None.
+    # \=> Because focus=="pos", then vel==None.
+box_params = [0.,20.], [0.,20.], [0.,5.] # On the form of a tuple
+do.box_indexer(pos, box_params)
 do.plot_pos_scatter(IDsA=IDs, posA=pos, plotname="functionScatterTest", plotdim=2)
-# \=> The last argument is optional; will make 2 dimensional plot by default.
+    # \=> The last argument is optional; will make 2 dimensional plot by default.
 
