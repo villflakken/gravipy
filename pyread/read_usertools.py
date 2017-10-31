@@ -31,6 +31,7 @@ class UserTools(object):
         Extracts slices of data, determined from 3D positions.
         self.box_params = [ [0.,20.],[0.,20.],[0.,5.] ] 
         """
+        print "  * "
         xmin, xmax = box_params[0]
         ymin, ymax = box_params[1]
         zmin, zmax = box_params[2]
@@ -55,37 +56,37 @@ class UserTools(object):
         * "vel"    (- position array is returned as None          )
         * "posvel" (- in case user wants both sorted and returned )
         """
-        print "\t* Sorting IDs now ..." # ..need this sorted anyway.
+        print "  * Sorting IDs now ..." # ..need this sorted anyway.
         IDsSargA = N.argsort(IDsA)
         IDsA = IDsA[IDsSargA]
-        print "\t  \=> IDs sorted."
+        print "    \=> IDs sorted."
 
         if focus == "pos":
             " Sorts positions "
             
-            print "\t* Sorting positions."
+            print "  * Sorting positions."
             posA = posA[IDsSargA]
-            print "\t  \=> positions' array now sorted by ID tag.\n"
+            print "    \=> positions' array now sorted by ID tag.\n"
             return IDsA, posA, None
 
         elif focus == "vel":
             " Sorts velocities"
             
-            print "\t* Sorting velocities."
+            print "  * Sorting velocities."
             velA = velA[IDsSargA]
-            print "\t  \=> velocities' array now sorted by ID tag.\n"
+            print "    \=> velocities' array now sorted by ID tag.\n"
             return IDsA, None, velA
 
         elif focus == "posvel":
             " Sorts both "
 
-            print "\t* Sorting positions."
+            print "  * Sorting positions."
             posA = posA[IDsSargA]
-            print "\t  \=> positions' array now sorted by ID tag.\n"
+            print "    \=> positions' array now sorted by ID tag.\n"
             # ------------------------------ #
-            print "\t* Sorting velocities."
+            print "  * Sorting velocities."
             velA = velA[IDsSargA]
-            print "\t  \=> velocities' array now sorted by ID tag.\n"
+            print "    \=> velocities' array now sorted by ID tag.\n"
             return IDsA, posA, velA
 
         elif focus == "what":
@@ -109,12 +110,13 @@ class UserTools(object):
         plot_pos_scatter(IDsA=IDs, posA=pos, plotdim=2,
                          plotname="funcScatterTest", plotpath="output_gravipy/")
         """
-        print " * Initiating scatter plot of positions from simulation data"
+        print "  * Initiating {0} scatter plot of positions from simulation data"\
+                .format((plotdim+"d"))
         
         fig =  pl.figure()
 
         " Scatter plot "
-        if plotdim_set == 2:
+        if plotdim == 2:
             " Defaults to 2 dimensions in plot "
             ax  = fig.add_subplot(111, projection='2d') # 2d as default
             ax.scatter(posA[:,0], # x-elements
@@ -124,7 +126,7 @@ class UserTools(object):
             ax.set_ylabel('y-position Mpc/h')
             pass
 
-        elif self.plotdim_set == 3:
+        elif plotdim == 3:
             " In case of 3d "
             ax  = fig.add_subplot(111, projection='3d')
             # in the voice of an authorative Patrick Stewart:
@@ -143,7 +145,7 @@ class UserTools(object):
 
         plotpath = self.outputPather(plotpath, plotname)
         plotpath = plotname \
-                   + "_{0}d".format(plotdim_set) + ".png"
+                   + "_{0}d".format(plotdim) + ".png"
         print " Saving plot (pos) "
         pl.savefig(plotname, dpi=200)
         pl.close()

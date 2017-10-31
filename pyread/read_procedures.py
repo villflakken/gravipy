@@ -60,7 +60,7 @@ class readProcedures(Sifters, AutoTools, MiscTools, UserTools):
         IDsA      = N.zeros(  Npart_tot   , dtype=N.float32 )
         NpartA    = N.zeros(  iterLen     , dtype=N.int64   )
 
-        readtext = " * Accessing file:\tindra{0}{1}/snap{2}/file.{3:<3} ({4}) ..."
+        readtext = "  * Accessing file:\tindra{0}{1}/snap{2}/file.{3:<3} ({4}) ..."
         tmpftxt  = "tmp" if self.tmpfolder == True else ""
 
         ci = 0 # Current index to update
@@ -100,15 +100,15 @@ class readProcedures(Sifters, AutoTools, MiscTools, UserTools):
         maxN         = N.max(NpartA)
         Intermission = """
     Byte sifter completed. 
-    Max particle number in a file:              {0}
-    Sum of particles read / Tot. in simulation: {1} / {2} ( {3:g}% )
-    Maximum indra particles read?:              {4}""".format( 
+    Max particle number in a file:      {0}
+    Sum particles read / Tot. in sim.:  {1:g} / {2:g} ( {3:g}% )
+    Maximum indra particles read?:      {4}""".format( 
             maxN, countedNpart, 1024**3, 100*countedNpart/(1024.**3.),
             (countedNpart==1024**3) )
         print Intermission
         matsizes = IDsA.nbytes + posA.nbytes + velA.nbytes + NpartA.nbytes
-        print " * Size of matrices IDsA, posA, velA, NpartA: " \
-               + self.item_size_printer(matsizes) +" \n"
+        print "    Size of matrices IDsA, posA, velA, NpartA = " \
+               + self.item_size_printer(matsizes) 
 
         # ID sorting block
         if self.boolcheck(self.sortIDs):
@@ -121,30 +121,13 @@ class readProcedures(Sifters, AutoTools, MiscTools, UserTools):
 
         # The reading is done, the bells have tolled;
         # print out the stats, parameters, and all!
-        endread = "\n Finished reading '"+str(self.what)+"' of files, indra"\
+        endread = "\n    Finished reading '"+str(self.what)+"' of files, indra"\
                 +str(self.indraN)+', iA='+str(self.iA)+', iB='+str(self.iB)    \
-                +', snapshot='+str(self.subfolder)
+                +', snapshot='+str(self.subfolder)+"\n"
         if self.boolcheck(self.sortIDs):
-            endread+=",\n and matrices are now sorted after IDs' values.\n"
+            endread+="     - and matrices are now sorted after IDs' values.\n"
             pass
         print endread
-
-        """
-        # Easy place to put checks, currently
-        " Let's try a box and plot: "
-        if self.what == "pos":
-            box  = self.box_indexation(posA)
-            posA = posA[box]
-            self.plot_pos(IDsA, posA)
-            pass
-
-        elif self.what == "vel":
-            velA = velA[box]
-            pass
-
-        else:
-            sys.exit("Meh.")
-        """
 
         return IDsA, posA, velA
 
