@@ -133,9 +133,9 @@ class UserTools(object):
         if plotdim == 2:
             " Defaults to 2 dimensions in plot "
             ax  = fig.add_subplot(111) # 2d as default
-            ax.scatter(posA[:,0], # x-elements
-                       posA[:,1], # y-elements
-                            depthshade=True, s=1)
+            ax.scatter( posA[:,0], # x-elements
+                        posA[:,1], # y-elements
+                         s=1 )
             ax.set_xlabel('x-position Mpc/h')
             ax.set_ylabel('y-position Mpc/h')
             pass
@@ -145,10 +145,10 @@ class UserTools(object):
             ax  = fig.add_subplot(111, projection='3d')
             # in the voice of an authorative Patrick Stewart:
             " ENGAGE 3D VIZUALIZATION "
-            ax.scatter(posA[:,0], # x-elements
-                       posA[:,1], # y-elements
-                       posA[:,2], # z-elements
-                            depthshade=True, s=1)
+            ax.scatter( posA[:,0], # x-elements
+                        posA[:,1], # y-elements
+                        posA[:,2], # z-elements
+                        depthshade=True, s=1)
             ax.set_xlabel('x-position Mpc/h')
             ax.set_ylabel('y-position Mpc/h')
             ax.set_zlabel('z-position Mpc/h')

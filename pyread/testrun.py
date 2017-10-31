@@ -61,5 +61,7 @@ IDs, pos, vel = do.sort_from_IDsF(IDsA=IDs, posA=pos, velA=vel, focus="pos")
 
 do.plot_pos_scatter(IDsA=IDs, posA=pos, plotdim=2,
                     plotname="funcScatterTest",plotpath="test_output/")
-    # \=> The last argument is optional; will make 2 dimensional plot by default.
+do.plot_pos_scatter(IDsA=IDs, posA=pos, plotdim=3,
+                    plotname="funcScatterTest",plotpath="test_output/")
+    # \=> 'plotdim' argument is optional; will make 2 dimensional plot by default.
 
