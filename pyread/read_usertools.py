@@ -11,10 +11,10 @@ from matplotlib import rc
 class UserTools(object):
     # Purely for debugging reasons
     if sys.platform in ("linux", "linux2"):
-        self.uname = os.path.expanduser("~")+"/"
+        uname = os.path.expanduser("~")+"/"
         pass
     elif sys.platform in ("win32", "win64"):
-        self.uname = os.path.expanduser("~")+"\\"
+        uname = os.path.expanduser("~")+"\\"
         pass
     """
     User-activated tools that are used in the readProcedures instance.
