@@ -111,7 +111,7 @@ class UserTools(object):
                          plotname="funcScatterTest", plotpath="output_gravipy/")
         """
         print "  * Initiating {0} scatter plot of positions from simulation data"\
-                .format((plotdim+"d"))
+                .format((str(plotdim)+"d"))
         
         fig =  pl.figure()
 
