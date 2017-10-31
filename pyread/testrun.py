@@ -11,9 +11,9 @@ data_params = \
     "subfolder" :(      63 ),   # ...
       "fftfile" :(    None ),   # one of these _may_ be none, not both.
         # Reading options:
+    "tmpfolder" :(    True ),        # when using ".../indra'X'_tmp/..." data
       "sortIDs" :(    True ),        #   1/0     <=>     on/off
     "lessprint" :(    True ),        #   1/0     <=>     on/off
-    "tmpfolder" :(    True ),        # when using ".../indra'X'_tmp/..." data
 
         # Extracts data from a coordinate box at positions specified:
     "box_params" :( [ 0.,20. ], [ 0.,20. ], [ 0.,5. ] ), 

@@ -81,17 +81,21 @@ class MiscTools(object):
         self.fileName = fileName 
         outfilePath = folderPath + fileName
 
-        if not os.path.exists(self.uname + folderPath):
-            os.makedirs(self.uname + folderPath)
-            print "Creating output folder structure: ", \
-                   self.uname + folderPath, "\n"
-            pass
-        else:
-            print "Output folder already exists: ", \
-                   self.uname + folderPath, "\n"
-            pass
+        " If output is requested "
+        if any((self.w2f, self.plotdata)) == True:
+            " Check if folder already exists; if not then make it "
+            if not os.path.exists(self.uname + folderPath):
+                os.makedirs(self.uname + folderPath)
+                print "Creating output folder structure: ", \
+                       self.uname + folderPath, "\n"
+                pass
+            else:
+                print "Output folder already exists: ", \
+                       self.uname + folderPath, "\n"
+                pass
+            pass # Folders verified
 
-        self.outfilePath = self.uname + outfilePath # this is easier, anyway.
+        self.outfilePath = self.uname + outfilePath 
 
         return self.outfilePath
 

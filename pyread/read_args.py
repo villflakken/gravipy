@@ -48,9 +48,9 @@ class readArgs(object):
                 "iB"         , 
                 "subfolder"  , 
                 "fftfile"    , 
+                "tmpfolder"  ,
                 "sortIDs"    ,
                 "lessprint"  ,
-                "tmpfolder"  ,
                 "w2f"        ,
                 "plotdata"   ,
                 "outputpath" ,
@@ -67,9 +67,9 @@ class readArgs(object):
                 "subfolder" : self.integer_incorp    ,
                   "fftfile" : self.integer_incorp    ,
               # Optional stuff
+                "tmpfolder" : self.toggles_incorp    ,
                   "sortIDs" : self.toggles_incorp    ,
                 "lessprint" : self.toggles_incorp    ,
-                "tmpfolder" : self.toggles_incorp    ,
                "box_params" : self.boxparams_incorp  ,
                   "plotdim" : self.integer_incorp    ,
               # Output related

@@ -10,11 +10,11 @@ from read_procedures import readProcedures
 
 
 def read_init( what="pos", indraN=0, iA=0, iB=0, subfolder=None, fftfile=None, \
-                    sortIDs=False, lessprint=True, tmpfolder=False,            \
-                    box_params=False, plotdim=2,                               \
-                    w2f=False, plotdata=False,                                 \
-                    outputpath=False,                                          \
-                    origamipath=False                                          ):
+               tmpfolder=False, sortIDs=False, lessprint=True,                 \
+               box_params=False, plotdim=2,                                    \
+               w2f=False, plotdata=False,                                      \
+               outputpath=False,                                               \
+               origamipath=False                                               ):
     """
     Simplified read function for importing externally;
     initializes class for the user.
@@ -30,9 +30,9 @@ def read_init( what="pos", indraN=0, iA=0, iB=0, subfolder=None, fftfile=None, \
           "subfolder" :( subfolder  ),   
             "fftfile" :( fftfile    ),
             # Reading options:
+          "tmpfolder" :( tmpfolder  ),
             "sortIDs" :( sortIDs    ),
           "lessprint" :( lessprint  ),
-          "tmpfolder" :( tmpfolder  ),
             
             # Extracts data from a coordinate box at positions specified:
          "box_params" :( box_params ), 
