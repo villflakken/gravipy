@@ -139,6 +139,7 @@ class UserTools(object):
             ax.set_xlabel('x-position Mpc/h')
             ax.set_ylabel('y-position Mpc/h')
             ax.set_aspect('equal','box')
+            pl.grid(True)
             pass
 
         elif plotdim == 3:
