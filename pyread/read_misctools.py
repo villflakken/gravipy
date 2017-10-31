@@ -243,7 +243,7 @@ class MiscTools(object):
         systemName = os.uname()[1]
         myLaptopName          = "DESKTOP-MR1LV6A"
         clusterName           = "elephant"
-        runningLocallyMessage = """\
+        runningLocallyMessage = """
         Running locally, and has reached the end of the rainbow.
         Time to upload and test! Now exiting.
         """

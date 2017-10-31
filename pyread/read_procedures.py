@@ -107,7 +107,7 @@ class readProcedures(Sifters, AutoTools, MiscTools, UserTools):
             (countedNpart==1024**3) )
         print Intermission
         matsizes = IDsA.nbytes + posA.nbytes + velA.nbytes + NpartA.nbytes
-        print " * Size of matrices IDsA, posA, velA, NpartA:" \
+        print " * Size of matrices IDsA, posA, velA, NpartA: " \
                + self.item_size_printer(matsizes) +" \n"
 
         # ID sorting block
