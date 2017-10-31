@@ -158,9 +158,9 @@ class UserTools(object):
             sys.exit(" * Unbelievable error. ")
 
         plotpath = self.outputPather(plotpath, plotname)
-        plotpath = plotpath \
+        plotpath = plotpath + "/" + plotname \
                    + "_{0}d".format(plotdim) + ".png"
-        print " Saving plot (pos) "
+        print " Saving plot (pos), {0:d}D. \n".format(plotdim)
         pl.savefig(plotpath, dpi=200)
         pl.close()
 
@@ -181,19 +181,18 @@ class UserTools(object):
         folderPath = folderPath+fileName
 
         self.fileName = fileName 
-        outfilePath = folderPath + fileName
 
         if not os.path.exists(self.uname + folderPath):
             os.makedirs(self.uname + folderPath)
-            print "Creating output folder structure: ", \
-                   self.uname + folderPath, "\n"
+            print "    Creating output folder structure: ", \
+                   self.uname + folderPath
             pass
         else:
-            print "Output folder already exists: ", \
-                   self.uname + folderPath, "\n"
+            print "    Output folder already exists: ", \
+                   self.uname + folderPath
             pass
 
-        self.outfilePath = self.uname + outfilePath # This is easier, anyway.
+        self.outfilePath = self.uname + folderPath # This is easier, anyway.
 
         return self.outfilePath
 
