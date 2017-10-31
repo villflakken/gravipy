@@ -158,10 +158,10 @@ class UserTools(object):
             sys.exit(" * Unbelievable error. ")
 
         plotpath = self.outputPather(plotpath, plotname)
-        plotpath = plotname \
+        plotpath = plotpath \
                    + "_{0}d".format(plotdim) + ".png"
         print " Saving plot (pos) "
-        pl.savefig(plotname, dpi=200)
+        pl.savefig(plotpath, dpi=200)
         pl.close()
 
         return 0
