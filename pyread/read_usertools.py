@@ -53,7 +53,7 @@ class UserTools(object):
         """
         Simple function to minimize command lines, returns a boxed array.
         """
-        print "\n  * Applying box "
+        print "  * Applying box "
         box3D = self.box_indexer(pos, box_params)
         IDs   =  IDs[box3D]
         pos   =  pos[box3D]
@@ -169,7 +169,7 @@ class UserTools(object):
 
     #### REWRITE THESE TO BE LESS DEPENDENT ON INSTANCE VARIABLES
 
-    def outputPather(self, fileName, folderPath):
+    def outputPather(self, folderPath, fileName):
         """
         Checks if output folder structure exists
         & creates output path for output file 

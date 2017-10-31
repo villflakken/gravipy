@@ -38,12 +38,12 @@ data_params = \
 " The simplified function call: "
 from read import read_ini
 IDs, pos, vel = read_ini(
-                            what       = ["pos"],
-                            indraN     = 2,
-                            iA         = 0,
-                            iB         = 0,
-                            subfolder  = 63,
-                            tmpfolder  = True
+                          what       = ["pos"],
+                          indraN     = 2,
+                          iA         = 0,
+                          iB         = 0,
+                          subfolder  = 63,
+                          tmpfolder  = True
                         )
 
 from read_usertools import UserTools as do
@@ -59,9 +59,9 @@ IDs, pos, vel = do.arrboxer(IDs, pos, vel, box_params) # ..And this would be ano
 IDs, pos, vel = do.sort_from_IDsF(IDsA=IDs, posA=pos, velA=vel, focus="pos")
     # \=> Because focus=="pos", then vel==None 
 
-do.plot_pos_scatter(IDsA=IDs, posA=pos, plotdim=2,
-                    plotname="funcScatterTest",plotpath="test_output/")
-do.plot_pos_scatter(IDsA=IDs, posA=pos, plotdim=3,
-                    plotname="funcScatterTest",plotpath="test_output/")
+do.plot_pos_scatter(IDsA=IDs, posA=pos, plotdim=2, # One in 2D
+                    plotname="funcScatterTest", plotpath="test_output/")
+do.plot_pos_scatter(IDsA=IDs, posA=pos, plotdim=3, # One in 3D
+                    plotname="funcScatterTest", plotpath="test_output/")
     # \=> 'plotdim' argument is optional; will make 2 dimensional plot by default.
 
