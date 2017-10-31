@@ -45,7 +45,7 @@ class UserTools(object):
                * N.array( pos[:,1] <= ymax ) \
                * N.array( pos[:,2] <= zmax )
 
-        print "  * Boxing indexes retrieved "
+        print "  * Boxing indexation retrieved "
 
         return box3D
 
@@ -132,7 +132,7 @@ class UserTools(object):
         " Scatter plot "
         if plotdim == 2:
             " Defaults to 2 dimensions in plot "
-            ax  = fig.add_subplot(111, projection='2d') # 2d as default
+            ax  = fig.add_subplot(111) # 2d as default
             ax.scatter(posA[:,0], # x-elements
                        posA[:,1], # y-elements
                             depthshade=True, s=1)
