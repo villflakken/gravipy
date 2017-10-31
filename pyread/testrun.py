@@ -50,8 +50,10 @@ from read_usertools import UserTools as do
 do = do() # Initialize toolkit
 
 # Lessen amount of data:
-box_params = [0.,20.], [0.,20.], [0.,5.] # Note: tuple
-do.box_indexer(pos, box_params)
+box_params = [0.,20.], [0.,20.], [0.,5.] # Note: box parameters is 3x2 iterable.
+# box3D = do.box_indexer(pos, box_params)  # This is one way to do it..
+# IDs = IDs[box3D]; pos = pos[box3D]
+IDs, pos, vel = self.arrboxer(IDs, pos, arr2, box_params) # ..And this would be another.
 
 " Not necessary, as it is incorporated into the reading process; but works! "
 IDs, pos, vel = do.sort_from_IDsF(IDsA=IDs, posA=pos, velA=vel, focus="pos")

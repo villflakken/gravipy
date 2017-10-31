@@ -31,7 +31,7 @@ class UserTools(object):
         Extracts slices of data, determined from 3D positions.
         self.box_params = [ [0.,20.],[0.,20.],[0.,5.] ] 
         """
-        print "  * "
+        print "  * Boxing indexation commenced "
         xmin, xmax = box_params[0]
         ymin, ymax = box_params[1]
         zmin, zmax = box_params[2]
@@ -45,8 +45,22 @@ class UserTools(object):
                * N.array( pos[:,1] <= ymax ) \
                * N.array( pos[:,2] <= zmax )
 
+        print "  * Boxing indexes retrieved "
+
         return box3D
 
+    def arrboxer(self, IDs, pos, arr2, box_params):
+        """
+        Simple function to minimize command lines, returns a boxed array.
+        """
+        print "\n  * Applying box "
+        box3D = self.box_indexer(pos, box_params)
+        IDs   =  IDs[box3D]
+        pos   =  pos[box3D]
+        arr2  = arr2[box3D]
+        print "  * Box applied \n"
+
+        return IDs, pos, arr2 # Because 'arr2' could be a FoF-thing or something...
 
     def sort_from_IDsF(self, IDsA, posA=None, velA=None, focus="what"):
         """
