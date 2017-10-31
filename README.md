@@ -43,6 +43,7 @@ included in the file '**pyread/testrun.py**'.
 ------
 **0.52 from 0.51** (WIP):
 * Added the file and corresponding class `read_autotools.py` for when automated reading&postprocessing is wanted, but made `read_usertools.py` as a toolkit for live data manipulation w/ Jupyter - so that the latter's functions are less dependent on the parameters associated with the class' initialization.
+  - Check; the most important tools now work as class-independent functions.
 
 * Allowing the automated initialization-system to work out wether it is run from a Jupyter instance on SciServer, or wether the script is run from the elephant clusters - in order to get the INDRA data retrieved - unless the user specifies datapath for these.
 
