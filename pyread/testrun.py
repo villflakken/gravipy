@@ -1,5 +1,4 @@
-from read import readDo, read_init
-from read_misctools import MiscTools
+from read import readDo
 
 data_params = \
     {
@@ -37,12 +36,19 @@ data_params = \
 # IDsA, posA, velA, iterLen, NpartA = output # example
 
 " The simplified function call: "
-output = read_init(
-                   what       = ["pos"],
-                   indraN     = 2,
-                   iA         = 0,
-                   iB         = 0,
-                   subfolder  = 63,
-                   tmpfolder  = True
-                  )
-IDsA, posA, velA = output
+from read import read_ini
+from read_usertools import UserTools as do
+
+IDs, pos, vel = read_init(
+                            what       = ["pos"],
+                            indraN     = 2,
+                            iA         = 0,
+                            iB         = 0,
+                            subfolder  = 63,
+                            tmpfolder  = True
+                         )
+IDs, pos, vel = do.sort_from_IDsF(IDsA=IDs, posA=pos, velA=vel, focus="pos")
+# \=> Because focus=="pos", then vel==None.
+do.plot_pos_scatter(IDsA=IDs, posA=pos, plotname="functionScatterTest", plotdim=2)
+# \=> The last argument is optional; will make 2 dimensional plot by default.
+

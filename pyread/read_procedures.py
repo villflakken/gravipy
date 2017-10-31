@@ -116,7 +116,7 @@ class readProcedures(Sifters, AutoTools, MiscTools, UserTools):
     Sifter has completed reading all {0} files of snap {1}.
     - Commencing method for sorting positions and velocities."""\
                             .format(iterLen, self.subfolder)
-            IDsA, posA, velA = self.sort_IDsF(IDsA, posA, velA, self.what)
+            IDsA, posA, velA = self.sort_from_IDsF(IDsA, posA, velA, self.what)
             pass
 
         # The reading is done, the bells have tolled;

@@ -3,32 +3,23 @@
 # ==============================================
 import os, sys
 import numpy as N
-import subprocess as sp
 import matplotlib.pyplot as pl
 from read_misctools import MiscTools
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import rc
 
 class UserTools(object):
+    # Purely for debugging reasons
+    if sys.platform in ("linux", "linux2"):
+        self.uname = os.path.expanduser("~")+"/"
+        pass
+    elif sys.platform in ("win32", "win64"):
+        self.uname = os.path.expanduser("~")+"\\"
+        pass
     """
     User-activated tools that are used in the readProcedures instance.
     """
     def __init__(self):
-        self.mult_miss_error = \
-            """
-            File(s) are missing.
-            Maybe the dataset should be properly completed first?
-            Aborting!
-            =========
-            """
-        self.printNth = 5
-        if sys.platform in ("linux", "linux2"):
-            self.uname = os.path.expanduser("~")+"/"
-            pass
-        elif sys.platform in ("win32", "win64"):
-            self.uname = os.path.expanduser("~")+"\\"
-            pass
-            # Purely for debugging reasons
         """
         End of init
         """
@@ -54,7 +45,7 @@ class UserTools(object):
         return box3D
 
 
-    def sort_IDsF(self, IDsA, posA, velA, focus):
+    def sort_from_IDsF(self, IDsA, posA=None, velA=None, focus="what"):
         """
         Sorts IDs, and an accompanying array after sorted IDs.
         focus is meant to be a string object, taking arguments either:
@@ -95,6 +86,11 @@ class UserTools(object):
             print "\t  \=> velocities' array now sorted by ID tag.\n"
             return IDsA, posA, velA
 
+        elif focus == "what":
+            " User has not input anything to focus on, will assume positions.. "
+            self.sort_from_IDsF(IDsA=IDsA, posA=posA, velA=None, focus="pos")
+            return 0
+
         else:
             sort_of_errortext = " Sorting selector test failed (!?!) "
             pass
@@ -103,54 +99,46 @@ class UserTools(object):
         return 0
 
 
-    #### REWRITE THESE TO BE LESS DEPENDENT ON INSTANCE VARIABLES
-
-    def plot_pos_scatter(self, IDsA, posA):
+    def plot_pos_scatter(self, IDsA, posA, plotname="misc_scatplot", plotdim=2):
         """
         Plots positional data output.
+        Example call:
+        plot_pos_scatter(IDsA=IDs, posA=pos, plotname="functionScatterTest", plotdim=2)
         """
-        totalNtot = 1024**3 # Total number of elements
-        # Try a scatterplot first
-        print " * Initiating scatter plot of positions in simulation: \
-            {0}_{1}_{2}/snapshot_{3}".format(
-            self.indraN, self.iA, self.iB, self.subfolder)
+        print " * Initiating scatter plot of positions from simulation data"
         
         fig =  pl.figure()
 
-        if self.plotdim_set == 2 or self.plotdim_set == None:
+        " Scatter plot "
+        if plotdim_set == 2:
             " Defaults to 2 dimensions in plot "
             ax  = fig.add_subplot(111, projection='2d') # 2d as default
-        if self.plotdim_set == 3:
-            " In case of 3d "
-            ax  = fig.add_subplot(111, projection='3d')
-
-
-        " Scatter plot "
-        if self.plotdim_set == 2: # 2D
             ax.scatter(posA[:,0], # x-elements
                        posA[:,1], # y-elements
                             depthshade=True, s=1)
+            ax.set_xlabel('x-position Mpc/h')
+            ax.set_ylabel('y-position Mpc/h')
             pass
 
-        elif self.plotdim_set == 3: # 3D
+        elif self.plotdim_set == 3:
+            " In case of 3d "
+            ax  = fig.add_subplot(111, projection='3d')
             # in the voice of an authorative Patrick Stewart:
             " ENGAGE 3D VIZUALIZATION "
             ax.scatter(posA[:,0], # x-elements
                        posA[:,1], # y-elements
                        posA[:,2], # z-elements
                             depthshade=True, s=1)
-            pass
-        else:
-            sys.exit(" * Unbelievable error. ")
-
-        ax.set_xlabel('x-position Mpc/h')
-        ax.set_ylabel('y-position Mpc/h')
-        if self.plotdim_set == 3:
+            ax.set_xlabel('x-position Mpc/h')
+            ax.set_ylabel('y-position Mpc/h')
             ax.set_zlabel('z-position Mpc/h')
             pass
 
-        plotname = self.outputPather(self.subfolder)\
-                   + "_{0}d".format(self.plotdim_set) + ".png"
+        else:
+            sys.exit(" * Unbelievable error. ")
+
+        plotname = plotname \
+                   + "_{0}d".format(plotdim_set) + ".png"
         print " Saving plot (pos) "
         pl.savefig(plotname, dpi=200)
         pl.close()
@@ -158,7 +146,9 @@ class UserTools(object):
         return 0
 
 
-    def outputPather(self, num):
+    #### REWRITE THESE TO BE LESS DEPENDENT ON INSTANCE VARIABLES
+
+    def outputPather(self):
         """
         Checks if output folder structure exists
         & creates output path for output file 
@@ -177,10 +167,6 @@ class UserTools(object):
             pass
 
         fileName = "{0}_i{1}{2}{3}{4}_sf{5}"
-        if self.what == "posvel":
-            pass
-        else:
-            pass
 
         if self.boolcheck(self.tmpfolder) == True:
             " When 'indraX_tmp' data is processed "
@@ -221,33 +207,15 @@ class UserTools(object):
         return self.outfilePath
 
 
-    def itertextPrinter(self, itertext, i, iterLen, modifier):
-        " Less spam in terminal window "
-        if self.boolcheck(self.lessprint) == False:
-            # No output reduction:
-            print itertext
-            pass
-        else:
-            # Output reduction:
-            if i % (self.printNth*modifier) == 0:
-                print itertext
-                pass
-            elif i == (iterLen-1):
-                print itertext
-                pass
-            else:
-                # When no progress is printed as output.
-                pass
-            pass
-        return 0
 
-    def indraPathParser(self):
+
+    def indraPathParser(self, indraN, iA, iB, tmp, cluster):
         """
         If program is supposed to run from 'indraX_tmp' data file structure,
         returns modified filepath for the reader.
         """
         indrapath = "/indra{0:d}{1:s}/{0:d}_{2:d}_{3:d}"
-        if self.boolcheck(self.tmpfolder) == True:
+        if self.boolcheck(tmp) == True:
             " Inserts 'tmp' into address line, i.e.: "
             " /indra{iN}{_tmp}/{iN}_{iA}_{iB} "
             indrapath = indrapath.format(
@@ -264,27 +232,7 @@ class UserTools(object):
         return indrapath
 
 
-    def itertextPrinter(self, itertext, i, iterLen, modifier):
-        " Less spam in terminal window "
-        if self.boolcheck(self.lessprint) == False:
-            # No output reduction:
-            print itertext
-            pass
-        else:
-            # Output reduction:
-            if i % (self.printNth*modifier) == 0:
-                print itertext
-                pass
-            elif i == (iterLen-1):
-                print itertext
-                pass
-            else:
-                # When no progress is printed as output.
-                pass
-            pass
-        return 0
-
-    # Helpful functions below
+    # Useful functions below
 
     def linewriter(self, datalist, w):
         """

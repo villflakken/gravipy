@@ -9,12 +9,12 @@ from read_procedures import readProcedures
 
 
 
-def read_init( what="pos", indraN=0, iA=0, iB=0, subfolder=None, fftfile=None, \
-               tmpfolder=False, sortIDs=False, lessprint=True,                 \
-               box_params=False, plotdim=2,                                    \
-               w2f=False, plotdata=False,                                      \
-               outputpath=False,                                               \
-               origamipath=False                                               ):
+def read_ini( what="pos", indraN=0, iA=0, iB=0, subfolder=None, fftfile=None, \
+              tmpfolder=False, sortIDs=False, lessprint=True,                 \
+              box_params=False, plotdim=2,                                    \
+              w2f=False, plotdata=False,                                      \
+              outputpath=False,                                               \
+              origamipath=False                                               ):
     """
     Simplified read function for importing externally;
     initializes class for the user.
@@ -52,13 +52,12 @@ def read_init( what="pos", indraN=0, iA=0, iB=0, subfolder=None, fftfile=None, \
 
     tmp = sp.call('clear',shell=True)
 
-    ini = readDo()  # Initialize!
+    ini = readDo()                # Initialize!
     ini.read_params = data_params # Set params
     " 1. "
-    ini.callArgsChecker() # Verify values
-    
+    ini.callArgsChecker()         # Verify values
     " 2. "
-    return ini.beginReading() # Do the thing
+    return ini.beginReading()     # Do the thing
 
 
 class readDo(readArgs, readProcedures):
