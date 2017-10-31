@@ -138,6 +138,11 @@ class UserTools(object):
                          s=1 )
             ax.set_xlabel('x-position Mpc/h')
             ax.set_ylabel('y-position Mpc/h')
+            # 2 lines below are supposed to fix aspect ratio:
+            scaling = N.array([getattr(ax, 'get_{}lim'.format(dim))() \
+                              for dim in 'xyz'])
+            ax.auto_scale_xyz(*[[N.min(scaling), N.max(scaling)]]*3)
+            # cudos to sebix @ stackoverflow!
             pass
 
         elif plotdim == 3:
@@ -152,6 +157,11 @@ class UserTools(object):
             ax.set_xlabel('x-position Mpc/h')
             ax.set_ylabel('y-position Mpc/h')
             ax.set_zlabel('z-position Mpc/h')
+            # 2 lines below are supposed to fix aspect ratio:
+            scaling = N.array([getattr(ax, 'get_{}lim'.format(dim))() \
+                              for dim in 'xyz'])
+            ax.auto_scale_xyz(*[[N.min(scaling), N.max(scaling)]]*3)
+            # cudos to sebix @ stackoverflow!
             pass
 
         else:
