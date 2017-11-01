@@ -38,7 +38,7 @@ data_params = \
 " The simplified function call: "
 from read import read_ini
 IDs, pos, vel = read_ini(
-                          what       = ["pos"],
+                          what       = ["pos"], # "vel", "fof", etc 
                           indraN     = 2,
                           iA         = 0,
                           iB         = 0,

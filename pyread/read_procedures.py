@@ -110,14 +110,14 @@ class readProcedures(Sifters, AutoTools, MiscTools, UserTools):
         print "    Size of matrices IDsA, posA, velA, NpartA = " \
                + self.item_size_printer(matsizes) 
 
-        # ID sorting block
-        if self.boolcheck(self.sortIDs):
-            print """
-    Sifter has completed reading all {0} files of snap {1}.
-    - Commencing method for sorting positions and velocities."""\
-                            .format(iterLen, self.subfolder)
-            IDsA, posA, velA = self.sort_from_IDsF(IDsA, posA, velA, self.what)
-            pass
+    #     # ID sorting block
+    #     if self.boolcheck(self.sortIDs):
+    #         print """
+    # Sifter has completed reading all {0} files of snap {1}.
+    # - Commencing method for sorting positions and velocities."""\
+    #                         .format(iterLen, self.subfolder)
+    #         IDsA, posA, velA = self.sort_from_IDsF(IDsA, posA, velA, self.what)
+    #         pass
 
         # The reading is done, the bells have tolled;
         # print out the stats, parameters, and all!
