@@ -1,4 +1,4 @@
-### **GRAVIPy**
+### **GRAVIPy** ( currently being improved through a jupyter server. updates will follow in a while)
 
 ---
 
