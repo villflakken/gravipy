@@ -9,18 +9,19 @@ from read_procedures import readProcedures
 
 
 
-def read_ini( what="pos", indraN=0, iA=0, iB=0, subfolder=None, fftfile=None,
-              tmpfolder=False, sortIDs=False, lessprint=True,
-              box_params=False, plotdim=2,
-              w2f=False, plotdata=False,
-              outputpath=False,
+def read_ini( what="pos", indraN=0, iA=0, iB=0, subfolder=None, fftfile=None, \
+              tmpfolder=False, sortIDs=False, lessprint=True,                 \
+              box_params=False, plotdim=2,                                    \
+              w2f=False, plotdata=False,                                      \
+              outputpath=False,                                               \
               origamipath=False                                               ):
     """
     Simplified read function for importing externally;
     initializes class for the user.
     # WIP !
     """
-    data_params =         {
+    data_params = \
+        {
             # Data structure parameters:
                "what" :( list(what) ),
              "indraN" :( indraN     ),
@@ -59,7 +60,7 @@ def read_ini( what="pos", indraN=0, iA=0, iB=0, subfolder=None, fftfile=None,
     return ini.beginReading()     # Do the thing
 
 
-class readDo(readArgs, readProcedures):
+class reader(readArgs, readProcedures):
     """
     Commences data reading, sets into motion what to do.
     """
@@ -72,7 +73,8 @@ class readDo(readArgs, readProcedures):
         """
         Actiondicts : commands for the program to act on
         """
-        self.actionkeys =             [ # The types of data available to read.
+        self.actionkeys = \
+            [ # The types of data available to read.
                 "pos",     
                 "vel",     
                 "fof",     
@@ -80,7 +82,8 @@ class readDo(readArgs, readProcedures):
                 "fft",
                 "origami"
             ]
-        self.action =             { # Function library for initializing data reading.
+        self.action = \
+            { # Function library for initializing data reading.
                 "pos"     : self.read_posvel  , 
                 "vel"     : self.read_posvel  , 
                 "fof"     : self.read_FOF     , 
@@ -137,7 +140,8 @@ class readDo(readArgs, readProcedures):
                         " Current iB as globvar "
                         self.iB = iB
 
-                        lowerLim, upperLim, sett, symbol = self.currentTaskParamsParser()
+                        lowerLim, upperLim, sett, symbol = \
+                            self.currentTaskParamsParser()
 
                         for num in N.arange(lowerLim, upperLim + 1):
                             " Current subfolder/fftfile as globvar "
@@ -243,11 +247,11 @@ class readDo(readArgs, readProcedures):
         """
         # Text formatting of program's 'progress bar' placeholder
         taskSetStr = str(self.what_set).strip("[]")
-        print progress.format(
-              task=self.what,            set=taskSetStr,
-                iN=self.indraN,    indraNset=self.indraN_set,
-                iA=self.iA,            iAset=self.iA_set,
-                iB=self.iB,            iBset=self.iB_set,
+        print progress.format(\
+              task=self.what,            set=taskSetStr,      \
+                iN=self.indraN,    indraNset=self.indraN_set, \
+                iA=self.iA,            iAset=self.iA_set,     \
+                iB=self.iB,            iBset=self.iB_set,     \
             symbol=symbol,    sn=num,  snset=sett             )
 
         return 0

@@ -14,7 +14,8 @@ class MiscTools(object):
     Miscellaneous tools that are used in the readProcedures instance.
     """
     def __init__(self):
-        self.mult_miss_error =             """
+        self.mult_miss_error = \
+            """
             File(s) are missing.
             Maybe the dataset should be properly completed first?
             Aborting!
@@ -99,6 +100,29 @@ class MiscTools(object):
         self.outfilePath = self.uname + outfilePath 
 
         return self.outfilePath
+
+
+    def indraPathParser(self):
+        """
+        If program is supposed to run from 'indraX_tmp' data file structure,
+        returns modified filepath for the reader.
+        """
+        indrapath = "/indra{0:d}{1:s}/{0:d}_{2:d}_{3:d}"
+        if self.boolcheck(self.tmpfolder) == True:
+            " Inserts 'tmp' into address line, i.e.: "
+            " /indra{iN}{_tmp}/{iN}_{iA}_{iB} "
+            indrapath = indrapath.format(
+                            self.indraN, "_tmp", self.iA, self.iB )
+            pass
+
+        else:
+            " /indra{iN}{}/{iN}_{iA}_{iB} "
+            print "normal folders acknowledged."
+            indrapath = indrapath.format(
+                            self.indraN, "", self.iA, self.iB )
+            pass
+
+        return indrapath
 
 
     def itertextPrinter(self, itertext, i, iterLen, modifier):
@@ -193,7 +217,8 @@ class MiscTools(object):
         ... Outdated; useless?!?
             ... Just in case.
         """
-        errorstring =         """
+        errorstring = \
+        """
         Whilst reading {0} dataset,
         Filepath :    {1}  ;
         Reading loop: {2}/{3} ;

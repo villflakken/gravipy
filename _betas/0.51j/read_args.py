@@ -26,7 +26,8 @@ class readArgs(object):
         self.arglisterror = """
             Argument list discrepancy.
             Shutting down.\n"""
-        self.inigo = "My name is Inigo Montoya. You killed my father.                         Prepare to die.\n\n\tExiting."
+        self.inigo = "My name is Inigo Montoya. You killed my father. \
+                        Prepare to die.\n\n\tExiting."
         # Error messages get boring after a while.
         self.length              = None  # LDT (from IDL debugs)
         self.sub_asks_for_length = False # enabling LDT for subhalo
@@ -34,8 +35,6 @@ class readArgs(object):
         self.missingkeys_no = 0
         self.missingkeys    = []
         self.keys_read      = []
-        self.onElephant = False
-        self.onIdies    = False
         """
         Definitions of keywords to be used, script's interpretation +++.
         When adding a new user input parameter, write it into the below
@@ -43,7 +42,8 @@ class readArgs(object):
         If a new type-checker is needed for an individual purpose;
         then write a new function into the group of functions below.
         """
-        self.arglist =             [ # Parameter keys available
+        self.arglist = \
+            [ # Parameter keys available
                 "what"       , 
                 "indraN"     , 
                 "iA"         , 
@@ -60,7 +60,8 @@ class readArgs(object):
                 "plotdim"    ,
                 "origamipath"
             ]
-        self.param_incorp =             { # Function library: parameter validation
+        self.param_incorp = \
+            { # Function library: parameter validation
                      "what" : self.taskname_incorp   ,
                    "indraN" : self.integer_incorp    ,
                        "iA" : self.integer_incorp    ,
@@ -79,7 +80,8 @@ class readArgs(object):
                  "plotdata" : self.toggles_incorp    ,
               "origamipath" : self.in_path_incorp
             }
-        self.intRange_dict =             { # Ranges of integer numbers.
+        self.intRange_dict = \
+            { # Ranges of integer numbers.
                 "indraN" : range(0,8),
                     "iA" : range(0,8),
                     "iB" : range(0,8),
@@ -221,7 +223,8 @@ class readArgs(object):
             # Returns, having checked & stored both items in the set.
             return 0
 
-        elif (type(uinput) == str) and             (uinput in self.actionkeys):
+        elif (type(uinput) == str) and \
+            (uinput in self.actionkeys):
             " String object recognized, input is compared & stored. "
             setattr( self, "what_set" , uinput )
             # After storing, returns to next item to be checked
@@ -242,7 +245,8 @@ class readArgs(object):
         """.format(name, uinput,
                    self.intRange_dict[name][0], self.intRange_dict[name][-1])
         
-        if type(uinput) == tuple or             type(uinput) == list:
+        if type(uinput) == tuple or \
+            type(uinput) == list:
             " When multiple numbers are input. "
             
             if len(uinput) == 2:
@@ -262,8 +266,7 @@ class readArgs(object):
             else:
                 " Multiple values, but not in form of (lower,upper)!"
                 sys.exit("""
-            Parameter {0} requires exactly 1
-                - or 2 (in tuple or list as lower- and upper-) -
+            Parameter {0} requires exactly 1, or 2 (in tuple or list as lower- and upper-),
             integer(s) as input variable(s).
             """.format(name))
 
@@ -273,7 +276,8 @@ class readArgs(object):
             # Returns, having checked & stored both items in the set.
             return 0
 
-        elif type(uinput) == int and             uinput in self.intRange_dict[name]:
+        elif type(uinput) == int and \
+            uinput in self.intRange_dict[name]:
             " Int object recognized then input is recognized. "
             setattr( self, name+"_set" , uinput )
             setattr( self, name+"_low" , uinput )
@@ -318,7 +322,8 @@ class readArgs(object):
         # print " ** Inside self.outputpath_incorp! "
         # print " ** key =", name, "| uinput =", uinput
 
-        if uinput != False and             type(uinput) == str:
+        if uinput != False and \
+            type(uinput) == str:
             " Then user has a specific output path in mind! "
             setattr(self, name, uinput)
         elif uinput == False:
@@ -338,7 +343,7 @@ class readArgs(object):
 
     def boxparams_incorp(self, uinput, name):
         """
-        Incorporates box parameters' boundaries into the envirinonment.
+        Incorporates box parameters' boundaries into the environment.
         """
         # print " ** Inside self.boxparams_incorp! "
         # print " ** key =", name, "| uinput =", uinput
@@ -351,7 +356,8 @@ class readArgs(object):
                 if type(pair) == list or type(pair) == tuple:
                     " Now check if they contain 2 numbers "
 
-                    if len(pair) == 2 and                         any(
+                    if len(pair) == 2 and \
+                        any(
                             [all(map(lambda x: hasattr(x, '__float__'), pair)),
                              all(map(lambda x: hasattr(x, '__int__'), pair))]
                             ):
@@ -384,6 +390,7 @@ class readArgs(object):
             pass
         # Well, how strict can one be with a user's own preferences?
         return 0 
+
 
 
     def errhand_userinput(self, problemstring):
@@ -420,15 +427,16 @@ class readArgs(object):
 
     def intendedMachine(self):
         """
-        Simple function that exits the program...
+        Simple function that exits the program
           - in the case that indra/origami dataset
             is not available on the system -
-          ...before further reading.
+          before further reading.
         Used to clean up syntax while debugging.
         """
         systemName = os.uname()[1]
         myLaptopName          = "DESKTOP-MR1LV6A"
         clusterName           = "elephant"
+        myJupUname            = "0f8a968300f1"  # ... don't ask >.<
         runningLocallyMessage = """
         Running locally, and has reached the end of the rainbow.
         Time to upload and test! Now exiting.
@@ -440,20 +448,13 @@ class readArgs(object):
                       + "\n Is this your intention?"
 
         if systemName == myLaptopName:
-            # ..going to assume that I indeed want to debug shit; commented out.
             # sys.exit(runningLocallyMessage)
             pass
-        elif systemName == clusterName:
+        elif systemName.startswith(clusterName):
+            self.dsp = "/datascope" 
             # Datascope base file structure path.
-            self.onElephant = True
-            self.dsp = "/datascope" # indra pathing follows
             ###### Modify as needed.
             pass
-    
-        elif os.path.exists("/home/idies"):
-            # On SciServer Idies etc
-            self.onIdies = True
-            self.dsp = "/home/idies" # indra follows
         else:
             print "\n\tNot running from intended machine(s)"\
                   + " (the 'elephant' cluster)."
@@ -465,40 +466,6 @@ class readArgs(object):
             pass
 
         return 0
-
-
-    def indraPathParser(self):
-        """
-        If program is supposed to run from 'indraX_tmp' data file structure,
-        returns modified filepath for the reader.
-        """
-
-        if self.onElephant == True:
-            # Path structure for elephant cluster
-            indrapath = "/indra{0:d}{1:s}/{0:d}_{2:d}_{3:d}"
-            
-            if self.boolcheck(self.tmpfolder) == True:
-                " Inserts 'tmp' into address line, i.e.: "
-                " /indra{iN}{_tmp}/{iN}_{iA}_{iB} "
-                indrapath = indrapath.format(
-                                self.indraN, "_tmp", self.iA, self.iB )
-                pass
-
-            else:
-                " /indra{iN}{}/{iN}_{iA}_{iB} "
-                print "normal folders acknowledged."
-                indrapath = indrapath.format(
-                                self.indraN, "", self.iA, self.iB )
-                pass
-            
-        elif self.onIdies == True:
-            # Path structure for SciServer's Jupyter stuff
-            indrapath = "/workspace/indra/{0:d}_{1:d}_{2:d}"
-            indrapath = indrapath.format(self.indraN, self.iA, self.iB )
-            self.origamiPath = "/workspace/indra/origami/testrun/"
-            pass
-
-        return indrapath
 
 
 if __name__ == '__main__':

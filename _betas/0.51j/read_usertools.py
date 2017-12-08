@@ -50,8 +50,7 @@ class UserTools(object):
 
         return box3D
 
-    
-    def arrboxes(self, IDs, pos, arr2, box_params):
+    def arrboxer(self, IDs, pos, arr2, box_params):
         """
         Simple function to minimize command lines, returns a boxed array.
         """
@@ -64,7 +63,6 @@ class UserTools(object):
 
         return IDs, pos, arr2 # Because 'arr2' could be a FoF-thing or something...
 
-    
     def sort_from_IDsF(self, IDsA, posA=None, velA=None, focus="what"):
         """
         Sorts IDs, and an accompanying array after sorted IDs.
@@ -117,7 +115,73 @@ class UserTools(object):
 
         print sort_of_errortext
         return 0
+
+
+    def plot_pos_scatter(self, IDsA, posA, box, plotdim=2,
+                         plotname="misc_scatplot", plotpath="output_gravipy/"):
+        """
+        Plots positional data output.
+        Example call:
+        plot_pos_scatter(IDsA=IDs, posA=pos, plotdim=2,
+                         plotname="funcScatterTest", plotpath="output_gravipy/")
+        """
+        print "  * Initiating {0} scatter plot of positions from simulation data"\
+                .format((str(plotdim)+"d"))
+        
+        fig =  pl.figure()
+
+        " Scatter plot "
+        if plotdim == 2:
+            " Defaults to 2 dimensions in plot "
+            ax  = fig.add_subplot(111) # 2d as default
+            ax.scatter( posA[:,0], # x-elements
+                        posA[:,1], # y-elements
+                         s=1 )
+            ax.set_xlabel('x-position Mpc/h')
+            ax.set_ylabel('y-position Mpc/h')
+            ax.set_aspect('equal','box')
+            pl.grid(True)
+            pass
+
+        elif plotdim == 3:
+            " In case of 3d "
+            ax  = fig.add_subplot(111, projection='3d')
+            # in the voice of an authorative Patrick Stewart:
+            " ENGAGE 3D VIZUALIZATION "
+            ax.scatter( posA[:,0], # x-elements
+                        posA[:,1], # y-elements
+                        posA[:,2], # z-elements
+                        depthshade=True, s=1)
+            ax.set_xlabel('x-position Mpc/h')
+            ax.set_ylabel('y-position Mpc/h')
+            ax.set_zlabel('z-position Mpc/h')
+
+            self.axisEqual3D(ax)
+            pass
+
+        else:
+            sys.exit(" * Unbelievable error. ")
+
+        plotpath = self.outputPather(plotpath, plotname)
+        plotpath = plotpath + "/" + plotname \
+                   + "_{0}d".format(plotdim) + ".png"
+        print "    Saving plot (pos), {0:d}D. \n".format(plotdim)
+        pl.savefig(plotpath, dpi=200, bbox_inches='tight')
+        pl.close()
+
+        return 0
+
     
+    def axisEqual3D(ax):
+        " Shamelessly stolen from StackOverflow "
+        extents = N.array([getattr(ax, 'get_{}lim'.format(dim))() for dim in 'xyz'])
+        sz = extents[:,1] - extents[:,0]
+        centers = N.mean(extents, axis=1)
+        maxsize = max(abs(sz))
+        r = maxsize/2
+        for ctr, dim in zip(centers, 'xyz'):
+            getattr(ax, 'set_{}lim'.format(dim))(ctr - r, ctr + r)
+
 
     #### REWRITE THESE TO BE LESS DEPENDENT ON INSTANCE VARIABLES
 
@@ -147,6 +211,29 @@ class UserTools(object):
         self.outfilePath = self.uname + folderPath # This is easier, anyway.
 
         return self.outfilePath
+
+
+    def indraPathParser(self, indraN, iA, iB, tmp, cluster):
+        """
+        If program is supposed to run from 'indraX_tmp' data file structure,
+        returns modified filepath for the reader.
+        """
+        indrapath = "/indra{0:d}{1:s}/{0:d}_{2:d}_{3:d}"
+        if self.boolcheck(tmp) == True:
+            " Inserts 'tmp' into address line, i.e.: "
+            " /indra{iN}{_tmp}/{iN}_{iA}_{iB} "
+            indrapath = indrapath.format(
+                            self.indraN, "_tmp", self.iA, self.iB )
+            pass
+
+        else:
+            " /indra{iN}{}/{iN}_{iA}_{iB} "
+            print "normal folders acknowledged."
+            indrapath = indrapath.format(
+                            self.indraN, "", self.iA, self.iB )
+            pass
+
+        return indrapath
 
 
     # Useful functions below
@@ -186,95 +273,7 @@ class UserTools(object):
         Returns True when arg's value is true.
         """
         return all([arg != 0, arg != False, arg != None])
-
-
-
-class Plotter(UserTools):
-    """
-    Plotting Tools and Templates.
-        # Outside-callable-pre-defined user plotting tools.
-        # Basically: as I go along and develop plotting methods;
-        #     put the finished methods in here.
-        #         - In later versions: Methods may be merged / initialized into auto-pp.
-
-    ... Maybe the inheritance should go the other way..?
-    """
-    def __init__(self):
-        UserTools.__init__(self)
-        """
-        End of init
-        """
-    
-    def axisEqual3D(self, ax):
-        " Shamelessly stolen from StackOverflow "
-        extents = N.array([getattr(ax, 'get_{}lim'.format(dim))() for dim in 'xyz'])
-        sz = extents[:,1] - extents[:,0]
-        centers = N.mean(extents, axis=1)
-        maxsize = max(abs(sz))
-        r = maxsize/2
-        for ctr, dim in zip(centers, 'xyz'):
-            getattr(ax, 'set_{}lim'.format(dim))(ctr - r, ctr + r)
-            continue
-
-        return 0
-
-
-    # def plot_pos_scatter(self, IDsA, posA, box, plotdim=2,
-    #                      plotname="misc_scatplot", plotpath="output_gravipy/"):
-    #     """
-    #     Plots positional data output.
-    #     Example call:
-    #     plot_pos_scatter(IDsA=IDs, posA=pos, plotdim=2,
-    #                      plotname="funcScatterTest", plotpath="output_gravipy/")
-    #     """
-    #     print "  * Initiating {0} scatter plot of positions from simulation data"\
-    #             .format((str(plotdim)+"d"))
         
-    #     fig =  pl.figure(figsize=(10,10))
-
-    #     " Scatter plot "
-    #     if plotdim == 2:
-    #         " Defaults to 2 dimensions in plot "
-    #         ax  = fig.add_subplot(111) # 2d as default
-    #         ax.scatter( posA[:,0], # x-elements
-    #                     posA[:,1], # y-elements
-    #                      s=1 )
-    #         ax.set_xlabel('x-position Mpc/h')
-    #         ax.set_ylabel('y-position Mpc/h')
-    #         ax.set_aspect('equal','box')
-    #         pl.grid(True)
-    #         pass
-
-    #     elif plotdim == 3:
-    #         " In case of 3d "
-    #         ax  = fig.add_subplot(111, projection='3d')
-    #         # in the voice of an authorative Patrick Stewart:
-    #         " ENGAGE 3D VIZUALIZATION "
-    #         ax.scatter( posA[:,0], # x-elements
-    #                     posA[:,1], # y-elements
-    #                     posA[:,2], # z-elements
-    #                     depthshade=True, s=1)
-    #         ax.set_xlabel('x-position Mpc/h')
-    #         ax.set_ylabel('y-position Mpc/h')
-    #         ax.set_zlabel('z-position Mpc/h')
-            
-    #         # Axes
-    #         self.axisEqual3D(ax)
-    #         pass
-
-    #     else:
-    #         sys.exit(" * Unbelievable error. ")
-        
-    #     Saving, if wanted
-
-    #     plotpath = self.outputPather(plotpath, plotname)
-    #     plotpath = plotpath + "/" + plotname \
-    #                + "_{0}d".format(plotdim) + ".png"
-    #     print "    Saving plot (pos), {0:d}D. \n".format(plotdim)
-    #     pl.savefig(plotpath, dpi=200, bbox_inches='tight')
-    #     pl.close()
-    # return 0
-
 
 if __name__ == '__main__':
     sys.exit("Attempt at running code from unintended source. \n\

@@ -9,7 +9,7 @@ from read_misctools import MiscTools
 from read_usertools import UserTools
 
 
-class readProcedures(Sifters, MiscTools, UserTools):
+class readProcedures(Sifters, AutoTools, MiscTools, UserTools):
     """
     Contains structures which read the data in question.
     I.o.w.: Every read_*-function shows the program flow of reading procedures.
@@ -21,7 +21,7 @@ class readProcedures(Sifters, MiscTools, UserTools):
         Inheritance and variables
         """
         Sifters.__init__(self)
-        # AutoTools.__init__(self) # Remember proc. argument
+        AutoTools.__init__(self)
         MiscTools.__init__(self)
         UserTools.__init__(self)
         self.missingfiles = 0
@@ -50,7 +50,7 @@ class readProcedures(Sifters, MiscTools, UserTools):
         Npart_tot = 1024**3
         posA      = N.zeros( (Npart_tot,3), dtype=N.float32 )
         velA      = N.zeros( (Npart_tot,3), dtype=N.float32 )
-        IDsA      = N.zeros(  Npart_tot   , dtype=N.int64   )
+        IDsA      = N.zeros(  Npart_tot   , dtype=N.float32 )
         NpartA    = N.zeros(  iterLen     , dtype=N.int64   )
 
         readtext = "  * Accessing file:\tindra{0}{1}/snap{2}/file.{3:<3} ({4}) ..."
@@ -123,7 +123,7 @@ class readProcedures(Sifters, MiscTools, UserTools):
         print endread
 
         " returns what user needs, specifically: "
-        if self.what == "pos":
+        if self.wat == "pos":
             return IDsA, posA
 
         elif self.what == "vel":
@@ -396,7 +396,7 @@ class readProcedures(Sifters, MiscTools, UserTools):
         ori_open_error_str = """
         Could not find origami file at specified path: {0:s}
         """.format(oridatapath)
-        # oridatapath = "/workspace/indra/origami/testrun/"
+
         try:
             with open(oridatapath, 'rb') as openfile:
                 # Npart, tag = self.origami_sifter(openfile)

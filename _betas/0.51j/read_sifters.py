@@ -29,8 +29,7 @@ class Sifters(object):
         pathstrlen  = len(almostpath) # i.e. snappath is 49 characters long
         filelist    = glob.glob(almostpath+'*')
         filenumbers = []
-#         print almostpath
-#         print filelist
+        # print almostpath
         for filename in filelist:
             filenumbers.append(filename[pathstrlen:])
             continue # Could have used numpy array ops for this
@@ -272,8 +271,7 @@ class Sifters(object):
             print "len(FSOH) - len(FSOH.uniq)                 =", \
                   len(FirstSubOfHalo) - len(N.unique(FirstSubOfHalo))
             print "len(SubPos[FSOH]) - len(SubPos[FSOH.uniq]) =", \
-                  "not testable"
-                  # len(SubPos[FirstSubOfHalo,0]) - len(SubPos[N.unique(FirstSubOfHalo)])
+                  "not testable"# len(SubPos[FirstSubOfHalo,0]) - len(SubPos[N.unique(FirstSubOfHalo)])
 
             print 
             print "differences that SHOULD == 0:"
@@ -293,9 +291,9 @@ class Sifters(object):
             print
             print "shapes:"
             print "pos:", N.shape(pos), " - SubPos:", N.shape(SubPos)
-            print "pos[   sele:ction , : ]:", N.shape(pos[count:count+Ngroups,:])
-            print "SubPos[ FSOH.uniq , : ]:", N.shape(SubPos[N.unique(FirstSubOfHalo),:])
-            print "SubPos[      FSOH , : ]:", N.shape(SubPos[FirstSubOfHalo,:])
+            print "pos[   sele:ction , : ]:", N.shape(pos[ count:count+Ngroups , : ])
+            print "SubPos[ FSOH.uniq , : ]:", N.shape(SubPos[ N.unique(FirstSubOfHalo) , : ])
+            print "SubPos[      FSOH , : ]:", N.shape(SubPos[ FirstSubOfHalo , : ])
             print 
             print "=========================================================="
             print 
@@ -322,7 +320,6 @@ class Sifters(object):
             pos[ count:count+Ngroups , : ] = SubPos[ FirstSubOfHalo, : ]
             count += Ngroups
             pass
-
 
         # else:
         #     print 'Nsubs = 0'
@@ -386,10 +383,8 @@ class Sifters(object):
         """
         """ # keep this for orientation purposes
 
-        ; fft_re=fltarr(Lhalf+1,L+1,L+1) 
-            # looks like a zeros-function, specifically float32
-        ; fft_im=fltarr(Lhalf+1,L+1,L+1) 
-            # if IDL does j,i,k - then python does i,j,k ...?
+        ; fft_re=fltarr(Lhalf+1,L+1,L+1) # looks like a zeros-function, specifically float32
+        ; fft_im=fltarr(Lhalf+1,L+1,L+1) # if IDL does j,i,k - then python does i,j,k ...?
         
         #=> becomes the below statements, and shows dimensions:
             IDL IS COL-MAJOR,
@@ -423,7 +418,6 @@ class Sifters(object):
         npart = N.fromfile(f, N.int32, 1)
         tag   = N.fromfile(f, N.int8, npart)
         return npart, tag
-
 
 if __name__ == '__main__':
     sys.exit("Attempt at running code from unintended source. \n\

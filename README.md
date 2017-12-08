@@ -38,14 +38,14 @@ included in the file '**pyread/testrun.py**'.
   * For multi-set reading, return a dictionary..? Would be hard to handle with predetermined scripts, maybe?...
     * But controlling these on Jupyter would be simple, to keep the datasets apart - just refer to the indexes from a printed list of said dictionary's keys! :D
 
-...=> This is current format; as long as it seems to work.
+...=> This is current format; for as long as it seems to work.
 
 ------
 **0.52 from 0.51** (WIP):
 * Added the file and corresponding class `read_autotools.py` for when automated reading&postprocessing is wanted, but made `read_usertools.py` as a toolkit for live data manipulation w/ Jupyter - so that the latter's functions are less dependent on the parameters associated with the class' initialization.
   - Check; the most important tools now work as class-independent functions.
 
-* Allowing the automated initialization-system to work out wether it is run from a Jupyter instance on SciServer, or wether the script is run from the elephant clusters - in order to get the INDRA data retrieved - unless the user specifies datapath for these.
+* Allowing the automated initialization-system to work out wether it is run from a Jupyter instance on SciServer, or that script is run from the elephant clusters - in order to get the INDRA data retrieved - unless the user specifies some datapath for these variables.
 
 * Verifying that the currently written method for reading of ORIGAMI works.
 

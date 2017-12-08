@@ -1,0 +1,74 @@
+
+    Output folder already exists: /home/magnucb/pfs_origami/pfi200tmp/
+Current path: /home/magnucb/pfs_origami/pfi200tmp/pfi200tmp_sf00.txt
+
+### --- STARTFILE ---
+# General parameters
+posfile     /datascope/indra2_tmp/2_0_0/snapdir_000/snapshot_000
+outdir      /home/magnucb/oput_origami/i200tmp/i200tmp_sf00
+taglabel    ori
+boxsize     1000.
+np1d        1024
+nsplit      4
+numfiles    256
+
+# Used by vozinit
+buffer      0.1
+ndiv        2
+
+# Used by origamihalo
+volcut      .01
+npmin       20
+halolabel   n256d100
+### ---  ENDFILE  ---
+
+### -----------------------------------------------------------
+
+Current path: /home/magnucb/pfs_origami/pfi200tmp/pfi200tmp_sf07.txt
+
+### --- STARTFILE ---
+# General parameters
+posfile     /datascope/indra2_tmp/2_0_0/snapdir_007/snapshot_007
+outdir      /home/magnucb/oput_origami/i200tmp/i200tmp_sf07
+taglabel    ori
+boxsize     1000.
+np1d        1024
+nsplit      4
+numfiles    256
+
+# Used by vozinit
+buffer      0.1
+ndiv        2
+
+# Used by origamihalo
+volcut      .01
+npmin       20
+halolabel   n256d100
+### ---  ENDFILE  ---
+
+### -----------------------------------------------------------
+
+Current path: /home/magnucb/pfs_origami/pfi200tmp/pfi200tmp_sf14.txt
+
+### --- STARTFILE ---
+# General parameters
+posfile     /datascope/indra2_tmp/2_0_0/snapdir_014/snapshot_014
+outdir      /home/magnucb/oput_origami/i200tmp/i200tmp_sf14
+taglabel    ori
+boxsize     1000.
+np1d        1024
+nsplit      4
+numfiles    256
+
+# Used by vozinit
+buffer      0.1
+ndiv        2
+
+# Used by origamihalo
+volcut      .01
+npmin       20
+halolabel   n256d100
+### ---  ENDFILE  ---
+
+### -----------------------------------------------------------
+
