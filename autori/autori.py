@@ -65,6 +65,11 @@ outdir      /home/{user}/oput_origami/i200tmp/i200tmp_sf00  # temp
 
 # Alternatives of outdir variable 
 outdir_sciserver = "/sciserver/vc/indra/origami/i{iN}{iA}{iB}{tmp}/i{iN}{iA}{iB}{tmp}_sf{sf:02d}"
+# NEGATIVE! WILL YIELD THIS OUTPUT:
+# 'Unable to open /sciserver/vc/indra/origami/i200tmp/i200tmp_sf00tagstag.dat'
+# Use below instead
+
+# ... unless the folder structure itself was all that was needed.
 outdir_homefoldr = "{homepath}/oput_origami/i{iN}{iA}{iB}{tmp}/i{iN}{iA}{iB}{tmp}_sf{sf:02d}"
 
 # The raw parameter file template - let's attempt sciserver this time!
@@ -72,7 +77,7 @@ pf_templtxt = """
 # General parameters
 posfile     /datascope/indra{iN}{_tmp}/{iN}_{iA}_{iB}/snapdir_{sf:03d}/snapshot_{sf:03d}
 outdir      /sciserver/vc/indra/origami/i{iN}{iA}{iB}{tmp}/i{iN}{iA}{iB}{tmp}_sf{sf:02d}
-taglabel    tags
+taglabel    _
 boxsize     1000.
 np1d        1024
 nsplit      4
@@ -88,23 +93,15 @@ npmin       20
 halolabel   n256d100
 """.strip()
 
+
 # "pfi" ~= "parameter file, indra [simulation]" or "parameters for indra [simulation]"
-pfPath = "{homepath}/pfs_origami/pfi{iN}{iA}{iB}{tmp}/"
-pfName = "pfi{iN}{iA}{iB}{tmp}_sf{sf:02d}.txt"
-"""
-* For subprocess' call functionality:
+pfPath  = "{homepath}/pfs_origami/pfi{iN}{iA}{iB}{tmp}/"
+pfName  = "pfi{iN}{iA}{iB}{tmp}_sf{sf:02d}.txt"
 
-'wait' also (optionally) takes the PID of the process to wait for, 
-and with $! you get the PID of the last command launched in background. 
-
-Modify the loop to store the PID of each spawned sub-process into an array, 
-and then loop again waiting on each PID.
-*** Manually tested: Definitely works, if I get the PID correctly.
-"""
 
 def parf_maker(sfs):
     """
-    Parameter file creator, takes in 
+    Parameter file creator, takes in different sets of snapshot numbers
     """
     print """
  [ORIGAMI parameter file creation: ENGAGED.]>"""
@@ -235,16 +232,25 @@ osd_oput = """
 ---------------------- Errors encountered: ----------------------
 {err}
 """
+# Want to enable making origamo outdir before origami begins
+outdirp_tmpl = "/sciserver/vc/indra/origami/i{iN}{iA}{iB}{tmp}/"
+# outdirp_tmpl = "{homepath}/oput_origami/i{iN}{iA}{iB}{tmp}/"
 
 def origami_caller(pfpathsList):
     """
     Calls bash cmds for running ORIGAMI sequentially,
     through pre-defined set of parameterfiles.
     """
+    homepath = os.path.expanduser("~")
+
     print """
  [ORIGAMI particle tagger: ENGAGED.]>
     """
-    homepath = os.path.expanduser("~")
+    # ... Might be an issue where these folders do not exist yet...
+    outdirp = outdirp_tmpl.format( iN=iN, iA=iA, iB=iB, tmp="tmp" if tmpf == True else "" )
+    print " [Checking if ORIGAMI output's folder structure exists.]"
+    outputDirCheck(outdirp) # else there will be no log
+    print
 
     # Log file name conventions and path creator
     logfpath = logfpath_templ\
@@ -252,6 +258,7 @@ def origami_caller(pfpathsList):
     print " [Checking if screen output logs' folder structure exists.]"
     outputDirCheck(logfpath) # else there will be no log
     print
+
     
     print " :=> [ORIGAMI particle tagger begins looping over snapshots.]"
     for i in range(len(pfpathsList)):
