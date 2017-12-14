@@ -1,4 +1,4 @@
-
+"""
 data_params = \
     {
         # Data structure parameters:
@@ -28,7 +28,7 @@ data_params = \
         # Origami functionality
    "origamipath" :( "filepath" )
     }
-
+"""
 " The class function call: "
 # from read import reader
 # read_particles = read() # Initializes structure

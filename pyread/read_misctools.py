@@ -49,10 +49,10 @@ class MiscTools(object):
             folderPath = self.outputpath
             pass
         else:
-            folderPath = "output_gravipy/{0}_i{1}{2}{3}{4}_sf{5}/"
+            folderPath = "output_gravipy/{0}_i{1}{2}{3}{4}_sf{5:02d}/"
             pass
 
-        fileName = "{0}_i{1}{2}{3}{4}_sf{5}"
+        fileName = "{0}_i{1}{2}{3}{4}_sf{5:02d}"
         if self.what == "posvel":
             pass
         else:
@@ -65,8 +65,8 @@ class MiscTools(object):
             fileName   = fileName.format(   
                             self.what, self.indraN, self.iA, self.iB, "tmp", num )
             # Examples   : \
-            " folderpath : 'output_gravipy/{0}_i{1}{2}{3}{tmp}_sf{5}/' "
-            " filename   :                '{0}_i{1}{2}{3}{tmp}_sf{5}'  "
+            " folderpath : 'output_gravipy/{0}_i{1}{2}{3}{tmp}_sf{5:02d}/' "
+            " filename   :                '{0}_i{1}{2}{3}{tmp}_sf{5:02d}'  "
             pass
         else:
             " When normal data structures are processed "
@@ -75,8 +75,8 @@ class MiscTools(object):
             fileName   = fileName.format(   
                             self.what, self.indraN, self.iA, self.iB, "", num )
             # Examples   : \
-            " folderpath : 'output_gravipy/{0}_i{1}{2}{3}{None}_sf{5}/' "
-            " filename   :                '{0}_i{1}{2}{3}{None}_sf{5}'  "
+            " folderpath : 'output_gravipy/{0}_i{1}{2}{3}{None}_sf{5:02d}/' "
+            " filename   :                '{0}_i{1}{2}{3}{None}_sf{5:02d}'  "
             pass
         
         self.fileName = fileName 
@@ -214,7 +214,25 @@ class MiscTools(object):
 
         return 0
 
+    def arrval_equaltest(self, array):
+        """
+        Checks if all values of an array is the same value.
+        ** For debugging.
+        
+        ''' # From google groups
+        # How about the following?
+        exact: numpy.all(a == a[0])
+        inexact: numpy.allclose(a, a[0])
 
+        # Looks like the following is even faster:
+        np.max(a) == np.min(a)
+        '''
+        
+        """
+        # My own method
+        firstvalue  = array[0]
+        temparray   = N.ones(array.shape)*firstvalue
+        return N.array_equal(array, temparray)
 
 
 

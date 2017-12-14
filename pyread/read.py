@@ -78,7 +78,8 @@ class readDo(readArgs, readProcedures):
                 "fof",     
                 "subhalo", 
                 "fft",
-                "origami"
+                "origami",
+                "time"
             ]
         self.action =             { # Function library for initializing data reading.
                 "pos"     : self.read_posvel  , 
@@ -86,7 +87,8 @@ class readDo(readArgs, readProcedures):
                 "fof"     : self.read_FOF     , 
                 "subhalo" : self.read_subhalo , 
                 "fft"     : self.read_FFT     ,
-                "origami" : self.read_origami
+                "origami" : self.read_origami ,
+                "time"    : self.read_time
             }
         """
         end of init
@@ -168,18 +170,16 @@ class readDo(readArgs, readProcedures):
 
                             " Function calls post processes as paramatrized: "
                             if any((self.w2f, self.plotdata)) == True:
-                                """
-                                The program handles data post processing
-                                and storage thereof.
-                                """
+                                """ The program handles data post processing
+                                and storage thereof. """
                                 self.pp_selector(parsed_data, num)
                                 pass
-                            """
-                            Output for user to manipulate.
+
+                            """ Output for user to manipulate injected into dict.
                             * Base of filename seems a good candidate for 
                               dictionary's indexation names.
                               - Call on a list of the dictionary's keys, if confusion.
-                            """
+                              Keys on form: {'what'}_i{2}{0}{0}{'tmp'}_sf{0,63} """
                             parsed_datasets_dict[self.fileName] = parsed_data
 
                             continue # to next loop of 'num' (snapnum/fftfile)...

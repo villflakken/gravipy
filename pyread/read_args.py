@@ -351,10 +351,11 @@ class readArgs(object):
                 if type(pair) == list or type(pair) == tuple:
                     " Now check if they contain 2 numbers "
 
-                    if len(pair) == 2 and                         any(
+                    if len(pair) == 2 and \
+                        any(
                             [all(map(lambda x: hasattr(x, '__float__'), pair)),
                              all(map(lambda x: hasattr(x, '__int__'), pair))]
-                            ):
+                           ):
                         " Makes sure that each numbers are float or int. "
                         setattr(self, name, uinput)
                         pass

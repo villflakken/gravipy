@@ -519,60 +519,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "gunpig/make_origami_parameterfiles.py",
-			"settings":
-			{
-				"buffer_size": 14760,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "gunpig/exp_subprocess.py",
-			"settings":
-			{
-				"buffer_size": 4455,
-				"encoding": "UTF-8",
-				"line_ending": "Unix",
-				"name": "import subprocess"
-			}
-		},
-		{
-			"file": "gunpig/printing_over_time.py",
-			"settings":
-			{
-				"buffer_size": 117,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "_betas/0.51j/testrun.py",
-			"settings":
-			{
-				"buffer_size": 2808,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "pyread/read.py",
-			"settings":
-			{
-				"buffer_size": 9919,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "pyread/read_usertools.py",
-			"settings":
-			{
-				"buffer_size": 9206,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -687,10 +633,24 @@
 	"expanded_folders":
 	[
 		"/Q/Dropbox/uni/master/gravipy",
+		"/Q/Dropbox/uni/master/gravipy/notes",
 		"/Q/Dropbox/uni/master/gravipy/pyread"
 	],
 	"file_history":
 	[
+		"/Q/Dropbox/uni/master/gravipy/autori/autori.py",
+		"/Q/Dropbox/uni/master/gravipy/pyread/read_args.py",
+		"/Q/Dropbox/uni/master/gravipy/pyread/read_usertools.py",
+		"/Q/Dropbox/uni/master/plot_notes.py",
+		"/Q/Dropbox/uni/master/gravipy/gpy_nb_4dec17.ipynb",
+		"/Q/Dropbox/uni/master/gravipy/pyread/read_misctools.py",
+		"/Q/Dropbox/uni/master/gravipy/_betas/0.40_can_read_from_file_and_argv_and_stuff/read_tools.py",
+		"/Q/Dropbox/uni/master/gravipy/pyread/read_procedures.py",
+		"/Q/Dropbox/uni/master/gravipy/gunpig/make_origami_parameterfiles.py",
+		"/Q/Dropbox/uni/master/gravipy/gunpig/exp_subprocess.py",
+		"/Q/Dropbox/uni/master/gravipy/gunpig/printing_over_time.py",
+		"/Q/Dropbox/uni/master/gravipy/_betas/0.51j/testrun.py",
+		"/Q/Dropbox/uni/master/gravipy/pyread/read.py",
 		"/C/Users/Khyn/AppData/Local/lxss/home/phukon/pfs_origami/pfi200tmp/pfi200tmp_sf00.txt",
 		"/C/Users/Khyn/AppData/Local/lxss/home/phukon/pfs_origami/pfi200/pfi200_sf00.txt",
 		"/C/Users/Khyn/AppData/Local/lxss/home/phukon/pfs_origami/pfi200/pfi200_sf14.txt",
@@ -805,24 +765,11 @@
 		"/C/Users/Boffen/Dropbox/uni/summer17/read_fft.pro",
 		"/C/Users/Boffen/Dropbox/det_snødde_i_dag.txt",
 		"/C/Users/Boffen/Dropbox/uni/summer17/read_indra_snap.pro",
-		"/C/Users/Boffen/Dropbox/uni/ast3310/projectE/coremodel.py",
-		"/C/Users/Boffen/Dropbox/billeboogie.txt",
-		"/C/Users/Boffen/AppData/Local/Temp/Rar$DIa0.294/readfiles.c",
-		"/C/Users/Boffen/Dropbox/uni/summer17/read_sub.pro",
-		"/C/Users/Boffen/Dropbox/uni/summer17/snapinfo.txt",
-		"/C/Users/Boffen/Desktop/ast3220_eval_final.txt",
-		"/C/Users/Boffen/Desktop/ast3220_eval_mid.txt",
-		"/C/Users/Boffen/Dropbox/uni/ast5220/ms4/COM_PowerSpect_CMB-TT-loL-full_R2.02.txt",
-		"/C/Users/Boffen/Dropbox/uni/ast5220/ms4/COM_PowerSpect_CMB-TT-hiL-full_R2.02.txt",
-		"/C/Users/Boffen/Dropbox/uni/ast5220/ms4/py/plots4.py",
-		"/C/Users/Boffen/Dropbox/uni/ast5220/ms4/src/cl_mod.f90",
-		"/C/Users/Boffen/Dropbox/uni/ast5220/ms4/planck.dat",
-		"/C/Users/Boffen/Dropbox/uni/ast5220/ms3/src/evolution_mod.f90",
-		"/C/Users/Boffen/Dropbox/uni/INF1100/density_improved.py"
+		"/C/Users/Boffen/Dropbox/uni/ast3310/projectE/coremodel.py"
 	],
 	"find":
 	{
-		"height": 43.0
+		"height": 26.0
 	},
 	"find_in_files":
 	{
@@ -837,6 +784,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"map",
+			"all",
+			"map",
 			"tot",
 			"\ntot_time_m\ntot_time_h\ntot_time_d",
 			"sys.exit",
@@ -961,10 +911,7 @@
 			" is ",
 			"dirname",
 			"USER",
-			"IDs",
-			"ids",
-			"IDs",
-			"TotNgroups"
+			"IDs"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1034,363 +981,8 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "gunpig/make_origami_parameterfiles.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 14760,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								9614,
-								9614
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 747.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "gunpig/exp_subprocess.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4455,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4349,
-								1769
-							]
-						],
-						"settings":
-						{
-							"auto_name": "import subprocess",
-							"syntax": "Packages/Python/Python.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "gunpig/printing_over_time.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 117,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								37,
-								37
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 2,
-			"sheets":
-			[
-				{
-					"buffer": 0,
-					"file": "gunpig/make_origami_parameterfiles.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 14760,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								523,
-								523
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "_betas/0.51j/testrun.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2808,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								828,
-								828
-							]
-						],
-						"settings":
-						{
-							"c_time":
-							[
-								128,
-								3,
-								99,
-								100,
-								97,
-								116,
-								101,
-								116,
-								105,
-								109,
-								101,
-								10,
-								100,
-								97,
-								116,
-								101,
-								116,
-								105,
-								109,
-								101,
-								10,
-								113,
-								0,
-								67,
-								10,
-								7,
-								225,
-								12,
-								4,
-								11,
-								21,
-								19,
-								0,
-								31,
-								215,
-								113,
-								1,
-								133,
-								113,
-								2,
-								82,
-								113,
-								3,
-								46
-							],
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "pyread/read.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 9919,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3226,
-								3226
-							]
-						],
-						"settings":
-						{
-							"c_time":
-							[
-								128,
-								3,
-								99,
-								100,
-								97,
-								116,
-								101,
-								116,
-								105,
-								109,
-								101,
-								10,
-								100,
-								97,
-								116,
-								101,
-								116,
-								105,
-								109,
-								101,
-								10,
-								113,
-								0,
-								67,
-								10,
-								7,
-								225,
-								10,
-								16,
-								2,
-								21,
-								48,
-								10,
-								132,
-								145,
-								113,
-								1,
-								133,
-								113,
-								2,
-								82,
-								113,
-								3,
-								46
-							],
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1026.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "pyread/read_usertools.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 9206,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2243,
-								2244
-							]
-						],
-						"settings":
-						{
-							"c_time":
-							[
-								128,
-								3,
-								99,
-								100,
-								97,
-								116,
-								101,
-								116,
-								105,
-								109,
-								101,
-								10,
-								100,
-								97,
-								116,
-								101,
-								116,
-								105,
-								109,
-								101,
-								10,
-								113,
-								0,
-								67,
-								10,
-								7,
-								225,
-								10,
-								27,
-								18,
-								11,
-								0,
-								11,
-								12,
-								210,
-								113,
-								1,
-								133,
-								113,
-								2,
-								82,
-								113,
-								3,
-								46
-							],
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 608.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				}
 			]
 		}
 	],
@@ -1411,18 +1003,11 @@
 				0,
 				1,
 				1
-			],
-			[
-				1,
-				0,
-				2,
-				1
 			]
 		],
 		"cols":
 		[
 			0.0,
-			0.5,
 			1.0
 		],
 		"rows":
@@ -1474,7 +1059,7 @@
 		],
 		"width": 0.0
 	},
-	"selected_group": 1,
+	"selected_group": 0,
 	"settings":
 	{
 	},

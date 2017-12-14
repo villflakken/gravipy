@@ -29,8 +29,8 @@ class Sifters(object):
         pathstrlen  = len(almostpath) # i.e. snappath is 49 characters long
         filelist    = glob.glob(almostpath+'*')
         filenumbers = []
-#         print almostpath
-#         print filelist
+        # print almostpath
+        # print filelist
         for filename in filelist:
             filenumbers.append(filename[pathstrlen:])
             continue # Could have used numpy array ops for this
@@ -41,7 +41,7 @@ class Sifters(object):
         return maxfileCount 
 
 
-    def posvel_sifter(self, f, i):
+    def posvel_sifter(self, f):
         """
         Sifts through the position/velocities file's data content.
         'f' is the file object for data retrieval.
@@ -88,7 +88,7 @@ class Sifters(object):
         idarr = N.fromfile(f, N.int64, npart)
 
         f.close()
-        return pos, vel, idarr, npart
+        return pos, vel, idarr, npart, scalefact, redshift
 
 
     def fof_tab_sifter(self, f, i, skip):
@@ -423,6 +423,21 @@ class Sifters(object):
         npart = N.fromfile(f, N.int32, 1)
         tag   = N.fromfile(f, N.int8, npart)
         return npart, tag
+
+    def time_sifter(self, f):
+        """
+        Designed specifically to retrieve redshift data.
+        * Reads a single .i-file.
+        """
+        header_size = N.fromfile(f, N.int32, 1)[0] # = 256: error catch here?
+        numpart     = N.fromfile(f, N.int32, 6)
+        npart       = numpart[1] # Number of DM-particles in this file
+
+        mass  = N.fromfile(f, N.float64, 6)
+        
+        scalefact, redshift = N.fromfile(f, N.float64, 2)
+
+        return scalefact, redshift
 
 
 if __name__ == '__main__':

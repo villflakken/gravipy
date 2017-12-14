@@ -52,6 +52,8 @@ class readProcedures(Sifters, MiscTools, UserTools):
         velA      = N.zeros( (Npart_tot,3), dtype=N.float32 )
         IDsA      = N.zeros(  Npart_tot   , dtype=N.int64   )
         NpartA    = N.zeros(  iterLen     , dtype=N.int64   )
+        scalefA   = N.zeros(  iterLen     , dtype=N.float64 )
+        rsA       = N.zeros(  iterLen     , dtype=N.float64 )
 
         readtext = "  * Accessing file:\tindra{0}{1}/snap{2}/file.{3:<3} ({4}) ..."
         tmpftxt  = "tmp" if self.tmpfolder == True else ""
@@ -64,12 +66,12 @@ class readProcedures(Sifters, MiscTools, UserTools):
             filepath = snappath + str(i)
             try:
                 with open(filepath, 'rb') as openfile:
-                    pos, vel, IDsArr, Npart = self.posvel_sifter(openfile, i)
-                    
                     itertext = readtext.format( self.indraN, tmpftxt, 
                                                self.subfolder, i, self.what )
                     self.itertextPrinter(itertext, i, iterLen, 10)
-
+                    
+                    pos, vel, IDsArr, Npart, scalefact, redshift = self.posvel_sifter(openfile, i)
+                    
                     # End shape: ( 1024**3 , 3 )
                     # print "posA[ci:Npart, :].shape : ", posA[ci:ci+Npart, :].shape 
                     # print "pos (from file).shape   : ", pos.shape
@@ -77,6 +79,8 @@ class readProcedures(Sifters, MiscTools, UserTools):
                     velA[ci:ci+Npart, :] = vel
                     IDsA[ci:ci+Npart]    = IDsArr
                     NpartA[i]            = Npart
+                    scalefA[i]           = scalefact
+                    rsA[i]               = redshift
 
                     ci += Npart
 
@@ -87,6 +91,20 @@ class readProcedures(Sifters, MiscTools, UserTools):
                 pass
 
             continue # Next binary file's turn
+
+        # DT - getting a handle on why so many files would include RS data
+        if self.arrval_equaltest(scalefA) != True:
+            print "All scalefactor elements are _not_ equal!"
+            print "Scalefactor values retrieved:"
+            print scalefA
+            pass
+
+        if self.arrval_equaltest(rsA) != True:
+            print "All scalefactor elements are _not_ equal!"
+            print "Redshift values retrieved:"
+            print rsA
+            pass
+
 
         # File reading loop completed; print status
         countedNpart = N.sum(NpartA)
@@ -124,10 +142,10 @@ class readProcedures(Sifters, MiscTools, UserTools):
 
         " returns what user needs, specifically: "
         if self.what == "pos":
-            return IDsA, posA
+            return IDsA, posA, scalefA[0], rsA[0]
 
         elif self.what == "vel":
-            return IDsA, velA
+            return IDsA, velA, scalefA[0], rsA[0]
 
         else:
             sys.exit("\n    *** read_posvel task name error *** \n")
@@ -408,6 +426,30 @@ class readProcedures(Sifters, MiscTools, UserTools):
             pass
 
         return Npart, tag
+
+
+    def read_time(self):
+        """
+        Designed specifically to retrieve scalefactor and redshift data.
+        * Reads a single .i-file.
+        """
+        indrapath = self.dsp + self.indraPathParser()
+        snappath = indrapath + '/snapdir_{0:03d}/snapshot_{0:03d}.'\
+                                .format(self.subfolder)
+
+        readtext = "  * Accessing file:\tindra{0}{1}/snap{2}/file.{3:<3} ({4}) ..."
+        tmpftxt  = "tmp" if self.tmpfolder == True else ""
+
+        filepath = snappath + str(0)
+        with open(filepath, 'rb') as openfile:
+            itertext = readtext.format( self.indraN, tmpftxt, 
+                                       self.subfolder, 0, self.what )
+            print itertext
+            scalefact, redshift = self.time_sifter(openfile)
+            
+            openfile.close()
+
+        return scalefact, redshift
 
 
 if __name__ == '__main__':

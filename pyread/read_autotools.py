@@ -9,10 +9,6 @@ from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import rc
 rc('font',**{'family':'serif'})
 
-# ==============================================
-# Read.& proc. toolkit for data sets' structure.
-# ==============================================
-
 class AutoTools(object):
     """
     Tools that function when used in the readProcedures instance's automatic mode.
