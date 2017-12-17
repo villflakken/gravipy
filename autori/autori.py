@@ -97,7 +97,7 @@ pfPath  = "{homepath}/pfs_origami/pfi{iN}{iA}{iB}{tmp}/"
 pfName  = "pfi{iN}{iA}{iB}{tmp}_sf{sf:02d}.txt"
 
 
-def parf_maker(sfs):
+def parf_maker(iN, iA, iB, tmpf, sfs):
     """
     Parameter file creator, takes in different sets of snapshot numbers
     """
@@ -325,16 +325,16 @@ def main(iNs, iAs, iBs, sfs, tmpfs):
     """
     " Loops through everything "
     for iN in iNs:
-        iN = iN # Iteration variable added to scope
+        # iN = iN
 
         for iA in iAs:
-            iA = iA
+            # iA = iA
 
             for iB in iBs:
-                iB = iB
+                # iB = iB
 
                 for tmpf in tmpfs:
-                    tmpf = tmpf
+                    # tmpf = tmpf
 
                     # User orientation:
                     print """
@@ -345,7 +345,7 @@ def main(iNs, iAs, iBs, sfs, tmpfs):
                     print "\n# === === === === === === === === === === === === === === === === |"
 
                     # Creates parameter files
-                    pfpathsList = parf_maker(sfs)
+                    pfpathsList = parf_maker(iN, iA, iB, tmpf, sfs)
 
                     print "\n# === === === === === === === === === === === === === === === === |"
 
