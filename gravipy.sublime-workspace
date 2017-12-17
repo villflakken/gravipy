@@ -4,88 +4,16 @@
 		"selected_items":
 		[
 			[
-				"scale",
-				"scalefact"
+				"tmp",
+				"tmpfs"
 			],
 			[
-				"first",
-				"firstvalue"
-			],
-			[
-				"sca",
-				"scalefA"
-			],
-			[
-				"rem",
-				"rem_run_time"
-			],
-			[
-				"tot_time",
-				"tot_time_h"
-			],
-			[
-				"tot",
-				"tot_time_s"
-			],
-			[
-				"home",
-				"homepath"
-			],
-			[
-				"call",
-				"call_oput"
-			],
-			[
-				"call_ou",
-				"call_oput"
-			],
-			[
-				"log",
-				"logfname"
-			],
-			[
-				"logfn",
-				"logfname_templ"
-			],
-			[
-				"logf",
-				"logfname_templ"
+				"outdir",
+				"outdirp"
 			],
 			[
 				"out",
-				"outputDirCheck"
-			],
-			[
-				"comma",
-				"commandstring_i"
-			],
-			[
-				"coma",
-				"commandstring"
-			],
-			[
-				"comm",
-				"commandstring_templ"
-			],
-			[
-				"prin",
-				"printing_over_time"
-			],
-			[
-				"like",
-				"likeness"
-			],
-			[
-				"current",
-				"current_pftxt"
-			],
-			[
-				"re",
-				"returnFile_asString"
-			],
-			[
-				"pfpa",
-				"pfpathsList"
+				"outdirp"
 			],
 			[
 				"system",
@@ -194,10 +122,6 @@
 			[
 				"fft_dat",
 				"FFT_DATA"
-			],
-			[
-				"tmp",
-				"tmpfolder"
 			],
 			[
 				"get",
@@ -514,6 +438,82 @@
 			[
 				"skip",
 				"skipfile_i"
+			],
+			[
+				"err",
+				"error_w_user_input"
+			],
+			[
+				"path",
+				"pathstrlen"
+			],
+			[
+				"grou",
+				"groupoffset"
+			],
+			[
+				"group",
+				"groupoffset"
+			],
+			[
+				"tot",
+				"TotNids"
+			],
+			[
+				"totN",
+				"TotNgroups"
+			],
+			[
+				"num_chos",
+				"num_chos-N"
+			],
+			[
+				"mass",
+				"mass_sub"
+			],
+			[
+				"SubV",
+				"SubVmax"
+			],
+			[
+				"SubVel",
+				"SubVelDisp"
+			],
+			[
+				"floa",
+				"float64"
+			],
+			[
+				"Nsub",
+				"NsubPerHalo"
+			],
+			[
+				"loc",
+				"locIDs"
+			],
+			[
+				"long",
+				"LONGID"
+			],
+			[
+				"totnid",
+				"totnids"
+			],
+			[
+				"grouplen",
+				"grouplen"
+			],
+			[
+				"Gro",
+				"GroupLen"
+			],
+			[
+				"GroupOf",
+				"GroupOffset"
+			],
+			[
+				"from",
+				"fromfile"
 			]
 		]
 	},
@@ -523,52 +523,25 @@
 			"file": "autori/autori.py",
 			"settings":
 			{
-				"buffer_size": 17999,
+				"buffer_size": 15420,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "/Q/Dropbox/uni/master/ssh_git_sheet.txt",
+			"file": "project_info_tidbits.txt",
+			"settings":
+			{
+				"buffer_size": 1438,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/C/Users/Boffen/Dropbox/uni/master/ssh_git_sheet.txt",
 			"settings":
 			{
 				"buffer_size": 3843,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "pyread/testrun.py",
-			"settings":
-			{
-				"buffer_size": 2814,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "pyread/read.py",
-			"settings":
-			{
-				"buffer_size": 9968,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "pyread/read_procedures.py",
-			"settings":
-			{
-				"buffer_size": 17614,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "pyread/read_misctools.py",
-			"settings":
-			{
-				"buffer_size": 7873,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -695,35 +668,37 @@
 	},
 	"expanded_folders":
 	[
-		"/Q/Dropbox/uni/master/gravipy",
-		"/Q/Dropbox/uni/master/gravipy/autori",
-		"/Q/Dropbox/uni/master/gravipy/gunpig",
-		"/Q/Dropbox/uni/master/gravipy/notes",
-		"/Q/Dropbox/uni/master/gravipy/pyread"
+		"/C/Users/Boffen/Dropbox/uni/master/gravipy",
+		"/C/Users/Boffen/Dropbox/uni/master/gravipy/autori",
+		"/C/Users/Boffen/Dropbox/uni/master/gravipy/notes",
+		"/C/Users/Boffen/Dropbox/uni/master/gravipy/pyread"
 	],
 	"file_history":
 	[
-		"/Q/Dropbox/uni/master/gravipy/pyread/read_args.py",
-		"/Q/Dropbox/uni/master/gravipy/_betas/0.51j/read_misctools.py",
-		"/Q/Dropbox/uni/master/gravipy/pyread/read_autotools.py",
-		"/Q/Dropbox/uni/master/gravipy/autori/autori.py",
-		"/Q/Dropbox/uni/master/gravipy/pyread/read_usertools.py",
-		"/Q/Dropbox/uni/master/plot_notes.py",
-		"/Q/Dropbox/uni/master/gravipy/gpy_nb_4dec17.ipynb",
-		"/Q/Dropbox/uni/master/gravipy/pyread/read_misctools.py",
-		"/Q/Dropbox/uni/master/gravipy/_betas/0.40_can_read_from_file_and_argv_and_stuff/read_tools.py",
-		"/Q/Dropbox/uni/master/gravipy/pyread/read_procedures.py",
-		"/Q/Dropbox/uni/master/gravipy/gunpig/make_origami_parameterfiles.py",
-		"/Q/Dropbox/uni/master/gravipy/gunpig/exp_subprocess.py",
-		"/Q/Dropbox/uni/master/gravipy/gunpig/printing_over_time.py",
-		"/Q/Dropbox/uni/master/gravipy/_betas/0.51j/testrun.py",
-		"/Q/Dropbox/uni/master/gravipy/pyread/read.py",
-		"/C/Users/Khyn/AppData/Local/lxss/home/phukon/pfs_origami/pfi200tmp/pfi200tmp_sf00.txt",
-		"/C/Users/Khyn/AppData/Local/lxss/home/phukon/pfs_origami/pfi200/pfi200_sf00.txt",
-		"/C/Users/Khyn/AppData/Local/lxss/home/phukon/pfs_origami/pfi200/pfi200_sf14.txt",
-		"/C/Users/Khyn/AppData/Local/lxss/home/phukon/pfs_origami/pfi200/pfi200_sf07.txt",
-		"/C/Users/Khyn/AppData/Local/lxss/home/phukon/pfs_origami/pfi200tmp/pfi200tmp_sf07.txt",
-		"/C/Users/Khyn/AppData/Local/lxss/home/phukon/pfs_origami/pfi200tmp/pfi200tmp_sf14.txt",
+		"/C/Users/Boffen/Dropbox/uni/master/gravipy/pyread/read_procedures.py",
+		"/C/Users/Boffen/Dropbox/uni/master/gravipy/notes/autori0.hs",
+		"/C/Users/Boffen/Dropbox/uni/master/gravipy/pyread/read_sifters.py",
+		"/C/Users/Boffen/Dropbox/uni/master/ssh_git_sheet.txt",
+		"/C/Users/Boffen/Dropbox/uni/master/gravipy/gunpig/stuff_for_vc_to_do.py",
+		"/C/Users/Boffen/Dropbox/uni/master/origami/code/origamitag.c",
+		"/C/Users/Boffen/Dropbox/uni/master/origami/code/readfiles_int.c",
+		"/C/Users/Boffen/Dropbox/uni/master/origami/code/readfiles.c",
+		"/C/Users/Boffen/Dropbox/uni/master/gravipy/gunpig/details_on_origami_output.py",
+		"/C/Users/Boffen/Dropbox/uni/master/gravipy/_betas/0.51j/testrun.py",
+		"/C/Users/Boffen/Dropbox/uni/master/gravipy/pyread/read_usertools.py",
+		"/C/Users/Boffen/Dropbox/uni/master/gravipy/pyread/read.py",
+		"/C/Users/Boffen/Dropbox/uni/master/memory_sheet/running_origami.txt",
+		"/C/Users/Boffen/AppData/Local/Packages/CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc/LocalState/rootfs/home/magnucb/pfs_origami/pfi200tmp/pfi200tmp_sf00.txt",
+		"/C/Users/Boffen/AppData/Local/Packages/CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc/LocalState/rootfs/home/magnucb/pfs_origami/pfi200tmp/pfi200tmp_sf07.txt",
+		"/C/Users/Boffen/AppData/Local/Packages/CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc/LocalState/rootfs/home/magnucb/pfs_origami/pfi200tmp/pfi200tmp_sf14.txt",
+		"/C/Users/Boffen/AppData/Local/Packages/CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc/LocalState/rootfs/home/magnucb/pfs_origami/pfi200tmp/pfi200tmp_sf21.txt",
+		"/C/Users/Boffen/AppData/Local/Packages/CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc/LocalState/rootfs/home/magnucb/pfs_origami/pfi200tmp/pfi200tmp_sf28.txt",
+		"/C/Users/Boffen/AppData/Local/Packages/CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc/LocalState/rootfs/home/magnucb/pfs_origami/pfi200tmp/pfi200tmp_sf35.txt",
+		"/C/Users/Boffen/AppData/Local/Packages/CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc/LocalState/rootfs/home/magnucb/pfs_origami/pfi200tmp/pfi200tmp_sf42.txt",
+		"/C/Users/Boffen/AppData/Local/Packages/CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc/LocalState/rootfs/home/magnucb/pfs_origami/pfi200tmp/pfi200tmp_sf49.txt",
+		"/C/Users/Boffen/AppData/Local/Packages/CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc/LocalState/rootfs/home/magnucb/pfs_origami/pfi200tmp/pfi200tmp_sf56.txt",
+		"/C/Users/Boffen/AppData/Local/Packages/CanonicalGroupLimited.UbuntuonWindows_79rhkp1fndgsc/LocalState/rootfs/home/magnucb/pfs_origami/pfi200tmp/pfi200tmp_sf63.txt",
+		"/C/Users/Boffen/Dropbox/uni/master/gravipy/_betas/0.40_can_read_from_file_and_argv_and_stuff/restore_default_cfg.py",
 		"/C/Users/Boffen/Dropbox/uni/master/gravipy/_betas/0.51j/read_usertools.py",
 		"/C/Users/Boffen/Dropbox/uni/master/gravipy/pyread/read_plotter.py",
 		"/C/Users/Boffen/Dropbox/uni/master/gravipy/_betas/0.51j/read_plotter.py",
@@ -731,12 +706,8 @@
 		"/C/Users/Boffen/Dropbox/uni/master/gravipy/_betas/0.51j/read_autotools.py",
 		"/C/Users/Boffen/Dropbox/uni/master/gravipy/_betas/0.51j/read_args.py",
 		"/C/Users/Boffen/Dropbox/uni/master/gravipy/_betas/0.51j/read.py",
-		"/C/Users/Boffen/Dropbox/uni/master/gravipy/pyread/read.py",
-		"/C/Users/Boffen/Dropbox/uni/master/gravipy/pyread/read_usertools.py",
-		"/C/Users/Boffen/Dropbox/uni/master/gravipy/pyread/read_sifters.py",
 		"/C/Users/Boffen/Dropbox/uni/master/gravipy/_betas/0.51j/read_sifters.py",
 		"/C/Users/Boffen/Dropbox/uni/master/gravipy/_betas/0.51j/read_procedures.py",
-		"/C/Users/Boffen/Dropbox/uni/master/gravipy/pyread/read_procedures.py",
 		"/C/Users/Boffen/Dropbox/uni/master/gravipy/pyread/read_misctools.py",
 		"/C/Users/Boffen/Dropbox/uni/master/gravipy/pyread/read_args.py",
 		"/C/Users/Boffen/Dropbox/uni/master/gravipy_notebook.py",
@@ -830,11 +801,12 @@
 		"/C/Users/Boffen/Dropbox/uni/summer17/read_sifters.py",
 		"/C/Users/Boffen/Dropbox/uni/summer17/read_args.py",
 		"/C/Users/Boffen/Dropbox/uni/summer17/read_fft.pro",
-		"/C/Users/Boffen/Dropbox/det_snødde_i_dag.txt"
+		"/C/Users/Boffen/Dropbox/det_snødde_i_dag.txt",
+		"/C/Users/Boffen/Dropbox/uni/summer17/read_indra_snap.pro"
 	],
 	"find":
 	{
-		"height": 43.0
+		"height": 26.0
 	},
 	"find_in_files":
 	{
@@ -849,17 +821,17 @@
 		"case_sensitive": false,
 		"find_history":
 		[
-			"action",
-			"value",
-			"map",
-			"all",
-			"map",
-			"tot",
-			"\ntot_time_m\ntot_time_h\ntot_time_d",
-			"sys.exit",
-			"foldPath",
-			"userpath",
-			"join",
+			"try:",
+			"tag",
+			"Unable to open",
+			"out",
+			"write",
+			"git",
+			"magnu",
+			"magnucb",
+			"plotname",
+			"outputPather",
+			"format",
 			"datascope",
 			"dsp",
 			"outputPather",
@@ -1055,25 +1027,72 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 17999,
+						"buffer_size": 15420,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								15630,
-								15630
+								6973,
+								6973
 							]
 						],
 						"settings":
 						{
+							"c_time":
+							[
+								128,
+								3,
+								99,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								113,
+								0,
+								67,
+								10,
+								7,
+								225,
+								12,
+								8,
+								0,
+								44,
+								52,
+								6,
+								219,
+								5,
+								113,
+								1,
+								133,
+								113,
+								2,
+								82,
+								113,
+								3,
+								46
+							],
 							"syntax": "Packages/Python/Python.sublime-syntax",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 6516.0,
+						"translation.y": 2788.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
@@ -1081,7 +1100,82 @@
 				},
 				{
 					"buffer": 1,
-					"file": "/Q/Dropbox/uni/master/ssh_git_sheet.txt",
+					"file": "project_info_tidbits.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1438,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1393,
+								1393
+							]
+						],
+						"settings":
+						{
+							"c_time":
+							[
+								128,
+								3,
+								99,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								113,
+								0,
+								67,
+								10,
+								7,
+								225,
+								9,
+								8,
+								17,
+								14,
+								6,
+								0,
+								58,
+								38,
+								113,
+								1,
+								133,
+								113,
+								2,
+								82,
+								113,
+								3,
+								46
+							],
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/C/Users/Boffen/Dropbox/uni/master/ssh_git_sheet.txt",
 					"semi_transient": false,
 					"settings":
 					{
@@ -1092,149 +1186,70 @@
 						"selection":
 						[
 							[
-								2235,
-								2235
+								2625,
+								2600
 							]
 						],
 						"settings":
 						{
+							"c_time":
+							[
+								128,
+								3,
+								99,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								113,
+								0,
+								67,
+								10,
+								7,
+								225,
+								10,
+								18,
+								11,
+								45,
+								19,
+								3,
+								248,
+								146,
+								113,
+								1,
+								133,
+								113,
+								2,
+								82,
+								113,
+								3,
+								46
+							],
 							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 1080.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "pyread/testrun.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2814,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1398,
-								1398
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "pyread/read.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 9968,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								7858,
-								7858
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2646.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "pyread/read_procedures.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 17614,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								17355,
-								17355
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 7225.0,
+						"translation.y": 1188.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
 					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 0,
-			"sheets":
-			[
-				{
-					"buffer": 5,
-					"file": "pyread/read_misctools.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 7873,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1568,
-								1568
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 711.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 3,
 					"file": "pyread/read_sifters.py",
 					"semi_transient": false,
 					"settings":
@@ -1246,21 +1261,68 @@
 						"selection":
 						[
 							[
-								16926,
-								16926
+								0,
+								0
 							]
 						],
 						"settings":
 						{
+							"c_time":
+							[
+								128,
+								3,
+								99,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								113,
+								0,
+								67,
+								10,
+								7,
+								225,
+								12,
+								8,
+								1,
+								25,
+								16,
+								8,
+								93,
+								9,
+								113,
+								1,
+								133,
+								113,
+								2,
+								82,
+								113,
+								3,
+								46
+							],
 							"syntax": "Packages/Python/Python.sublime-syntax",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 7020.0,
+						"translation.y": 752.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 3,
 					"type": "text"
 				}
 			]
@@ -1283,18 +1345,11 @@
 				0,
 				1,
 				1
-			],
-			[
-				1,
-				0,
-				2,
-				1
 			]
 		],
 		"cols":
 		[
 			0.0,
-			0.5,
 			1.0
 		],
 		"rows":
@@ -1354,7 +1409,7 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 183.0,
+	"side_bar_width": 185.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

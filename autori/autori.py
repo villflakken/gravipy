@@ -65,9 +65,7 @@ outdir      /home/{user}/oput_origami/i200tmp/i200tmp_sf00  # temp
 
 # Alternatives of outdir variable 
 outdir_sciserver = "/sciserver/vc/indra/origami/i{iN}{iA}{iB}{tmp}/i{iN}{iA}{iB}{tmp}_sf{sf:02d}"
-# NEGATIVE! WILL YIELD THIS OUTPUT:
-# 'Unable to open /sciserver/vc/indra/origami/i200tmp/i200tmp_sf00tagstag.dat'
-# Use below instead
+
 
 # ... unless the folder structure itself was all that was needed.
 outdir_homefoldr = "{homepath}/oput_origami/i{iN}{iA}{iB}{tmp}/i{iN}{iA}{iB}{tmp}_sf{sf:02d}"
@@ -147,39 +145,6 @@ def parf_maker(sfs):
         current_totPath = current_pfPath+current_pfName
         pfpathsList.append(current_totPath) 
 
-        # print "Current path:", current_totPath
-        # print "### --- STARTFILE ---"
-        # print current_pftxt
-        # print "### ---  ENDFILE  ---"
-        # print
-        # print "### -----------------------------------------------------------"
-        # print                         # Debugging lines
-
-
-
-        ''' # EXISTING PARAMETER FILE CHECKER
-        if os.path.exists( current_totPath ):
-            " Parameter file already exists "
-            
-            # 'textvar' is string of existing pf's contents
-            textvar = returnFile_asString(current_totPath)
-            likeness = (textvar == current_pftxt)
-            
-            if likeness:
-                pass
-                # Previously existing parameter file's contents 
-                #   \.<==> equal to current parameter string.
-                # Do nothing?
-                #   (Overwrite?)
-                # Do something?
-                #   (Remove this snapshot from sequence of ORIGAMI calls? Something else?)
-            else:
-                pass
-                # Previously existing parameter file's contents 
-                #   \.<==> different compared to current parameter string.
-                # Overwrite?         (Probably?)
-                # Run ORIGAMI again? (Probably?) '''
-
 
         # Below writer would/could be included in above '''str'''-section.
         with open( current_totPath, "w") as pf: # File created here
@@ -188,17 +153,6 @@ def parf_maker(sfs):
 
         # sys.exit("---------------------- Abbor at this point. ----------------------")
         continue # next file in the set of snapfolders
-
-    # for filepath, singlefile in zip(pfpathsList, pfList):
-    #     print "Current path:", filepath
-    #     print
-    #     print "### --- STARTFILE ---"
-    #     print singlefile
-    #     print "### ---  ENDFILE  ---"
-    #     print
-    #     print "### -----------------------------------------------------------"
-    #     print                         # Debugging lines
-    #     continue
 
 
     print "\n :=> [ORIGAMI parameter file creation: COMPLETED.]"
@@ -211,11 +165,7 @@ def parf_maker(sfs):
 
     return pfpathsList
 
-""" Strings useful to the ORIGAMI caller below this line: """
-# This worked manually - my base example
-origami_example_call = "/home/{user}/origami-2.0/code/./origamitag ~/oriread/testrun/params_i200tmp_sf63.txt"
-                                                    ### /home/{user}/pfs_origami/pfi200/pfi200_sf00.txt
-
+" Strings useful to the ORIGAMI caller below this line: "
 # ORIGAMI tagger call phrase
 ocall_templ = "{homepath}/origami-2.0/code/./origamitag {pfpath}"
 # Call process log files
@@ -261,8 +211,9 @@ def origami_caller(pfpathsList):
 
     
     print " :=> [ORIGAMI particle tagger begins looping over snapshots.]"
+
     for i in range(len(pfpathsList)):
-        " Loopy-loop commencement! "
+        " Loopy-loop's commencement! "
 
         time_iter_start = time.time()
         print "| --- --- ---: Analyzing snapshot: {sf:02d} :--- --- ---".format(sf=i)
@@ -336,7 +287,7 @@ def origami_caller(pfpathsList):
     print """ :=> [ORIGAMI particle tagger: COMPLETED] """
     return 0
 
-def main():
+def main(iNs, iAs, iBs, sfs, tmpfs):
     """
     1:  Script flow intended to **mass produce parameter files for ORIGAMI**,
     as initialization of each & every numerical analysis to be performed by ORIGAMI,
@@ -371,9 +322,42 @@ def main():
     2:  ... Until the script intends to continue by calling ORIGAMI and perform these
     analyses sequentially, until all specified snapshots have been analyzed.
         * Function: "origami_caller".
+    """
+    for iN in iNs:
+        for iA in iAs:
+            for iB in iBs:
+                for tmpf in tmpfs:
+                    " Loops through everything "
 
+                    # User orientation:
+                    print """
+                  Currently processing data from set of files:
+                 [...]/indra{iN:d}{tmp}/i{iN:d}{iA:d}{iB:d}/snap_[ {sf0:02d}, ... , {sf1:02d} ]"""\
+                        .format( iN=iN, iA=iA, iB=iB, tmp="_tmp" if tmpf == True else "",
+                                 sf0=sfs[0], sf1=sfs[-1] )
+                    print "\n# === === === === === === === === === === === === === === === === |"
+
+                    # Creates parameter files
+                    pfpathsList = parf_maker(sfs)
+
+                    print "\n# === === === === === === === === === === === === === === === === |"
+
+                    # Runs ORIGAMI sequentially within this function
+                    origami_caller(pfpathsList)
+
+                    print "\n# === === === === === === === === === === === === === === === === |"
+                    
+                    continue
+                continue
+            continue
+        continue
     
-    A small attempt at variable name explanation:
+    print """
+### All scripts completed successfully!!! :D"""
+
+    return 0
+
+    # A small attempt at variable name explanation:
     # --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
     # i(N,A,B): simulation         (N,A,B) , (N,A,B) \in [1,512] different simulations
     #           number in base8, so 512_10 == 1000_8 :=> max(N,A,B)=(7,7,7)
@@ -382,77 +366,21 @@ def main():
     # --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
     # pf      : parameters' file
     # --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
-    """
-    
-    math_set = """ For some kind of *MATHEMATICALLY SPACED SET*, 
-    edit couple of lines below as needed: """
-    
-    # sf_stepsize = 9         # gives 8 values of sf: 0,9,18, ... ,63
-    # sf_stepsize = 7         # gives  10 values of sf: 0,7,14, ... ,63
-    # sfs = pl.arange(0,64,7) # or even edit this thing, etc.
-
-    # For 200tmp: Have already read files:
-    # 00, 07, 14, 21, 28, 35, 42, 49, 56, 63
-    """
-    00, 07, 14, 21, 28, 35, 42, 49, 56, 63
-    [00, 01, 02, 03, 04, 05, 06,
-     07, 08, 09, 10, 11, 12, 13,
-     14, 15, 16, 17, 18, 19, 20, 
-     21, 22, 23, 24, 25, 26, 27, 
-     28, 29, 30, 31, 32, 33, 34, 
-     35, 36, 37, 38, 39, 40, 41, 
-     42, 43, 44, 45, 46, 47, 48, 
-     49, 50, 51, 52, 53, 54, 55, 
-     56, 57, 58, 59, 60, 61, 62,
-     63]
-
-    """
-    # For 201tmp: Have already read files:
-    # 00, 07, 14, 21, 28, 35, 42, 49, 56, 63
-
-    user_set = """ If *USER-SPECIFIED* vals of snaps are preferred, comment out the 2 lines above;
-    and use the 2.nd line below instead (included because lazy/easy): """
-    
-    # uservalues = [x0, x1, x2....]
-    sfs = pl.array([27, 29, 30, 31, 32, 33, 34, 36, 37, 38, 39, 40, 41, 43, 44, 45, 46,
-       47, 48, 50, 51, 52, 53, 54, 55, 57, 58, 59, 60, 61, 62])
-
-    # User orientation:
-    print """
-  Currently processing data from set of files:
- [...]/indra{iN:d}{tmp}/i{iN:d}{iA:d}{iB:d}/snap_[ {sf0:02d}, ... , {sf1:02d} ]"""\
-        .format( iN=iN, iA=iA, iB=iB, tmp="_tmp" if tmpf == True else "",
-                 sf0=sfs[0], sf1=sfs[-1] )
-    print "\n# === === === === === === === === === === === === === === === === |"
-
-    # Creates parameter files
-    pfpathsList = parf_maker(sfs)
-
-    print "\n# === === === === === === === === === === === === === === === === |"
-
-    # Runs ORIGAMI sequentially within this function
-    origami_caller(pfpathsList)
-
-    print "\n# === === === === === === === === === === === === === === === === |"
-    print """
-### All scripts completed successfully!!! :D"""
-
-    return 0
-
 
 if __name__ == '__main__':
     beginning = time.time()
     
     now = datetime.datetime.now()
+
     print """
  ***          |: You are using AutOriPy :|          ***
-
+ ***                                                ***
  *** the 'Automatic ORIGAMI' parameter file creator ***
  ***       &  ORIGAMItag shell command caller       ***
-                  ( ...with 'Python' )                  
+ ***              ( ...with 'Python' )              ***
 
         [Initialized at time]:
-         (y{:04d}/m{:02d}/d{:02d}) ~ {:02d}:{:02d}"""\
+         (y{0:04d}/m{1:02d}/d{2:02d}) ~ {3:02d}:{4:02d}"""\
           .format(now.year, now.month, now.day, now.hour, now.minute)
     
     """
@@ -460,12 +388,14 @@ if __name__ == '__main__':
  *** ORIGAMI Par.File-maker & Particle-Tagger *** 
     """ # Early-stage name.
     
-    iN = 2
-    iA = 0
-    iB = 0
-    tmpf = True     # tmp folder? Yay or nay?
+    indraNs   = pl.array([2])
+    indraAs   = pl.array([0])
+    indraBs   = pl.array([2,3])
+    tempfolds = pl.array([True])
 
-    main()
+    snapfiles = pl.arange(0,64) # the actual interesting range
+
+    main(   iNs=indraNs, iAs=indraAs, iBs=indraBs, sfs=snapfiles, tmpfs=tempfolds  )
     
     end = time.time()
 
@@ -473,10 +403,11 @@ if __name__ == '__main__':
     tot_time_m = tot_time_s/60.
     tot_time_h = tot_time_m/60.
     tot_time_d = tot_time_h/24.
+
     print """
     [Total run time in hours]:  {h:.2e}
     [               in days ]:  {d:.2e}
     """.format(m=tot_time_m, h=tot_time_h, d=tot_time_d)
 
     sys.exit("### [Shutting down.]\n")
-    # ...I dunno; I kinda feel like concluding this decisively will be a good thing.
+    # ...It kinda feels like concluding this script _decisively_ will be a good thing.

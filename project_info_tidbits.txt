@@ -10,7 +10,6 @@
 
     * and write functions to read simulation data (particle positions and velocities, halo tables, and particle IDs within halos) in python.
 
-
     If available, the student may also test a prototype of the “FileDB” database framework to interact with the simulation data in both python and SQL. 
 
 Comprehensive Extensive Helpful INDRA Dataset Reading Software And Manipulator With Python....
