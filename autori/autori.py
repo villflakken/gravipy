@@ -323,11 +323,18 @@ def main(iNs, iAs, iBs, sfs, tmpfs):
     analyses sequentially, until all specified snapshots have been analyzed.
         * Function: "origami_caller".
     """
+    " Loops through everything "
     for iN in iNs:
+        iN = iN # Iteration variable added to scope
+
         for iA in iAs:
+            iA = iA
+
             for iB in iBs:
+                iB = iB
+
                 for tmpf in tmpfs:
-                    " Loops through everything "
+                    tmpf = tmpf
 
                     # User orientation:
                     print """
