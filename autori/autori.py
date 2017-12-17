@@ -186,7 +186,7 @@ osd_oput = """
 outdirp_tmpl = "/sciserver/vc/indra/origami/i{iN}{iA}{iB}{tmp}/"
 # outdirp_tmpl = "{homepath}/oput_origami/i{iN}{iA}{iB}{tmp}/"
 
-def origami_caller(pfpathsList):
+def origami_caller(iN, iA, iB, tmpf, pfpathsList):
     """
     Calls bash cmds for running ORIGAMI sequentially,
     through pre-defined set of parameterfiles.
@@ -350,7 +350,7 @@ def main(iNs, iAs, iBs, sfs, tmpfs):
                     print "\n# === === === === === === === === === === === === === === === === |"
 
                     # Runs ORIGAMI sequentially within this function
-                    origami_caller(pfpathsList)
+                    origami_caller(iN, iA, iB, tmpf, pfpathsList)
 
                     print "\n# === === === === === === === === === === === === === === === === |"
                     
