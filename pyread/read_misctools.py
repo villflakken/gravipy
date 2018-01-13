@@ -14,7 +14,8 @@ class MiscTools(object):
     Miscellaneous tools that are used in the readProcedures instance.
     """
     def __init__(self):
-        self.mult_miss_error =             """
+        self.mult_miss_error = \
+            """
             File(s) are missing.
             Maybe the dataset should be properly completed first?
             Aborting!
@@ -23,16 +24,62 @@ class MiscTools(object):
         self.printNth = 5
         if sys.platform in ("linux", "linux2"):
             self.uname = os.path.expanduser("~")+"/"
+
+            if os.path.exists("/home/idies"):
+                self.uname = self.uname + "workspace/persistent/"
+                pass
             pass
+
         elif sys.platform in ("win32", "win64"):
             self.uname = os.path.expanduser("~")+"\\"
             pass
+
         else:
-            sys.exit("Error in MiscTools' init.")
-            # Purely for debugging reasons
+            sys.exit("Error in UserTools' init.")
         """
         End of init
         """
+
+    def indraPathParser(self):
+        """
+        If program is supposed to run from 'indraX_tmp' data file structure,
+        returns modified filepath for the reader.
+        """
+
+        if self.onElephant == True:
+            # Path structure for elephant cluster
+            indrapath = "/indra{0:d}{1:s}/{0:d}_{2:d}_{3:d}"
+            
+            if self.boolcheck(self.tmpfolder) == True:
+                " Inserts 'tmp' into address line, i.e.: "
+                " /indra{iN}{_tmp}/{iN}_{iA}_{iB} "
+                indrapath = indrapath.format(
+                                self.indraN, "_tmp", self.iA, self.iB )
+                pass
+
+            else:
+                " /indra{iN}{}/{iN}_{iA}_{iB} "
+                print "normal folders acknowledged."
+                indrapath = indrapath.format(
+                                self.indraN, "", self.iA, self.iB )
+                pass
+            
+        elif self.onIdies == True:
+            # Path structure for SciServer's Jupyter stuff
+            indrapath = "/workspace/indra/{0:d}_{1:d}_{2:d}"
+            indrapath = indrapath.format(self.indraN, self.iA, self.iB )
+            self.origamipath = \
+                "workspace/indra/origami/i{0:1d}{1:1d}{2:1d}{3:s}/i{0:1d}{1:1d}{2:1d}{3:s}_sf{4:02d}_tag.dat"
+            self.origamipath = self.origamipath\
+                .format(
+                            self.indraN , self.iA , self.iB , 
+                            "tmp" if self.tmpfolder == True else "" ,
+                            self.subfolder
+                        )
+            pass
+
+        return indrapath
+
 
     def auto_outputPather(self, num):
         """

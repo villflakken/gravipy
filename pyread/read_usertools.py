@@ -3,10 +3,10 @@
 # ==============================================
 import os, sys
 import numpy as N
-import matplotlib.pyplot as pl
-from mpl_toolkits.mplot3d import Axes3D
-from matplotlib import rc
-rc('font',**{'family':'serif'})
+
+
+
+
 
 
 class UserTools(object):
@@ -17,10 +17,16 @@ class UserTools(object):
         # Purely for debugging reasons
         if sys.platform in ("linux", "linux2"):
             self.uname = os.path.expanduser("~")+"/"
+
+            if os.path.exists("/home/idies"):
+                self.uname = self.uname + "workspace/persistent/"
+                pass
             pass
+
         elif sys.platform in ("win32", "win64"):
             self.uname = os.path.expanduser("~")+"\\"
             pass
+
         else:
             sys.exit("Error in UserTools' init.")
         """
@@ -188,92 +194,6 @@ class UserTools(object):
         return all([arg != 0, arg != False, arg != None])
 
 
-
-class Plotter(UserTools):
-    """
-    Plotting Tools and Templates.
-        # Outside-callable-pre-defined user plotting tools.
-        # Basically: as I go along and develop plotting methods;
-        #     put the finished methods in here.
-        #         - In later versions: Methods may be merged / initialized into auto-pp.
-
-    ... Maybe the inheritance should go the other way..?
-    """
-    def __init__(self):
-        UserTools.__init__(self)
-        """
-        End of init
-        """
-    
-    def axisEqual3D(self, ax):
-        " Shamelessly stolen from StackOverflow "
-        extents = N.array([getattr(ax, 'get_{}lim'.format(dim))() for dim in 'xyz'])
-        sz = extents[:,1] - extents[:,0]
-        centers = N.mean(extents, axis=1)
-        maxsize = max(abs(sz))
-        r = maxsize/2
-        for ctr, dim in zip(centers, 'xyz'):
-            getattr(ax, 'set_{}lim'.format(dim))(ctr - r, ctr + r)
-            continue
-
-        return 0
-
-
-    # def plot_pos_scatter(self, IDsA, posA, box, plotdim=2,
-    #                      plotname="misc_scatplot", plotpath="output_gravipy/"):
-    #     """
-    #     Plots positional data output.
-    #     Example call:
-    #     plot_pos_scatter(IDsA=IDs, posA=pos, plotdim=2,
-    #                      plotname="funcScatterTest", plotpath="output_gravipy/")
-    #     """
-    #     print "  * Initiating {0} scatter plot of positions from simulation data"\
-    #             .format((str(plotdim)+"d"))
-        
-    #     fig =  pl.figure(figsize=(10,10))
-
-    #     " Scatter plot "
-    #     if plotdim == 2:
-    #         " Defaults to 2 dimensions in plot "
-    #         ax  = fig.add_subplot(111) # 2d as default
-    #         ax.scatter( posA[:,0], # x-elements
-    #                     posA[:,1], # y-elements
-    #                      s=1 )
-    #         ax.set_xlabel('x-position Mpc/h')
-    #         ax.set_ylabel('y-position Mpc/h')
-    #         ax.set_aspect('equal','box')
-    #         pl.grid(True)
-    #         pass
-
-    #     elif plotdim == 3:
-    #         " In case of 3d "
-    #         ax  = fig.add_subplot(111, projection='3d')
-    #         # in the voice of an authorative Patrick Stewart:
-    #         " ENGAGE 3D VIZUALIZATION "
-    #         ax.scatter( posA[:,0], # x-elements
-    #                     posA[:,1], # y-elements
-    #                     posA[:,2], # z-elements
-    #                     depthshade=True, s=1)
-    #         ax.set_xlabel('x-position Mpc/h')
-    #         ax.set_ylabel('y-position Mpc/h')
-    #         ax.set_zlabel('z-position Mpc/h')
-            
-    #         # Axes
-    #         self.axisEqual3D(ax)
-    #         pass
-
-    #     else:
-    #         sys.exit(" * Unbelievable error. ")
-        
-    #     Saving, if wanted
-
-    #     plotpath = self.outputPather(plotpath, plotname)
-    #     plotpath = plotpath + "/" + plotname \
-    #                + "_{0}d".format(plotdim) + ".png"
-    #     print "    Saving plot (pos), {0:d}D. \n".format(plotdim)
-    #     pl.savefig(plotpath, dpi=200, bbox_inches='tight')
-    #     pl.close()
-    # return 0
 
 
 if __name__ == '__main__':

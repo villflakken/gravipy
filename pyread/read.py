@@ -1,7 +1,7 @@
 # ==============================================
 # Indra data sets' reading MO.
 # ==============================================
-import os, sys, glob
+import os, sys, glob, time
 import numpy as N
 import subprocess as sp
 from read_args import readArgs
@@ -20,7 +20,8 @@ def read_ini( what="pos", indraN=0, iA=0, iB=0, subfolder=None, fftfile=None,
     initializes class for the user.
     # WIP !
     """
-    data_params =         {
+    data_params = \
+        {
             # Data structure parameters:
                "what" :( list(what) ),
              "indraN" :( indraN     ),
@@ -161,9 +162,10 @@ class readDo(readArgs, readProcedures):
 
                             self.progressPrinter(symbol, num, sett)
 
-                            " Task function call: "
+                            " --- Task function calls below this: --- "
+
+                            " >: Main component of program: reads data. "
                             parsed_data = self.action[self.what]()
-                            " >: Main component of program. "
 
                             " Creates 'candidate' for folder- and/or filename "
                             self.auto_outputPather(num)
@@ -179,7 +181,7 @@ class readDo(readArgs, readProcedures):
                             * Base of filename seems a good candidate for 
                               dictionary's indexation names.
                               - Call on a list of the dictionary's keys, if confusion.
-                              Keys on form: {'what'}_i{2}{0}{0}{'tmp'}_sf{0,63} """
+                              Keys on form: {task}_i{iN}{iA}{iB}{tmp}_sf{num} """
                             parsed_datasets_dict[self.fileName] = parsed_data
 
                             continue # to next loop of 'num' (snapnum/fftfile)...

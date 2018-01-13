@@ -70,7 +70,7 @@ class readProcedures(Sifters, MiscTools, UserTools):
                                                self.subfolder, i, self.what )
                     self.itertextPrinter(itertext, i, iterLen, 10)
                     
-                    pos, vel, IDsArr, Npart, scalefact, redshift = self.posvel_sifter(openfile, i)
+                    pos, vel, IDsArr, Npart, scalefact, redshift = self.posvel_sifter(openfile)
                     
                     # End shape: ( 1024**3 , 3 )
                     # print "posA[ci:Npart, :].shape : ", posA[ci:ci+Npart, :].shape 
@@ -100,7 +100,7 @@ class readProcedures(Sifters, MiscTools, UserTools):
             pass
 
         if self.arrval_equaltest(rsA) != True:
-            print "All scalefactor elements are _not_ equal!"
+            print "All redshift elements are _not_ equal!"
             print "Redshift values retrieved:"
             print rsA
             pass
@@ -410,11 +410,11 @@ class readProcedures(Sifters, MiscTools, UserTools):
         """
         Reads ORIGAMI's data output
         """
-        oridatapath = self.origamipath
+        oridatapath = self.uname + self.origamipath
         ori_open_error_str = """
         Could not find origami file at specified path: {0:s}
         """.format(oridatapath)
-        # oridatapath = "/workspace/indra/origami/testrun/"
+        # oridatapath = "/workspace/indra/origami/"
         try:
             with open(oridatapath, 'rb') as openfile:
                 # Npart, tag = self.origami_sifter(openfile)

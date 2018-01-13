@@ -47,89 +47,39 @@ class AutoTools(object):
             # self.plottingEngagedText.format(self.what, self.outfilePath+".png")
             pass
 
-        self.pp_action[self.what](parsed_data) # Ah, so elegant...
+
+        self.pp_action[self.what](parsed_data, num) # Ah, so elegant!
 
         return 0
 
 
-    def pp_pos(self, parsed_data):
+    def pp_pos(self, parsed_data, num):
         """
         Positions post-processing function. 
         """
-        IDsA, posA = parsed_data
+        IDs, pos, scalefactor, rs = parsed_data
 
         if hasattr(self.box_params, '__iter__') == True:
-            box = self.box_indexer(posA, self.box_params)
-            IDsA = IDsA[box]
-            posA = posA[box]
+            # Plotting without boxing will take 26hours per plot.
+            print " Box for the cut-out:", self.box_params
+            box3D = self.box_indexer(pos, self.box_params)
+            IDs = IDsA[box3D]
+            pos = posA[box3D]
             pass
+
+        if self.boolcheck(self.oriDo):
+            tags = self.read_origami()[1]
+            tags = tags[IDs]
 
         if self.boolcheck(self.plotdata):
             " Engage plotting! "
-            self.auto_plot_pos_scatter(IDsA, posA)
+            self.auto_plot_pos_scatter(IDs, pos)
             pass
 
-        # if otherstuff:
-        #     self.dothat()
-        #     pass
+
 
         return 0
 
-
-    def auto_plot_pos_scatter(self, IDsA, posA):
-        """
-        Plots positional data output.
-        """
-        print " * Initiating scatter plot of positions in simulation: \
-            {0}_{1}_{2}/snapshot_{3}".format(
-            self.indraN, self.iA, self.iB, self.subfolder)
-        
-        fig =  pl.figure()
-
-        if self.plotdim_set == 2 or self.plotdim_set == None:
-            " Defaults to 2 dimensions in plot "
-            ax  = fig.add_subplot(111, projection='2d') # 2d as default
-        if self.plotdim_set == 3:
-            " In case of 3d "
-            ax  = fig.add_subplot(111, projection='3d')
-
-
-            " Scatter plot "
-        if self.plotdim_set == 2: # 2D
-            ax.scatter(posA[:,0], # x-elements
-                       posA[:,1], # y-elements
-                            depthshade=True, s=1)
-            pass
-
-        elif self.plotdim_set == 3: # 3D
-            # ..in the voice of an authorative Patrick Stewart..:
-            " ENGAGE 3D VIZUALIZATION "
-            ax.scatter(posA[:,0], # x-elements
-                       posA[:,1], # y-elements
-                       posA[:,2], # z-elements
-                            depthshade=True, s=1)
-            # 2 lines below are supposed to fix aspect ratio:
-            scaling = N.array([getattr(ax, 'get_{}lim'.format(dim))() \
-                              for dim in 'xyz'])
-            ax.auto_scale_xyz(*[[N.min(scaling), N.max(scaling)]]*3)
-            # cudos to sebix @ stackoverflow!
-            pass
-        else:
-            sys.exit(" * Unbelievable error. ")
-
-        ax.set_xlabel('x-position Mpc/h')
-        ax.set_ylabel('y-position Mpc/h')
-        if self.plotdim_set == 3:
-            ax.set_zlabel('z-position Mpc/h')
-            pass
-
-        plotname = self.auto_outputPather(self.subfolder)\
-                   + "_{0}d".format(self.plotdim_set) + ".png"
-        print " Saving plot (pos) to path :", plotname
-        pl.savefig(plotname, dpi=200)
-        pl.close()
-
-        return 0
 
 
     def pp_vel(self, IDsA, velA):

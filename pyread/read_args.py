@@ -43,7 +43,7 @@ class readArgs(object):
         If a new type-checker is needed for an individual purpose;
         then write a new function into the group of functions below.
         """
-        self.arglist =             [ # Parameter keys available
+        self.arglist = [ # Parameter keys available
                 "what"       , 
                 "indraN"     , 
                 "iA"         , 
@@ -60,7 +60,7 @@ class readArgs(object):
                 "plotdim"    ,
                 "origamipath"
             ]
-        self.param_incorp =             { # Function library: parameter validation
+        self.param_incorp = { # Function library: parameter validation
                      "what" : self.taskname_incorp   ,
                    "indraN" : self.integer_incorp    ,
                        "iA" : self.integer_incorp    ,
@@ -79,7 +79,7 @@ class readArgs(object):
                  "plotdata" : self.toggles_incorp    ,
               "origamipath" : self.in_path_incorp
             }
-        self.intRange_dict =             { # Ranges of integer numbers.
+        self.intRange_dict = { # Ranges of integer numbers.
                 "indraN" : range(0,8),
                     "iA" : range(0,8),
                     "iB" : range(0,8),
@@ -90,8 +90,7 @@ class readArgs(object):
         """
         Dictionaries: parameter values
         """
-        self.read_params = \
-            { # None-types are ignored in flow after validation.
+        self.read_params = { # None-types are ignored in flow after validation.
                      "what" :["pos"],
                    "indraN" :   0   ,
                        "iA" :   0   ,
@@ -242,7 +241,8 @@ class readArgs(object):
         """.format(name, uinput,
                    self.intRange_dict[name][0], self.intRange_dict[name][-1])
         
-        if type(uinput) == tuple or             type(uinput) == list:
+        if type(uinput) == tuple or \
+            type(uinput) == list:
             " When multiple numbers are input. "
             
             if len(uinput) == 2:
@@ -318,7 +318,8 @@ class readArgs(object):
         # print " ** Inside self.outputpath_incorp! "
         # print " ** key =", name, "| uinput =", uinput
 
-        if uinput != False and             type(uinput) == str:
+        if uinput != False and \
+            type(uinput) == str:
             " Then user has a specific output path in mind! "
             setattr(self, name, uinput)
         elif uinput == False:
@@ -467,39 +468,6 @@ class readArgs(object):
 
         return 0
 
-
-    def indraPathParser(self):
-        """
-        If program is supposed to run from 'indraX_tmp' data file structure,
-        returns modified filepath for the reader.
-        """
-
-        if self.onElephant == True:
-            # Path structure for elephant cluster
-            indrapath = "/indra{0:d}{1:s}/{0:d}_{2:d}_{3:d}"
-            
-            if self.boolcheck(self.tmpfolder) == True:
-                " Inserts 'tmp' into address line, i.e.: "
-                " /indra{iN}{_tmp}/{iN}_{iA}_{iB} "
-                indrapath = indrapath.format(
-                                self.indraN, "_tmp", self.iA, self.iB )
-                pass
-
-            else:
-                " /indra{iN}{}/{iN}_{iA}_{iB} "
-                print "normal folders acknowledged."
-                indrapath = indrapath.format(
-                                self.indraN, "", self.iA, self.iB )
-                pass
-            
-        elif self.onIdies == True:
-            # Path structure for SciServer's Jupyter stuff
-            indrapath = "/workspace/indra/{0:d}_{1:d}_{2:d}"
-            indrapath = indrapath.format(self.indraN, self.iA, self.iB )
-            self.origamiPath = "/workspace/indra/origami/testrun/"
-            pass
-
-        return indrapath
 
 
 if __name__ == '__main__':
