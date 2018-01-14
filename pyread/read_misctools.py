@@ -25,9 +25,6 @@ class MiscTools(object):
         if sys.platform in ("linux", "linux2"):
             self.uname = os.path.expanduser("~")+"/"
 
-            if os.path.exists("/home/idies"):
-                self.uname = self.uname + "workspace/persistent/"
-                pass
             pass
 
         elif sys.platform in ("win32", "win64"):
@@ -67,7 +64,8 @@ class MiscTools(object):
         elif self.onIdies == True:
             # Path structure for SciServer's Jupyter stuff
             indrapath = "/workspace/indra/{0:d}_{1:d}_{2:d}"
-            indrapath = indrapath.format(self.indraN, self.iA, self.iB )
+            indrapath = indrapath.format( self.indraN, self.iA, self.iB )
+
             self.origamipath = \
                 "workspace/indra/origami/i{0:1d}{1:1d}{2:1d}{3:s}/i{0:1d}{1:1d}{2:1d}{3:s}_sf{4:02d}_tag.dat"
             self.origamipath = self.origamipath\
@@ -75,7 +73,7 @@ class MiscTools(object):
                             self.indraN , self.iA , self.iB , 
                             "tmp" if self.tmpfolder == True else "" ,
                             self.subfolder
-                        )
+                       )
             pass
 
         return indrapath
@@ -129,21 +127,26 @@ class MiscTools(object):
         self.fileName = fileName 
         outfilePath = folderPath + fileName
 
-        " If output is requested "
+        outdir_floor = self.uname # lowest hierarchy for user's folders, usually "~/"
+        if self.onIdies == True:
+            outdir_floor = outdir_floor + "workspace/persistent/"
+            pass
+
         if any((self.w2f, self.plotdata)) == True:
-            " Check if folder already exists; if not then make it "
-            if not os.path.exists(self.uname + folderPath):
-                os.makedirs(self.uname + folderPath)
+        " If output is requested "
+            " -> Check if folder already exists; if not then make it "
+            if not os.path.exists(outdir_floor + folderPath):
+                os.makedirs(outdir_floor + folderPath)
                 print "Creating output folder structure: ", \
-                       self.uname + folderPath, "\n"
+                       outdir_floor + folderPath, "\n"
                 pass
             else:
                 print "Output folder already exists: ", \
-                       self.uname + folderPath, "\n"
+                       outdir_floor + folderPath, "\n"
                 pass
             pass # Folders verified
 
-        self.outfilePath = self.uname + outfilePath 
+        self.outfilePath = outdir_floor + outfilePath 
 
         return self.outfilePath
 

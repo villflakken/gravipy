@@ -18,9 +18,6 @@ class UserTools(object):
         if sys.platform in ("linux", "linux2"):
             self.uname = os.path.expanduser("~")+"/"
 
-            if os.path.exists("/home/idies"):
-                self.uname = self.uname + "workspace/persistent/"
-                pass
             pass
 
         elif sys.platform in ("win32", "win64"):

@@ -38,7 +38,7 @@ class AutoTools(object):
                 "origami" : self.pp_origami
             }
 
-        " Just prints wether or not plotting is involved: "
+        " Just prints whether or not plotting is involved: "
         if self.boolcheck(self.plotdata) == True:
             " Plot or not? Is it heinous? Is it hot? "
             # self.plottingEngagedText = """
@@ -53,7 +53,7 @@ class AutoTools(object):
         return 0
 
 
-    def pp_pos(self, parsed_data, num):
+    def pp_pos(self, parsed_data):
         """
         Positions post-processing function. 
         """
@@ -67,13 +67,13 @@ class AutoTools(object):
             pos = posA[box3D]
             pass
 
-        if self.boolcheck(self.oriDo):
+        if self.origamipath != False:
             tags = self.read_origami()[1]
             tags = tags[IDs]
 
         if self.boolcheck(self.plotdata):
             " Engage plotting! "
-            self.auto_plot_pos_scatter(IDs, pos)
+            self.plot_pos_oritag(pos, tags)
             pass
 
 

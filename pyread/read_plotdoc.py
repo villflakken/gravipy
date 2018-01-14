@@ -38,7 +38,7 @@ class Plotter(UserTools):
 
         return 0
 
-    def plot_pos_oritag(self, pos, num, tags):
+    def plot_pos_oritag(self, pos, tags):
         """
         Plots positions of particles to 2D or 3D.
         Also uses Origami tagging to colour-code particles.

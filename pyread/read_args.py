@@ -456,9 +456,10 @@ class readArgs(object):
             # On SciServer Idies etc
             self.onIdies = True
             self.dsp = "/home/idies" # indra follows
+
         else:
             print "\n\tNot running from intended machine(s)"\
-                  + " (the 'elephant' cluster)."
+                  + " ('elephant' cluster or SciServer)."
             if self.errhand_userinput(unknownOrigin):
                 self.okGo = True
                 pass
