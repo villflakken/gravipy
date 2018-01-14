@@ -163,8 +163,8 @@ class readArgs(object):
                 # print key
                 # print key in self.read_params.keys()
                 # print self.read_params
-                # print self.read_params[key] # DT
-                self.param_incorp[key]("not valid", "also not") # DT
+                # print self.read_params[key]
+                # self.param_incorp[key]("not valid", "also not") # DT
 
                 self.param_incorp[key](self.read_params[key], key)
                 pass
