@@ -9,43 +9,42 @@ from read_procedures import readProcedures
 
 
 
-def read_ini( what="pos", indraN=0, iA=0, iB=0, subfolder=None, fftfile=None,
+def read_ini( what="pos", indraN=0, iA=0, iB=0, subfolder=None, fftfile=None, 
               tmpfolder=False, sortIDs=False, lessprint=True,
               box_params=False, plotdim=2,
               w2f=False, plotdata=False,
               outputpath=False,
-              origamipath=False                                               ):
+              origamipath=False
+            ):
     """
     Simplified read function for importing externally;
     initializes class for the user.
     # WIP !
     """
     data_params = \
-        {
-            # Data structure parameters:
+        { # Data structure parameters:
                "what" :( list(what) ),
              "indraN" :( indraN     ),
                  "iA" :( iA         ),
                  "iB" :( iB         ),
-          "subfolder" :( subfolder  ),   
+          "subfolder" :( subfolder  ),
             "fftfile" :( fftfile    ),
             # Reading options:
           "tmpfolder" :( tmpfolder  ),
+              "sfset" :( sfset      ),
             "sortIDs" :( sortIDs    ),
           "lessprint" :( lessprint  ),
-            
             # Extracts data from a coordinate box at positions specified:
-         "box_params" :( box_params ), 
-            # Apply floats as "([min,max], [min,max], [min,max])" in Mpc/h units,
-            # respectively for directions x, y, z. # Turned off w/: None/False
-            "plotdim" :( plotdim    ), # Dimensions projected in plot
-            
-            # Write 2 file: Probably a bad idea ...
-                "w2f" :( w2f        ),
-           "plotdata" :( plotdata   ),
+         "box_params" :( box_params ),
             # Desired output filepath, 
             # or False (program storing to user's own folder).
          "outputpath" :( outputpath ),
+            # Write 2 file: Probably a bad idea ...
+                "w2f" :( w2f        ),
+           "plotdata" :( plotdata   ),
+            # Apply floats as "([min,max], [min,max], [min,max])" in Mpc/h units,
+            # respectively for directions x, y, z. # Turned off w/: None/False
+            "plotdim" :( plotdim    ), # Dimensions projected in plot
             # Origami functionality
         "origamipath" :( origamipath)
         }
@@ -73,7 +72,8 @@ class readDo(readArgs, readProcedures):
         """
         Actiondicts : commands for the program to act on
         """
-        self.actionkeys =             [ # The types of data available to read.
+        self.actionkeys = \
+            [ # The types of data available to read.
                 "pos",     
                 "vel",     
                 "fof",     
@@ -82,7 +82,8 @@ class readDo(readArgs, readProcedures):
                 "origami",
                 "time"
             ]
-        self.action =             { # Function library for initializing data reading.
+        self.action = \
+            { # Function library for initializing data reading.
                 "pos"     : self.read_posvel  , 
                 "vel"     : self.read_posvel  , 
                 "fof"     : self.read_FOF     , 
@@ -100,6 +101,7 @@ class readDo(readArgs, readProcedures):
         Simplified read function for single-set readings.
         1 - Validate arguments given.
         2 - Begin reading and initiate corresponding output.
+        # Not finished.
         """
         tmp = sp.call('clear',shell=True)
         
@@ -128,21 +130,21 @@ class readDo(readArgs, readProcedures):
             " Current task as globvar (global variable) "
             self.what = task
 
-            for iN in N.arange(self.indraN_low, self.indraN_high + 1):
+            for iN in self.indraN_set:
                 " Current indraN as globvar "
                 self.indraN = iN
 
-                for iA in N.arange(self.iA_low, self.iA_high + 1):
+                for iA in self.iA_set:
                     " Current iA as globvar "
                     self.iA = iA
 
-                    for iB in N.arange(self.iB_low, self.iB_high + 1):
+                    for iB in self.iB_set:
                         " Current iB as globvar "
                         self.iB = iB
 
-                        lowerLim, upperLim, sett, symbol = self.currentTaskParamsParser()
+                        sett, symbol = self.currentTaskParamsParser()
 
-                        for num in N.arange(lowerLim, upperLim + 1):
+                        for num in sett:
                             " Current subfolder/fftfile as globvar "
                             if self.okGo == False:
                                 self.intendedMachine()
@@ -150,39 +152,42 @@ class readDo(readArgs, readProcedures):
                                 pass 
 
                             if task != "fft":
-                                """
-                                No further safety nets should be needed for
-                                checking of task names.
-                                """
+                                " When task is non-fft-related. "
                                 self.subfolder = num
-                                # print self.auto_outputPather(num)
+                                pass
+
                             else:
                                 " When task is fft reading. "
                                 self.fftfile   = num
+                                pass
 
                             self.progressPrinter(symbol, num, sett)
 
-                            " --- Task function calls below this: --- "
-
-                            " >: Main component of program: reads data. "
+                            " Task function call: "
                             parsed_data = self.action[self.what]()
+                            " >: Main component of program. "
 
                             " Creates 'candidate' for folder- and/or filename "
                             self.auto_outputPather(num)
 
                             " Function calls post processes as paramatrized: "
                             if any((self.w2f, self.plotdata)) == True:
-                                """ The program handles data post processing
-                                and storage thereof. """
+                                """
+                                The program handles data post processing
+                                and storage thereof.
+                                """
                                 self.pp_selector(parsed_data, num)
                                 pass
-
-                            """ Output for user to manipulate injected into dict.
+                            """
+                            Output for user to manipulate.
                             * Base of filename seems a good candidate for 
                               dictionary's indexation names.
                               - Call on a list of the dictionary's keys, if confusion.
-                              Keys on form: {task}_i{iN}{iA}{iB}{tmp}_sf{num} """
-                            parsed_datasets_dict[self.fileName] = parsed_data
+                            """
+                            # Too Much Memory / TMM !!! 
+                            # parsed_datasets_dict[self.fileName] = parsed_data
+                            # Parsing 64 complete positional matrices with IDs:
+                            # ~ 20GiBs * 64 = ~ 1 280 GiBs
 
                             continue # to next loop of 'num' (snapnum/fftfile)...
                         continue # to next loop of iB...
@@ -215,21 +220,17 @@ class readDo(readArgs, readProcedures):
         if self.what != "fft":
             # Second condition probably redundant condition, but hey x)
             " if not 'fft', then 'subfolder' systems! "
-            lowerLim = self.subfolder_low
-            upperLim = self.subfolder_high
             sett     = self.subfolder_set
             symbol   = "subfolder"
         elif self.what == "fft":
             " if 'fft', then fftfiles! "
-            lowerLim = self.fftfile_low
-            upperLim = self.fftfile_high
             sett     = self.fftfile_set
             symbol   = "fftfile"
         else:
             sys.exit("Task name does not conform to any allowed.")
             # Safety nets should already have picked up on this;
             # maybe I'm coding this _too_ safe.
-        return lowerLim, upperLim, sett, symbol
+        return sett, symbol
 
 
     def progressPrinter(self, symbol, num, sett):

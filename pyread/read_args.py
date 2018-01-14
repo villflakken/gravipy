@@ -50,13 +50,16 @@ class readArgs(object):
                 "iB"         , 
                 "subfolder"  , 
                 "fftfile"    , 
+              # Optional stuff
                 "tmpfolder"  ,
+                "sfset"      ,
                 "sortIDs"    ,
                 "lessprint"  ,
+                "box_params" ,
+              # Output related
+                "outputpath" ,
                 "w2f"        ,
                 "plotdata"   ,
-                "outputpath" ,
-                "box_params" ,
                 "plotdim"    ,
                 "origamipath"
             ]
@@ -69,14 +72,15 @@ class readArgs(object):
                   "fftfile" : self.integer_incorp    ,
               # Optional stuff
                 "tmpfolder" : self.toggles_incorp    ,
+                    "sfset" : self.toggles_incorp    ,
                   "sortIDs" : self.toggles_incorp    ,
                 "lessprint" : self.toggles_incorp    ,
                "box_params" : self.boxparams_incorp  ,
-                  "plotdim" : self.integer_incorp    ,
               # Output related
                "outputpath" : self.outputpath_incorp ,
                       "w2f" : self.toggles_incorp    ,
                  "plotdata" : self.toggles_incorp    ,
+                  "plotdim" : self.integer_incorp    ,
               "origamipath" : self.in_path_incorp
             }
         self.intRange_dict = { # Ranges of integer numbers.
@@ -88,24 +92,30 @@ class readArgs(object):
                "plotdim" : range(2,4)
             } # Rember format: [x0, ..., x1 - 1]
         """
-        Dictionaries: parameter values
+        Dictionaries: some default parameter values
         """
-        self.read_params = { # None-types are ignored in flow after validation.
+        self.read_params = \
+            { # None-types are ignored in flow after validation.
                      "what" :["pos"],
                    "indraN" :   0   ,
                        "iA" :   0   ,
                        "iB" :   0   , 
                 "subfolder" :  None , 
-                  "fftfile" :  None , 
+                  "fftfile" :  None ,
+              # Optional stuff
+                "tmpfolder" :   0   ,
+                    "sfset" :   0   ,
                   "sortIDs" :   1   ,
                 "lessprint" :   1   ,
-                "tmpfolder" :   0   ,
+               "box_params" :   0   ,
+              # Output related
+               "outputpath" :  None ,
                       "w2f" :   0   ,
                  "plotdata" :   1   ,
-               "outputpath" :  None ,
-               "box_params" :   0   ,
-                  "plotdim" :   2
+                  "plotdim" :   2   ,
+              "origamipath" : None
             }
+
         """
         end of init
         """
@@ -143,7 +153,17 @@ class readArgs(object):
         """
         # print " ** Inside self.collect_userArgs()"
         for key in self.arglist:
-            
+
+            " ### ! #### (deviation from the standard algorithm): "
+            if key == "sfset":
+                """
+                At the moment, it's useful to determine whether 'sf'
+                should be a set / range -: !!!Pre-emptively!!!
+                """
+                self.param_incorp[key](self.read_params[key], key)
+                pass
+
+            " Simple method to check if user forgot either of them "
             if self.read_params[key] == None:
                 self.missingkeys.append(key)
                 # self.keys_read.append(key) # Not useful to the user
@@ -157,7 +177,7 @@ class readArgs(object):
                 print " WTFery-error for key   " , \
                     key , ":" , self.read_params[key]
                 pass
-            
+
             continue
 
         if ("subfolder" not in self.keys_read) and \
@@ -220,7 +240,8 @@ class readArgs(object):
             # Returns, having checked & stored both items in the set.
             return 0
 
-        elif (type(uinput) == str) and             (uinput in self.actionkeys):
+        elif (type(uinput) == str) and \
+            (uinput in self.actionkeys):
             " String object recognized, input is compared & stored. "
             setattr( self, "what_set" , uinput )
             # After storing, returns to next item to be checked
@@ -245,45 +266,62 @@ class readArgs(object):
             type(uinput) == list:
             " When multiple numbers are input. "
             
-            if len(uinput) == 2:
-                " Only 2 values for limits "
+            " Check if user's unput is in specified ranges "
+            if  (len(uinput) == 2 and self.sfset == False) == True or \
+                (len(uinput) <= 2 and self.sfset == True)  == True:
+                " (Case: User has specified a range) or "
+                " (Case: User has specified a set  ) "
+                
                 for single_number in uinput:
                     " Check each number by range. "
                     
                     if (type(single_number) == int) and \
                         (single_number in self.intRange_dict[name]):
                         " Value of number checks out! "
+                        # No need to store anything.
                         pass
+
                     else:
                         sys.exit(integererrortext)
-                        break
 
                     continue
+                pass
+
             else:
-                " Multiple values, but not in form of (lower,upper)!"
+                " Multiple values, but not in form of (lower,upper) or (set)!"
                 sys.exit("""
             Parameter {0} requires exactly 1
                 - or 2 (in tuple or list as lower- and upper-) -
             integer(s) as input variable(s).
             """.format(name))
 
-            setattr( self, name+"_set" , uinput    )
-            setattr( self, name+"_low" , uinput[0] )
-            setattr( self, name+"_high", uinput[1] )
-            # Returns, having checked & stored both items in the set.
-            return 0
+            " Now, incorporate user input as instance variables "
+            if self.sfset == True:
+                " User input's set is applied directly "
+                setattr( self, name+"_set" , uinput )
+                # Should already by in an iterable form :)
+                pass
 
-        elif type(uinput) == int and             uinput in self.intRange_dict[name]:
-            " Int object recognized then input is recognized. "
-            setattr( self, name+"_set" , uinput )
-            setattr( self, name+"_low" , uinput )
-            setattr( self, name+"_high", uinput )
-            # After storing, returns to next item to be checked
-            return 0
+            else:
+                " User input's range is generated and applied "
+                userRange = N.arange(uinput[0], uinput[1]+1 )
+                setattr( self, name+"_set" , userRange )
+                pass
+
+            pass # Into return statement
+        
+        elif type(uinput) == int and \
+            uinput in self.intRange_dict[name]:
+            " Single int object case recognized. "
+            
+            setattr( self, name+"_set" , N.arange(uinput, uinput+1) )
+            pass                         # Single item list ^            
 
         else:
             sys.exit(integererrortext)
             # Aborts
+
+        return 0
 
 
     def toggles_incorp(self, uinput, name):

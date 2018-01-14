@@ -133,7 +133,7 @@ class MiscTools(object):
             pass
 
         if any((self.w2f, self.plotdata)) == True:
-        " If output is requested "
+            " If any kind of output is requested "
             " -> Check if folder already exists; if not then make it "
             if not os.path.exists(outdir_floor + folderPath):
                 os.makedirs(outdir_floor + folderPath)

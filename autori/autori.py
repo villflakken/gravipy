@@ -1,6 +1,15 @@
 import os, sys, subprocess, shlex, time, datetime
 import pylab as pl
 
+# Notice: This script's structure (w.r.t. parameter 'outdir' in
+#         parameter file string template [86]), is designed to
+#         be run from the 'elephant' cluster, with output folder
+#         in a corresponding SciServer's 'indra' folders.
+#         To run from within the SciServer itself, adjust outdir
+#         and number of cores available accordingly.
+#           Anyone not associated with these folder systems, or
+#         access to 'indra' itself, will fail.
+
 def outputDirCheck(folderPath):
     """
     Checks if output folder structure exists
