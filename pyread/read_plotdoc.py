@@ -128,7 +128,7 @@ class Plotter(UserTools):
 
 
 
-    # def plot_pos_scatter(self, IDsA, posA, box, plotdim=2,
+# def plot_pos_scatter(self, IDsA, posA, box, plotdim=2,
     #                      plotname="misc_scatplot", plotpath="output_gravipy/"):
     #     """
     #     Plots positional data output.
@@ -185,6 +185,6 @@ class Plotter(UserTools):
     # return 0
 
 
-    if __name__ == '__main__':
-    sys.exit("Attempt at running code from unintended source. \n\
-             Please run read.py instead.")
+if __name__ == '__main__':
+sys.exit("Attempt at running code from unintended source. \n\
+         Please run read.py instead.")
