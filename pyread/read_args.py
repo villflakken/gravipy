@@ -160,6 +160,8 @@ class readArgs(object):
                 At the moment, it's useful to determine whether 'sf'
                 should be a set / range -: !!!Pre-emptively!!!
                 """
+                print key
+                print key in self.read_params.keys()
                 print self.read_params[key] # DT
                 self.param_incorp[key]("not valid", "also not") # DT
 
