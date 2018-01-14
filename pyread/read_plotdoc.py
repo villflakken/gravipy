@@ -9,7 +9,7 @@ from matplotlib import rc
 rc('font',**{'family':'serif'})
 
 
-class Plotter(UserTools):
+class Plotter(object):
     """
     Plotting Tools and Templates.
         # Outside-callable-pre-defined user plotting tools.
