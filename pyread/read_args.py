@@ -80,7 +80,7 @@ class readArgs(object):
                "outputpath" : self.outputpath_incorp ,
                       "w2f" : self.toggles_incorp    ,
                  "plotdata" : self.toggles_incorp    ,
-                  "plotdim" : self.integer_incorp    ,
+                  "plotdim" : self.integer_incorp    , # make a better function
               "origamipath" : self.in_path_incorp
             }
         self.intRange_dict = { # Ranges of integer numbers.
@@ -302,7 +302,8 @@ class readArgs(object):
             """.format(name))
 
             " Now, incorporate user input as instance variables "
-            if self.sfset == True:
+            if self.sfset == True \
+                and any([name == "sfset", name == "plotdim"]):
                 " User input's set is applied directly "
                 setattr( self, name+"_set" , uinput )
                 # Should already by in an iterable form :)
