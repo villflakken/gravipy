@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"indraN",
+				"indraN_set"
+			],
+			[
+				"toggles",
+				"toggles_incorp"
+			],
+			[
+				"origami",
+				"origamipath"
+			],
+			[
 				"tmp",
 				"tmpfs"
 			],
@@ -502,46 +514,53 @@
 			[
 				"grouplen",
 				"grouplen"
-			],
-			[
-				"Gro",
-				"GroupLen"
-			],
-			[
-				"GroupOf",
-				"GroupOffset"
-			],
-			[
-				"from",
-				"fromfile"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "/C/Users/Boffen/Dropbox/uni/master/ssh_git_sheet.txt",
+			"file": "pyread/read_autotools.py",
 			"settings":
 			{
-				"buffer_size": 3843,
+				"buffer_size": 3367,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "/C/Users/Boffen/Dropbox/animes_to_watch.txt",
+			"file": "pyread/read_plotdoc.py",
 			"settings":
 			{
-				"buffer_size": 916,
+				"buffer_size": 6940,
+				"encoding": "UTF-8",
+				"line_ending": "Unix",
+				"name": "read_plotdoc"
+			}
+		},
+		{
+			"file": "pyread/read_usertools.py",
+			"settings":
+			{
+				"buffer_size": 5994,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "pyread/read_args.py",
+			"file": "pyread/read_misctools.py",
 			"settings":
 			{
-				"buffer_size": 17599,
+				"buffer_size": 9676,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "pyread/read_procedures.py",
+			"settings":
+			{
+				"buffer_size": 18232,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -550,7 +569,16 @@
 			"file": "pyread/read.py",
 			"settings":
 			{
-				"buffer_size": 9976,
+				"buffer_size": 9774,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "pyread/read_args.py",
+			"settings":
+			{
+				"buffer_size": 17635,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -679,15 +707,18 @@
 	],
 	"file_history":
 	[
+		"/C/Users/Boffen/Downloads/gravipy_notebook_corrected_cutout.py",
+		"/C/Users/Boffen/Dropbox/uni/master/gravipy/pyread/read_sifters.py",
+		"/C/Users/Boffen/Dropbox/uni/master/gravipy/pyread/read_misctools.py",
+		"/C/Users/Boffen/Dropbox/uni/master/ssh_git_sheet.txt",
+		"/C/Users/Boffen/Dropbox/animes_to_watch.txt",
 		"/C/Users/Boffen/Dropbox/uni/master/gravipy/pyread/read.py",
 		"/C/Users/Boffen/Dropbox/uni/master/gravipy/autori/autori.py",
-		"/C/Users/Boffen/Dropbox/uni/master/gravipy/pyread/read_sifters.py",
 		"/C/Users/Boffen/Dropbox/uni/master/gravipy/project_info_tidbits.txt",
 		"/C/Users/Boffen/Dropbox/uni/master/gravipy/pyread/gravipy_notebook_corrected_cutout.ipynb",
 		"/C/Users/Boffen/AppData/Roaming/Sublime Text 3/Packages/IPython Notebook/README.md",
 		"/C/Users/Boffen/Dropbox/uni/master/gravipy/pyread/read_procedures.py",
 		"/C/Users/Boffen/Dropbox/uni/master/gravipy/notes/autori0.hs",
-		"/C/Users/Boffen/Dropbox/uni/master/ssh_git_sheet.txt",
 		"/C/Users/Boffen/Dropbox/uni/master/gravipy/gunpig/stuff_for_vc_to_do.py",
 		"/C/Users/Boffen/Dropbox/uni/master/origami/code/origamitag.c",
 		"/C/Users/Boffen/Dropbox/uni/master/origami/code/readfiles_int.c",
@@ -716,7 +747,6 @@
 		"/C/Users/Boffen/Dropbox/uni/master/gravipy/_betas/0.51j/read.py",
 		"/C/Users/Boffen/Dropbox/uni/master/gravipy/_betas/0.51j/read_sifters.py",
 		"/C/Users/Boffen/Dropbox/uni/master/gravipy/_betas/0.51j/read_procedures.py",
-		"/C/Users/Boffen/Dropbox/uni/master/gravipy/pyread/read_misctools.py",
 		"/C/Users/Boffen/Dropbox/uni/master/gravipy/pyread/read_args.py",
 		"/C/Users/Boffen/Dropbox/uni/master/gravipy_notebook.py",
 		"/C/Users/Boffen/Dropbox/uni/master/gravipy/pyread/testrun.py",
@@ -804,9 +834,7 @@
 		"/C/Users/Boffen/AFUdrive/Valgallmøte_H17/order.tex",
 		"/C/Users/Boffen/Dropbox/uni/summer17/read_project/read_sifters_before.py",
 		"/C/Users/Boffen/Dropbox/uni/summer17/indra_corrfunc.py",
-		"/C/Users/Boffen/Dropbox/uni/summer17/read_tools.py",
-		"/C/Users/Boffen/Dropbox/uni/summer17/read_sifters.py",
-		"/C/Users/Boffen/Dropbox/uni/summer17/read_args.py"
+		"/C/Users/Boffen/Dropbox/uni/summer17/read_tools.py"
 	],
 	"find":
 	{
@@ -817,6 +845,8 @@
 		"height": 118.0,
 		"where_history":
 		[
+			"C:\\Users\\Boffen\\Dropbox\\uni\\master\\gravipy\\pyread",
+			"<open files>",
 			""
 		]
 	},
@@ -825,6 +855,32 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"currentTaskParamsParser",
+			"indraN_set",
+			"_high",
+			"_set",
+			"num",
+			"oriDo",
+			"persistent",
+			"auto_outputPather",
+			"self.uname",
+			"self.intendedMachine",
+			"self.dsp",
+			"dsp",
+			"datascope",
+			"self.dsp",
+			"intendedMachine",
+			"auto_outputPather",
+			"indrapathparser",
+			"self.uname",
+			"intended",
+			"self.indraPathParser",
+			"self.onIdies",
+			"idies",
+			"self.uname",
+			"else \"\"",
+			"tmp",
+			"tempfolder",
 			"taskname_incorp",
 			"sfs",
 			"outdirp_tmpl",
@@ -926,33 +982,7 @@
 			"lower",
 			"lower()",
 			"IDsList",
-			"allIDsList",
-			"sort",
-			"first",
-			"pos",
-			"IDs",
-			"skip",
-			"count_sub",
-			"maxfileCount",
-			"M200",
-			"writer",
-			"PMGRID",
-			"nsize",
-			"N.",
-			"# DT",
-			"DT",
-			"funcnameover",
-			"fft",
-			"raw_input",
-			" == ",
-			" == ,!=",
-			" != ",
-			" !=",
-			"!=",
-			" != ",
-			"!=",
-			"==",
-			"!="
+			"allIDsList"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1022,174 +1052,24 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 5,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "/C/Users/Boffen/Dropbox/uni/master/ssh_git_sheet.txt",
+					"file": "pyread/read_autotools.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3843,
+						"buffer_size": 3367,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1943,
-								1943
-							]
-						],
-						"settings":
-						{
-							"c_time":
-							[
-								128,
-								3,
-								99,
-								100,
-								97,
-								116,
-								101,
-								116,
-								105,
-								109,
-								101,
-								10,
-								100,
-								97,
-								116,
-								101,
-								116,
-								105,
-								109,
-								101,
-								10,
-								113,
-								0,
-								67,
-								10,
-								7,
-								225,
-								10,
-								18,
-								11,
-								45,
-								19,
-								3,
-								248,
-								146,
-								113,
-								1,
-								133,
-								113,
-								2,
-								82,
-								113,
-								3,
-								46
-							],
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 738.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "/C/Users/Boffen/Dropbox/animes_to_watch.txt",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 916,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								916,
-								916
-							]
-						],
-						"settings":
-						{
-							"c_time":
-							[
-								128,
-								3,
-								99,
-								100,
-								97,
-								116,
-								101,
-								116,
-								105,
-								109,
-								101,
-								10,
-								100,
-								97,
-								116,
-								101,
-								116,
-								105,
-								109,
-								101,
-								10,
-								113,
-								0,
-								67,
-								10,
-								7,
-								225,
-								12,
-								2,
-								1,
-								35,
-								13,
-								3,
-								70,
-								226,
-								113,
-								1,
-								133,
-								113,
-								2,
-								82,
-								113,
-								3,
-								46
-							],
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "pyread/read_args.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 17599,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5700,
-								5700
+								1877,
+								1877
 							]
 						],
 						"settings":
@@ -1228,9 +1108,88 @@
 								1,
 								25,
 								16,
+								8,
+								6,
+								221,
+								113,
+								1,
+								133,
+								113,
+								2,
+								82,
+								113,
+								3,
+								46
+							],
+							"spell_check": false,
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 621.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "pyread/read_plotdoc.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6940,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1306,
+								1306
+							]
+						],
+						"settings":
+						{
+							"auto_name": "read_plotdoc",
+							"c_time":
+							[
+								128,
+								3,
+								99,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								113,
+								0,
+								67,
+								10,
 								7,
-								204,
-								29,
+								226,
+								1,
+								13,
+								17,
+								27,
+								8,
+								11,
+								137,
+								145,
 								113,
 								1,
 								133,
@@ -1246,27 +1205,258 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1418.0,
+						"translation.y": 621.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "pyread/read.py",
+					"buffer": 2,
+					"file": "pyread/read_usertools.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 9976,
+						"buffer_size": 5994,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								918,
-								918
+								5660,
+								5660
+							]
+						],
+						"settings":
+						{
+							"c_time":
+							[
+								128,
+								3,
+								99,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								113,
+								0,
+								67,
+								10,
+								7,
+								225,
+								12,
+								8,
+								1,
+								25,
+								16,
+								8,
+								143,
+								242,
+								113,
+								1,
+								133,
+								113,
+								2,
+								82,
+								113,
+								3,
+								46
+							],
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 216.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "pyread/read_misctools.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 9676,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4743,
+								4743
+							]
+						],
+						"settings":
+						{
+							"c_time":
+							[
+								128,
+								3,
+								99,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								113,
+								0,
+								67,
+								10,
+								7,
+								225,
+								12,
+								8,
+								1,
+								25,
+								16,
+								8,
+								22,
+								139,
+								113,
+								1,
+								133,
+								113,
+								2,
+								82,
+								113,
+								3,
+								46
+							],
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "pyread/read_procedures.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 18232,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								247,
+								247
+							]
+						],
+						"settings":
+						{
+							"c_time":
+							[
+								128,
+								3,
+								99,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								113,
+								0,
+								67,
+								10,
+								7,
+								225,
+								12,
+								8,
+								1,
+								25,
+								16,
+								8,
+								57,
+								201,
+								113,
+								1,
+								133,
+								113,
+								2,
+								82,
+								113,
+								3,
+								46
+							],
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "pyread/read.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 9774,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								992,
+								992
 							]
 						],
 						"settings":
@@ -1323,10 +1513,247 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 432.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "pyread/read_args.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 17635,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5171,
+								5171
+							]
+						],
+						"settings":
+						{
+							"c_time":
+							[
+								128,
+								3,
+								99,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								113,
+								0,
+								67,
+								10,
+								7,
+								225,
+								12,
+								8,
+								1,
+								25,
+								16,
+								7,
+								204,
+								29,
+								113,
+								1,
+								133,
+								113,
+								2,
+								82,
+								113,
+								3,
+								46
+							],
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1396.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 6,
+					"file": "pyread/read_args.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 17635,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								9380,
+								9380
+							]
+						],
+						"settings":
+						{
+							"c_time":
+							[
+								128,
+								3,
+								99,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								113,
+								0,
+								67,
+								10,
+								7,
+								225,
+								12,
+								8,
+								1,
+								25,
+								16,
+								7,
+								204,
+								29,
+								113,
+								1,
+								133,
+								113,
+								2,
+								82,
+								113,
+								3,
+								46
+							],
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4698.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "pyread/read.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 9774,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7850,
+								7850
+							]
+						],
+						"settings":
+						{
+							"c_time":
+							[
+								128,
+								3,
+								99,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								100,
+								97,
+								116,
+								101,
+								116,
+								105,
+								109,
+								101,
+								10,
+								113,
+								0,
+								67,
+								10,
+								7,
+								225,
+								12,
+								8,
+								1,
+								25,
+								16,
+								7,
+								133,
+								157,
+								113,
+								1,
+								133,
+								113,
+								2,
+								82,
+								113,
+								3,
+								46
+							],
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3815.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
 					"type": "text"
 				}
 			]
@@ -1349,11 +1776,18 @@
 				0,
 				1,
 				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
 			]
 		],
 		"cols":
 		[
 			0.0,
+			0.5,
 			1.0
 		],
 		"rows":
