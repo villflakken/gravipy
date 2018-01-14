@@ -10,10 +10,12 @@ from read_procedures import readProcedures
 
 
 def read_ini( what="pos", indraN=0, iA=0, iB=0, subfolder=None, fftfile=None, 
-              tmpfolder=False, sortIDs=False, lessprint=True,
-              box_params=False, plotdim=2,
-              w2f=False, plotdata=False,
+              tmpfolder=False, sfset=False, sortIDs=False, lessprint=True,
+              box_params=False,
               outputpath=False,
+              w2f=False,
+              plotdata=False,
+              plotdim=2,
               origamipath=False
             ):
     """
