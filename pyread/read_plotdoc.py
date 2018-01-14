@@ -186,5 +186,5 @@ class Plotter(UserTools):
 
 
 if __name__ == '__main__':
-sys.exit("Attempt at running code from unintended source. \n\
+    sys.exit("Attempt at running code from unintended source. \n\
          Please run read.py instead.")
