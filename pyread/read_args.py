@@ -271,12 +271,14 @@ class readArgs(object):
         """.format(name, uinput,
                    self.intRange_dict[name][0], self.intRange_dict[name][-1])
         
+        print 
         if type(uinput) == tuple or \
             type(uinput) == list:
             print " When multiple numbers are input. "
             
             print " Check if user's unput is in specified ranges "
             print len(uinput) <= 2, self.sfset == True
+            print uinput 
             if  (len(uinput) == 2 and self.sfset == False) or \
                 (len(uinput) <= 2 and self.sfset == True):
                 print " (Case: User has specified a range) or "
