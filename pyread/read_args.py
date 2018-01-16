@@ -276,8 +276,9 @@ class readArgs(object):
             print " When multiple numbers are input. "
             
             print " Check if user's unput is in specified ranges "
-            if  (len(uinput) == 2 and self.sfset == False) == True or \
-                (len(uinput) <= 2 and self.sfset == True)  == True:
+            print len(uinput) <= 2, self.sfset == True
+            if  (len(uinput) == 2 and self.sfset == False) or \
+                (len(uinput) <= 2 and self.sfset == True):
                 print " (Case: User has specified a range) or "
                 print " (Case: User has specified a set  ) "
                 
