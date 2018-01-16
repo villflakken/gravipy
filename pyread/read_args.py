@@ -2,6 +2,7 @@
 # Argument interpreter for read.py's interface.
 # ==============================================
 import sys, os
+import numpy as N
 
 
 
@@ -86,12 +87,12 @@ class readArgs(object):
               "origamipath" : self.in_path_incorp
             }
         self.intRange_dict = { # Ranges of integer numbers.
-                "indraN" : range(0,8),
-                    "iA" : range(0,8),
-                    "iB" : range(0,8),
-             "subfolder" : range(0,64),
-               "fftfile" : range(0,505),
-               "plotdim" : range(2,4)
+                "indraN" : N.arange(0,8),
+                    "iA" : N.arange(0,8),
+                    "iB" : N.arange(0,8),
+             "subfolder" : N.arange(0,64),
+               "fftfile" : N.arange(0,505),
+               "plotdim" : N.arange(2,4)
             } # Rember format: [x0, ..., x1 - 1]
         """
         Dictionaries: some default parameter values
@@ -346,7 +347,7 @@ class readArgs(object):
         Allowed values: [ 0 , 1 ] / [ False, True ]
         """.format(name, uinput)
 
-        if (type(uinput) == int and uinput in range(0,2)) or \
+        if (type(uinput) == int and uinput in N.range(0,2)) or \
             type(uinput) == bool:
             " Allowed object recognized then input is recognized. "
             setattr( self, name, uinput )
@@ -403,31 +404,19 @@ class readArgs(object):
         Interprets if user wants 1 plot of either 2D or 3D;
         or both.
         """
-        if hasattr(uinput, '__iter__'):
-            " Case: user wants both 2D _and_ 3D plot "
+        if  hasattr(uinput, '__iter__')                       and    \
+            all(map(lambda x: hasattr(x, '__int__'), uinput)) and    \
+            all(map(lambda x: x in self.intRange_dict[name], uinput)):
+            " Case 1.:  user wants both 2D _and_ 3D plot "
+            " 1.1:      User's iterable's object contains int-types "
+            " 1.2:      Are all numbers given either 2 or 3? "
+            self.plotdim2n3 = True
+            pass
 
-            if all(map(lambda x: hasattr(x, '__int__'), uinput)):
-                " => User's iterable's object contains int-types "
-                
-                if all(map(lambda x: x in self.intRange_dict[name], uinput)):
-                    " => Are all numbers given either 2 or 3? "
-                    self.plotdim2n3 = True
-                    # Also, now turn this to True; its default is False
-                    pass
-                else:
-                    break
-
-            else:
-                break
-
-        elif hasattr(uinput, '__int__'):
-            " Case: user wants a single plot in either 2D _or_ 3D "
-
-            if uinput in self.intRange_dict[name]:
-                " => Is number input either 2 or 3?"
-                pass
-            else:
-                break
+        elif hasattr(uinput, '__int__')   and \
+            uinput in self.intRange_dict[name]:
+            " Case 2.:  User wants a single plot in either 2D _or_ 3D "
+            " 2.1:      Is number input either 2 or 3?"
             pass
 
         else:
