@@ -15,7 +15,8 @@ class Plotter(object):
         # Outside-callable-pre-defined user plotting tools.
         # Basically: as I go along and develop plotting methods;
         #     put the finished methods in here.
-        #         - In later versions: Methods may be merged / initialized into auto-pp.
+        #         - In later versions: Methods may be merged,
+        #                              or initialized into auto-pp.
 
     ... Maybe the inheritance should go the other way..?
     """

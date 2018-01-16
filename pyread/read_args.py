@@ -26,7 +26,8 @@ class readArgs(object):
         self.arglisterror = """
             Argument list discrepancy.
             Shutting down.\n"""
-        self.inigo = "My name is Inigo Montoya. You killed my father.                         Prepare to die.\n\n\tExiting."
+        self.inigo = "My name is Inigo Montoya. You killed my father.\
+                        Prepare to die.\n\n\tExiting."
         # Error messages get boring after a while.
         self.length              = None  # LDT (from IDL debugs)
         self.sub_asks_for_length = False # enabling LDT for subhalo
@@ -34,8 +35,9 @@ class readArgs(object):
         self.missingkeys_no = 0
         self.missingkeys    = []
         self.keys_read      = []
-        self.onElephant = False
-        self.onIdies    = False
+        self.onElephant = False # ---> To determine filesystem.
+        self.onIdies    = False # _/
+        self.plotdim2n3 = False # => True, when user wants plots in 2D+3D
         """
         Definitions of keywords to be used, script's interpretation +++.
         When adding a new user input parameter, write it into the below
@@ -80,7 +82,7 @@ class readArgs(object):
                "outputpath" : self.outputpath_incorp ,
                       "w2f" : self.toggles_incorp    ,
                  "plotdata" : self.toggles_incorp    ,
-                  "plotdim" : self.integer_incorp    , # make a better function
+                  "plotdim" : self.plotdim_incorp    ,
               "origamipath" : self.in_path_incorp
             }
         self.intRange_dict = { # Ranges of integer numbers.
@@ -347,39 +349,13 @@ class readArgs(object):
         if (type(uinput) == int and uinput in range(0,2)) or \
             type(uinput) == bool:
             " Allowed object recognized then input is recognized. "
-            setattr( self, name, uinput)
+            setattr( self, name, uinput )
             return 0
             # After storing, returns to next item to be checked
 
         else:
             sys.exit(toggleserrortext)
             # Aborts
-
-
-    def outputpath_incorp(self, uinput, name):
-        """
-        Interprets where output should be stored
-        """
-        # print " ** Inside self.outputpath_incorp! "
-        # print " ** key =", name, "| uinput =", uinput
-
-        if uinput != False and \
-            type(uinput) == str:
-            " Then user has a specific output path in mind! "
-            setattr(self, name, uinput)
-        elif uinput == False:
-            """
-            Allows program to decide where output should be stored:
-            [ ~/indraData/{what}_{indraN}{iA}{iB}{tmp/None}_sf{sf}/ ]
-            """
-            setattr(self, name, uinput)
-            pass
-        else:
-            sys.exit("""
-        Invalid address/type for specified output path.
-        """)
-
-        return 0
 
 
     def boxparams_incorp(self, uinput, name):
@@ -417,6 +393,73 @@ class readArgs(object):
             sys.exit("""
         Parameters given for box invalid.
         Please provide 3 by 2 object (list or tuple).
+        """)
+
+        return 0
+
+
+    def plotdim_incorp(self, uinput, name):
+        """
+        Interprets if user wants 1 plot of either 2D or 3D;
+        or both.
+        """
+        if hasattr(uinput, '__iter__'):
+            " Case: user wants both 2D _and_ 3D plot "
+
+            if all(map(lambda x: hasattr(x, '__int__'), uinput)):
+                " => User's iterable's object contains int-types "
+                
+                if all(map(lambda x: x in self.intRange_dict[name], uinput)):
+                    " => Are all numbers given either 2 or 3? "
+                    self.plotdim2n3 = True
+                    # Also, now turn this to True; its default is False
+                    pass
+                else:
+                    break
+
+            else:
+                break
+
+        elif hasattr(uinput, '__int__'):
+            " Case: user wants a single plot in either 2D _or_ 3D "
+
+            if uinput in self.intRange_dict[name]:
+                " => Is number input either 2 or 3?"
+                pass
+            else:
+                break
+            pass
+
+        else:
+            sys.exit("\n Plot's dim: not int or iterable of ints \n")
+
+        " All tests passed: apply dimension set to instance! "
+        setattr(self, name, uinput)
+
+        return 0 
+
+
+    def outputpath_incorp(self, uinput, name):
+        """
+        Interprets where output should be stored
+        """
+        # print " ** Inside self.outputpath_incorp! "
+        # print " ** key =", name, "| uinput =", uinput
+
+        if uinput != False and \
+            type(uinput) == str:
+            " Then user has a specific output path in mind! "
+            setattr(self, name, uinput)
+        elif uinput == False:
+            """
+            Allows program to decide where output should be stored:
+            [ ~/indraData/{what}_{indraN}{iA}{iB}{tmp/None}_sf{sf}/ ]
+            """
+            setattr(self, name, uinput)
+            pass
+        else:
+            sys.exit("""
+        Invalid address/type for specified output path.
         """)
 
         return 0
