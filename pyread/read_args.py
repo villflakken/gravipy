@@ -280,7 +280,7 @@ class readArgs(object):
             print len(uinput) <= 2, self.sfset == True
             print uinput 
             if  (len(uinput) == 2 and self.sfset == False) or \
-                (len(uinput) <= 2 and self.sfset == True):
+                (len(uinput) >= 2 and self.sfset == True):
                 print " (Case: User has specified a range) or "
                 print " (Case: User has specified a set  ) "
                 
