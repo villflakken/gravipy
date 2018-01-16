@@ -142,21 +142,22 @@ class readProcedures(Sifters, MiscTools, UserTools):
 
         " returns what user needs, specifically: "
         if self.what == "pos":
-            print "IDsA (sorted):"
-            IDsA.sort()
-            print IDsA
-            print
-            print "N.arange(int(1024**3)):"
-            print N.arange(int(1024**3), dtype=N.int64)
+            # print "IDsA (sorted):"
+            # IDsA.sort()
+            # print IDsA
+            # print
+            # print "N.arange(int(1024**3)):"
+            # print N.arange(int(1024**3), dtype=N.int64)
             
-            print "IDs array size:", self.item_size_printer(IDsA.nbytes)
-            print "is IDs array == N.arange(int(1024**3)) +1 ...? :", \
-                N.array_equal( IDsA , N.arange(int(1024**3), dtype=N.int64)+1 ) 
+            # print "IDs array size:", self.item_size_printer(IDsA.nbytes)
+            # print "is IDs array == N.arange(int(1024**3)) +1 ...? :", \
+            #     N.array_equal( IDsA , N.arange(int(1024**3), dtype=N.int64)+1 ) 
                 
-            print "pos array size:", self.item_size_printer(posA.nbytes) , "\n"
-            print posA.shape
-            print posA
-            sys.exit("\ndbug")
+            # print "pos array size:", self.item_size_printer(posA.nbytes) , "\n"
+            # print posA.shape
+            # print posA
+            # sys.exit("\ndbug") -+0,
+            
             return IDsA, posA, scalefA[0], rsA[0]
 
         elif self.what == "vel":
