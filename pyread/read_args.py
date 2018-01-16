@@ -273,20 +273,20 @@ class readArgs(object):
         
         if type(uinput) == tuple or \
             type(uinput) == list:
-            " When multiple numbers are input. "
+            print " When multiple numbers are input. "
             
-            " Check if user's unput is in specified ranges "
+            print " Check if user's unput is in specified ranges "
             if  (len(uinput) == 2 and self.sfset == False) == True or \
                 (len(uinput) <= 2 and self.sfset == True)  == True:
-                " (Case: User has specified a range) or "
-                " (Case: User has specified a set  ) "
+                print " (Case: User has specified a range) or "
+                print " (Case: User has specified a set  ) "
                 
                 for single_number in uinput:
-                    " Check each number by range. "
+                    print " Check each number by range. "
                     
                     if (type(single_number) == int) and \
                         (single_number in self.intRange_dict[name]):
-                        " Value of number checks out! "
+                        print " Value of number checks out! "
                         # No need to store anything.
                         pass
 
