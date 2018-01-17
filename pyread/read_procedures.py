@@ -192,6 +192,8 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         gid = snappath + "group_ids_{0:03d}.".format(self.subfolder)
 
         skip = 0
+        self.GroupLen = None # Making sure this variable is clear before beginning
+                             # of next case in case of multi-run set ups.
         maxfileCount_gtb = self.findCount(gtb)
 
         for i in N.arange(0, maxfileCount_gtb + 1):
@@ -263,14 +265,12 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
 
             continue
 
-        self.GroupLen = None # Making sure this variable is clear before beginning
-                             # of next case in case of multi-run set ups.
 
         print "Finished reading '"+str(self.what)+"', indra"       \
                 +str(self.indraN)+', iA='+str(self.iA)+', iB='+str(self.iB)  \
                 +', snapshot='+str(self.subfolder)
         
-        return 0
+        return Ngroups, Nids, TotNgroups
 
 
     def read_subhalo(self):
