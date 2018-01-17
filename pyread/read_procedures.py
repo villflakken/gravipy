@@ -184,8 +184,12 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         indrapath = self.dsp + "/indra%d/%d_%d_%d" \
             % (self.indraN, self.indraN, self.iA, self.iB)
         snappath = indrapath + "/snapdir_%03d/" % (self.subfolder)
-        gtb = snappath + "group_tab_%03d." % (self.subfolder)
-        gid = snappath + "group_ids_%03d." % (self.subfolder)
+
+        indrapath = self.dsp + self.indraPathParser()
+        snappath = indrapath + '/snapdir_{0:03d}/'.format(self.subfolder)
+
+        gtb = snappath + "group_tab_{0:03d}.".format(self.subfolder)
+        gid = snappath + "group_ids_{0:03d}.".format(self.subfolder)
 
         skip = 0
         maxfileCount_gtb = self.findCount(gtb)
