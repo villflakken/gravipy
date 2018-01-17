@@ -163,20 +163,19 @@ class readArgs(object):
                 At the moment, it's useful to determine whether 'sf'
                 should be a set / range -: !!!Pre-emptively!!!
                 """
-                print "key:", key
-                print key, "in self.read_params.keys()?:"
-                print key in self.read_params.keys()
-                print
-                print "self.read_params:"
-                print self.read_params
-                print 
-                print "self.read_params[", key, "]?:"
-                print self.read_params[key]
-                # self.param_incorp[key]("not valid", "also not") # DT
-
-                print "self.toggles_incorp(self.read_params[key='sfset'], key='sfset')"
                 self.param_incorp[key](self.read_params[key], key)
-                print "self.sfset = ", self.sfset
+                # print "key:", key
+                # print key, "in self.read_params.keys()?:"
+                # print key in self.read_params.keys()
+                # print
+                # print "self.read_params:"
+                # print self.read_params
+                # print 
+                # print "self.read_params[", key, "]?:"
+                # print self.read_params[key]
+                # self.param_incorp[key]("not valid", "also not") # DT
+                # print "self.toggles_incorp(self.read_params[key='sfset'], key='sfset')"
+                # print "self.sfset = ", self.sfset
                 pass
 
             " Simple method to check if user forgot either of them "
@@ -315,13 +314,24 @@ class readArgs(object):
             if self.sfset == True \
                 and any([name == "sfset", name == "plotdim"]):
                 " User input's set is applied directly "
+                print "self.sfset == True:"
+                print self.sfset == True
+                print 'any([name == "sfset", name == "plotdim"]):'
+                print any([name == "sfset", name == "plotdim"])
+                print
+                print "name:", name
+                print "uinput:", uinput
+                print "self.",name,"_set = ",uinput
                 setattr( self, name+"_set" , uinput )
                 # Should already by in an iterable form :)
                 pass
 
             else:
                 " User input's range is generated and applied "
-                userRange = N.arange(uinput[0], uinput[1]+1 )
+                userRange = N.arange(uinput[0], uinput[-1]+1 )
+                print "name:", name
+                print "uinput:", uinput
+                print "self.",name,"_set = ",uinput
                 setattr( self, name+"_set" , userRange )
                 pass
 
