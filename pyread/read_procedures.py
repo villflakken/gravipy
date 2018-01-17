@@ -181,10 +181,6 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         engages byte sifters in each loop.
         Basic error handling.
         """
-        indrapath = self.dsp + "/indra%d/%d_%d_%d" \
-            % (self.indraN, self.indraN, self.iA, self.iB)
-        snappath = indrapath + "/snapdir_%03d/" % (self.subfolder)
-
         indrapath = self.dsp + self.indraPathParser()
         snappath = indrapath + '/snapdir_{0:03d}/'.format(self.subfolder)
 

@@ -194,6 +194,13 @@ class readDo(readArgs, readProcedures):
 
                             # Clear memory memory for the next itr,
                             # until 'parsed_data' is written to scope again:
+
+                            # parsed_datasets_dict[self.fileName] = parsed_data
+                            print
+                            print "snap number :", num
+                            print " Ngroups    :", parsed_data[0]
+                            print " Nids       :", parsed_data[1]
+                            print " TotNgroups :", parsed_data[2]
                             parsed_data = None
 
                             continue # to next 'num' (snapnum/fftfile)...
