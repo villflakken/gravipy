@@ -223,7 +223,6 @@ class readDo(readArgs, readProcedures):
             # Second condition probably redundant condition, but hey x)
             " if not 'fft', then 'subfolder' systems! "
             sett     = self.subfolder_set
-            print self.subfolder_set
             symbol   = "subfolder"
         elif self.what == "fft":
             " if 'fft', then fftfiles! "
