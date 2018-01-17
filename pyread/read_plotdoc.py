@@ -89,7 +89,7 @@ class Plotter(object):
 
             time_2dplot_end = time.time()
             print "2D scatter plot time: {0:.2f} seconds".format((time_2dplot_end - time_2dplot_start))
-            # pl.close("scatter2d")
+            pl.close("scatter2d")
             
             pass
 
@@ -118,7 +118,7 @@ class Plotter(object):
 
             time_3dplot_end = time.time()
             print "3D scatter plot time: {0:.2f} seconds".format((time_3dplot_end - time_3dplot_start))
-            # pl.close("scatter3d") # just because
+            pl.close("scatter3d") # just because
 
             pass
 

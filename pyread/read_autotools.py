@@ -53,7 +53,7 @@ class AutoTools(object):
         return 0
 
 
-    def pp_pos(self, parsed_data):
+    def pp_pos(self, parsed_data, num):
         """
         Positions post-processing function. 
         """
