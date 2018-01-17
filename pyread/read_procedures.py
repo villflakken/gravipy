@@ -241,28 +241,31 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
             """
             filepath = gid + str(i)
             
-            with open(filepath, 'rb') as openfile:
+            try:
                 
-                try:
+                with open(filepath, 'rb') as openfile:
                     fis_output = self.fof_ids_sifter(openfile, i, skip)
                     skip = fis_output
-                    pass
+                    openfile.close()
+                
+                pass
 
-                    if self.bssdt == True: # Big Skip ShutDown Toggle
-                        if skip > 1.01*self.length:
-                            print "\n skip > 1.01*length - encountered;\n " \
-                                    +"reading", self.what, "data;\n "       \
-                                    +"for-loop aborted at \n"+filepath
-                            return 0
+                    # if self.bssdt == True: # Big Skip ShutDown Toggle
+                    #     if skip > 1.01*self.length:
+                    #         print "\n skip > 1.01*length - encountered;\n " \
+                    #                 +"reading", self.what, "data;\n "       \
+                    #                 +"for-loop aborted at \n"+filepath
+                    #         return 0
 
-                except IOError:
-                    self.readLoopError(filepath, 2, 2, i)
-                    pass
+            except IOError:
+                self.readLoopError(filepath, 2, 2, i)
+                pass
 
             continue
 
         self.GroupLen = None # Making sure this variable is clear before beginning
                              # of next case in case of multi-run set ups.
+
         print "Finished reading '"+str(self.what)+"', indra"       \
                 +str(self.indraN)+', iA='+str(self.iA)+', iB='+str(self.iB)  \
                 +', snapshot='+str(self.subfolder)
