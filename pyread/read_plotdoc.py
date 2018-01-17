@@ -113,7 +113,7 @@ class Plotter(object):
             ax.set_zlabel('z-position Mpc/h')
             ax.legend(bbox_to_anchor=(0,0.14, 1,-0.2), loc="upper left", mode="expand", ncol=4, prop={'size':15}, markerscale=10)
 
-            gplot.axisEqual3D(ax) # Axes aspect ratio correction
+            self.axisEqual3D(ax) # Axes aspect ratio correction
             pl.show("scatter3d")
 
             time_3dplot_end = time.time()
