@@ -294,8 +294,6 @@ class readArgs(object):
                         sys.exit(integererrortext)
 
                     continue
-                else:
-                    sys.exit(integererrortext)
 
             else:
                 " Multiple values, but not in form of (lower,upper) or (set)!"

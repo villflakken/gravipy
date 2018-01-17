@@ -63,8 +63,8 @@ class AutoTools(object):
             # Plotting without boxing will take 26hours per plot.
             print " Box for the cut-out:", self.box_params
             box3D = self.box_indexer(pos, self.box_params)
-            IDs = IDsA[box3D]
-            pos = posA[box3D]
+            IDs = IDs[box3D]
+            pos = pos[box3D]
             pass
 
         if self.origamipath != False:
