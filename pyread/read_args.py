@@ -363,8 +363,6 @@ class readArgs(object):
             " Allowed object recognized then input is recognized. "
             setattr( self, name, uinput )
             # After storing, returns to next item to be checked
-            if name == 'sfset':
-                print "taking care of sfset"
             return 0
 
         else:
