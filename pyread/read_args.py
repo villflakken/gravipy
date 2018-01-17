@@ -533,7 +533,7 @@ class readArgs(object):
             # ..going to assume that I indeed want to debug shit; commented out.
             # sys.exit(runningLocallyMessage)
             pass
-        elif systemName == clusterName:
+        elif systemName.startswith(clusterName):
             # Datascope base file structure path.
             self.onElephant = True
             self.dsp = "/datascope" # indra pathing follows
