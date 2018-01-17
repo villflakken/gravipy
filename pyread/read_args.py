@@ -169,7 +169,10 @@ class readArgs(object):
                 # print self.read_params[key]
                 # self.param_incorp[key]("not valid", "also not") # DT
 
+                print "self.sfset = ", self.sfset
+                print "self.toggles_incorp(self.read_params['sfset'], 'sfset')"
                 self.param_incorp[key](self.read_params[key], key)
+                print "self.sfset = ", self.sfset
                 pass
 
             " Simple method to check if user forgot either of them "
@@ -351,8 +354,10 @@ class readArgs(object):
             type(uinput) == bool:
             " Allowed object recognized then input is recognized. "
             setattr( self, name, uinput )
-            return 0
             # After storing, returns to next item to be checked
+            if name == 'sfset':
+                print "taking care of sfset"
+            return 0
 
         else:
             sys.exit(toggleserrortext)
