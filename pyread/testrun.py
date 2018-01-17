@@ -37,8 +37,8 @@ data_params = \
 
 " The simplified function call: "
 from read import read_ini
-IDs, pos = read_ini(
-                          what       = ["pos"], # "vel", "fof", etc 
+output = read_ini(
+                          what       = ["fof"], # "vel", "fof", etc 
                           indraN     = 2,
                           iA         = 0,
                           iB         = 0,
@@ -46,6 +46,8 @@ IDs, pos = read_ini(
                           tmpfolder  = True
                         )
 
+
+"""
 from read_usertools import UserTools as do
 do = do() # Initialize toolkit
 
@@ -67,4 +69,4 @@ do.plot_pos_scatter(IDsA=IDs, posA=pos, box=box_params, plotdim=2, # One in 2D
 do.plot_pos_scatter(IDsA=IDs, posA=pos, box=box_params, plotdim=3, # One in 3D
                     plotname="funcScatterTest", plotpath="output_gravipy/")
     # \=> 'plotdim' argument is optional; will make 2 dimensional plot by default.
-
+"""

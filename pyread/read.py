@@ -196,6 +196,7 @@ class readDo(readArgs, readProcedures):
                             # until 'parsed_data' is written to scope again:
 
                             # parsed_datasets_dict[self.fileName] = parsed_data
+                            print "sett:", sett
                             print
                             print "snap number :", num
                             print " Ngroups    :", parsed_data[0]
@@ -208,6 +209,8 @@ class readDo(readArgs, readProcedures):
                     continue # to next iA...
                 continue # to next iN...
             continue # to next user-specified task...
+
+        print "Done with loop, now returning data."
         """
         Might be useful outside of function,
         that returned object is not mutable: return a tuple.
@@ -217,12 +220,20 @@ class readDo(readArgs, readProcedures):
             So that user is given its tuple of values,
             without having to pack them out of a dictionary.
             """
+            print "  Data produced returned to outside variable"
             return parsed_datasets_dict[parsed_datasets_dict.keys()[0]]
         else:
             """
             Returns the whole dataset for the user
             to pack out from the dictionary.
             """
+            print "  Data produced stored in dictionary variable:"
+            print "    self.parsed_datasets_dict\n"
+            print "Keys for dictionary:"
+            keys = N.array(parsed_datasets_dict.keys())
+            keys.sort()
+            for key in keys:
+                print key
             return parsed_datasets_dict
 
 
