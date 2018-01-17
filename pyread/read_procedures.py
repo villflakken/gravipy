@@ -7,7 +7,7 @@ from read_sifters import Sifters
 from read_misctools import MiscTools
 from read_usertools import UserTools
 from read_autotools import AutoTools
-from read_plotdocs import Plotter
+from read_plotdoc import Plotter
 
 
 class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
