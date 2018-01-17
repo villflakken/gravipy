@@ -271,25 +271,22 @@ class readArgs(object):
         """.format(name, uinput,
                    self.intRange_dict[name][0], self.intRange_dict[name][-1])
         
-        print 
         if type(uinput) == tuple or \
             type(uinput) == list:
-            print " When multiple numbers are input. "
+            " When multiple numbers are input. "
             
-            print " Check if user's unput is in specified ranges "
-            print len(uinput) <= 2, self.sfset == True
-            print uinput 
+            " Check if user's unput is in specified ranges "
             if  (len(uinput) == 2 and self.sfset == False) or \
                 (len(uinput) >= 2 and self.sfset == True):
-                print " (Case: User has specified a range) or "
-                print " (Case: User has specified a set  ) "
+                " (Case: User has specified a range) or "
+                " (Case: User has specified a set  ) "
                 
                 for single_number in uinput:
-                    print " Check each number by range. "
+                    " Check each number by range. "
                     
                     if (type(single_number) == int) and \
                         (single_number in self.intRange_dict[name]):
-                        print " Value of number checks out! "
+                        " Value of number checks out! "
                         # No need to store anything.
                         pass
 
@@ -297,13 +294,15 @@ class readArgs(object):
                         sys.exit(integererrortext)
 
                     continue
-                pass
+                else:
+                    sys.exit(integererrortext)
 
             else:
                 " Multiple values, but not in form of (lower,upper) or (set)!"
                 sys.exit("""
             Parameter {0} requires exactly 1
-                - or 2 (in tuple or list as lower- and upper-) -
+                - or 2  (for a range; in tuple or list; as lower- and upper-) -
+                - or any amount of (when a set is specified) -
             integer(s) as input variable(s).
             """.format(name))
 
