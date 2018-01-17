@@ -163,14 +163,18 @@ class readArgs(object):
                 At the moment, it's useful to determine whether 'sf'
                 should be a set / range -: !!!Pre-emptively!!!
                 """
-                # print key
-                # print key in self.read_params.keys()
-                # print self.read_params
-                # print self.read_params[key]
+                print "key:", key
+                print key, "in self.read_params.keys()?:"
+                print key in self.read_params.keys()
+                print
+                print "self.read_params:"
+                print self.read_params
+                print 
+                print "self.read_params[", key, "]?:"
+                print self.read_params[key]
                 # self.param_incorp[key]("not valid", "also not") # DT
 
-                print "self.sfset = ", self.sfset
-                print "self.toggles_incorp(self.read_params['sfset'], 'sfset')"
+                print "self.toggles_incorp(self.read_params[key='sfset'], key='sfset')"
                 self.param_incorp[key](self.read_params[key], key)
                 print "self.sfset = ", self.sfset
                 pass
