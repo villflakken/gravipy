@@ -147,17 +147,17 @@ class Sifters(object):
         f.close()
         # self.linewriter([Ngroups, Nids, TotNgroups], self.writeToFile)
 
-        if self.bssdt == True:
-            for item in self.GroupLen:
-                """
-                because GroupLen is 'iterable', even when GroupLen's empty;
-                and we only need its first value.
-                ... and it doesn't even raise errors when 'item' doesn't exist...
-                """
-                print "Len of GroupLen", len(self.GroupLen)
-                setattr(self, length, item)
-                break
-            pass
+        # if self.bssdt == True:
+        #     for item in self.GroupLen:
+        #         """
+        #         because GroupLen is 'iterable', even when GroupLen's empty;
+        #         and we only need its first value.
+        #         ... and it doesn't even raise errors when 'item' doesn't exist...
+        #         """
+        #         print "Len of GroupLen", len(self.GroupLen)
+        #         setattr(self, length, item)
+        #         break
+        #     pass
 
         if i == 255: # DT
             print "i          = " + str(i)          + "\n" + \
