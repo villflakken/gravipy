@@ -310,28 +310,22 @@ class readArgs(object):
             integer(s) as input variable(s).
             """.format(name))
 
+            # print "self.sfset == True:"
+            # print self.sfset == True
+            # print 'any([name == "sfset", name == "plotdim"]):'
+            # print any([name == "sfset", name == "plotdim"])
+
             " Now, incorporate user input as instance variables "
             if self.sfset == True \
-                and any([name == "sfset", name == "plotdim"]):
+                and any([name == "subfolder", name == "plotdim"]):
                 " User input's set is applied directly "
-                print "self.sfset == True:"
-                print self.sfset == True
-                print 'any([name == "sfset", name == "plotdim"]):'
-                print any([name == "sfset", name == "plotdim"])
-                print
-                print "name:", name
-                print "uinput:", uinput
-                print "self.",name,"_set = ",uinput
                 setattr( self, name+"_set" , uinput )
                 # Should already by in an iterable form :)
                 pass
 
             else:
                 " User input's range is generated and applied "
-                userRange = N.arange(uinput[0], uinput[-1]+1 )
-                print "name:", name
-                print "uinput:", uinput
-                print "self.",name,"_set = ",uinput
+                userRange = N.arange(uinput[0], uinput[1]+1 )
                 setattr( self, name+"_set" , userRange )
                 pass
 
