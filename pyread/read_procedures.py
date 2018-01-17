@@ -4,12 +4,13 @@
 import os, sys
 import numpy as N
 from read_sifters import Sifters
-from read_autotools import AutoTools
 from read_misctools import MiscTools
 from read_usertools import UserTools
+from read_autotools import AutoTools
+from read_plotdocs import Plotter
 
 
-class readProcedures(Sifters, MiscTools, UserTools):
+class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
     """
     Contains structures which read the data in question.
     I.o.w.: Every read_*-function shows the program flow of reading procedures.
@@ -21,9 +22,10 @@ class readProcedures(Sifters, MiscTools, UserTools):
         Inheritance and variables
         """
         Sifters.__init__(self)
-        # AutoTools.__init__(self) # Remember proc. argument
+        AutoTools.__init__(self) # Remember proc. argument
         MiscTools.__init__(self)
         UserTools.__init__(self)
+        Plotter.__init__(self)
         self.missingfiles = 0
         # Counter - assumes only 1 type of dataset will be read.
 
@@ -157,7 +159,7 @@ class readProcedures(Sifters, MiscTools, UserTools):
             # print posA.shape
             # print posA
             # sys.exit("\ndbug") -+0,
-            
+
             return IDsA, posA, scalefA[0], rsA[0]
 
         elif self.what == "vel":
