@@ -29,8 +29,8 @@ class Sifters(object):
         pathstrlen  = len(almostpath) # i.e. snappath is 49 characters long
         filelist    = glob.glob(almostpath+'*')
         filenumbers = []
-        # print almostpath
-        # print filelist
+        print almostpath
+        print filelist
         for filename in filelist:
             filenumbers.append(filename[pathstrlen:])
             continue # Could have used numpy array ops for this
