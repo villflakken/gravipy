@@ -80,6 +80,7 @@ class readArgs(object):
                   "sortIDs" : self.toggles_incorp    ,
                 "lessprint" : self.toggles_incorp    ,
                "multiset"   : self.toggles_incorp    ,
+               "multiset"   : self.multiset_incorp   ,
                "box_params" : self.boxparams_incorp  ,
               # Output related
                "outputpath" : self.outputpath_incorp ,
@@ -440,6 +441,26 @@ class readArgs(object):
         setattr(self, name, uinput)
 
         return 0 
+
+
+    def multiset_incorp(self, uinput, name):
+
+
+        allowed_uinput = \
+            [ 
+                "wipe",
+                "store",
+                False
+            ]
+
+        if uinput in allowed_uinput:
+            " User argument is accepted "
+            setattr(self, name, uinput)
+            pass
+        else:
+            sys.exit(" Multi-set value not recognized")
+
+        return 0
 
 
     def outputpath_incorp(self, uinput, name):
