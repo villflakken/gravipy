@@ -212,8 +212,10 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
                 try:
                     fts_output = self.fof_tab_sifter(openfile, i, skip)
                     Ngroups, Nids, TotNgroups, skip = fts_output
-                    print i
+                    print "in r_loop_b"
                     Ngroups_thusfar[i] = Ngroups
+                    print "in r_loop_a\n"
+
                     pass
 
                 except IOError:
@@ -223,7 +225,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
             itertext = readtext.format( i,
                                         Nids,
                                         Ngroups,
-                                        N.sum(Ngroups_thusfar[i]),
+                                        N.sum(Ngroups_thusfar),
                                         TotNgroups,
                                         Ngroups_thusfar[i]/float(TotNgroups) )
             self.itertextPrinter(itertext, i, iterLen, 10)
