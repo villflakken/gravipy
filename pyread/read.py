@@ -37,7 +37,7 @@ def read_ini( what="pos", indraN=0, iA=0, iB=0, subfolder=None, fftfile=None,
               "sfset" :( sfset       ),
             "sortIDs" :( sortIDs     ),
           "lessprint" :( lessprint   ),
-           "multiset" :( multi       ),
+           "multiset" :( multiset    ),
             # Extracts data from a coordinate box at positions specified:
          "box_params" :( box_params  ),
             # Desired output filepath, 
