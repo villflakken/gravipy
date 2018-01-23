@@ -197,12 +197,9 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
             # of next case in case of multi-run set ups.
 
         readtext = """
-        i                     = {0:>7d}
-        Nids                  = {1:>7d}
-        Ngroups               = {2:>7d}
-        Total groups thus far = {3:>7d}
-        TotNgroups            = {4:>7d}
-        Completion            = {5:>7g}"""
+        _i__|_NIDs____|_Ngroups_|_sum(Ngroups)_|_TotNgroups_| Completion:
+        {0:>3d} | {1:>7d} | {2:>7d} | {3:>12d} | {4:>10d} | {5:>9g}% |
+        """
 
         print " Browsing FOF-files (tabs):"
         for i in N.arange(0, iterLen):
@@ -226,8 +223,8 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
                                         Ngroups,
                                         N.sum(Ngroups_thusfar),
                                         TotNgroups,
-                                        N.sum(Ngroups_thusfar[:i])\
-                                            /float(TotNgroups)
+                                        N.sum(Ngroups_thusfar[:i+1])\
+                                         *100./float(TotNgroups)
                                       )
 
             self.itertextPrinter(itertext, i, iterLen, 10)
