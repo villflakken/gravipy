@@ -11,6 +11,7 @@ from read_procedures import readProcedures
 
 def read_ini( what="pos", indraN=0, iA=0, iB=0, subfolder=None, fftfile=None, 
               tmpfolder=False, sfset=False, sortIDs=False, lessprint=True,
+              multiset=False,
               box_params=False,
               outputpath=False,
               w2f=False,
@@ -25,30 +26,31 @@ def read_ini( what="pos", indraN=0, iA=0, iB=0, subfolder=None, fftfile=None,
     """
     data_params = \
         { # Data structure parameters:
-               "what" :( list(what) ),
-             "indraN" :( indraN     ),
-                 "iA" :( iA         ),
-                 "iB" :( iB         ),
-          "subfolder" :( subfolder  ),
-            "fftfile" :( fftfile    ),
+               "what" :( list(what)  ),
+             "indraN" :( indraN      ),
+                 "iA" :( iA          ),
+                 "iB" :( iB          ),
+          "subfolder" :( subfolder   ),
+            "fftfile" :( fftfile     ),
             # Reading options:
-          "tmpfolder" :( tmpfolder  ),
-              "sfset" :( sfset      ),
-            "sortIDs" :( sortIDs    ),
-          "lessprint" :( lessprint  ),
+          "tmpfolder" :( tmpfolder   ),
+              "sfset" :( sfset       ),
+            "sortIDs" :( sortIDs     ),
+          "lessprint" :( lessprint   ),
+           "multiset" :( multi       ),
             # Extracts data from a coordinate box at positions specified:
-         "box_params" :( box_params ),
+         "box_params" :( box_params  ),
             # Desired output filepath, 
             # or False (program storing to user's own folder).
-         "outputpath" :( outputpath ),
+         "outputpath" :( outputpath  ),
             # Write 2 file: Probably a bad idea ...
-                "w2f" :( w2f        ),
-           "plotdata" :( plotdata   ),
+                "w2f" :( w2f         ),
+           "plotdata" :( plotdata    ),
             # Apply floats as "([min,max], [min,max], [min,max])" in Mpc/h units,
             # respectively for directions x, y, z. # Turned off w/: None/False
-            "plotdim" :( plotdim    ), # Dimensions projected in plot
+            "plotdim" :( plotdim     ), # Dimensions projected in plot
             # Origami functionality
-        "origamipath" :( origamipath)
+        "origamipath" :( origamipath )
         }
 
     tmp = sp.call('clear',shell=True)
@@ -124,7 +126,7 @@ class readDo(readArgs, readProcedures):
         Will try to avoid that. But then it will be ugly.
         Assumes that parameters in arglist have been set.
         """
-        parsed_datasets_dict = {}
+        self.parsed_datasets_dict = {}
         """
         Prime example on how complex a set of permutations can become!
         """
@@ -191,10 +193,7 @@ class readDo(readArgs, readProcedures):
                             # Parsing 64 complete positional matrices with IDs:
                             # ~ 20GiBs * 64 = ~ 1 280 GiBs
 
-
-                            # Clear memory memory for the next itr,
-                            # until 'parsed_data' is written to scope again:
-
+                            # DT /*
                             # parsed_datasets_dict[self.fileName] = parsed_data
                             print "sett:", sett
                             print
@@ -202,7 +201,10 @@ class readDo(readArgs, readProcedures):
                             print " Ngroups    :", parsed_data[0]
                             print " Nids       :", parsed_data[1]
                             print " TotNgroups :", parsed_data[2]
-                            parsed_data = None
+                            # DT */
+
+                            " Clear variable memory allocation, or store in dict"
+                            parsed_data = self.dataparser_iter(parsed_data)
 
                             continue # to next 'num' (snapnum/fftfile)...
                         continue # to next iB...
@@ -214,6 +216,9 @@ class readDo(readArgs, readProcedures):
         """
         Might be useful outside of function,
         that returned object is not mutable: return a tuple.
+
+        # Older option; rewriting  this can easily be used for smaller datasets,
+        # in sizes that would not murder available RAM.
         """
         if len(parsed_datasets_dict.keys()) == 1:
             """
@@ -256,6 +261,41 @@ class readDo(readArgs, readProcedures):
             # Safety nets should already have picked up on this;
             # maybe I'm coding this _too_ safe.
         return sett, symbol
+
+
+    def dataparser_iter(self, parsed_data):
+        """
+        Handles the three cases of how data will be stored or not,
+        through an iteration.
+
+        * Long, multi-valued sets expected to blow out RAM should yet
+          still be postprocessed before the iterating variable 'parsed_data'
+          is wiped.
+        
+        * Small sets may be stored and returned to outerlying structure,
+          i.e. on jupyter notebooks, to interact with after reading in
+          a rather manual manner.
+           # RAM availability is key to how many sets may be read at any
+           # one time. 
+             - Make a function to read RAM availability and allocate number?
+               %TODO !
+
+        * Single set runs should only return raw, non-post-processed data,
+          for interpretation outside.
+        """
+        if   self.multiset == "wipe":
+            " Case: Wipe the variable, return None "
+            return None
+
+        elif self.multiset == "store":
+            " Don't wipe completely; re-locate for storage "
+            self.parsed_datasets_dict[self.fileName] = parsed_data
+            return None
+
+        elif self.multiset == False:
+            # Single set case, return parsed data
+            return parsed_data
+
 
 
     def progressPrinter(self, symbol, num, sett):

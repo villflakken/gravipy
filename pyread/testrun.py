@@ -43,7 +43,8 @@ output = read_ini(
                           iA         = 0,
                           iB         = 0,
                           subfolder  = 63,
-                          tmpfolder  = True
+                          tmpfolder  = True,
+                          multiset   = "store"
                         )
 
 

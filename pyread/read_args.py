@@ -58,6 +58,7 @@ class readArgs(object):
                 "sfset"      ,
                 "sortIDs"    ,
                 "lessprint"  ,
+                "multiset"   ,
                 "box_params" ,
               # Output related
                 "outputpath" ,
@@ -78,6 +79,7 @@ class readArgs(object):
                     "sfset" : self.toggles_incorp    ,
                   "sortIDs" : self.toggles_incorp    ,
                 "lessprint" : self.toggles_incorp    ,
+               "multiset"   : self.toggles_incorp    ,
                "box_params" : self.boxparams_incorp  ,
               # Output related
                "outputpath" : self.outputpath_incorp ,
@@ -110,6 +112,7 @@ class readArgs(object):
                     "sfset" :   0   ,
                   "sortIDs" :   1   ,
                 "lessprint" :   1   ,
+                 "multiset" : False ,
                "box_params" :   0   ,
               # Output related
                "outputpath" :  None ,

@@ -567,52 +567,68 @@ import pylab as pl
 # print "itertext:  ", readtext
 
 
-def plotdim_incorp(uinput, name):
-    """
-    Interprets if user wants 1 plot of either 2D or 3D;
-    or both.
-    """
-    al = 0
-    if hasattr(uinput, '__iter__'):
-        " Case: user wants both 2D _and_ 3D plot "
-        print "uinput is iterable"
+# def plotdim_incorp(uinput, name):
+#     """
+#     Interprets if user wants 1 plot of either 2D or 3D;
+#     or both.
+#     """
+#     al = 0
+#     if hasattr(uinput, '__iter__'):
+#         " Case: user wants both 2D _and_ 3D plot "
+#         print "uinput is iterable"
         
 
-        if all(map(lambda x: hasattr(x, '__int__'), uinput)):
-            " => User's iterable's object contains int-types "
-            print "all uinput iterables are ints"
+#         if all(map(lambda x: hasattr(x, '__int__'), uinput)):
+#             " => User's iterable's object contains int-types "
+#             print "all uinput iterables are ints"
 
-            if all(map(lambda x: x in (2,3), uinput)):
-                " => Are all numbers given either 2 or 3? "
-                print "uinput is 2 and 3, and multiple of ints"
-                pass
-            else:
-                print "uinput is not both 2 and 3, but multiple of ints"
-                al += 1
+#             if all(map(lambda x: x in (2,3), uinput)):
+#                 " => Are all numbers given either 2 or 3? "
+#                 print "uinput is 2 and 3, and multiple of ints"
+#                 pass
+#             else:
+#                 print "uinput is not both 2 and 3, but multiple of ints"
+#                 al += 1
 
-        else:
-            print "not all uinput iterables are ints"
-            al += 1
-        break
+#         else:
+#             print "not all uinput iterables are ints"
+#             al += 1
+#         break
 
-    elif hasattr(uinput, '__int__'):
-        " Case: user wants a single plot in either 2D _or_ 3D "
+#     elif hasattr(uinput, '__int__'):
+#         " Case: user wants a single plot in either 2D _or_ 3D "
 
-        if uinput == 2 or uinput == 3:
-            " => Is number input either 2 or 3?"
-            print "uinput is 2, and single int"
-            pass
-        else:
-            print "uinput is NOT 2, but single int"
-            al += 1
+#         if uinput == 2 or uinput == 3:
+#             " => Is number input either 2 or 3?"
+#             print "uinput is 2, and single int"
+#             pass
+#         else:
+#             print "uinput is NOT 2, but single int"
+#             al += 1
 
-        break
+#         break
 
-    else:
-        sys.exit("\n Plot's dim: not int or iterable of ints \n")
+#     else:
+#         sys.exit("\n Plot's dim: not int or iterable of ints \n")
 
-    print "number of errors:", al
-    return 0
+#     print "number of errors:", al
+#     return 0
 
-uinput = 2,"int"
-plotdim_incorp(uinput, "hallo")
+# uinput = 2,"int"
+# plotdim_incorp(uinput, "hallo")
+
+
+
+class Test(object):
+    def __init__(self):
+        self.x = 5
+
+    def outside(self):
+        x = self.x
+
+        self.inside()
+        return 0
+
+    def inside(self):
+        x += 1
+        return 0

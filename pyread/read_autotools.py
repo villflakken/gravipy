@@ -60,14 +60,16 @@ class AutoTools(object):
         IDs, pos, scalefactor, rs = parsed_data
 
         if hasattr(self.box_params, '__iter__') == True:
+            " Apply box parameters to the positions "
             # Plotting without boxing will take 26hours per plot.
-            print " Box for the cut-out:", self.box_params
+            print " Box for the cut-out:", self.box_params, "Mpc/k"
             box3D = self.box_indexer(pos, self.box_params)
             IDs = IDs[box3D]
             pos = pos[box3D]
             pass
 
         if self.origamipath != False:
+            " User wants ORIGAMI data available for further PP. "
             tags = self.read_origami()[1]
             tags = tags[IDs]
 
@@ -75,8 +77,6 @@ class AutoTools(object):
             " Engage plotting! "
             self.plot_pos_oritag(pos, tags)
             pass
-
-
 
         return 0
 
@@ -94,6 +94,7 @@ class AutoTools(object):
         """
         Post processing of friends of friends data output.
         """
+        
 
         return 0
 

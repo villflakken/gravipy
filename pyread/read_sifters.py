@@ -114,11 +114,11 @@ class Sifters(object):
 
         # print "str-test: * 'str' is not 'ok':", 'str' is not 'ok',\
         #       ", 'str' != 'ok':", 'str' != 'ok'
-        if i == 0:
-            print "i          = " + str(i)          + "\n"+ \
-                  "Ngroups    = " + str(Ngroups)    + "\n"+ \
-                  "Nids       = " + str(Nids)       + "\n"+ \
-                  "TotNgroups = " + str(TotNgroups) + "\n"
+        # if i == 0:
+        #     print "i          = " + str(i)          + "\n"+ \
+        #           "Ngroups    = " + str(Ngroups)    + "\n"+ \
+        #           "Nids       = " + str(Nids)       + "\n"+ \
+        #           "TotNgroups = " + str(TotNgroups) + "\n"
             # self.linewriter(                        \
             #     ["Ngroups=" + str(Ngroups),     \
             #      "Nids="    + str(Nids),        \
@@ -159,11 +159,11 @@ class Sifters(object):
         #         break
         #     pass
 
-        if i == 255: # DT
-            print "i          = " + str(i)          + "\n" + \
-                  "Ngroups    = " + str(Ngroups)    + "\n" + \
-                  "Nids       = " + str(Nids)       + "\n" + \
-                  "TotNgroups = " + str(TotNgroups) + "\n"
+        # if i == 255: # DT
+        #     print "i          = " + str(i)          + "\n" + \
+        #           "Ngroups    = " + str(Ngroups)    + "\n" + \
+        #           "Nids       = " + str(Nids)       + "\n" + \
+        #           "TotNgroups = " + str(TotNgroups) + "\n"
 
         # print "After if of fof_tab_sifter"
         return Ngroups, Nids, TotNgroups, skip
@@ -182,7 +182,7 @@ class Sifters(object):
             pass
 
         if i == 0 and TotNids > 0:
-            self.IDs = N.zeros(TotNids, dtype=N.int64)       # LIDA
+            self.IDs = N.zeros(TotNids, dtype=N.int64)  # LIDA
             pass
 
         if Nids > 0:

@@ -124,8 +124,10 @@ class MiscTools(object):
             " filename   :                '{0}_i{1}{2}{3}{None}_sf{5:02d}'  "
             pass
         
+        " May be used for dictionary storage of datasets "
         self.fileName = fileName 
-        outfilePath = folderPath + fileName
+        
+        outfilePath   = folderPath + fileName
 
         outdir_floor = self.uname # lowest hierarchy for user's folders, usually "~/"
         if self.onIdies == True:

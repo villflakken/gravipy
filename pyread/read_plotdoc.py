@@ -74,16 +74,22 @@ class Plotter(object):
             fig = pl.figure("scatter2d", figsize=(10,10))#, dpi=200)
             ax  = fig.add_subplot(111)
 
-            ax.scatter(posvoid[:,0], posvoid[:,1], s=1, c=voidc, marker='.', label=voidl)
-            ax.scatter(poswall[:,0], poswall[:,1], s=1, c=wallc, marker='.', label=walll)
-            ax.scatter(posfila[:,0], posfila[:,1], s=1, c=filac, marker='.', label=filal)
-            ax.scatter(poshalo[:,0], poshalo[:,1], s=1, c=haloc, marker='.', label=halol)
+            ax.scatter(posvoid[:,0], posvoid[:,1], 
+                           s=1, c=voidc, marker='.', label=voidl)
+            ax.scatter(poswall[:,0], poswall[:,1], 
+                           s=1, c=wallc, marker='.', label=walll)
+            ax.scatter(posfila[:,0], posfila[:,1], 
+                           s=1, c=filac, marker='.', label=filal)
+            ax.scatter(poshalo[:,0], poshalo[:,1], 
+                           s=1, c=haloc, marker='.', label=halol)
 
             ax.set_xlabel('x-position Mpc/h')
             ax.set_ylabel('y-position Mpc/h')
-            ax.set_aspect('equal','box')
+            
             ax.legend(bbox_to_anchor=(0,0.14, 1,-0.2), loc="upper left", mode="expand", ncol=4, prop={'size':15}, markerscale=10)
             ax.grid(True)
+            
+            ax.set_aspect('equal','box')
             fig.tight_layout()
             pl.show("scatter2d")
 
@@ -103,14 +109,19 @@ class Plotter(object):
             
             # In the voice of an authorative Patrick Stewart:
             " ENGAGE 3D VIZUALIZATION "
-            ax.scatter(posvoid[:,0], posvoid[:,1], posvoid[:,2], s=1, c=voidc, marker=',', label=voidl)
-            ax.scatter(poswall[:,0], poswall[:,1], poswall[:,2], s=1, c=wallc, marker=',', label=walll)
-            ax.scatter(posfila[:,0], posfila[:,1], posfila[:,2], s=1, c=filac, marker=',', label=filal)
-            ax.scatter(poshalo[:,0], poshalo[:,1], poshalo[:,2], s=1, c=haloc, marker=',', label=halol)
+            ax.scatter(posvoid[:,0], posvoid[:,1], posvoid[:,2], 
+                       s=1, c=voidc, marker=',', label=voidl)
+            ax.scatter(poswall[:,0], poswall[:,1], poswall[:,2], 
+                       s=1, c=wallc, marker=',', label=walll)
+            ax.scatter(posfila[:,0], posfila[:,1], posfila[:,2], 
+                       s=1, c=filac, marker=',', label=filal)
+            ax.scatter(poshalo[:,0], poshalo[:,1], poshalo[:,2], 
+                       s=1, c=haloc, marker=',', label=halol)
             
             ax.set_xlabel('x-position Mpc/h')
             ax.set_ylabel('y-position Mpc/h')
             ax.set_zlabel('z-position Mpc/h')
+
             ax.legend(bbox_to_anchor=(0,0.14, 1,-0.2), loc="upper left", mode="expand", ncol=4, prop={'size':15}, markerscale=10)
 
             self.axisEqual3D(ax) # Axes aspect ratio correction

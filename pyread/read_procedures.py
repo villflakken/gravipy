@@ -69,10 +69,11 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
             try:
                 with open(filepath, 'rb') as openfile:
                     itertext = readtext.format( self.indraN, tmpftxt, 
-                                               self.subfolder, i, self.what )
+                                                self.subfolder, i, self.what )
                     self.itertextPrinter(itertext, i, iterLen, 10)
                     
-                    pos, vel, IDsArr, Npart, scalefact, redshift = self.posvel_sifter(openfile)
+                    pos, vel, IDsArr, Npart, scalefact, redshift = \
+                        self.posvel_sifter(openfile)
                     
                     # End shape: ( 1024**3 , 3 )
                     # print "posA[ci:Npart, :].shape : ", posA[ci:ci+Npart, :].shape 
@@ -188,34 +189,44 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         gid = snappath + "group_ids_{0:03d}.".format(self.subfolder)
 
         skip = 0
+        maxfileCount_gtb = self.findCount(gtb)
+        iterLen          = maxfileCount_gtb + 1
+        Ngroups_thusfar  = N.zeros(maxfileCount_gtb, dtype=N.int32)
         self.GroupLen = None # Making sure this variable is clear before beginning
                              # of next case in case of multi-run set ups.
-        maxfileCount_gtb = self.findCount(gtb)
 
-        for i in N.arange(0, maxfileCount_gtb + 1):
-            """
-            will cover all files.
-            in case an intermediate file is missing, have an option ready.
-            in case 2 intermediate files are missing, abort.
-            """
+        readtext = """
+        i                     = {0:>7d}
+        Nids                  = {1:>7d}
+        Ngroups               = {2:>7d}
+        Total groups thus far = {3:>7d}
+        TotNgroups            = {4:>7d}
+        Completion            = {5:>7g}"""
+
+        print " Browsing FOF-files (tabs):"
+        for i in N.arange(0, iterLen):
+
             filepath = gtb + str(i)
-            
             with open(filepath, 'rb') as openfile:
                 
                 try:
                     fts_output = self.fof_tab_sifter(openfile, i, skip)
                     Ngroups, Nids, TotNgroups, skip = fts_output
-
+                    Ngroups_thusfar[i] = Ngroups
                     pass
 
                 except IOError:
                     self.readLoopError(filepath, 1, 2, i)
                     pass
 
+            itertext = readtext.format( i,
+                                        Nids,
+                                        Ngroups,
+                                        N.sum(Ngroups_thusfar[i]),
+                                        TotNgroups,
+                                        Ngroups_thusfar[i]/float(TotNgroups) )
+            self.itertextPrinter(itertext, i, iterLen, 10)
             continue
-
-            # need matrices for these variables to be stored in?
-            # file storage probably better
 
         # print "\n", "TotNgroups    =", TotNgroups, \
         #       "\n\nLargest group of length ", self.length
@@ -231,6 +242,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         skip = 0    # resetting the variable.
         maxfileCount_gid = self.findCount(gid)
 
+        print "\n Browsing FOF-files (IDs):"
         for i in N.arange(0, maxfileCount_gid + 1):
             """
             will cover all files.
