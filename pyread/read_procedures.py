@@ -191,10 +191,11 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         skip = 0
         maxfileCount_gtb = self.findCount(gtb)
         iterLen          = maxfileCount_gtb + 1
-        Ngroups_thusfar  = N.zeros(maxfileCount_gtb, dtype=N.int32)
-        self.GroupLen = None # Making sure this variable is clear before beginning
-                             # of next case in case of multi-run set ups.
-        print "iterLen:", iterLen
+        Ngroups_thusfar  = N.zeros(iterLen, dtype=N.int32)
+        self.GroupLen    = None
+            # Making sure this variable is clear before beginning
+            # of next case in case of multi-run set ups.
+
         readtext = """
         i                     = {0:>7d}
         Nids                  = {1:>7d}
@@ -212,10 +213,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
                 try:
                     fts_output = self.fof_tab_sifter(openfile, i, skip)
                     Ngroups, Nids, TotNgroups, skip = fts_output
-                    print "in r_loop_b"
                     Ngroups_thusfar[i] = Ngroups
-                    print "in r_loop_a\n"
-
                     pass
 
                 except IOError:
@@ -244,9 +242,10 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
 
         skip = 0    # resetting the variable.
         maxfileCount_gid = self.findCount(gid)
+        iterLen          = maxfileCount_gid + 1
 
         print "\n Browsing FOF-files (IDs):"
-        for i in N.arange(0, maxfileCount_gid + 1):
+        for i in N.arange(0, iterLen):
             """
             will cover all files.
             in case an intermediate file is missing, have an option ready.
