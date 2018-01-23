@@ -226,7 +226,7 @@ class readDo(readArgs, readProcedures):
             without having to pack them out of a dictionary.
             """
             print "  Data produced returned to outside variable"
-            return self.parsed_datasets_dict[parsed_datasets_dict.keys()[0]]
+            return self.parsed_datasets_dict[self.parsed_datasets_dict.keys()[0]]
         else:
             """
             Returns the whole dataset for the user

@@ -198,7 +198,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
 
         readtext = """
         _i__|_NIDs____|_Ngroups_|_sum(Ngroups)_|_TotNgroups_| Completion:
-        {0:>3d} | {1:>7d} | {2:>7d} | {3:>12d} | {4:>10d} | {5:>9.2g}% |
+        {0:>3d} | {1:>7d} | {2:>7d} | {3:>12d} | {4:>10d} | {5:>9.2f}% |
         """
 
         print " Browsing FOF-files (tabs):"
