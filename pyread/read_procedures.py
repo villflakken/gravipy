@@ -220,12 +220,16 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
                     self.readLoopError(filepath, 1, 2, i)
                     pass
 
-            itertext = readtext.format( i,
+            itertext = readtext.format( 
+                                        i,
                                         Nids,
                                         Ngroups,
                                         N.sum(Ngroups_thusfar),
                                         TotNgroups,
-                                        Ngroups_thusfar[i]/float(TotNgroups) )
+                                        N.sum(Ngroups_thusfar[:i])\
+                                            /float(TotNgroups)
+                                      )
+
             self.itertextPrinter(itertext, i, iterLen, 10)
             continue
 

@@ -149,7 +149,7 @@ class readDo(readArgs, readProcedures):
                         sett, symbol = self.currentTaskParamsParser()
 
                         for num in sett:
-                            " Current subfolder/fftfile as globvar "
+                            " Current subfolder/fftfile as globvar. "
                             if self.okGo == False:
                                 self.intendedMachine()
                                 " Allows for remote debugging up to this point "
@@ -220,13 +220,13 @@ class readDo(readArgs, readProcedures):
         # Older option; rewriting  this can easily be used for smaller datasets,
         # in sizes that would not murder available RAM.
         """
-        if len(parsed_datasets_dict.keys()) == 1:
+        if len(self.parsed_datasets_dict.keys()) == 1:
             """
             So that user is given its tuple of values,
             without having to pack them out of a dictionary.
             """
             print "  Data produced returned to outside variable"
-            return parsed_datasets_dict[parsed_datasets_dict.keys()[0]]
+            return self.parsed_datasets_dict[parsed_datasets_dict.keys()[0]]
         else:
             """
             Returns the whole dataset for the user
@@ -235,11 +235,11 @@ class readDo(readArgs, readProcedures):
             print "  Data produced stored in dictionary variable:"
             print "    self.parsed_datasets_dict\n"
             print "Keys for dictionary:"
-            keys = N.array(parsed_datasets_dict.keys())
+            keys = N.array(self.parsed_datasets_dict.keys())
             keys.sort()
             for key in keys:
                 print key
-            return parsed_datasets_dict
+            return self.parsed_datasets_dict
 
 
     def currentTaskParamsParser(self):
@@ -293,7 +293,7 @@ class readDo(readArgs, readProcedures):
             return None
 
         elif self.multiset == False:
-            # Single set case, return parsed data
+            " Single set case, return parsed data "
             return parsed_data
 
 
