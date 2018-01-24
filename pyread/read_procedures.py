@@ -193,6 +193,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         iterLen          = maxfileCount_gtb + 1
         Ngroups_thusfar  = N.zeros(iterLen, dtype=N.int32)
         self.GroupLen    = None
+        self.GroupOffset = None
             # Making sure this variable is clear before beginning
             # of next case in case of multi-run set ups.
 
@@ -281,7 +282,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
                 +str(self.indraN)+', iA='+str(self.iA)+', iB='+str(self.iB)  \
                 +', snapshot='+str(self.subfolder)
         
-        return Ngroups, Nids, TotNgroups
+        return Ngroups, Nids, TotNgroups, self.GroupLen, self.GroupOffset, self.IDs
 
 
     def read_subhalo(self):

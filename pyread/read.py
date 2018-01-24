@@ -220,26 +220,26 @@ class readDo(readArgs, readProcedures):
         # Older option; rewriting  this can easily be used for smaller datasets,
         # in sizes that would not murder available RAM.
         """
-        if len(self.parsed_datasets_dict.keys()) == 1:
-            """
-            So that user is given its tuple of values,
-            without having to pack them out of a dictionary.
-            """
-            print "  Data produced returned to outside variable"
-            return self.parsed_datasets_dict[self.parsed_datasets_dict.keys()[0]]
-        else:
-            """
-            Returns the whole dataset for the user
-            to pack out from the dictionary.
-            """
-            print "  Data produced stored in dictionary variable:"
-            print "    self.parsed_datasets_dict\n"
-            print "Keys for dictionary:"
-            keys = N.array(self.parsed_datasets_dict.keys())
-            keys.sort()
-            for key in keys:
-                print key
-            return self.parsed_datasets_dict
+        # if len(self.parsed_datasets_dict.keys()) == 1:
+        #     """
+        #     So that user is given its tuple of values,
+        #     without having to pack them out of a dictionary.
+        #     """
+        #     print "  Data produced returned to outside variable"
+        #     return self.parsed_datasets_dict[self.parsed_datasets_dict.keys()[0]]
+        # else:
+        #     """
+        #     Returns the whole dataset for the user
+        #     to pack out from the dictionary.
+        #     """
+        #     print "  Data produced stored in dictionary variable:"
+        #     print "    self.parsed_datasets_dict\n"
+        #     print "Keys for dictionary:"
+        #     keys = N.array(self.parsed_datasets_dict.keys())
+        #     keys.sort()
+        #     for key in tuple(keys):
+        #         print key
+        #     return self.parsed_datasets_dict
 
 
     def currentTaskParamsParser(self):
@@ -295,6 +295,10 @@ class readDo(readArgs, readProcedures):
         elif self.multiset == False:
             " Single set case, return parsed data "
             return parsed_data
+        else:
+            print "Parse error"
+
+        return 0
 
 
 

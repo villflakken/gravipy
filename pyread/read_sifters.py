@@ -129,7 +129,7 @@ class Sifters(object):
             # print "inside first if"
             self.GroupLen    = N.zeros(TotNgroups, dtype=N.int32) # DNC 
             self.GroupOffset = N.zeros(TotNgroups, dtype=N.int32) # DNC
-            pass # offset? what is this' purpose?
+            pass 
         # print "Between if-conditions.\n"
         if Ngroups > 0:
             # print "Inside second if! \n"
@@ -175,7 +175,7 @@ class Sifters(object):
         """
         Ngroups, Nids, TotNgroups, NTask = N.fromfile(f, N.int32, 4)
         if TotNgroups > 0:
-            TotNids = N.sum(self.GroupLen, dtype=N.float64)
+            TotNids = N.sum(self.GroupLen, dtype=N.int64)
             pass
         else:
             TotNids = N.float64(0)

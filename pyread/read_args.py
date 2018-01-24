@@ -67,7 +67,8 @@ class readArgs(object):
                 "plotdim"    ,
                 "origamipath"
             ]
-        self.param_incorp = { # Function library: parameter validation
+        self.param_incorp = \
+            { # Function library: parameter validation
                      "what" : self.taskname_incorp   ,
                    "indraN" : self.integer_incorp    ,
                        "iA" : self.integer_incorp    ,
@@ -79,7 +80,6 @@ class readArgs(object):
                     "sfset" : self.toggles_incorp    ,
                   "sortIDs" : self.toggles_incorp    ,
                 "lessprint" : self.toggles_incorp    ,
-               "multiset"   : self.toggles_incorp    ,
                "multiset"   : self.multiset_incorp   ,
                "box_params" : self.boxparams_incorp  ,
               # Output related
@@ -89,7 +89,8 @@ class readArgs(object):
                   "plotdim" : self.plotdim_incorp    ,
               "origamipath" : self.in_path_incorp
             }
-        self.intRange_dict = { # Ranges of integer numbers.
+        self.intRange_dict = \
+            { # Ranges of integer numbers.
                 "indraN" : N.arange(0,8),
                     "iA" : N.arange(0,8),
                     "iB" : N.arange(0,8),
@@ -167,7 +168,6 @@ class readArgs(object):
                 At the moment, it's useful to determine whether 'sf'
                 should be a set / range -: !!!Pre-emptively!!!
                 """
-                self.param_incorp[key](self.read_params[key], key)
                 # print "key:", key
                 # print key, "in self.read_params.keys()?:"
                 # print key in self.read_params.keys()
@@ -180,6 +180,7 @@ class readArgs(object):
                 # self.param_incorp[key]("not valid", "also not") # DT
                 # print "self.toggles_incorp(self.read_params[key='sfset'], key='sfset')"
                 # print "self.sfset = ", self.sfset
+                self.param_incorp[key](self.read_params[key], key)
                 pass
 
             " Simple method to check if user forgot either of them "
@@ -419,8 +420,8 @@ class readArgs(object):
         Interprets if user wants 1 plot of either 2D or 3D;
         or both.
         """
-        if  hasattr(uinput, '__iter__')                       and    \
-            all(map(lambda x: hasattr(x, '__int__'), uinput)) and    \
+        if  hasattr( uinput, '__iter__' )                       and    \
+            all( map(lambda x: hasattr(x, '__int__'), uinput) ) and    \
             all(map(lambda x: x in self.intRange_dict[name], uinput)):
             " Case 1.:  user wants both 2D _and_ 3D plot "
             " 1.1:      User's iterable's object contains int-types "
@@ -444,7 +445,9 @@ class readArgs(object):
 
 
     def multiset_incorp(self, uinput, name):
-
+        """
+        Interprets what kinds of multi-run sets that are to be 
+        """
 
         allowed_uinput = \
             [ 

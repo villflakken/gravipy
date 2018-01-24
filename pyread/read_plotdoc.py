@@ -67,26 +67,30 @@ class Plotter(object):
         poshalo = pos[htags,:]
         
         if 2 in self.plotdim:
-            # 2D scatter plot
+            " 2D scatter plot "
             time_2dplot_start = time.time()
 
-            " Defaults to 2 dimensions in plot "
             fig = pl.figure("scatter2d", figsize=(10,10))#, dpi=200)
             ax  = fig.add_subplot(111)
 
+            " Voids "
             ax.scatter(posvoid[:,0], posvoid[:,1], 
                            s=1, c=voidc, marker='.', label=voidl)
+            " Walls "
             ax.scatter(poswall[:,0], poswall[:,1], 
                            s=1, c=wallc, marker='.', label=walll)
+            " Filaments "
             ax.scatter(posfila[:,0], posfila[:,1], 
                            s=1, c=filac, marker='.', label=filal)
+            " Halos "
             ax.scatter(poshalo[:,0], poshalo[:,1], 
                            s=1, c=haloc, marker='.', label=halol)
 
             ax.set_xlabel('x-position Mpc/h')
             ax.set_ylabel('y-position Mpc/h')
             
-            ax.legend(bbox_to_anchor=(0,0.14, 1,-0.2), loc="upper left", mode="expand", ncol=4, prop={'size':15}, markerscale=10)
+            ax.legend(bbox_to_anchor=(0,0.14, 1,-0.2), \
+                      loc="upper left", mode="expand", ncol=4, prop={'size':15}, markerscale=10)
             ax.grid(True)
             
             ax.set_aspect('equal','box')
@@ -100,21 +104,25 @@ class Plotter(object):
             pass
 
         if 3 in self.plotdim:
-            # 3D scatter plot
+            " 3D scatter plot "
             time_3dplot_start = time.time()
 
-            " In case of 3d "
             fig =  pl.figure("scatter3d", figsize=(20,20))#, dpi=200)
             ax  = fig.add_subplot(111, projection='3d')
             
             # In the voice of an authorative Patrick Stewart:
-            " ENGAGE 3D VIZUALIZATION "
+            "- ENGAGE 3D VIZUALIZATION "
+
+            " Voids "
             ax.scatter(posvoid[:,0], posvoid[:,1], posvoid[:,2], 
                        s=1, c=voidc, marker=',', label=voidl)
+            " Walls "
             ax.scatter(poswall[:,0], poswall[:,1], poswall[:,2], 
                        s=1, c=wallc, marker=',', label=walll)
+            " Filaments "
             ax.scatter(posfila[:,0], posfila[:,1], posfila[:,2], 
-                       s=1, c=filac, marker=',', label=filal)
+                       s=1, c=filac, marker=',', label=filal)            
+            " Halos "
             ax.scatter(poshalo[:,0], poshalo[:,1], poshalo[:,2], 
                        s=1, c=haloc, marker=',', label=halol)
             
@@ -122,7 +130,8 @@ class Plotter(object):
             ax.set_ylabel('y-position Mpc/h')
             ax.set_zlabel('z-position Mpc/h')
 
-            ax.legend(bbox_to_anchor=(0,0.14, 1,-0.2), loc="upper left", mode="expand", ncol=4, prop={'size':15}, markerscale=10)
+            ax.legend(bbox_to_anchor=(0,0.14, 1,-0.2), \
+                      loc="upper left", mode="expand", ncol=4, prop={'size':15}, markerscale=10)
 
             self.axisEqual3D(ax) # Axes aspect ratio correction
             pl.show("scatter3d")
@@ -138,63 +147,6 @@ class Plotter(object):
 
 
 
-
-
-# def plot_pos_scatter(self, IDsA, posA, box, plotdim=2,
-    #                      plotname="misc_scatplot", plotpath="output_gravipy/"):
-    #     """
-    #     Plots positional data output.
-    #     Example call:
-    #     plot_pos_scatter(IDsA=IDs, posA=pos, plotdim=2,
-    #                      plotname="funcScatterTest", plotpath="output_gravipy/")
-    #     """
-    #     print "  * Initiating {0} scatter plot of positions from simulation data"\
-    #             .format((str(plotdim)+"d"))
-        
-    #     fig =  pl.figure(figsize=(10,10))
-
-    #     " Scatter plot "
-    #     if plotdim == 2:
-    #         " Defaults to 2 dimensions in plot "
-    #         ax  = fig.add_subplot(111) # 2d as default
-    #         ax.scatter( posA[:,0], # x-elements
-    #                     posA[:,1], # y-elements
-    #                      s=1 )
-    #         ax.set_xlabel('x-position Mpc/h')
-    #         ax.set_ylabel('y-position Mpc/h')
-    #         ax.set_aspect('equal','box')
-    #         pl.grid(True)
-    #         pass
-
-    #     elif plotdim == 3:
-    #         " In case of 3d "
-    #         ax  = fig.add_subplot(111, projection='3d')
-    #         # in the voice of an authorative Patrick Stewart:
-    #         " ENGAGE 3D VIZUALIZATION "
-    #         ax.scatter( posA[:,0], # x-elements
-    #                     posA[:,1], # y-elements
-    #                     posA[:,2], # z-elements
-    #                     depthshade=True, s=1)
-    #         ax.set_xlabel('x-position Mpc/h')
-    #         ax.set_ylabel('y-position Mpc/h')
-    #         ax.set_zlabel('z-position Mpc/h')
-            
-    #         # Axes
-    #         self.axisEqual3D(ax)
-    #         pass
-
-    #     else:
-    #         sys.exit(" * Unbelievable error. ")
-        
-    #     Saving, if wanted
-
-    #     plotpath = self.outputPather(plotpath, plotname)
-    #     plotpath = plotpath + "/" + plotname \
-    #                + "_{0}d".format(plotdim) + ".png"
-    #     print "    Saving plot (pos), {0:d}D. \n".format(plotdim)
-    #     pl.savefig(plotpath, dpi=200, bbox_inches='tight')
-    #     pl.close()
-    # return 0
 
 
 if __name__ == '__main__':
