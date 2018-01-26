@@ -197,12 +197,13 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
             # Making sure this variable is clear before beginning
             # of next case in case of multi-run set ups.
 
-        readtext = \
-     """---------------------------------------------------------------------
-        |__i__|_NIDs____|_Ngroups_|_sum(Ngroups)_|_TotNgroups_| Completion: |
-        | {0:>3d} | {1:>7d} | {2:>7d} | {3:>12d} | {4:>10d} | {5:>9.2f}%  |
+        print """\
         ---------------------------------------------------------------------
-        """
+        |__i__|_NIDs____|_Ngroups_|_sum(Ngroups)_|_TotNgroups_| Completion: |
+        ---------------------------------------------------------------------"""
+        readtext = \
+        """| {0:>3d} | {1:>7d} | {2:>7d} | {3:>12d} | {4:>10d} | {5:>9.2f}%  |\
+        ---------------------------------------------------------------------"""
 
         print " Browsing FOF-files (tabs):"
         for i in N.arange(0, iterLen):
@@ -221,14 +222,14 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
                     pass
 
             itertext = readtext.format( 
-                                        i,
-                                        Nids,
-                                        Ngroups,
-                                        N.sum(Ngroups_thusfar),
-                                        TotNgroups,
-                                        N.sum(Ngroups_thusfar[:i+1])\
-                                         *100./float(TotNgroups)
-                                      )
+                i,
+                Nids,
+                Ngroups,
+                N.sum(Ngroups_thusfar),
+                TotNgroups,
+                N.sum(Ngroups_thusfar[:i+1])\
+                 *100./float(TotNgroups)
+            )
 
             self.itertextPrinter(itertext, i, iterLen, 10)
             continue
