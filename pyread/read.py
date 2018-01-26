@@ -195,12 +195,12 @@ class readDo(readArgs, readProcedures):
 
                             # DT /*
                             # parsed_datasets_dict[self.fileName] = parsed_data
-                            print "sett:", sett
-                            print
-                            print "snap number :", num
-                            print " Ngroups    :", parsed_data[0]
-                            print " Nids       :", parsed_data[1]
-                            print " TotNgroups :", parsed_data[2]
+                            # print "sett:", sett
+                            # print
+                            # print "snap number :", num
+                            # print " Ngroups    :", parsed_data[0]
+                            # print " Nids       :", parsed_data[1]
+                            # print " TotNgroups :", parsed_data[2]
                             # DT */
 
                             " Clear variable memory allocation, or store in dict"
@@ -213,33 +213,7 @@ class readDo(readArgs, readProcedures):
             continue # to next user-specified task...
 
         print "Done with loop, now returning data."
-        """
-        Might be useful outside of function,
-        that returned object is not mutable: return a tuple.
-
-        # Older option; rewriting  this can easily be used for smaller datasets,
-        # in sizes that would not murder available RAM.
-        """
-        # if len(self.parsed_datasets_dict.keys()) == 1:
-        #     """
-        #     So that user is given its tuple of values,
-        #     without having to pack them out of a dictionary.
-        #     """
-        #     print "  Data produced returned to outside variable"
-        #     return self.parsed_datasets_dict[self.parsed_datasets_dict.keys()[0]]
-        # else:
-        #     """
-        #     Returns the whole dataset for the user
-        #     to pack out from the dictionary.
-        #     """
-        #     print "  Data produced stored in dictionary variable:"
-        #     print "    self.parsed_datasets_dict\n"
-        #     print "Keys for dictionary:"
-        #     keys = N.array(self.parsed_datasets_dict.keys())
-        #     keys.sort()
-        #     for key in tuple(keys):
-        #         print key
-        #     return self.parsed_datasets_dict
+        return parsed_data
 
 
     def currentTaskParamsParser(self):
