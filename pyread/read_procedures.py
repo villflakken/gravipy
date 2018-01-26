@@ -197,15 +197,15 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
             # Making sure this variable is clear before beginning
             # of next case in case of multi-run set ups.
 
+        print " Browsing FOF-files (tabs):"
         print """\
         ---------------------------------------------------------------------
         |__i__|_NIDs____|_Ngroups_|_sum(Ngroups)_|_TotNgroups_| Completion: |
         ---------------------------------------------------------------------"""
         readtext = \
-        """| {0:>3d} | {1:>7d} | {2:>7d} | {3:>12d} | {4:>10d} | {5:>9.2f}%  |\
+        """| {0:>3d} | {1:>7d} | {2:>7d} | {3:>12d} | {4:>10d} | {5:>9.2f}%  |
         ---------------------------------------------------------------------"""
 
-        print " Browsing FOF-files (tabs):"
         for i in N.arange(0, iterLen):
 
             filepath = gtb + str(i)
