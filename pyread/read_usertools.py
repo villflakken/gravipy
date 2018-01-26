@@ -87,7 +87,7 @@ class UserTools(object):
             print "  * Sorting positions."
             posA = posA[IDsSargA]
             print "    \=> positions' array now sorted by ID tag.\n"
-            return IDsA, posA
+            return IDsA, posA, None
 
         elif focus == "vel":
             " Sorts velocities"
@@ -95,7 +95,7 @@ class UserTools(object):
             print "  * Sorting velocities."
             velA = velA[IDsSargA]
             print "    \=> velocities' array now sorted by ID tag.\n"
-            return IDsA, velA
+            return IDsA, None, velA
 
         elif focus == "posvel":
             " Sorts both "
