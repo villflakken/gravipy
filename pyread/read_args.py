@@ -39,6 +39,9 @@ class readArgs(object):
         self.onElephant = False # ---> To determine filesystem.
         self.onIdies    = False # _/
         self.plotdim2n3 = False # => True, when user wants plots in 2D+3D
+        
+        self.origamidata_exists = False # For activating autoripy?
+        
         """
         Definitions of keywords to be used, script's interpretation +++.
         When adding a new user input parameter, write it into the below
@@ -477,6 +480,8 @@ class readArgs(object):
             type(uinput) == str:
             " Then user has a specific output path in mind! "
             setattr(self, name, uinput)
+            pass
+
         elif uinput == False:
             """
             Allows program to decide where output should be stored:
@@ -506,6 +511,15 @@ class readArgs(object):
             " Case: idies/SciServer - user must run origami first; "
             "       then provide origami's folder path "
             setattr(self, name, uinput)
+            pass
+
+        elif uinput == False & self.onIdies == True:
+            " Case: idies/SciServer - assuming origami has run beforehand; "
+            "       use other input variables to create string filepaths "
+
+            setattr(self, name, uinput)
+            pass
+
         else:
             sys.exit(" No origamipath to go from ")
         # Well, how strict can one be with a user's own preferences?

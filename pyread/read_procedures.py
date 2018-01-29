@@ -454,17 +454,56 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         """
         Reads ORIGAMI's data output
         """
-        oridatapath = self.uname + self.origamipath
+        if self.origamipath == False:
+            # File name must be generated
+            " Inital folder path "
+            ifp = self.uname + "workspace/indra/" 
+            
+            " Folder w/ origami output. "
+            foldp = ifp + "origami/i{iN}{iA}{iB}{tmp}/" 
+            foldp = foldp.format(
+                iN  = self.indraN,
+                iA  = self.iA,
+                iB  = self.iB,
+                sf  = self.subfolder,
+                tmp = "tmp" if self.tmpfolder == True else ""
+            )
+
+            " File path "
+            filep = "i{iN}{iA}{iB}{tmp}sf{sf:02d}_tag.dat"
+            filep = filep.format(
+                iN  = self.indraN,
+                iA  = self.iA,
+                iB  = self.iB,
+                sf  = self.subfolder,
+                tmp = "tmp" if self.tmpfolder == True else ""
+            )
+            oridatpath = folp  + filep
+            pass
+
+        elif type(self.origamipath) == str:
+            " User has provided file path "
+            oridatpath = self.origamipath
+            pass
+
+        else:
+            " Invalid origamipathing "
+            sys.exit("\n\t Let program generate origamipath," \
+                        +" or specify the origamipath.")
+
+
         ori_open_error_str = """
         Could not find origami file at specified path: {0:s}
-        """.format(oridatapath)
-        # oridatapath = "/workspace/indra/origami/"
+        """.format(oridatpath)
+
+        " Actual reading "
         try:
-            with open(oridatapath, 'rb') as openfile:
+            with open(oridatpath, 'rb') as openfile:
                 # Npart, tag = self.origami_sifter(openfile)
                 Npart = N.fromfile(openfile, N.int32, 1)
                 tag   = N.fromfile(openfile, N.int8, Npart)
             pass
+
         except IOError:
             sys.exit(ori_open_error_str)
             pass
