@@ -87,7 +87,7 @@ class readArgs(object):
                       "w2f" : self.toggles_incorp    ,
                  "plotdata" : self.toggles_incorp    ,
                   "plotdim" : self.plotdim_incorp    ,
-              "origamipath" : self.in_path_incorp
+              "origamipath" : self.oripath_incorp
             }
         self.intRange_dict = \
             { # Ranges of integer numbers.
@@ -492,13 +492,22 @@ class readArgs(object):
         return 0
 
 
-    def in_path_incorp(self, uinput, name):
+    def oripath_incorp(self, uinput, name):
         """
         Incorporates origami's path as environment variable.
         """
-        if type(uinput) == str:
+        if   type(uinput) == str & self.onElephant == True:
+            " Case: elephant cluster - user must run origami first; "
+            "       then provide origami's folder path "
             setattr(self, name, uinput)
             pass
+
+        elif type(uinput) == str & self.onIdies == True:
+            " Case: idies/SciServer - user must run origami first; "
+            "       then provide origami's folder path "
+            setattr(self, name, uinput)
+        else:
+            sys.exit(" No origamipath to go from ")
         # Well, how strict can one be with a user's own preferences?
         return 0 
 
