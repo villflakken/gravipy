@@ -1,7 +1,7 @@
 # ==============================================
 # Reading procedure for data sets' structure.
 # ==============================================
-import os, sys
+import os, sys, time
 import numpy as N
 from read_sifters import Sifters
 from read_misctools import MiscTools
