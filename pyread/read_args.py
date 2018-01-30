@@ -527,7 +527,7 @@ class readArgs(object):
             pass
 
         else:
-            print "varname:", name , "| uinput:", \
+            print "varname:", name , "| uinput:", uinput, \
                 "| onIdies:", self.onIdies, "| onElephant:", self.onElephant
             sys.exit(" No origamipath to go from ")
         # Well, how strict can one be with a user's own preferences?
