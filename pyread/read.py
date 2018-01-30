@@ -56,9 +56,9 @@ def read_ini( what="pos", indraN=0, iA=0, iB=0, subfolder=None, fftfile=None,
     tmp = sp.call('clear',shell=True)
 
     ini = readDo()                # Initialize!
-    ini.read_params = data_params # Set params
+    ini.read_params = data_params # Set params... easy *\(^.^)/*
     " 1. "
-    ini.callArgsChecker()         # Verify values
+    ini.callArgsChecker()         # Set values
     " 2. "
     return ini.beginReading()     # Do the thing
 
@@ -150,10 +150,10 @@ class readDo(readArgs, readProcedures):
 
                         for num in sett:
                             " Current subfolder/fftfile as globvar. "
-                            if self.okGo == False:
-                                self.intendedMachine()
-                                " Allows for remote debugging up to this point "
-                                pass 
+                            # if self.okGo == False: # DT
+                            #     self.intendedMachine()
+                            #     " Allows for remote debugging up to this point "
+                            #     pass 
 
                             if task != "fft":
                                 " When task is non-fft-related. "

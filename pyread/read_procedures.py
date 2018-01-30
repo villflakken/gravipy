@@ -454,47 +454,14 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         """
         Reads ORIGAMI's data output
         """
-        if self.origamipath == False:
-            # File name must be generated
-            " Inital folder path "
-            ifp = self.uname + "workspace/indra/" 
-            
-            " Folder w/ origami output. "
-            foldp = ifp + "origami/i{iN}{iA}{iB}{tmp}/" 
-            foldp = foldp.format(
-                iN  = self.indraN,
-                iA  = self.iA,
-                iB  = self.iB,
-                sf  = self.subfolder,
-                tmp = "tmp" if self.tmpfolder == True else ""
-            )
+        # --- --- --- --- Solely for filename/path mgmt
 
-            " File path "
-            filep = "i{iN}{iA}{iB}{tmp}sf{sf:02d}_tag.dat"
-            filep = filep.format(
-                iN  = self.indraN,
-                iA  = self.iA,
-                iB  = self.iB,
-                sf  = self.subfolder,
-                tmp = "tmp" if self.tmpfolder == True else ""
-            )
-            oridatpath = folp  + filep
-            pass
-
-        elif type(self.origamipath) == str:
-            " User has provided file path "
-            oridatpath = self.origamipath
-            pass
-
-        else:
-            " Invalid origamipathing "
-            sys.exit("\n\t Let program generate origamipath," \
-                        +" or specify the origamipath.")
-
-
+        oridatpath = self.origamiPathParser()
+        
         ori_open_error_str = """
         Could not find origami file at specified path: {0:s}
         """.format(oridatpath)
+        # --- --- --- --- Name parsing complete
 
         " Actual reading "
         try:
@@ -506,7 +473,6 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
 
         except IOError:
             sys.exit(ori_open_error_str)
-            pass
 
         return Npart, tag
 

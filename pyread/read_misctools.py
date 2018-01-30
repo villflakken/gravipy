@@ -78,6 +78,49 @@ class MiscTools(object):
 
         return indrapath
 
+    def origamiPathParser(self):
+        """
+        Handles how the script interprets 
+        """
+        if self.origamipath == False:
+            # File name must be generated
+            " Inital folder path "
+            ifp = self.uname + "workspace/indra/" 
+            
+            " Folder w/ origami output. "
+            foldp = ifp + "origami/i{iN}{iA}{iB}{tmp}/" 
+            foldp = foldp.format(
+                iN  = self.indraN,
+                iA  = self.iA,
+                iB  = self.iB,
+                sf  = self.subfolder,
+                tmp = "tmp" if self.tmpfolder == True else ""
+                )
+
+            " File name is determined the same way"
+            filen = "i{iN}{iA}{iB}{tmp}sf{sf:02d}_tag.dat"
+            filen = filen.format(
+                iN  = self.indraN,
+                iA  = self.iA,
+                iB  = self.iB,
+                sf  = self.subfolder,
+                tmp = "tmp" if self.tmpfolder == True else ""
+                )
+            
+            " Add the strings to complete the path "
+            oridatpath = folp  + filen 
+            pass
+
+        elif isinstance(self.origamipath, str) == True:
+            " User has provided file path "
+            oridatpath = self.origamipath
+            pass
+
+        else:
+            " Invalid origamipathing "
+            sys.exit("\n\t Let program generate origamipath," \
+                        +" or specify the origamipath.")
+        return oridatpath
 
     def auto_outputPather(self, num):
         """

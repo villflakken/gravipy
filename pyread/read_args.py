@@ -9,7 +9,6 @@ import numpy as N
 
 
 
-
 class readArgs(object):
     """
     Initializes which method to use for parameter initialization;
@@ -37,7 +36,7 @@ class readArgs(object):
         self.missingkeys    = []
         self.keys_read      = []
         self.onElephant = False # ---> To determine filesystem.
-        self.onIdies    = False # _/
+        self.onIdies    = False # --^
         self.plotdim2n3 = False # => True, when user wants plots in 2D+3D
         
         self.origamidata_exists = False # For activating autoripy?
@@ -133,24 +132,31 @@ class readArgs(object):
 
     def callArgsChecker(self):
         """
-        1. Collect parameters are !=None.
-           1.1) Show user collected parameters.
-        2. Check type(s) of 1.;
+        Typically first function to be called.
+
+        1. Stores vars concerning machine identity.
+
+        2. Collect parameters are !=None.
+           2.1) Show user collected parameters.
+        3. Check type(s) of 1.;
             Individual check for each expected type.
-           2.1) Tuples or not
-            a] Not: Proceed to 3.
-            b] Tuple: Check contents for 2.
-        3. Check boundaries of value, 
+           3.1) Tuples or not
+            a] Not: Proceed to 4.
+            b] Tuple: Check contents for 3.
+        4. Check boundaries of value, 
             one range corresponding to each type.
         """
         " 1. "
+        self.intendedMachine()
+        
+        " 2. "
         self.collect_userArgs()
 
-        " 1.1) Program initialized with... "
+        " 2.1) Program initialized with... "
         self.loaded_parameters() # Screen-printed overview
         
         for key in self.keys_read:
-            " 2. & 3., individual functions " 
+            " 3. & 4., individual functions " 
             self.param_incorp[key](self.read_params[key], key)
             continue # Less output is good news!
         
@@ -566,7 +572,12 @@ class readArgs(object):
           - in the case that indra/origami dataset
             is not available on the system -
           ...before further reading.
-        Used to clean up syntax while debugging.
+        i.e.: may be used to clean up syntax while debugging.
+
+        Very old function. Necessary in the beginning, if no
+        path for origami is provided. 
+        %TODO : Make independent function to incorporate into
+                beginning of the args-checking environment.
         """
         systemName = os.uname()[1]
         myLaptopName          = "DESKTOP-MR1LV6A"
