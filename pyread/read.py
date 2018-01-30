@@ -213,6 +213,7 @@ class readDo(readArgs, readProcedures):
             continue # to next user-specified task...
 
         print "    Done with loop, now returning data."
+        # returns 'None'
         return parsed_data
 
 
@@ -269,6 +270,44 @@ class readDo(readArgs, readProcedures):
         elif self.multiset == False:
             " Single set case, return parsed data "
             return parsed_data
+        else:
+            print "Parse error"
+
+        return 0
+
+    def datareturner(self, parsed_data):
+        """
+        Handles the three cases of how data will be stored or not,
+        through an iteration.
+
+        * Long, multi-valued sets expected to blow out RAM should yet
+          still be postprocessed before the iterating variable 'parsed_data'
+          is wiped.
+        
+        * Small sets may be stored and returned to outerlying structure,
+          i.e. on jupyter notebooks, to interact with after reading in
+          a rather manual manner.
+           # RAM availability is key to how many sets may be read at any
+           # one time. 
+             - Make a function to read RAM availability and allocate number?
+               %TODO !
+
+        * Single set runs should only return raw, non-post-processed data,
+          for interpretation outside.
+        """
+        if   self.multiset == "wipe":
+            " No need to return anything "
+            return 0
+
+        elif self.multiset == "store":
+            " Small set is returned "
+            return self.parsed_datasets_dict
+
+        elif self.multiset == False:
+            " Single set case, return parsed data "
+            return parsed_data
+            # equal to: return self.parsed_datasets_dict[self.fileName]
+
         else:
             print "Parse error"
 
