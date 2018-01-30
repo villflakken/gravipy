@@ -501,13 +501,13 @@ class readArgs(object):
         """
         Incorporates origami's path as environment variable.
         """
-        if   type(uinput) == str & self.onElephant == True:
+        if   isinstance(uinput, str) == True & self.onElephant == True:
             " Case: elephant cluster - user must run origami first; "
             "       then provide origami's folder path "
             setattr(self, name, uinput)
             pass
 
-        elif type(uinput) == str & self.onIdies == True:
+        elif isinstance(uinput, str) == True & self.onIdies == True:
             " Case: idies/SciServer - user must run origami first; "
             "       then provide origami's folder path "
             setattr(self, name, uinput)
