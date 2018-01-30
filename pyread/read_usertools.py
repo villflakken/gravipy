@@ -84,14 +84,14 @@ class UserTools(object):
         t_argfind_end   = time.time()
         t_argfind_tot   = t_argfind_end - t_argfind_start 
         print "    \=> IDs indexes sequenced. "
-        print "      : dt = {0:g}".format(t_argfind_tot)
+        print "      : dt = {0:g} s".format(t_argfind_tot)
 
         t_argsort_start = time.time()
         IDs             = IDs[IDsSortedArgs]  # ... sorting mechanism
         t_argsort_end   = time.time()
         t_argsort_tot   = t_argsort_end - t_argsort_start 
         print "    \=> IDs sorted. "
-        print "      : dt = {0:g}s".format(t_argsort_tot)
+        print "      : dt = {0:g} ss".format(t_argsort_tot)
 
         if focus == "pos":
             " Sorts positions "
@@ -104,7 +104,7 @@ class UserTools(object):
             t_possort_end = time.time()
             t_possort_tot = t_possort_end - t_possort_start 
             print "    \=> positions' array now sorted by ID tag."
-            print "      : dt = {0:g}".format(t_possort_tot)
+            print "      : dt = {0:g} s".format(t_possort_tot)
             return IDs, pos, None
 
         elif focus == "vel":

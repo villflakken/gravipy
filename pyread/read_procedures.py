@@ -101,7 +101,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         t_pvread_end = time.time()
         t_pvread_tot = t_pvread_end - t_pvread_start 
         print "    \=> positions' array now sorted by ID tag."
-        print "      : dt = {0:g}".format(t_pvread_tot)
+        print "      : dt = {0:g} s".format(t_pvread_tot)
 
         # DT - getting a handle on why so many files would include RS data
         if self.arrval_equaltest(scalefA) != True:
