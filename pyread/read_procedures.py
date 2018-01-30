@@ -40,6 +40,8 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         """
         Analyzes positions and velocities dataset.
         """
+        t_pvread_start = time.time() # Time manager
+
         indrapath = self.dsp + self.indraPathParser()
         snappath = indrapath + '/snapdir_{0:03d}/snapshot_{0:03d}.'\
                                 .format(self.subfolder)
@@ -61,6 +63,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         tmpftxt  = "tmp" if self.tmpfolder == True else ""
 
         ci = 0 # Current index to update
+
         for i in N.arange(0, iterLen):
             """
             Will cover all files.
@@ -94,6 +97,11 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
                 pass
 
             continue # Next binary file's turn
+
+        t_pvread_end = time.time()
+        t_pvread_tot = t_pvread_end - t_pvread_start 
+        print "    \=> positions' array now sorted by ID tag."
+        print "      : dt = {0:g}".format(t_pvread_tot)
 
         # DT - getting a handle on why so many files would include RS data
         if self.arrval_equaltest(scalefA) != True:
@@ -457,7 +465,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         # --- --- --- --- Solely for filename/path mgmt
 
         oridatpath = self.origamiPathParser()
-        
+
         ori_open_error_str = """
         Could not find origami file at specified path: {0:s}
         """.format(oridatpath)
