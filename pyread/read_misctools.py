@@ -82,29 +82,35 @@ class MiscTools(object):
         """
         Handles how the script interprets 
         """
+        iN  = self.indraN
+        iA  = self.iA
+        iB  = self.iB
+        sf  = self.subfolder
+        tmp = "tmp" if self.tmpfolder == True else ""
+
         if self.origamipath == False:
             # File name must be generated
             " Inital folder path, assuming on idies/SciServer machine "
-            ifp = self.uname + "workspace/indra{iN}/".format(self.indraN) 
+            ifp = self.uname + "workspace/indra{iN}/".format(iN=iN) 
             
             " Folder w/ origami output. "
             foldp = ifp + "origami/i{iN}{iA}{iB}{tmp}/" 
             foldp = foldp.format(
-                iN  = self.indraN,
-                iA  = self.iA,
-                iB  = self.iB,
-                sf  = self.subfolder,
-                tmp = "tmp" if self.tmpfolder == True else ""
+                iN  = iN,
+                iA  = iA,
+                iB  = iB,
+                sf  = sf,
+                tmp = tmp
                 )
 
             " File name is determined the same way"
             filen = "i{iN}{iA}{iB}{tmp}sf{sf:02d}_tag.dat"
             filen = filen.format(
-                iN  = self.indraN,
-                iA  = self.iA,
-                iB  = self.iB,
-                sf  = self.subfolder,
-                tmp = "tmp" if self.tmpfolder == True else ""
+                iN  = iN,
+                iA  = iA,
+                iB  = iB,
+                sf  = sf,
+                tmp = tmp
                 )
             
             " Add the strings to complete the path "
