@@ -482,7 +482,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         except IOError:
             sys.exit(ori_open_error_str)
 
-        return Npart, tag
+        return tag, Npart
 
 
     def read_time(self):

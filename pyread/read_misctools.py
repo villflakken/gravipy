@@ -95,23 +95,11 @@ class MiscTools(object):
             
             " Folder w/ origami output. "
             foldp = ifp + "origami/i{iN}{iA}{iB}{tmp}/" 
-            foldp = foldp.format(
-                iN  = iN,
-                iA  = iA,
-                iB  = iB,
-                sf  = sf,
-                tmp = tmp
-                )
+            foldp = foldp.format(iN=iN, iA=iA, iB=iB, sf=sf, tmp=tmp)
 
             " File name is determined the same way"
             filen = "i{iN}{iA}{iB}{tmp}_sf{sf:02d}_tag.dat"
-            filen = filen.format(
-                iN  = iN,
-                iA  = iA,
-                iB  = iB,
-                sf  = sf,
-                tmp = tmp
-                )
+            filen = filen.format(iN=iN, iA=iA, iB=iB, sf=sf, tmp=tmp)
             
             " Add the strings to complete the path "
             oridatpath = foldp  + filen 
