@@ -108,7 +108,7 @@ class MiscTools(object):
                 )
             
             " Add the strings to complete the path "
-            oridatpath = folp  + filen 
+            oridatpath = foldp  + filen 
             pass
 
         elif isinstance(self.origamipath, str) == True:
