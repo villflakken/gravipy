@@ -104,7 +104,7 @@ class MiscTools(object):
                 )
 
             " File name is determined the same way"
-            filen = "i{iN}{iA}{iB}{tmp}sf{sf:02d}_tag.dat"
+            filen = "i{iN}{iA}{iB}{tmp}_sf{sf:02d}_tag.dat"
             filen = filen.format(
                 iN  = iN,
                 iA  = iA,
