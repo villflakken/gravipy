@@ -96,6 +96,7 @@ class readDo(readArgs, readProcedures):
                 "origami" : self.read_origami ,
                 "time"    : self.read_time
             }
+        self.teststring = "\n   This is the test \n"
         """
         end of init
         """

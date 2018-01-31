@@ -1,8 +1,10 @@
-import os, sys, glob
-import numpy as np
-import numpy as N
-import textwrap
-import pylab as pl
+# import os, sys, glob
+# import numpy as np
+# import numpy as N
+# import textwrap
+# import pylab as pl
+
+
 # """
 #         check that all vital parameters are given values. allows /only/ nonvitals to have
 #         value == None.
@@ -619,16 +621,68 @@ import pylab as pl
 
 
 
-class Test(object):
-    def __init__(self):
-        self.x = 5
+# class Test(object):
+#     def __init__(self):
+#         self.x = 5
 
-    def outside(self):
-        x = self.x
+#     def outside(self):
+#         x = self.x
 
-        self.inside()
-        return 0
+#         self.inside()
+#         return 0
 
-    def inside(self):
-        x += 1
-        return 0
+#     def inside(self):
+#         x += 1
+#         return 0
+
+
+def printglob():
+    for key in globals().keys():
+        print key, ":", globals()[key]
+
+    print
+    return
+
+
+def importfunc1():
+    global Test
+    globals()["Test"] = __import__("classtest", globals(), locals(), ["Test"], -1)
+    return
+
+def importfunc2():
+    global Test
+    Test = __import__("classtest", globals(), locals(), ["Test"], -1)
+    return
+
+
+def reloadfunc():
+    import sys
+    moduleID = 'classtest'
+    mod = reload(sys.modules[moduleID])
+    vars().update(mod.__dict__)
+    return
+
+
+
+
+# from classtest import Test
+# ini1 = Test()
+# print ini1.x
+
+
+
+
+# global Test 
+# globals()["Test"] = __import__("classtest", globals(), locals())
+# printglob()
+# print Test
+
+
+
+
+# importfunc()
+# ini = Test()
+# print ini.x
+# printglob()
+
+# http://ipython.readthedocs.io/en/stable/config/extensions/autoreload.html
