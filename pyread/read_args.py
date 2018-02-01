@@ -122,7 +122,7 @@ class readArgs(object):
                "outputpath" :  None ,
                       "w2f" :   0   ,
                  "plotdata" :   1   ,
-                  "plotdim" :   2   ,
+                  "plotdim" :  (2,) ,
               "origamipath" : None
             }
 
@@ -134,7 +134,7 @@ class readArgs(object):
         """
         Typically first function to be called.
 
-        1. Stores vars concerning machine identity.
+        1. Stores var.s concerning machine identity.
 
         2. Collect parameters are !=None.
            2.1) Show user collected parameters.
@@ -431,8 +431,8 @@ class readArgs(object):
         """
         if  hasattr( uinput, '__iter__' )                       and    \
             all( map(lambda x: hasattr(x, '__int__'), uinput) ) and    \
-            all(map(lambda x: x in self.intRange_dict[name], uinput)):
-            " Case 1.:  user wants both 2D _and_ 3D plot "
+            all( map(lambda x: x in self.intRange_dict[name], uinput) ):
+            " Case 1.:  user wants both 2D _and_ 3D plot (iterable case) "
             " 1.1:      User's iterable's object contains int-types "
             " 1.2:      Are all numbers given either 2 or 3? "
             self.plotdim2n3 = True

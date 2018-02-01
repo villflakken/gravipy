@@ -39,11 +39,24 @@ class Plotter(object):
 
         return 0
 
-    def plot_pos_oritag(self, pos, tags):
+    def plot_pos_oritag(self, pos, tags, dimtuple=None):
         """
         Plots positions of particles to 2D or 3D.
         Also uses Origami tagging to colour-code particles.
         """
+        if dimtuple == None:
+            " Outside use did not specify a dimension "
+            dimtuple = self.plotdim # Defaults to (2)
+            pass
+        else:
+            " User has provided plotdim "
+            pass
+
+        if not hasattr(dimtuple, '__iter__'):
+            " Value provided is scalar; needs iterability "
+            dimtuple = (dimtuple,)
+            pass
+
         # Tag-specific plot variables
         voidc = 'k'
         wallc = 'b' 
@@ -66,7 +79,7 @@ class Plotter(object):
         posfila = pos[ftags,:]
         poshalo = pos[htags,:]
         
-        if 2 in self.plotdim:
+        if 2 in dimtuple:
             " 2D scatter plot "
             time_2dplot_start = time.time()
 
@@ -103,7 +116,7 @@ class Plotter(object):
             
             pass
 
-        if 3 in self.plotdim:
+        if 3 in dimtuple:
             " 3D scatter plot "
             time_3dplot_start = time.time()
 
@@ -141,6 +154,9 @@ class Plotter(object):
             pl.close("scatter3d") # just because
 
             pass
+
+        else:
+            sys.exit(" Please specify plot dimensions as '2', '3' or '(2,3)' ")
 
 
         return 0

@@ -16,7 +16,7 @@ def read_ini( what="pos", indraN=0, iA=0, iB=0, subfolder=None, fftfile=None,
               outputpath=False,
               w2f=False,
               plotdata=False,
-              plotdim=2,
+              plotdim=(2,),
               origamipath=False
             ):
     """
