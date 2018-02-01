@@ -9,21 +9,21 @@ from read_procedures import readProcedures
 
 
 
-def read_ini( what="pos", indraN=0, iA=0, iB=0, subfolder=None, fftfile=None, 
-              tmpfolder=False, sfset=False, sortIDs=False, lessprint=True,
-              multiset=False,
-              box_params=False,
-              outputpath=False,
-              w2f=False,
-              plotdata=False,
-              plotdim=(2,),
-              origamipath=False
+def read_ini( what = "pos",   indraN = 0, iA = 0, iB=0,
+              subfolder   = None,    fftfile = None, 
+              tmpfolder   = False,
+              sfset       = False,
+              sortIDs     = False,
+              lessprint   = True,
+              multiset    = False,
+              box_params  = False,
+              outputpath  = False,
+              w2f         = False,
+              plotdata    = False,
+              plotdim     =  [2] ,
+              origamipath = False
             ):
-    """
-    Simplified read function for importing externally;
-    initializes class for the user.
-    # WIP !
-    """
+
     data_params = \
         { # Data structure parameters:
                "what" :( list(what)  ),
@@ -56,11 +56,11 @@ def read_ini( what="pos", indraN=0, iA=0, iB=0, subfolder=None, fftfile=None,
     tmp = sp.call('clear',shell=True)
 
     ini = readDo()                # Initialize!
-    ini.read_params = data_params # Set params... easy *\(^.^)/*
+    ini.read_params = data_params # Set params
     " 1. "
-    ini.callArgsChecker()         # Set values
+    ini.callArgsChecker()         # Verify values
     " 2. "
-    return ini.beginReading()     # Do the thing
+    return ini.beginReading(), ini     # Do the thing
 
 
 class readDo(readArgs, readProcedures):
@@ -127,7 +127,9 @@ class readDo(readArgs, readProcedures):
         Will try to avoid that. But then it will be ugly.
         Assumes that parameters in arglist have been set.
         """
-        self.parsed_datasets_dict = {}
+        
+        self.datadict = {} # cf. function self.storager()
+        
         """
         Prime example on how complex a set of permutations can become!
         """
@@ -205,7 +207,7 @@ class readDo(readArgs, readProcedures):
                             # DT */
 
                             " Clear variable memory allocation, or store in dict"
-                            parsed_data = self.dataparser_iter(parsed_data)
+                            parsed_data = self.dataparser_iter(parsed_data, num)
 
                             continue # to next 'num' (snapnum/fftfile)...
                         continue # to next iB...
@@ -213,9 +215,9 @@ class readDo(readArgs, readProcedures):
                 continue # to next iN...
             continue # to next user-specified task...
 
-        print "    Done with loop, now returning data."
+        print "    Done with loop, now returning data. "
         # returns 'None'
-        return parsed_data
+        return self.datareturner(parsed_data)
 
 
     def currentTaskParamsParser(self):
@@ -239,7 +241,7 @@ class readDo(readArgs, readProcedures):
         return sett, symbol
 
 
-    def dataparser_iter(self, parsed_data):
+    def dataparser_iter(self, parsed_data, num):
         """
         Handles the three cases of how data will be stored or not,
         through an iteration.
@@ -261,18 +263,72 @@ class readDo(readArgs, readProcedures):
         """
         if   self.multiset == "wipe":
             " Case: Wipe the variable, return None "
+            # When auto-post-processing functions are involved ahead of this
             return None
 
         elif self.multiset == "store":
             " Don't wipe completely; re-locate for storage "
-            self.parsed_datasets_dict[self.fileName] = parsed_data
-            return None
+            # self.parsed_datasets_dict[self.fileName] = parsed_data
+            # return None   # temporary easy solution
+            return self.storager(parsed_data, num) # proper solution, WIP
 
         elif self.multiset == False:
             " Single set case, return parsed data "
             return parsed_data
         else:
             print "Parse error"
+
+        return 0
+
+
+    def storager(self, parsed_data, num):
+        """
+        Stores the data into some kind of logical structure
+        (? - feedback needed)
+
+        #########################
+        ### Current proposal: ###
+        #########################
+        3-leveled/indexed nested dictionary structure, shown below
+        
+        output_dataset      # variable stored to outside script
+            |
+            |--> ["{task/data category}"]
+                          |
+                          |--> ["{iN}{iA}{iB}"]
+                                      |
+                                      |--> ["{snapshotnumber}"]
+                                                    |
+                                                    |--> parsed_data
+        # Where 'parsed_data' as a variable contains
+        # several items from the reading of a snapshot's data
+        # (pertaining to the data type/category/"task").
+
+        # Current function may contain some redundant variables,
+        # for better readability.
+        """
+        task =     self.what    # ----> Outermost dictionary key 
+                                #      (already string).
+        iN   = str(self.indraN) # ----> Together, these 3 form the middle key.
+        iA   = str(self.iA)     # --^
+        iB   = str(self.iB)     # -^
+        num  = str(num)         # ----> Innermost key.
+
+        indra = iN+iA+iB        # Readability.
+
+        if not task in self.datadict.keys():
+            # self.datadict.update()
+            self.datadict[task] = {indra : {num : parsed_data}}
+            
+            if not indra in self.datadict[task].keys():
+                self.datadict[task][indra] = {num : parsed_data}
+        
+                if not num in self.datadict[task][indra].keys():
+                    self.datadict[task][indra][num] = parsed_data 
+
+                    pass
+                pass
+            pass
 
         return 0
 
@@ -302,12 +358,12 @@ class readDo(readArgs, readProcedures):
 
         elif self.multiset == "store":
             " Small set is returned "
-            return self.parsed_datasets_dict
+            return self.datadict
 
         elif self.multiset == False:
             " Single set case, return parsed data "
             return parsed_data
-            # equal to: return self.parsed_datasets_dict[self.fileName]
+            # (equal to:) return self.parsed_datasets_dict[self.fileName]
 
         else:
             print "Parse error"
@@ -336,7 +392,8 @@ class readDo(readArgs, readProcedures):
                 iN=self.indraN,    indraNset=self.indraN_set,
                 iA=self.iA,            iAset=self.iA_set,
                 iB=self.iB,            iBset=self.iB_set,
-            symbol=symbol,    sn=num,  snset=sett             )
+            symbol=symbol,    sn=num,  snset=sett
+            )
 
         return 0
 

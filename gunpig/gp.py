@@ -652,7 +652,7 @@ def importfunc1():
 def importfunc2():
     global Test
     Test = __import__("classtest", globals(), locals(), ["Test"], -1)
-    return
+    return 
 
 
 def reloadfunc():
@@ -662,27 +662,12 @@ def reloadfunc():
     vars().update(mod.__dict__)
     return
 
+importfunc2()
+print dir()
+print Test
+print Test.Test
+ini = Test.Test()
+print ini.x
 
-
-
-# from classtest import Test
-# ini1 = Test()
-# print ini1.x
-
-
-
-
-# global Test 
-# globals()["Test"] = __import__("classtest", globals(), locals())
-# printglob()
-# print Test
-
-
-
-
-# importfunc()
-# ini = Test()
-# print ini.x
-# printglob()
 
 # http://ipython.readthedocs.io/en/stable/config/extensions/autoreload.html
