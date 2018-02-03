@@ -166,6 +166,9 @@ class Sifters(object):
         #           "TotNgroups = " + str(TotNgroups) + "\n"
 
         # print "After if of fof_tab_sifter"
+        print "######################"
+        print "####### MARCO !!! ####"
+        print "######################"
         return Ngroups, Nids, TotNgroups, skip
 
 
@@ -173,6 +176,9 @@ class Sifters(object):
         """
         Sifts through the group ID data
         """
+        print "######################"
+        print "####### POLO  !!! ####"
+        print "######################"
         Ngroups, Nids, TotNgroups, NTask = N.fromfile(f, N.int32, 4)
         if TotNgroups > 0:
             TotNids = N.sum(self.GroupLen, dtype=N.int64)
@@ -206,8 +212,8 @@ class Sifters(object):
 
 
             except:
-                self.objectDebug_print(TotNids, "TotNids")
                 self.objectDebug_print(self.GroupLen, "self.GroupLen")
+                self.objectDebug_print(TotNids, "TotNids")
                 print " --- --- --- --- --- --- --- --- --- "
                 self.objectDebug_print(Nids, "Nids")
                 self.objectDebug_print(locIDs, "locIDs")
