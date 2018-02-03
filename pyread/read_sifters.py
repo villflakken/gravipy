@@ -202,7 +202,7 @@ class Sifters(object):
                 pass          #  \__|  is what we're actually looking for.
             except:
                 self.objectDebug_print(Nids, "Nids")
-                self.objectDebug_print(locIDS, "locIDs")
+                self.objectDebug_print(locIDs, "locIDs")
                 self.objectDebug_print(skip, "skip")
                 self.objectDebug_print(self.IDs, "self.IDs")
                 sys.exit("  *** abort *** ")
