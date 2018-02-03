@@ -184,6 +184,13 @@ class Sifters(object):
         if i == 0 and TotNids > 0:
             self.IDs = N.zeros(TotNids, dtype=N.int64)  # LIDA
             pass
+        else:
+            " Need some object for self.read_procedures to return, anyway... "
+            self.IDs = N.zeros(0, dtype=N.int64)
+            # --- At least it's consistent!
+            pass
+            # ^ Though this kind of removes the requirement
+            # of the whole if-block, I guess.
 
         if Nids > 0:
             locIDs = N.fromfile(f, N.int64, Nids)  # LIDA
