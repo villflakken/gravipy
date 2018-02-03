@@ -177,7 +177,7 @@ class Sifters(object):
         Sifts through the group ID data
         """
         print "######################"
-        print "####### POLO  !!! #### i = ", i
+        print "####### POLO  !!! #### i = ", i, self.GroupLen
         print "######################"
         Ngroups, Nids, TotNgroups, NTask = N.fromfile(f, N.int32, 4)
         if TotNgroups > 0:
