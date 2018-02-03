@@ -345,7 +345,7 @@ class MiscTools(object):
             pass
 
         " Type length, if iterable "
-        if hasattr(obj, '__iter__')
+        if hasattr(obj, '__iter__'):
             print " * len("+objstr+"):", len(obj)
             pass
 
