@@ -186,8 +186,7 @@ class Sifters(object):
             pass
         else:
             " Need some object for self.read_procedures to return, anyway... "
-            self.IDs = N.zeros(0, dtype=N.int64)
-            # Yes, this actually works in python
+            self.IDs = N.zeros(1, dtype=N.int64)
             # --- At least it's consistent!
             pass
             # ^ Though this kind of removes the requirement

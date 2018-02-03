@@ -392,8 +392,8 @@ class readDo(readArgs, readProcedures):
                 iN=self.indraN,    indraNset=self.indraN_set,
                 iA=self.iA,            iAset=self.iA_set,
                 iB=self.iB,            iBset=self.iB_set,
-            symbol=symbol,    sn=num,  snset=sett
-            )
+            symbol=symbol,    sn=num,  snset=(sett[0], "...", sett[1])
+            ).strip("[]")
 
         return 0
 
