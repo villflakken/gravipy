@@ -254,7 +254,7 @@ class MiscTools(object):
         :return: Name of nested function in which this function is called.
         Useful for debugging.
         """
-        ranks = {"inception": 0, "here": 1, "1up": 2, "2up": 3}
+        ranks = {"inception": 0, "here": 1, "1up": 2, "2up": 3, "3up": 4}
         return str(sys._getframe(ranks[where]).f_code.co_name)
 
 
@@ -332,9 +332,9 @@ class MiscTools(object):
         """
         print
         print " Object:", objstr
-        print " * Currently viewed in function:", self.funcNameOver("here")
-        print " * - which is called from      :", self.funcNameOver("1up")
-        print " * --- called from             :", self.funcNameOver("2up")
+        print " * Currently viewed in function:", self.funcNameOver("1up")
+        print " * - which is called from      :", self.funcNameOver("2up")
+        print " * --- called from             :", self.funcNameOver("3up")
         print
 
         " Print type of object "
