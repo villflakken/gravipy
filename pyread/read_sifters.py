@@ -205,6 +205,9 @@ class Sifters(object):
                 self.objectDebug_print(locIDs, "locIDs")
                 self.objectDebug_print(skip, "skip")
                 self.objectDebug_print(self.IDs, "self.IDs")
+                self.objectDebug_print(N.bitwise_and(locIDs[:], self.bitshiftmask), "bitwise-result")
+
+
                 sys.exit("  *** abort *** ")
 
         f.close()
