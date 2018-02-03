@@ -662,12 +662,58 @@ def reloadfunc():
     vars().update(mod.__dict__)
     return
 
-importfunc2()
-print dir()
-print Test
-print Test.Test
-ini = Test.Test()
-print ini.x
+# importfunc2()
+# print dir()
+# print Test
+# print Test.Test
+# ini = Test.Test()
+# print ini.x
+# print ini.x.__name__
+
+def get_variable_name(*variable):
+    '''gets string of variable name
+    inputs
+        variable (str)
+    returns
+        string
+    '''
+    if len(variable) != 1:
+        raise Exception('len of variables inputed must be 1')
+    try:
+        return [k for k, v in locals().items() if v is variable[0]][0]
+    except:
+        return [k for k, v in globals().items() if v is variable[0]][0]
+
+
+import sys
+
+
+def funcNameOver(where="1up"):
+    """
+    :return: Name of nested function in which this function is called.
+    Useful for debugging.
+    """
+    ranks = {"inception": 0, "here": 1, "1up": 2, "2up": 3}
+    return str(sys._getframe(ranks[where]).f_code.co_name)
+
+
+def strtest(*arg):
+    print arg[0]
+    print funcNameOver("inception")
+    print funcNameOver("here")
+    print funcNameOver("1up")
+    print funcNameOver("2up")
+    return
+
+def test2():
+    strtest("fuck")
+    return
+
+# strtest("lol")
+test2()
+
+
+
 
 
 # http://ipython.readthedocs.io/en/stable/config/extensions/autoreload.html

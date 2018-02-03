@@ -192,12 +192,20 @@ class Sifters(object):
             # ^ Though this kind of removes the requirement
             # of the whole if-block, I guess.
 
+
         if Nids > 0:
             locIDs = N.fromfile(f, N.int64, Nids)  # LIDA
-            self.IDs[ skip:skip+Nids ] = \
-                    N.bitwise_and(locIDs[:], self.bitshiftmask)
-            skip += Nids  # \___|: Reading binary/bitwise. Not all of the data
-            pass          #  \__|  is what we're actually looking for.
+            try:
+                self.IDs[ skip:skip+Nids ] = \
+                        N.bitwise_and(locIDs[:], self.bitshiftmask)
+                skip += Nids  # \___|: Reading binary/bitwise. Not all of the data
+                pass          #  \__|  is what we're actually looking for.
+            except:
+                self.objectDebug_print(Nids, "Nids")
+                self.objectDebug_print(locIDS, "locIDs")
+                self.objectDebug_print(skip, "skip")
+                self.objectDebug_print(self.IDs, "self.IDs")
+                sys.exit("  *** abort *** ")
 
         f.close()
         return skip

@@ -332,6 +332,7 @@ class readDo(readArgs, readProcedures):
 
         return 0
 
+
     def datareturner(self, parsed_data):
         """
         Handles the three cases of how data will be stored or not,
@@ -392,7 +393,7 @@ class readDo(readArgs, readProcedures):
                 iN=self.indraN,    indraNset=self.indraN_set,
                 iA=self.iA,            iAset=self.iA_set,
                 iB=self.iB,            iBset=self.iB_set,
-            symbol=symbol,    sn=num,  snset=(sett[0], "...", sett[1])
+            symbol=symbol,    sn=num,  snset=str(sett[0])+"..."+str(sett[-1])
             ).strip("[]")
 
         return 0

@@ -324,6 +324,37 @@ class MiscTools(object):
         return N.array_equal(array, temparray)
 
 
+    def objectDebug_print(self, obj, objstr):
+        """
+        Printer to show the properties of a variable that seems to
+        making troubles
+        ranks = {"inception": 0, "here": 1, "1up": 2, "2up": 3}
+        """
+        print
+        print " Object:", objstr
+        print " * Currently viewed in function:", self.funcNameOver("here")
+        print " * - which is called from      :", self.funcNameOver("1up")
+        print " * --- called from             :", self.funcNameOver("2up")
+        print
+
+        " Print type of object "
+        try:
+            print " * type("+objstr+"):", type(obj)
+            pass
+        except:
+            pass
+
+        " Type length, if iterable "
+        if hasattr(obj, '__iter__')
+            print " * len("+objstr+"):", len(obj)
+            pass
+
+        " The object's actual stored value"
+        print " * "+objstr+":\n", obj
+        print
+
+        return
+
 
 if __name__ == '__main__':
     sys.exit("Attempt at running code from unintended source. \n\
