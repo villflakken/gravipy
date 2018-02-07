@@ -200,10 +200,18 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         maxfileCount_gtb = self.findCount(gtb)
         iterLen          = maxfileCount_gtb + 1
         Ngroups_thusfar  = N.zeros(iterLen, dtype=N.int32)
-        self.GroupLen    = None
-        self.GroupOffset = None
-            # Making sure this variable is clear before beginning
-            # of next case in case of multi-run set ups.
+
+        " Need header to get lengths of GroupLen&Offset "
+        self.GroupLen    = None # Declare first to clear namespace,
+        self.GroupOffset = None # just to be thorough.
+
+        get_aheader = gtb + str(0) # First file in sequence
+        with open(get_aheader, 'rb'):
+            " Opens first file and retrieves only relevant header info "            
+            glgo_lengths = N.fromfile(f, N.int32, 4)[2] # 'TotNgroups' var.
+            self.GroupLen    = N.zeros(glgo_lengths, dtype=N.int32)
+            self.GroupOffset = N.zeros(glgo_lengths, dtype=N.int32)
+            get_aheader.close()
 
         print " Browsing FOF-files (tabs):"
         print """\

@@ -621,19 +621,19 @@
 
 
 
-# class Test(object):
-#     def __init__(self):
-#         self.x = 5
+class Test(object):
+    def __init__(self):
+        self.x = 5
 
-#     def outside(self):
-#         x = self.x
+    def outside(self):
+        x = self.x
 
-#         self.inside()
-#         return 0
+        self.inside()
+        return 0
 
-#     def inside(self):
-#         x += 1
-#         return 0
+    def inside(self):
+        x += 1
+        return 0
 
 
 def printglob():
@@ -685,6 +685,11 @@ def get_variable_name(*variable):
         return [k for k, v in globals().items() if v is variable[0]][0]
 
 
+# a = 2
+
+# print get_variable_name(a)
+
+
 import sys
 
 
@@ -694,24 +699,35 @@ def funcNameOver(where="1up"):
     Useful for debugging.
     """
     ranks = {"inception": 0, "here": 1, "1up": 2, "2up": 3}
+    print str(dir(sys._getframe().f_code))
+    print str(sys._getframe().f_code.co_consts)
     return str(sys._getframe(ranks[where]).f_code.co_name)
 
 
-def strtest(*arg):
-    print arg[0]
-    print funcNameOver("inception")
-    print funcNameOver("here")
-    print funcNameOver("1up")
+def strtest(*arg, **kwarg):
+    a, b, c = arg
+    print "herp      ", a
+    print "derp      ", b
+    print "roflcopter", c
+    print kwarg
+    # print funcNameOver("inception")
+    # print funcNameOver("here")
+    # print funcNameOver("1up")
     print funcNameOver("2up")
     return
 
 def test2():
-    strtest("fuck")
+    # strtest("fuck")
+    strtest(lol, hai, 4)
     return
 
-# strtest("lol")
-test2()
+lol = 2
+hai = 3
 
+# test2()
+
+SEHERFORPOKKER = Test()
+print globals()
 
 
 

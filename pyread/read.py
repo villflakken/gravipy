@@ -316,14 +316,17 @@ class readDo(readArgs, readProcedures):
 
         indra = iN+iA+iB        # Readability.
 
-        if not task in self.datadict.keys():
-            # self.datadict.update()
+        if task not in self.datadict.keys():
+            " First declare of task-key "
+            # self.datadict.update() #?
             self.datadict[task] = {indra : {num : parsed_data}}
             
-            if not indra in self.datadict[task].keys():
+            if indra not in self.datadict[task].keys():
+                " First declare of indra-key "
                 self.datadict[task][indra] = {num : parsed_data}
         
-                if not num in self.datadict[task][indra].keys():
+                if num not in self.datadict[task][indra].keys():
+                    " First declare of num-key "
                     self.datadict[task][indra][num] = parsed_data 
 
                     pass

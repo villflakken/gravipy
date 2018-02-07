@@ -86,6 +86,10 @@ class Sifters(object):
         dummy = N.fromfile(f, N.int32, 2)
         idarr = N.fromfile(f, N.int64, npart)
 
+        # Next line for clarity on use of IDs as indexations:
+        idarr = idarr - N.int64(1)
+        # ...now they may be used with indexations on/over arrays!
+
         f.close()
         return pos, vel, idarr, npart, scalefact, redshift
 
@@ -221,7 +225,7 @@ class Sifters(object):
                 self.objectDebug_print(self.IDs, "self.IDs")
                 self.objectDebug_print(N.bitwise_and(locIDs[:], self.bitshiftmask), "bitwise-result")
 
-
+                self.bep()
                 sys.exit("  *** abort *** ")
 
         f.close()

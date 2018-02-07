@@ -271,8 +271,10 @@ class MiscTools(object):
         return all([arg != 0, arg != False, arg != None])
 
 
-    #   The next functions may have had sound ideas,
-    # but are of negligible importance.
+    ###########################################################
+    #   The next functions may have had sound ideas, but are  #
+    # of negligible importance, and mainly used in debugging. #
+    ###########################################################
 
     def readLoopError(self, filepath, loop, loops, i):
         """
@@ -302,6 +304,7 @@ class MiscTools(object):
             sys.exit(self.mult_miss_error)
 
         return 0
+
 
     def arrval_equaltest(self, array):
         """
@@ -353,7 +356,30 @@ class MiscTools(object):
         print " * "+objstr+":\n", obj
         print
 
-        return
+        return 0
+
+
+    def bep(self):
+        """
+        "Better" Error Printer
+        Simple module that prints error messages in a "better" way
+        """
+        prefix          = "\tPython's Error:"
+        errorType       = "* " + str(sys.exc_info()[0])[18:-2]
+        theBaseIndent   = textwrap.fill(prefix, replace_whitespace=False)[:-1]
+        nextLineIndent  = " "*(len(theBaseIndent)/2 -2)
+        messToScreen = textwrap.TextWrapper(initial_indent=nextLineIndent,
+                                            subsequent_indent=nextLineIndent)
+        errorDescr = "* " + str( sys.exc_info()[1] ).capitalize()
+              
+        print prefix
+        print messToScreen.fill(errorType)
+        print messToScreen.fill(errorDescr)
+        print messToScreen.fill("* Error encountered inside function:")
+        print messToScreen.fill(str("'"+self.funcNameOver("1up")+"'"))
+
+        return 0
+        
 
 
 if __name__ == '__main__':
