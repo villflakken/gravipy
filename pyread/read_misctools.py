@@ -401,9 +401,9 @@ class MiscTools(object):
 
             print '%r (%r, %r) %2.2f sec' % \
                   (f.__name__, args, kw, te-ts)
-        return result
+            return result
 
-    return timed
+        return timed
 
 
 if __name__ == '__main__':
