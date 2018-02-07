@@ -91,18 +91,22 @@ class MiscTools(object):
         if self.origamipath == False:
             # File name must be generated
             " Inital folder path, assuming on idies/SciServer machine "
-            self.ifp = self.uname + "workspace/indra/"
-            
+            ifp = self.uname + "workspace/indra/"
+            print ifp                                                       #
+
             " Folder w/ origami output. "
             foldp = ifp + "origami/i{iN}{iA}{iB}{tmp}/" 
             foldp = foldp.format(iN=iN, iA=iA, iB=iB, sf=sf, tmp=tmp)
+            print foldp                                                     #
 
             " File name is determined the same way"
             filen = "i{iN}{iA}{iB}{tmp}_sf{sf:02d}_tag.dat"
             filen = filen.format(iN=iN, iA=iA, iB=iB, sf=sf, tmp=tmp)
-            
+            print filen                                                     #
+
             " Add the strings to complete the path "
-            oridatpath = foldp  + filen 
+            oridatpath = foldp  + filen
+            print oridatpath                                                #
             pass
 
         elif isinstance(self.origamipath, str) == True:
