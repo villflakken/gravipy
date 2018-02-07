@@ -191,7 +191,7 @@ class Sifters(object):
             TotNids = N.int64(0)
             pass
 
-        if i == 0 and TotNgroups > 0:
+        if TotNids > 0:
             self.IDs = N.zeros(TotNids, dtype=N.int64)  # LIDA
             pass
         else:
@@ -209,8 +209,7 @@ class Sifters(object):
 
             try:
 
-                self.IDs[ skip:skip+Nids ] = \
-                        N.bitwise_and(locIDs[:], self.bitshiftmask)
+                self.IDs[ skip:skip+Nids ] = N.bitwise_and(locIDs[:], self.bitshiftmask)
                 skip += Nids  # \___|: Reading binary/bitwise. Not all of the data
                 pass          #  \__|  is what we're actually looking for.
 
