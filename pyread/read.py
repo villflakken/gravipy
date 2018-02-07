@@ -300,6 +300,7 @@ class readDo(readArgs, readProcedures):
                                       |--> ["{snapshotnumber}"]
                                                     |
                                                     |--> parsed_data
+
         # Where 'parsed_data' as a variable contains
         # several items from the reading of a snapshot's data
         # (pertaining to the data type/category/"task").

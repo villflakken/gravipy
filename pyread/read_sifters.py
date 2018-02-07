@@ -100,13 +100,7 @@ class Sifters(object):
         """
         # print "Before if of fof_tab_sifter"
         Ngroups, Nids, TotNgroups, NTask = N.fromfile(f, N.int32, 4)
-        # should there be a dummy distance between this and the next information, or..?
-        # 8==> apparently not!
-        # print Ngroups, Nids, TotNgroups, NTask
-        # print "\nBefore if-conditions:"
-        # print "TotNgroups > 0: i=", i, "TotNgroups=", TotNgroups, \
-        #         "Ngroups=", Ngroups, "\n"
-        
+
         # print "i is simply a variable in python 2.6 environment.\nHere are some tests for bools. Have fun with this logic..."
         # print "i-test: * i is 0:", i is 0, ", * i == 0:", i == 0 
         # print "i-test: * i is not 0:", i is not 0, ", * i != 0:", i != 0 
@@ -169,10 +163,9 @@ class Sifters(object):
         #           "Nids       = " + str(Nids)       + "\n" + \
         #           "TotNgroups = " + str(TotNgroups) + "\n"
 
-        # print "After if of fof_tab_sifter"
-        print "######################"
-        print "####### MARCO !!! #### i = ", i
-        print "######################"
+        # print "######################"
+        # print "####### MARCO !!! #### i = ", i
+        # print "######################"
         return Ngroups, Nids, TotNgroups, skip
 
 
@@ -180,9 +173,9 @@ class Sifters(object):
         """
         Sifts through the group ID data
         """
-        print "######################"
-        print "####### POLO  !!! #### i = ", i, self.GroupLen
-        print "######################"
+        # print "######################"
+        # print "####### POLO  !!! #### i = ", i, self.GroupLen
+        # print "######################"
         Ngroups, Nids, TotNgroups, NTask = N.fromfile(f, N.int32, 4)
         if TotNgroups > 0:
             TotNids = N.sum(self.GroupLen, dtype=N.int64)
@@ -204,19 +197,13 @@ class Sifters(object):
 
 
         if Nids > 0:
-            locIDs = N.fromfile(f, N.int64, Nids)  # LIDA
-            
+            locIDs = N.fromfile(f, N.int64, Nids)  # LIDA 
 
             try:
-
                 self.IDs[ skip:skip+Nids ] = N.bitwise_and(locIDs[:], self.bitshiftmask)
                 skip += Nids  # \___|: Reading binary/bitwise. Not all of the data
                 pass          #  \__|  is what we're actually looking for.
 
-                # len(self.IDs) is 0
-                # len(bw_and) is 23
-                # skip is 0
-                # Nids is 23
             except:
                 self.objectDebug_print(self.GroupLen, "self.GroupLen")
                 self.objectDebug_print(TotNids, "TotNids")
@@ -256,11 +243,9 @@ class Sifters(object):
         # print 'Ngroups      = ', Ngroups
         # print 'TotNgroups   = ', TotNgroups
         Nsubs = N.fromfile(f, N.int32, 1)
-        """
-        ; Why would Nsubs be 0? ... in this certain file?
-        """
-        if Nsubs > 0:
 
+        if Nsubs > 0:
+            " Initiate reading "
             NsubPerHalo     = N.fromfile(f, N.int32, Ngroups)
             FirstSubOfHalo  = N.fromfile(f, N.int32, Ngroups)
             locLen          = N.fromfile(f, N.int32, Nsubs)
@@ -360,7 +345,6 @@ class Sifters(object):
             count += Ngroups
             pass
 
-
         # else:
         #     print 'Nsubs = 0'
         f.close()
@@ -380,6 +364,7 @@ class Sifters(object):
         # count1  = count1 + nsubs
 
         return SubLen, SubOffset, M200, count, count_sub, pos, skip
+
 
     def sub_ids_sifter(self, SubLen, skip):
         """
@@ -411,28 +396,14 @@ class Sifters(object):
             skip += Nids
             pass
 
-        # SHOULD PROBABLY WRITE SOMETHING TO FILE HERE, TOO!?!!
-
         f.close()
+        return # variables 
 
-        return return_variables # FIGURE THESE OUT TOMORROW
 
     def fft_sifter(self, f):
         """
         Sifts through FFT data.
         """
-        """ # keep this for orientation purposes
-
-        ; fft_re=fltarr(Lhalf+1,L+1,L+1) 
-            # looks like a zeros-function, specifically float32
-        ; fft_im=fltarr(Lhalf+1,L+1,L+1) 
-            # if IDL does j,i,k - then python does i,j,k ...?
-        
-        #=> becomes the below statements, and shows dimensions:
-            IDL IS COL-MAJOR,
-            PYTHON IS ROW-MAJOR
-        """
-        # PMGRID  = N.int32(640) # not used for anything...
         L       = N.int32(128)
         Lhalf   = L/2
 

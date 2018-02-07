@@ -116,7 +116,6 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
             print rsA
             pass
 
-
         # File reading loop completed; print status
         countedNpart = N.sum(NpartA)
         maxN         = N.max(NpartA)
@@ -180,7 +179,6 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
 
         else:
             sys.exit("\n    *** read_posvel task name error *** \n")
-            # What the fuck
 
 
     def read_FOF(self):
@@ -284,13 +282,6 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
                 
                 pass
 
-                    # if self.bssdt == True: # Big Skip ShutDown Toggle
-                    #     if skip > 1.01*self.length:
-                    #         print "\n skip > 1.01*length - encountered;\n " \
-                    #                 +"reading", self.what, "data;\n "       \
-                    #                 +"for-loop aborted at \n"+filepath
-                    #         return 0
-
             except IOError:
                 self.readLoopError(filepath, 2, 2, i)
                 pass
@@ -307,7 +298,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
 
     def read_subhalo(self):
         """
-        Reads subhalo id and tab files.
+        Reads subhalo id and tab files. But not in that order.
         """
         indrapath = self.dsp + "/indra%d/%d_%d_%d" \
             % (self.indraN, self.indraN, self.iA, self.iB)
@@ -323,7 +314,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         
         self.missingfiles = 0
         maxfileCount_stb  = self.findCount(stb)
-        for i in N.arange(0, maxfileCount_stb +1): # [0, 255]   
+        for i in N.arange(0, maxfileCount_stb + 1): 
             """
             will cover all files.
             in case an intermediate file is missing, have an option ready.
@@ -331,42 +322,32 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
             """
             filepath = stb + str(i)
             
-            with open(filepath, 'rb') as openfile:
-                
-                try:
-                    # sTc_output = self.sub_Totes_counter(openfile, TotNsubs)
-                    # Ngroups, Nids, TotNgroups, NSubs, TotNsubs = sTc_output
-
-                    # Rewriting this loop's contents into a function,
-                    # is _not strictly very necessary_.
-                    # The loop's contents is short enough.
-                    # Will function as a good check for the tab-files, though.
-                    # Keeping the check, simplifying:
-
+            try:
+                with open(filepath, 'rb') as openfile:
+                    " Building NSubs' value "
                     Ngroups, Nids, TotNgroups, NTask, NSubs = \
-                                        N.fromfile(openfile, N.int32, 5)
-                    openfile.close()
+                        N.fromfile(openfile, N.int32, 5)
                     TotNsubs += NSubs
-                    pass
+                    openfile.close()
+                pass
 
-                except IOError:
-                    self.readLoopError(filepath, 1, 3, i)
-                    pass
-
+            except IOError:
+                self.readLoopError(filepath, 1, 3, i)
+                pass
 
             continue
-        """    
+        """
         ### ----------------------- END OF LOOP 1/3 ABOVE
         ### TotNsubs NOW FOUND, as well as TotNgroups from last iteration
         ### ----------------------- NEXT LOOP   2/3 BELOW
         """
         skip        = 0
         count       = 0
-        count_sub   = 0     # only used in commented lines
+        count_sub   = 0     # Is only used in commented lines
         # next declarations: necessary? -------------------------\
-        SubLen      = N.zeros(TotNsubs, dtype=N.int32)          #| DNC
-        SubOffset   = N.zeros(TotNsubs, dtype=N.int32)          #| DNC
-        M200        = N.zeros(TotNgroups, dtype=N.float32)      #| DNC
+        SubLen      = N.zeros(TotNsubs,       dtype=N.int32)    #| DNC
+        SubOffset   = N.zeros(TotNsubs,       dtype=N.int32)    #| DNC
+        M200        = N.zeros(TotNgroups,     dtype=N.float32)  #| DNC
         # pos         = N.zeros(TotNgroups*3, dtype=N.float32)    #| DNC
         pos         = N.zeros((TotNgroups,3), dtype=N.float32)  #| DNC
         # -------------------------------------------------------/
@@ -374,20 +355,20 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         for i in N.arange(0, maxfileCount_stb + 1): # [0, 255]
 
             filepath = stb + str(i)
+            try:
 
-            with open(filepath, 'rb') as openfile:
-
-                try:
-                    sts_output = self.sub_tab_sifter(openfile, SubLen, \
-                                 SubOffset, M200, count, count_sub, pos, skip, i)
+                with open(filepath, 'rb') as openfile:
+                    sts_output = self.sub_tab_sifter(
+                        openfile, SubLen, SubOffset, M200, 
+                        count, count_sub, pos, skip, i
+                    )
                     SubLen, SubOffset, M200, count, count_sub, pos, skip = sts_output
-                    pass
-                except IOError:
-                    self.readLoopError(filepath, 2, 3, i)
-                    pass
-            continue
-        # pos = N.reshape(pos, ) # Can't do it until it's filled!:)
+                pass
 
+            except IOError:
+                self.readLoopError(filepath, 2, 3, i)
+                pass
+            continue
 
         # mass_sub  = mass_sub[ 0:count_sub-1 ]
         # pos_sub   = pos_sub[ : , 0:count_sub-1 ]
@@ -400,49 +381,43 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         ;-------load all of the IDs
         ### ----------------------- NEXT LOOP   3/3 BELOW
         """
-        self.loadIDs = True # implement user argument if wanted.
-
-        if keyword_set(self.loadIDs):
             
-            if self.bssdt == True: # Big Skip ShutDown Toggle
-                self.sub_asks_for_length = True ### should be logical consequence.
-                self.read_FOF() # LDT - need to run a section of FOF to get this
-                                      # one.
-            skip    = 0
-            self.missingfiles = 0
-            maxfileCount_sid  = self.findCount(sid)
+        if self.bssdt == True: # Big Skip ShutDown Toggle
+            self.sub_asks_for_length = True ### should be logical consequence.
+            self.read_FOF() # LDT - need to run a section of FOF to get this
+                            # one.
+        skip    = 0
+        self.missingfiles = 0
+        maxfileCount_sid  = self.findCount(sid)
 
-            for i in range(0, self.subidCount + 1):
- 
-                filepath = sid + str(i)
+        for i in range(0, self.subidCount + 1):
+
+            filepath = sid + str(i)
+            try:
                 with open(filepath, 'rb') as openfile:
+                    sis_output = self.sub_ids_sifter(
+                        openfile, TotNsubs, nnn, other, IDs, i, skip
+                    )
+                    dummy, IDs = sis_output
+                
+                    if self.bssdt == True:
+                        if skip > 1.01*self.length: # LDT !
+                            print "\n skip > 1.01*length - encountered;\n " \
+                                    +"reading", self.what, "data;\n "       \
+                                    +"for-loop aborted at \n"+filepath
+                            return 0
+                pass
 
-                    try:
-                        sis_output = self.sub_ids_sifter(openfile, \
-                                                         TotNsubs, n, other, IDs, i, skip)
-                        # exactly what output/input is needed?
-                        dummy, IDs = sis_output
-                        # DO SOMETHING ABOUT THIS (,) DUMMY! (heh, gedit?)
-                        # need matrices for these variables to be stored in?
-                        # file storage probably better
-                    
-                        if self.bssdt == True:
-                            if skip > 1.01*self.length: # LDT !
-                                print "\n skip > 1.01*length - encountered;\n " \
-                                        +"reading", self.what, "data;\n "       \
-                                        +"for-loop aborted at \n"+filepath
-                                return 0
+            except IOError:
+                self.readLoopError(filepath, 3, 3, i)
+                pass
 
-                    except IOError:
-                        self.readLoopError(filepath, 3, 3, i)
-                        pass
-                continue
-            pass
+            continue
 
         print "Finished reading '"+str(self.what)+"', indra"                \
                 +str(self.indraN)+', iA='+str(self.iA)+', iB='+str(self.iB) \
                 +', snapshot='+str(self.subfolder)
-        return 0 # stenger
+        return 0 
 
     def read_FFT(self):
         """
