@@ -207,8 +207,9 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
 
         get_aheader = gtb + str(0) # First file in sequence
         with open(get_aheader, 'rb'):
-            " Opens first file and retrieves only relevant header info "            
-            glgo_lengths = N.fromfile(f, N.int32, 4)[2] # 'TotNgroups' var.
+            " Opens first file and retrieves only relevant header info "
+            # , as in, the 'TotNgroups' variable
+            glgo_lengths = N.fromfile(get_aheader, N.int32, 4)[2] 
             self.GroupLen    = N.zeros(glgo_lengths, dtype=N.int32)
             self.GroupOffset = N.zeros(glgo_lengths, dtype=N.int32)
             get_aheader.close()
