@@ -206,13 +206,13 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         self.GroupOffset = None # just to be thorough.
 
         get_aheader = gtb + str(0) # First file in sequence
-        with open(get_aheader, 'rb'):
+        with open(get_aheader, 'rb') as openfile:
             " Opens first file and retrieves only relevant header info "
             # , as in, the 'TotNgroups' variable
-            glgo_lengths = N.fromfile(get_aheader, N.int32, 4)[2] 
+            glgo_lengths = N.fromfile(openfile, N.int32, 4)[2] 
             self.GroupLen    = N.zeros(glgo_lengths, dtype=N.int32)
             self.GroupOffset = N.zeros(glgo_lengths, dtype=N.int32)
-            get_aheader.close()
+            openfile.close()
 
         print " Browsing FOF-files (tabs):"
         print """\
