@@ -406,10 +406,14 @@ if __name__ == '__main__':
     
     indraNs   = pl.array([2])
     indraAs   = pl.array([0])
-    indraBs   = pl.array([2,3])
+    indraBs   = pl.array([0])
     tempfolds = pl.array([True])
 
-    snapfiles = pl.arange(0,64) # the actual interesting range
+    snapfiles = pl.array(1,2,3,4,5,6, 
+        8,9,10,11,12,13, 
+        15,16,17,18,19,20, 
+        22,23,24,25,26
+        )
 
     main(   iNs=indraNs, iAs=indraAs, iBs=indraBs, sfs=snapfiles, tmpfs=tempfolds  )
     

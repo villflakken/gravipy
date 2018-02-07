@@ -203,9 +203,9 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         self.GroupLen    = None # Declare first to clear namespace,
         self.GroupOffset = None # just to be thorough.
 
+        " Opens first file of snapshot set; retrieve partial header info "
         get_aheader = gtb + str(0) # First file in sequence
         with open(get_aheader, 'rb') as openfile:
-            " Opens first file of snapshot set; retrieve partial header info "
             # , as in, the 'TotNgroups' variable
             glgo_lengths = N.fromfile(openfile, N.int32, 4)[2] 
             self.GroupLen    = N.zeros(glgo_lengths, dtype=N.int32)

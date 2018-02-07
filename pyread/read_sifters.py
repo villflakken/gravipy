@@ -199,23 +199,31 @@ class Sifters(object):
         if Nids > 0:
             locIDs = N.fromfile(f, N.int64, Nids)  # LIDA 
 
-            try:
-                self.IDs[ skip:skip+Nids ] = N.bitwise_and(locIDs[:], self.bitshiftmask)
-                skip += Nids  # \___|: Reading binary/bitwise. Not all of the data
-                pass          #  \__|  is what we're actually looking for.
+            self.IDs[ skip:skip+Nids ] = N.bitwise_and(
+                locIDs[:], self.bitshiftmask
+            )
+            # try:
+            #     self.IDs[ skip:skip+Nids ] = N.bitwise_and(
+            #         locIDs[:] ,
+            #         self.bitshiftmask
+            #     )
+            #     skip += Nids  # \___|: Reading binary/bitwise. Not all of the data
+            #     pass          #  \__|  is what we're actually looking for.
 
-            except:
-                self.objectDebug_print(self.GroupLen, "self.GroupLen")
-                self.objectDebug_print(TotNids, "TotNids")
-                print " --- --- --- --- --- --- --- --- --- "
-                self.objectDebug_print(Nids, "Nids")
-                self.objectDebug_print(locIDs, "locIDs")
-                self.objectDebug_print(skip, "skip")
-                self.objectDebug_print(self.IDs, "self.IDs")
-                self.objectDebug_print(N.bitwise_and(locIDs[:], self.bitshiftmask), "bitwise-result")
+            # except:
+            #     self.objectDebug_print(self.GroupLen, "self.GroupLen")
+            #     self.objectDebug_print(TotNids, "TotNids")
+            #     print " --- --- --- --- --- --- --- --- --- "
+            #     self.objectDebug_print(Nids, "Nids")
+            #     self.objectDebug_print(locIDs, "locIDs")
+            #     self.objectDebug_print(skip, "skip")
+            #     self.objectDebug_print(self.IDs, "self.IDs")
+            #     self.objectDebug_print(N.bitwise_and(locIDs[:],
+            #     self.bitshiftmask), "bitwise-result")
 
-                self.bep()
-                sys.exit("  *** abort *** ")
+            #     self.bep()
+            #     sys.exit("  *** abort *** ")
+            pass
 
         f.close()
         return skip
