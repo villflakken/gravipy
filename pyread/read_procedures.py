@@ -205,7 +205,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
 
         get_aheader = gtb + str(0) # First file in sequence
         with open(get_aheader, 'rb') as openfile:
-            " Opens first file and retrieves only relevant header info "
+            " Opens first file of snapshot set; retrieve partial header info "
             # , as in, the 'TotNgroups' variable
             glgo_lengths = N.fromfile(openfile, N.int32, 4)[2] 
             self.GroupLen    = N.zeros(glgo_lengths, dtype=N.int32)
@@ -224,29 +224,29 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         for i in N.arange(0, iterLen):
 
             filepath = gtb + str(i)
-            with open(filepath, 'rb') as openfile:
-                
-                try:
+            try:
+                with open(filepath, 'rb') as openfile:
                     fts_output = self.fof_tab_sifter(openfile, i, skip)
                     Ngroups, Nids, TotNgroups, skip = fts_output
+                    
                     Ngroups_thusfar[i] = Ngroups
-                    pass
+                    itertext = readtext.format( 
+                        i,
+                        Nids,
+                        Ngroups,
+                        N.sum(Ngroups_thusfar),
+                        TotNgroups,
+                        N.sum(Ngroups_thusfar[:i+1]) \
+                            *100./float(TotNgroups)  \
+                                if TotNgroups > 0 else 0
+                    )
+                    self.itertextPrinter(itertext, i, iterLen, 10)
+                pass
 
-                except IOError:
-                    self.readLoopError(filepath, 1, 2, i)
-                    pass
+            except IOError:
+                self.readLoopError(filepath, 1, 2, i)
+                pass
 
-            itertext = readtext.format( 
-                i,
-                Nids,
-                Ngroups,
-                N.sum(Ngroups_thusfar),
-                TotNgroups,
-                N.sum(Ngroups_thusfar[:i+1])\
-                 *100./float(TotNgroups)
-            )
-
-            self.itertextPrinter(itertext, i, iterLen, 10)
             continue
 
         # print "\n", "TotNgroups    =", TotNgroups, \
