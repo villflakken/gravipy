@@ -212,8 +212,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
             self.GroupOffset = N.zeros(glgo_lengths, dtype=N.int32)
             openfile.close()
 
-        print " Browsing FOF-files (tabs):"
-        print """\
+        headertext = """ Browsing FOF-files (tabs):\
         ---------------------------------------------------------------------
         |  i  | NIDs    | Ngroups | sum(Ngroups) | TotNgroups | Completion: |
         ---------------------------------------------------------------------"""
@@ -230,7 +229,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
                     Ngroups, Nids, TotNgroups, skip = fts_output
                     
                     Ngroups_thusfar[i] = Ngroups
-                    itertext = readtext.format( 
+                    itertext = headertext + readtext.format( 
                         i,
                         Nids,
                         Ngroups,
@@ -240,11 +239,10 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
                             *100./float(TotNgroups)  \
                                 if TotNgroups > 0 else 0
                     )
-                    if self.subfolder % self.printNth == 0:
+                    if self.subfolder % 7 == 0:
                         " Don't print for every subfolder "
                         self.itertextPrinter(itertext, i, iterLen, 10)
                         pass
-                    
                 pass
 
             except IOError:
