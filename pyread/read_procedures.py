@@ -298,7 +298,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         print "  * Browsing FOF-files (IDs): Complete"
 
 
-        print " * Finished reading '"+str(self.what)+"', indra"       \
+        print " => Finished reading '"+str(self.what)+"', indra"       \
                 +str(self.indraN)+', iA='+str(self.iA)+', iB='+str(self.iB)  \
                 +', snapshot='+str(self.subfolder)
         
