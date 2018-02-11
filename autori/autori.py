@@ -410,11 +410,13 @@ if __name__ == '__main__':
     tempfolds = pl.array([True])
 
     snapfiles = pl.array(
-        [1,2,3,4,5,6, 
-            8,9,10,11,12,13, 
-            15,16,17,18,19,20, 
-            22,23,24,25,26]
-        ) # the actual interesting range
+        [   
+            1,   2,  3,  4,  5,  6, 
+            8,   9, 10, 11, 12, 13, 
+            15, 16, 17, 18, 19, 20, 
+            22, 23, 24, 25, 26
+        ]
+    ) # the actual interesting range
 
     main(   iNs=indraNs, iAs=indraAs, iBs=indraBs, sfs=snapfiles, tmpfs=tempfolds  )
     

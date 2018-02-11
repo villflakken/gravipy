@@ -286,12 +286,10 @@ class readDo(readArgs, readProcedures):
         Stores the data into some kind of logical structure
         (? - feedback needed)
 
-        #########################
-        ### Current proposal: ###
-        #########################
+        ### Current proposal:
         3-leveled/indexed nested dictionary structure, shown below
         
-        output_dataset      # variable stored to outside script
+        output_dataset  # -> variable stored to outside (of this) script
             |
             |--> ["{task/data category}"]
                           |
@@ -300,39 +298,44 @@ class readDo(readArgs, readProcedures):
                                       |--> ["{snapshotnumber}"]
                                                     |
                                                     |--> parsed_data
+        - where 'parsed_data' as a variable contains
+        several items from the reading of a snapshot's data
+        (pertaining to the data type/category/"task").
 
-        # Where 'parsed_data' as a variable contains
-        # several items from the reading of a snapshot's data
-        # (pertaining to the data type/category/"task").
-
-        # Current function may contain some redundant variables,
-        # for better readability.
+        # Current function contains redundancies,
+        # readability attempt.
         """
-        task =     self.what    # ----> Outermost dictionary key 
-                                #      (already string).
-        iN   = str(self.indraN) # ----> Together, these 3 form the middle key.
-        iA   = str(self.iA)     # --^
-        iB   = str(self.iB)     # -^
-        num  = str(num)         # ----> Innermost key.
+        task =     self.what    # -- --> Outermost dictionary key 
+                                  #              (already string).
+        iN   = str(self.indraN) # -- --> Together, these 3 form the middle key
+        iA   = str(self.iA)       # --^
+        iB   = str(self.iB)       # -^
+        num  = str(num)         # -- --> Innermost key.
 
         indra = iN+iA+iB        # Readability.
 
         if task not in self.datadict.keys():
-            " First declare of task-key "
-            # self.datadict.update() #?
-            self.datadict[task] = {indra : {num : parsed_data}}
             
-            if indra not in self.datadict[task].keys():
-                " First declare of indra-key "
-                self.datadict[task][indra] = {num : parsed_data}
-        
-                if num not in self.datadict[task][indra].keys():
-                    " First declare of num-key "
-                    self.datadict[task][indra][num] = parsed_data 
+            " Declaration of task-name-key "
+            self.datadict[task] = { indra : { num : parsed_data } }
+            pass # Out of 1st if's IF block
 
-                    pass
-                pass
-            pass
+        else:
+
+            " Case: dict already has the task-name-key "
+            if indra not in self.datadict[task].keys():
+                
+                " Declaration of indra-key "
+                self.datadict[task][indra] = { num : parsed_data }
+                pass # Out of 2nd if's IF block
+
+            else:
+
+                " Case: dict already has indra-key "
+                self.datadict[task][indra][num] = parsed_data
+                pass # Out of 2nd if's ELSE block
+
+            pass # Out of 1st if's ELSE block
 
         return 0
 
