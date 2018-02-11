@@ -246,7 +246,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
                     )
                     if self.subfolder % 7 == 0:
                         " Don't print for every subfolder "
-                        self.itertextPrinter(itertext, i, iterLen, 7)
+                        self.itertextPrinter(itertext, i, iterLen, 50)
                         pass
                 pass
 
