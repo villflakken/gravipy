@@ -205,7 +205,7 @@ class MiscTools(object):
             pass
         else:
             # Output reduction:
-            if i % (self.printNth*modifier) == 0:
+            if i % (modifier) == 0:
                 print itertext
                 pass
             elif i == (iterLen-1):

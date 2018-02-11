@@ -73,7 +73,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
                 with open(filepath, 'rb') as openfile:
                     itertext = readtext.format( self.indraN, tmpftxt, 
                                                 self.subfolder, i, self.what )
-                    self.itertextPrinter(itertext, i, iterLen, 10)
+                    self.itertextPrinter(itertext, i, iterLen, 50)
                     
                     pos, vel, IDsArr, Npart, scalefact, redshift = \
                         self.posvel_sifter(openfile)
@@ -212,11 +212,16 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
             self.GroupOffset = N.zeros(glgo_lengths, dtype=N.int32)
             openfile.close()
 
-        headertext = """ Browsing FOF-files (tabs):\n
+        headertext = """ Browsing FOF-files (tabs):
         ---------------------------------------------------------------------
         |  i  | NIDs    | Ngroups | sum(Ngroups) | TotNgroups | Completion: |
         ---------------------------------------------------------------------"""
-        readtext = """\n
+        if self.subfolder % 7 == 0:
+            " Don't print for every subfolder "
+            print headertext
+            pass
+
+        readtext = """\
         | {0:>3d} | {1:>7d} | {2:>7d} | {3:>12d} | {4:>10d} | {5:>9.2f}%  |
         ---------------------------------------------------------------------"""
 
@@ -229,7 +234,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
                     Ngroups, Nids, TotNgroups, skip = fts_output
                     
                     Ngroups_thusfar[i] = Ngroups
-                    itertext = headertext + readtext.format( 
+                    itertext = readtext.format( 
                         i,
                         Nids,
                         Ngroups,
@@ -241,7 +246,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
                     )
                     if self.subfolder % 7 == 0:
                         " Don't print for every subfolder "
-                        self.itertextPrinter(itertext, i, iterLen, 10)
+                        self.itertextPrinter(itertext, i, iterLen, 7)
                         pass
                 pass
 
