@@ -240,7 +240,11 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
                             *100./float(TotNgroups)  \
                                 if TotNgroups > 0 else 0
                     )
-                    self.itertextPrinter(itertext, i, iterLen, 10)
+                    if self.subfolder % self.printNth == 0:
+                        " Don't print for every subfolder "
+                        self.itertextPrinter(itertext, i, iterLen, 10)
+                        pass
+                    
                 pass
 
             except IOError:
