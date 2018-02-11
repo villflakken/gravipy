@@ -197,8 +197,8 @@ class MiscTools(object):
     def itertextPrinter(self, itertext, i, iterLen, modifier):
         " Less spam in terminal window "
         print 
-        print "lessprint                    :", self.lessprint
-        print "i % (self.printNth*modifier) :", i % (self.printNth*modifier)
+        print "lessprint                         :", self.lessprint
+        print "i % (self.printNth*modifier) == 0 :", i % (self.printNth*modifier) == 0
         if self.boolcheck(self.lessprint) == False:
             # No output reduction:
             print itertext
