@@ -212,7 +212,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
             self.GroupOffset = N.zeros(glgo_lengths, dtype=N.int32)
             openfile.close()
 
-        headertext = """ Browsing FOF-files (tabs):
+        headertext = """  * Browsing FOF-files (tabs):
         ---------------------------------------------------------------------
         |  i  | NIDs    | Ngroups | sum(Ngroups) | TotNgroups | Completion: |
         ---------------------------------------------------------------------"""
@@ -255,6 +255,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
                 pass
 
             continue
+        print "  * Browsing FOF-files (tabs): Complete"
 
         # print "\n", "TotNgroups    =", TotNgroups, \
         #       "\n\nLargest group of length ", self.length
@@ -271,7 +272,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         maxfileCount_gid = self.findCount(gid)
         iterLen          = maxfileCount_gid + 1
 
-        print "\n Browsing FOF-files (IDs):"
+        print "\n  * Browsing FOF-files (IDs):"
         for i in N.arange(0, iterLen):
             """
             will cover all files.
@@ -294,9 +295,10 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
                 pass
 
             continue
+        print "  * Browsing FOF-files (IDs): Complete"
 
 
-        print "Finished reading '"+str(self.what)+"', indra"       \
+        print " * Finished reading '"+str(self.what)+"', indra"       \
                 +str(self.indraN)+', iA='+str(self.iA)+', iB='+str(self.iB)  \
                 +', snapshot='+str(self.subfolder)
         
