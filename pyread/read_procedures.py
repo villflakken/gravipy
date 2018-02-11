@@ -212,7 +212,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
             self.GroupOffset = N.zeros(glgo_lengths, dtype=N.int32)
             openfile.close()
 
-        headertext = """ Browsing FOF-files (tabs):\
+        headertext = """ Browsing FOF-files (tabs):\n
         ---------------------------------------------------------------------
         |  i  | NIDs    | Ngroups | sum(Ngroups) | TotNgroups | Completion: |
         ---------------------------------------------------------------------"""
