@@ -225,7 +225,8 @@ def origami_caller(iN, iA, iB, tmpf, pfpathsList):
         " Loopy-loop's commencement! "
 
         time_iter_start = time.time()
-        print "| --- --- ---: Analyzing snapshot: {sf:02d} :--- --- ---".format(sf=i)
+        print "| --- --- ---: Analyzing snapshot: {sf:>2d}/{sft:02d} :--- --- ---"\
+            .format(sf=i, sft=len(pfpathsList))
 
         # Subprocess call details
         commandstring_i = ocall_templ.format(homepath=homepath, pfpath=pfpathsList[i])
