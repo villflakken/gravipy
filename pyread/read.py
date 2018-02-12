@@ -305,14 +305,14 @@ class readDo(readArgs, readProcedures):
         # Current function contains redundancies,
         # readability attempt.
         """
-        task =     self.what            # -- --> Outermost dictionary key 
-                                            #   (already string).
-        iN   = str(self.indraN)         # -- --> These 3 form the middle key
-        iA   = str(self.iA)               # --^
-        iB   = str(self.iB)               # -^
-        indra = "{0:03d}".format((iN+iA+iB))    # Formatting & code readability
+        task  =     self.what       # -- --> Outermost dictionary key 
+                                       #   (already string).
+        iN    = self.indraN         # -- --> These 3 form the middle key
+        iA    = self.iA             # --^
+        iB    = self.iB             # -^
+        indra = "{0:1d}{1:1d}{2:1d}".format(iNiAiB) # Formatting & code readability
         
-        num  = "{0:02d}".format(num)    # -- --> Innermost key.
+        num   = "{0:02d}".format(num)   # -- --> Innermost key.
 
         if task not in self.datadict.keys():
             
