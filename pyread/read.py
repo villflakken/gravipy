@@ -310,8 +310,8 @@ class readDo(readArgs, readProcedures):
         iN    = self.indraN         # -- --> These 3 form the middle key
         iA    = self.iA             # --^
         iB    = self.iB             # -^
-        indra = "{0:1d}{1:1d}{2:1d}".format(iNiAiB) # Formatting & code readability
-        
+        indra = "{0:1d}{1:1d}{2:1d}".format(iN,iA,iB)
+                
         num   = "{0:02d}".format(num)   # -- --> Innermost key.
 
         if task not in self.datadict.keys():
