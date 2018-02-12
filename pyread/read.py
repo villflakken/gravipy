@@ -305,14 +305,14 @@ class readDo(readArgs, readProcedures):
         # Current function contains redundancies,
         # readability attempt.
         """
-        task =     self.what    # -- --> Outermost dictionary key 
-                                  #              (already string).
-        iN   = str(self.indraN) # -- --> Together, these 3 form the middle key
-        iA   = str(self.iA)       # --^
-        iB   = str(self.iB)       # -^
-        num  = str(num)         # -- --> Innermost key.
-
-        indra = iN+iA+iB        # Readability.
+        task =     self.what            # -- --> Outermost dictionary key 
+                                            #   (already string).
+        iN   = str(self.indraN)         # -- --> These 3 form the middle key
+        iA   = str(self.iA)               # --^
+        iB   = str(self.iB)               # -^
+        indra = "{0:03d}".format((iN+iA+iB))    # Formatting & code readability
+        
+        num  = "{0:02d}".format(num)    # -- --> Innermost key.
 
         if task not in self.datadict.keys():
             
@@ -362,7 +362,7 @@ class readDo(readArgs, readProcedures):
         """
         if   self.multiset == "wipe":
             " No need to return anything "
-            return 0
+            pass
 
         elif self.multiset == "store":
             " Small set is returned "

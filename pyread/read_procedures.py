@@ -48,10 +48,10 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         # + particular count, comes in the for-loop ## dataset and indra path
         maxfileCount = self.findCount(snappath)
         iterLen      = maxfileCount + 1
-        """
-        Total no. of particles is set.
-        """
+        
+        " Total no. of particles is set: "
         Npart_tot = 1024**3
+        
         posA      = N.zeros( (Npart_tot,3), dtype=N.float32 )
         velA      = N.zeros( (Npart_tot,3), dtype=N.float32 )
         IDsA      = N.zeros(  Npart_tot   , dtype=N.int64   )
