@@ -456,7 +456,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         """
         Reads ORIGAMI's data output
         """
-        # --- --- --- --- Solely for filename/path mgmt
+        # --- --- --- --- Solely for data's filename/path mgmt
 
         oridatpath = self.origamiPathParser()
 
@@ -470,13 +470,13 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
             with open(oridatpath, 'rb') as openfile:
                 # Npart, tag = self.origami_sifter(openfile)
                 Npart = N.fromfile(openfile, N.int32, 1)
-                tag   = N.fromfile(openfile, N.int8, Npart)
+                tags  = N.fromfile(openfile, N.int8, Npart)
             pass
 
         except IOError:
             sys.exit(ori_open_error_str)
 
-        return tag, Npart
+        return tags, Npart
 
 
     def read_time(self):
