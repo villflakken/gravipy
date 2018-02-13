@@ -161,6 +161,7 @@ class readDo(readArgs, readProcedures):
                             if task != "fft":
                                 " When task is non-fft-related. "
                                 self.subfolder = num
+                                print "self.subfolder =", self.subfolder # DT
                                 pass
 
                             else:
@@ -311,7 +312,7 @@ class readDo(readArgs, readProcedures):
         iA    = self.iA             # --^
         iB    = self.iB             # -^
         indra = "{0:1d}{1:1d}{2:1d}".format(iN,iA,iB)
-                
+
         num   = "{0:02d}".format(num)   # -- --> Innermost key.
 
         if task not in self.datadict.keys():

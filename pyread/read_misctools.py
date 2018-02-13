@@ -90,6 +90,8 @@ class MiscTools(object):
         
         print "indraNAB:"                                                     #
         print iN, iA, iB                                                      #
+        print "sf:"                                                           #
+        print sf                                                              #
         print                                                                 #
 
         if self.origamipath == False:
@@ -127,7 +129,9 @@ class MiscTools(object):
 
         print oridatpath                                                       # DT
         print                                                                  # DT
+        
         return oridatpath
+
 
     def auto_outputPather(self, num):
         """
