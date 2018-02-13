@@ -125,6 +125,9 @@ class AutoTools(object):
 
     def sketch_of_storager(self, parsed_data, num):
         """
+        # Sketching code with 2 algorithms,
+        # which should be equivalent.
+
         Stores the data into some kind of logical structure
         (? - feedback needed)
 

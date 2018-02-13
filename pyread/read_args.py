@@ -175,7 +175,7 @@ class readArgs(object):
             if key == "sfset":
                 """
                 At the moment, it's useful to determine whether 'sf'
-                should be a set / range -: !!!Pre-emptively!!!
+                should be a set/range  **___pre-emptively___**  !
                 """
                 # print "key:", key
                 # print key, "in self.read_params.keys()?:"

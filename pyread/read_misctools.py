@@ -87,6 +87,10 @@ class MiscTools(object):
         iB  = self.iB
         sf  = self.subfolder
         tmp = "tmp" if self.tmpfolder == True else ""
+        
+        print "indraNAB:"                                                     #
+        print iN, iA, iB                                                      #
+        print                                                                 #
 
         if self.origamipath == False:
             # File name must be generated
@@ -107,17 +111,22 @@ class MiscTools(object):
             " Add the strings to complete the path "
             oridatpath = foldp  + filen
             # print oridatpath                                                #
+            print " Aut.ly gen.ed indra-path:"
             pass
 
         elif isinstance(self.origamipath, str) == True:
             " User has provided file path "
             oridatpath = self.origamipath
+            print " User-provided indra-path:"                                 #
             pass
 
         else:
             " Invalid origamipathing "
             sys.exit("\n\t Let program generate origamipath," \
                         +" or specify the origamipath.")
+
+        print oridatpath                                                       # DT
+        print                                                                  # DT
         return oridatpath
 
     def auto_outputPather(self, num):
@@ -291,7 +300,7 @@ class MiscTools(object):
         ... Outdated; useless?!?
             ... Just in case.
         """
-        errorstring =         """
+        errorstring = """
         Whilst reading {0} dataset,
         Filepath :    {1}  ;
         Reading loop: {2}/{3} ;
