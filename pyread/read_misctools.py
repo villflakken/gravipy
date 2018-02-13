@@ -65,15 +65,16 @@ class MiscTools(object):
             # Path structure for SciServer's Jupyter stuff
             indrapath = "/workspace/indra/{0:d}_{1:d}_{2:d}"
             indrapath = indrapath.format( self.indraN, self.iA, self.iB )
+            # Before I made origamiPathParser, below stuff was shortcut:
 
-            self.origamipath = \
-                "workspace/indra/origami/i{0:1d}{1:1d}{2:1d}{3:s}/i{0:1d}{1:1d}{2:1d}{3:s}_sf{4:02d}_tag.dat"
-            self.origamipath = self.origamipath\
-                .format(
-                            self.indraN , self.iA , self.iB , 
-                            "tmp" if self.tmpfolder == True else "" ,
-                            self.subfolder
-                       )
+            # self.origamipath = \
+            #     "workspace/indra/origami/i{0:1d}{1:1d}{2:1d}{3:s}/i{0:1d}{1:1d}{2:1d}{3:s}_sf{4:02d}_tag.dat"
+            # self.origamipath = self.origamipath\
+            #     .format(
+            #                 self.indraN , self.iA , self.iB , 
+            #                 "tmp" if self.tmpfolder == True else "" ,
+            #                 self.subfolder
+            #            )
             pass
 
         return indrapath
@@ -88,15 +89,15 @@ class MiscTools(object):
         sf  = self.subfolder
         tmp = "tmp" if self.tmpfolder == True else ""
 
-        print " 1up :", self.funcNameOver("1up")                            #
-        print "here :", self.funcNameOver("here")                           #
-        print "indraNAB:"                                                   #
-        print iN, iA, iB                                                    #
-        print "sf:"                                                         #
-        print sf                                                            #
-        print "self.origamipath:"                                           #
-        print self.origamipath                                              #
-        print                                                               #
+        # print " 1up :", self.funcNameOver("1up")                            #
+        # print "here :", self.funcNameOver("here")                           #
+        # print "indraNAB:"                                                   #
+        # print iN, iA, iB                                                    #
+        # print "sf:"                                                         #
+        # print sf                                                            #
+        # print "self.origamipath:"                                           #
+        # print self.origamipath                                              #
+        # print                                                               #
         
         if self.origamipath == False:
             # File name must be generated
@@ -117,13 +118,13 @@ class MiscTools(object):
             " Add the strings to complete the path "
             oridatpath = foldp  + filen
             # print oridatpath                                                #
-            print " Aut.ly gen.ed indra-path:"                              #
+            print " Aut.ly gen.ed origamipath:"                              #
             pass
 
         elif isinstance(self.origamipath, str) == True:
             " User has provided file path "
             oridatpath = self.origamipath
-            print " User-provided indra-path:"                              #
+            print " User-provided origamipath:"                              #
             pass
 
         else:

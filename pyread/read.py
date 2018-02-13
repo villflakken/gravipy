@@ -161,7 +161,7 @@ class readDo(readArgs, readProcedures):
                             if task != "fft":
                                 " When task is non-fft-related. "
                                 self.subfolder = num
-                                print "self.subfolder =", self.subfolder # DT
+                                # print "self.subfolder =", self.subfolder # DT
                                 pass
 
                             else:
