@@ -55,12 +55,12 @@ def read_ini( what = "pos",   indraN = 0, iA = 0, iB=0,
 
     tmp = sp.call('clear',shell=True)
 
-    ini = readDo()                # Initialize!
-    ini.read_params = data_params # Set params
+    ini = readDo()                  # Initialize!
+    ini.read_params = data_params   # Set params
     " 1. "
-    ini.callArgsChecker()         # Verify values
+    ini.callArgsChecker()           # Verify values
     " 2. "
-    return ini.beginReading(), ini     # Do the thing
+    return ini.beginReading(), ini  # Do the thing
 
 
 class readDo(readArgs, readProcedures):

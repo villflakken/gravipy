@@ -87,13 +87,17 @@ class MiscTools(object):
         iB  = self.iB
         sf  = self.subfolder
         tmp = "tmp" if self.tmpfolder == True else ""
-        
-        print "indraNAB:"                                                     #
-        print iN, iA, iB                                                      #
-        print "sf:"                                                           #
-        print sf                                                              #
-        print                                                                 #
 
+        print " 1up :", self.funcNameOver("1up")                            #
+        print "here :", self.funcNameOver("here")                           #
+        print "indraNAB:"                                                   #
+        print iN, iA, iB                                                    #
+        print "sf:"                                                         #
+        print sf                                                            #
+        print "self.origamipath:"                                           #
+        print self.origamipath                                              #
+        print                                                               #
+        
         if self.origamipath == False:
             # File name must be generated
             " Inital folder path, assuming on idies/SciServer machine "
@@ -113,13 +117,13 @@ class MiscTools(object):
             " Add the strings to complete the path "
             oridatpath = foldp  + filen
             # print oridatpath                                                #
-            print " Aut.ly gen.ed indra-path:"
+            print " Aut.ly gen.ed indra-path:"                              #
             pass
 
         elif isinstance(self.origamipath, str) == True:
             " User has provided file path "
             oridatpath = self.origamipath
-            print " User-provided indra-path:"                                 #
+            print " User-provided indra-path:"                              #
             pass
 
         else:
@@ -127,8 +131,8 @@ class MiscTools(object):
             sys.exit("\n\t Let program generate origamipath," \
                         +" or specify the origamipath.")
 
-        print oridatpath                                                       # DT
-        print                                                                  # DT
+        print oridatpath                                                    # DT
+        print                                                               # DT
         
         return oridatpath
 
