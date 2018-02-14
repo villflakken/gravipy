@@ -21,10 +21,11 @@ class MiscTools(object):
             Aborting!
             =========
             """
+        
         self.printNth = 5
+
         if sys.platform in ("linux", "linux2"):
             self.uname = os.path.expanduser("~")+"/"
-
             pass
 
         elif sys.platform in ("win32", "win64"):
@@ -33,6 +34,7 @@ class MiscTools(object):
 
         else:
             sys.exit("Error in UserTools' init.")
+
         """
         End of init
         """
@@ -51,20 +53,24 @@ class MiscTools(object):
                 " Inserts 'tmp' into address line, i.e.: "
                 " /indra{iN}{_tmp}/{iN}_{iA}_{iB} "
                 indrapath = indrapath.format(
-                                self.indraN, "_tmp", self.iA, self.iB )
+                    self.indraN, "_tmp", self.iA, self.iB
+                )
                 pass
 
             else:
                 " /indra{iN}{}/{iN}_{iA}_{iB} "
                 print "normal folders acknowledged."
                 indrapath = indrapath.format(
-                                self.indraN, "", self.iA, self.iB )
+                    self.indraN, "", self.iA, self.iB
+                )
                 pass
             
         elif self.onIdies == True:
             # Path structure for SciServer's Jupyter stuff
             indrapath = "/workspace/indra/{0:d}_{1:d}_{2:d}"
-            indrapath = indrapath.format( self.indraN, self.iA, self.iB )
+            indrapath = indrapath.format(
+                self.indraN, self.iA, self.iB
+            )
             # Before I made origamiPathParser, below stuff was shortcut:
 
             # self.origamipath = \
@@ -118,13 +124,13 @@ class MiscTools(object):
             " Add the strings to complete the path "
             oridatpath = foldp  + filen
             # print oridatpath                                                #
-            print " Aut.ly gen.ed origamipath:"                              #
+            # print " Aut.ly gen.ed origamipath:"                             #
             pass
 
         elif isinstance(self.origamipath, str) == True:
             " User has provided file path "
             oridatpath = self.origamipath
-            print " User-provided origamipath:"                              #
+            # print " User-provided origamipath:"                             #
             pass
 
         else:
@@ -132,8 +138,8 @@ class MiscTools(object):
             sys.exit("\n\t Let program generate origamipath," \
                         +" or specify the origamipath.")
 
-        print oridatpath                                                    # DT
-        print                                                               # DT
+        # print oridatpath                                                    # DT
+        # print                                                               # DT
         
         return oridatpath
 
@@ -201,11 +207,12 @@ class MiscTools(object):
                 print "Creating output folder structure: ", \
                        outdir_floor + folderPath, "\n"
                 pass
+
             else:
                 print "Output folder already exists: ", \
                        outdir_floor + folderPath, "\n"
                 pass
-            pass # Folders verified
+            pass # Folders are verified
 
         self.outfilePath = outdir_floor + outfilePath 
 
@@ -221,6 +228,7 @@ class MiscTools(object):
             # No output reduction:
             print itertext
             pass
+        
         else:
             # Output reduction:
             if i % (modifier) == 0:

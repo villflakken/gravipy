@@ -118,14 +118,15 @@ class Plotter(object):
 
         if 3 in dimtuple:
             " 3D scatter plot "
-            time_3dplot_start = time.time()
+            # In the voice of an authorative Patrick Stewart:
+            "- ENGAGE 3D VIZUALIZATION! "
 
+            # Initialization
+            time_3dplot_start = time.time()
             fig =  pl.figure("scatter3d", figsize=(20,20))#, dpi=200)
             ax  = fig.add_subplot(111, projection='3d')
             
-            # In the voice of an authorative Patrick Stewart:
-            "- ENGAGE 3D VIZUALIZATION "
-
+            # Objects
             " Voids "
             ax.scatter(posvoid[:,0], posvoid[:,1], posvoid[:,2], 
                        s=1, c=voidc, marker=',', label=voidl)
@@ -138,21 +139,25 @@ class Plotter(object):
             " Halos "
             ax.scatter(poshalo[:,0], poshalo[:,1], poshalo[:,2], 
                        s=1, c=haloc, marker=',', label=halol)
-            
+
+            # Plot details
             ax.set_xlabel('x-position Mpc/h')
             ax.set_ylabel('y-position Mpc/h')
             ax.set_zlabel('z-position Mpc/h')
-
             ax.legend(bbox_to_anchor=(0,0.14, 1,-0.2), \
                       loc="upper left", mode="expand", ncol=4, prop={'size':15}, markerscale=10)
 
-            self.axisEqual3D(ax) # Axes aspect ratio correction
-            pl.show("scatter3d")
+            # Fixing aspect ratio in 3D and savefig
+            self.axisEqual3D(ax)
+            # pl.savefig("somepath")
 
+            # Terminal/display output
+            pl.show("scatter3d")
             time_3dplot_end = time.time()
             print "3D scatter plot time: {0:.2f} seconds".format((time_3dplot_end - time_3dplot_start))
-            pl.close("scatter3d") # just because
+            pl.close("scatter3d")
 
+            # Return to function
             pass
 
         else:

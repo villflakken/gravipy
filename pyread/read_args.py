@@ -49,24 +49,24 @@ class readArgs(object):
         then write a new function into the group of functions below.
         """
         self.arglist = [ # Parameter keys available
-                "what"       , 
-                "indraN"     , 
-                "iA"         , 
-                "iB"         , 
-                "subfolder"  , 
-                "fftfile"    , 
+                "what"        , 
+                "indraN"      , 
+                "iA"          , 
+                "iB"          , 
+                "subfolder"   , 
+                "fftfile"     , 
               # Optional stuff
-                "tmpfolder"  ,
-                "sfset"      ,
-                "sortIDs"    ,
-                "lessprint"  ,
-                "multiset"   ,
-                "box_params" ,
+                "tmpfolder"   ,
+                "sfset"       ,
+                "sortIDs"     ,
+                "lessprint"   ,
+                "multiset"    ,
+                "box_params"  ,
               # Output related
-                "outputpath" ,
-                "w2f"        ,
-                "plotdata"   ,
-                "plotdim"    ,
+                "outputpath"  ,
+                "w2f"         ,
+                "plotdata"    ,
+                "plotdim"     ,
                 "origamipath"
             ]
         self.param_incorp = \
@@ -261,25 +261,25 @@ class readArgs(object):
                     pass
                 else:
                     sys.exit(tasknameErrortext.format(uinput)+column_of_actions)
-                    break
 
                 continue
 
             setattr( self, "what_set" , uinput )
             # Returns, having checked & stored both items in the set.
-            return 0
+            pass
 
         elif (type(uinput) == str) and \
             (uinput in self.actionkeys):
             " String object recognized, input is compared & stored. "
             setattr( self, "what_set" , uinput )
             # After storing, returns to next item to be checked
-            return 0
+            pass
 
         else:
             sys.exit(tasknameErrortext.format(uinput)+column_of_actions)
             # Aborts
 
+        return 0
 
     def integer_incorp(self, uinput, name):
         """
@@ -390,25 +390,27 @@ class readArgs(object):
         """
         # print " ** Inside self.boxparams_incorp! "
         # print " ** key =", name, "| uinput =", uinput
+        " Check uinput consists of _some_ objects "
         if type(uinput) == list or type(uinput) == tuple:
-            " So, uinput consists of some objects "
             
+            " Check that all items in uinput are also on this form "
             for pair in uinput: # 3 items.
-                " Check that all items in uinput are also on this form "
                 
+                " Now check if they contain 2 numbers "
                 if type(pair) == list or type(pair) == tuple:
-                    " Now check if they contain 2 numbers "
 
+                    " Make sure that each of the numbers are float or int. "
                     if len(pair) == 2 and \
                         any(
                             [all(map(lambda x: hasattr(x, '__float__'), pair)),
                              all(map(lambda x: hasattr(x, '__int__'), pair))]
                            ):
-                        " Makes sure that each numbers are float or int. "
                         setattr(self, name, uinput)
                         pass
 
-                    pass
+                        # %TODO
+                    pass# finish ELSE-blocks here & truncate IF-blocks together
+
                 continue # 3 items.
             pass
 
@@ -558,7 +560,7 @@ class readArgs(object):
                  Continuing.
                 +++++++++++++
                 """
-            return True # the only way out!
+            return True # the only way onwards!
 
         else:
             self.errhand_userinput(problemstring)
@@ -596,26 +598,30 @@ class readArgs(object):
             # ..going to assume that I indeed want to debug shit; commented out.
             # sys.exit(runningLocallyMessage)
             pass
+
         elif systemName.startswith(clusterName):
             # Datascope base file structure path.
             self.onElephant = True
             self.dsp = "/datascope" # indra pathing follows
-            ###### Modify as needed.
-            pass
+            pass ###### Modify as needed.
     
         elif os.path.exists("/home/idies"):
             # On SciServer Idies etc
             self.onIdies = True
-            self.dsp = "/home/idies" # indra follows
+            self.dsp = "/home/idies" # origami & indra name parsing follows later
+            pass
 
         else:
             print "\n\tNot running from intended machine(s)"\
                   + " ('elephant' cluster or SciServer)."
+            
             if self.errhand_userinput(unknownOrigin):
                 self.okGo = True
                 pass
+            
             else:
                 sys.exit("\n\tNow exiting.")
+            
             pass
 
         return 0
