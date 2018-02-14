@@ -132,8 +132,7 @@ class readDo(readArgs, readProcedures):
         Assumes that parameters in arglist have been set.
         """
         
-        self.datadict = {} # cf. function self.storager()
-        
+        self.datadict = {} # cf. function: self.storager()
         """
         Prime example on how complex a set of permutations can become!
         """
@@ -334,9 +333,13 @@ class readDo(readArgs, readProcedures):
         iB    = self.iB             # -^
         indra = "{0:1d}{1:1d}{2:1d}".format(iN,iA,iB)
 
-        num   = "{0:02d}".format(num)   # -- --> Innermost key.
+        # num   = "{num:d}".format(num=num, )   # -- --> Innermost key.
+        num   = str(num)            # -- --> Innermost key.
+        num   = num                 # -- --> Innermost key.
+        # Pure numbers is probably easier to handle in most cases
 
-        " self.datadict was declared in the beginning of "
+        # self.datadict was declared in 
+        # the beginning of self.beginReading()
         if task not in self.datadict.keys():
             
             " Declaration of task-name-key "
@@ -390,10 +393,11 @@ class readDo(readArgs, readProcedures):
             pass
 
         # Preparing the next, iterative IF-block
-        not_fft_actions = self.actionkeys[:]
+        not_fft_actions = self.actionkeys[:] # Element copy; not reference copy!
         not_fft_actions.remove("fft")
         if any(map(lambda x: x in self.what_set, not_fft_actions)):
             self.datadict["snapkeys"] = N.array(self.subfolder_set)
+            # There will only be one set of subfolders, anyway.
             pass
 
         # %TODO
@@ -401,8 +405,9 @@ class readDo(readArgs, readProcedures):
         # and make it parallell to some function in class that may return similar
         # information.
         self.datadict["--help"] = {}
+
         self.datadict["--help"]["pos"] = """\
-          * output variables of 'pos' are stored:
+          * output object of 'pos' are:
         tuple(
                IDs         , # numpy array
                pos         , # numpy array
@@ -412,7 +417,7 @@ class readDo(readArgs, readProcedures):
         """
 
         self.datadict["--help"]["fof"] = """\
-          * output variables of 'fof' are stored:
+          * output object of 'fof' are:
         tuple(
                Ngroups     , # scalar value
                Nids        , # scalar value
