@@ -96,7 +96,7 @@ class readArgs(object):
                 "indraN" : N.arange(0,8),
                     "iA" : N.arange(0,8),
                     "iB" : N.arange(0,8),
-             "subfolder" : N.arange(0,64),
+             "subfolder" : N.arange(0,65),
                "fftfile" : N.arange(0,505),
                "plotdim" : N.arange(2,4)
             } # Rember format: [x0, ..., x1 - 1]

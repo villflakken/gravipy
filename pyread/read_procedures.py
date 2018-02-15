@@ -22,7 +22,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         Inheritance and variables
         """
         Sifters.__init__(self)
-        AutoTools.__init__(self) # Remember proc. argument
+        AutoTools.__init__(self)
         MiscTools.__init__(self)
         UserTools.__init__(self)
         Plotter.__init__(self)
@@ -33,7 +33,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         self.dummypath1 = '/datascope/indra%d/%d_%d_%d' % (0, 0, 0, 0)
         self.dummypath2 = '/snapdir_%03d/snapshot_%03d.' % (0, 0)
         """
-        End of init           # but will halt if there's more, inside func below.
+        End of init
         """
 
     def read_posvel(self):
@@ -51,7 +51,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         
         " Total no. of particles is set: "
         Npart_tot = 1024**3
-        
+
         posA      = N.zeros( (Npart_tot,3), dtype=N.float32 )
         velA      = N.zeros( (Npart_tot,3), dtype=N.float32 )
         IDsA      = N.zeros(  Npart_tot   , dtype=N.int64   )
@@ -156,22 +156,6 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
 
         " returns what user needs, specifically: "
         if self.what == "pos":
-            # print "IDsA (sorted):"
-            # IDsA.sort()
-            # print IDsA
-            # print
-            # print "N.arange(int(1024**3)):"
-            # print N.arange(int(1024**3), dtype=N.int64)
-            
-            # print "IDs array size:", self.item_size_printer(IDsA.nbytes)
-            # print "is IDs array == N.arange(int(1024**3)) +1 ...? :", \
-            #     N.array_equal( IDsA , N.arange(int(1024**3), dtype=N.int64)+1 ) 
-                
-            # print "pos array size:", self.item_size_printer(posA.nbytes) , "\n"
-            # print posA.shape
-            # print posA
-            # sys.exit("\ndbug") -+0,
-
             return IDsA, posA, scalefA[0], rsA[0]
 
         elif self.what == "vel":
@@ -194,7 +178,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         gtb = snappath + "group_tab_{0:03d}.".format(self.subfolder)
         gid = snappath + "group_ids_{0:03d}.".format(self.subfolder)
 
-        skip = 0
+        skip             = 0
         maxfileCount_gtb = self.findCount(gtb)
         iterLen          = maxfileCount_gtb + 1
         Ngroups_thusfar  = N.zeros(iterLen, dtype=N.int32)

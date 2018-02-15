@@ -322,9 +322,6 @@ class readDo(readArgs, readProcedures):
         - where 'parsed_data' as a variable contains
         several items from the reading of a snapshot's data
         (pertaining to the data type/category/"task").
-
-        # Current function contains redundancies,
-        # readability attempt.
         """
         task  = self.what           # -- --> Outermost dictionary key 
                                        #   (already string).
@@ -334,7 +331,7 @@ class readDo(readArgs, readProcedures):
         indra = "{0:1d}{1:1d}{2:1d}".format(iN,iA,iB)
 
         # num   = "{num:d}".format(num=num, )   # -- --> Innermost key.
-        num   = str(num)            # -- --> Innermost key.
+        # num   = str(num)            # -- --> Innermost key.
         num   = num                 # -- --> Innermost key.
         # Pure numbers is probably easier to handle in most cases
 
@@ -407,7 +404,7 @@ class readDo(readArgs, readProcedures):
         self.datadict["--help"] = {}
 
         self.datadict["--help"]["pos"] = """\
-          * output object of 'pos' are:
+          * output object of 'pos' is:
         tuple(
                IDs         , # numpy array
                pos         , # numpy array
@@ -417,7 +414,7 @@ class readDo(readArgs, readProcedures):
         """
 
         self.datadict["--help"]["fof"] = """\
-          * output object of 'fof' are:
+          * output object of 'fof' is:
         tuple(
                Ngroups     , # scalar value
                Nids        , # scalar value
@@ -425,6 +422,14 @@ class readDo(readArgs, readProcedures):
                GroupLen    , # numpy array
                GroupOffset , # numpy array
                IDs           # numpy array
+        )
+        """
+
+        self.datadict["--help"]["origami"] = """\
+          * output object of 'fof' is:
+        tuple(
+               tags  , # numpy array
+               Npart   # scalar value
         )
         """
 
