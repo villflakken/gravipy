@@ -146,18 +146,16 @@ class AutoTools(object):
         - where 'parsed_data' as a variable contains
         several items from the reading of a snapshot's data
         (pertaining to the data type/category/"task").
-
-        # Current function contains redundancies,
-        # readability attempt.
         """
+        # self.datadict = {}      # Declared outside of this scope!
         task =     self.what    # -- --> Outermost dictionary key 
                                   #              (already string).
         iN   = str(self.indraN) # -- --> Together, these 3 form the middle key
         iA   = str(self.iA)       # --^
         iB   = str(self.iB)       # -^
-        num  = str(num)         # -- --> Innermost key.
+        num  = num              # -- --> Innermost key.
 
-        indra = iN+iA+iB        # Readability.
+        indra = "{0:1d}{1:1d}{2:1d}".format(iN, iA, iB)
 
         if task not in self.datadict.keys():
             
