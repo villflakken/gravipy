@@ -404,7 +404,7 @@ class readDo(readArgs, readProcedures):
         self.datadict["--help"] = {}
 
         self.datadict["--help"]["pos"] = """\
-          * output object of 'pos' is:
+          * output object of a 'pos'-related object is:
         tuple(
                IDs         , # numpy array
                pos         , # numpy array
@@ -414,7 +414,7 @@ class readDo(readArgs, readProcedures):
         """
 
         self.datadict["--help"]["fof"] = """\
-          * output object of 'fof' is:
+          * output object of a 'fof'-related object is:
         tuple(
                Ngroups     , # scalar value
                Nids        , # scalar value
@@ -426,7 +426,7 @@ class readDo(readArgs, readProcedures):
         """
 
         self.datadict["--help"]["origami"] = """\
-          * output object of 'fof' is:
+          * output object of an 'origami'-related object is:
         tuple(
                tags  , # numpy array
                Npart   # scalar value
