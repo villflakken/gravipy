@@ -78,15 +78,25 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
                     pos, vel, IDsArr, Npart, scalefact, redshift = \
                         self.posvel_sifter(openfile)
                     
-                    # End shape: ( 1024**3 , 3 )
+                    # End shape: ( 1024**3 , 3 ) === DT
                     # print "posA[ci:Npart, :].shape : ", posA[ci:ci+Npart, :].shape 
                     # print "pos (from file).shape   : ", pos.shape
-                    posA[ci:ci+Npart, :] = pos
-                    velA[ci:ci+Npart, :] = vel
-                    IDsA[ci:ci+Npart]    = IDsArr
-                    NpartA[i]            = Npart
-                    scalefA[i]           = scalefact
-                    rsA[i]               = redshift
+                    
+                    " Inside-loop 'sorting' - by correct assignment: pos & vel "
+                    if self.boolcheck(self.sortIDs):
+                        posA[IDsArr, :]      = pos
+                        velA[IDsArr, :]      = vel
+                        pass
+                        
+                    else:
+                        posA[ci:ci+Npart, :] = pos
+                        velA[ci:ci+Npart, :] = vel
+                        IDsA[ci:ci+Npart]    = IDsArr
+                        pass
+
+                    NpartA[i]  = Npart
+                    scalefA[i] = scalefact
+                    rsA[i]     = redshift
 
                     ci += Npart
 
@@ -97,6 +107,11 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
                 pass
 
             continue # Next binary file's turn
+
+        " Out-of-loop 'sorting' - by generaiton: IDs "
+        if self.boolcheck(self.sortIDs):
+            IDsA = N.arange(0, Npart_tot, dtype=N.int64) # Readily sorted IDs! :)
+            pass
 
         t_pvread_end = time.time()
         t_pvread_tot = t_pvread_end - t_pvread_start 
@@ -135,7 +150,8 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         print "    Total size of matrices IDsA, posA, velA, NpartA = " \
                + self.item_size_printer(matsizes) 
 
-        # ID sorting block
+        # Old ID-pos-vel sorting block
+        '''
         if self.boolcheck(self.sortIDs):
             print """
     Sifter has completed reading all {0} files of snap {1}.
@@ -143,6 +159,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
                             .format(iterLen, self.subfolder)
             IDsA, posA, velA = self.sort_from_IDsF(IDsA, posA, velA, self.what)
             pass
+        '''
 
         # The reading is done, the bells have toll'd;
         # print out the stats, parameters, and all!
@@ -150,7 +167,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
                 +str(self.indraN)+', iA='+str(self.iA)+', iB='+str(self.iB)    \
                 +', snapshot='+str(self.subfolder)+"\n"
         if self.boolcheck(self.sortIDs):
-            endread+="     - and matrices are now sorted after IDs' values.\n"
+            endread+="     - and matrices are sorted after IDs' values.\n"
             pass
         print endread
 

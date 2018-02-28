@@ -72,8 +72,8 @@ class Sifters(object):
         """
         The velocities were initially listed in the 'redshift's else:section,
         because they're not needed in the "main" program,
-        for which this was written,
-        unless when redshift was investigated?
+        for which this was written
+        (unless when redshift was investigated?)
         """
         dummy = N.fromfile(f, N.int32, 2)
         vel   = N.fromfile(f, N.float32, 3*npart)
