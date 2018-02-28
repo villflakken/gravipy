@@ -87,7 +87,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
                         posA[IDsArr, :]      = pos
                         velA[IDsArr, :]      = vel
                         pass
-                        
+
                     else:
                         posA[ci:ci+Npart, :] = pos
                         velA[ci:ci+Npart, :] = vel
@@ -111,11 +111,11 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         " Out-of-loop 'sorting' - by generaiton: IDs "
         if self.boolcheck(self.sortIDs):
             IDsA = N.arange(0, Npart_tot, dtype=N.int64) # Readily sorted IDs! :)
+            print "    \=> positions' array now sorted by ID tag."
             pass
 
         t_pvread_end = time.time()
         t_pvread_tot = t_pvread_end - t_pvread_start 
-        print "    \=> positions' array now sorted by ID tag."
         print "      : dt = {0:g} s".format(t_pvread_tot)
 
         # DT - getting a handle on why so many files would include RS data
