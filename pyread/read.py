@@ -218,10 +218,12 @@ class readDo(readArgs, readProcedures):
                     continue # to next iA...
                 continue # to next iN...
             continue # to next user-specified task...
+        
 
-        self.keychainer() # Adds the keys for self.datadict, & its subdicts,
-                          # to be items in the (outermost) dictionary itself,
-                          # in a readable &/ sorted manner.
+        if self.multiset == True: # As long as some data is to
+            self.keychainer() # Adds the keys for self.datadict, & its subdicts,
+                              # to be items in the (outermost) dictionary itself,
+                              # in a readable &/ sorted manner.
 
         print "    Done with loop, now returning data. "
         # returns 'None'

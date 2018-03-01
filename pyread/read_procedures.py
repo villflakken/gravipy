@@ -59,7 +59,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         scalefA   = N.zeros(  iterLen     , dtype=N.float64 )
         rsA       = N.zeros(  iterLen     , dtype=N.float64 )
 
-        readtext = "  * Accessing file:\tindra{0}{1}/snap{2}/file.{3:<3} ({4}) ..."
+        readtext = "  * Accessing file:\tindra{0}{1}/snap{2:02d}/file.{3:<3} ({4}) ..."
         tmpftxt  = "tmp" if self.tmpfolder == True else ""
 
         ci = 0 # Current index to update
@@ -75,12 +75,9 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
                                                 self.subfolder, i, self.what )
                     self.itertextPrinter(itertext, i, iterLen, 50)
                     
+                    " Retrieval "
                     pos, vel, IDsArr, Npart, scalefact, redshift = \
                         self.posvel_sifter(openfile)
-                    
-                    # End shape: ( 1024**3 , 3 ) === DT
-                    # print "posA[ci:Npart, :].shape : ", posA[ci:ci+Npart, :].shape 
-                    # print "pos (from file).shape   : ", pos.shape
                     
                     " Inside-loop 'sorting' - by correct assignment: pos & vel "
                     if self.boolcheck(self.sortIDs):
