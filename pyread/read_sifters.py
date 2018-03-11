@@ -189,7 +189,7 @@ class Sifters(object):
             pass
         else:
             " Need some object for self.read_procedures to return, anyway... "
-            self.IDs = N.zeros(1, dtype=N.int64)
+            self.IDs = N.zeros(0, dtype=N.int64)
             # --- At least it's consistent!
             pass
             # ^ Though this kind of removes the requirement
@@ -388,7 +388,7 @@ class Sifters(object):
             TotNids = N.sum(SubLen, dtype=N.float64)
             pass
         else:
-            TotNids = N.int64(0)
+            TotNids = N.int64(0, dtype=N.int64)
             pass
 
         if i == 0 and TotNids > 0:

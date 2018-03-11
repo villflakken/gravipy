@@ -200,6 +200,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         " Need header to get lengths of GroupLen&Offset "
         self.GroupLen    = None # Declare first to clear namespace,
         self.GroupOffset = None # just to be thorough.
+        self.IDs         = None
 
         " Opens first file of snapshot set; retrieve partial header info "
         get_aheader = gtb + str(0) # First file in sequence
@@ -284,9 +285,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
                 
                 with open(filepath, 'rb') as openfile:
                     fis_output = self.fof_ids_sifter(openfile, i, skip)
-                    skip = fis_output
-                    openfile.close()
-                
+                    skip       = fis_output
                 pass
 
             except IOError:
@@ -294,6 +293,9 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
                 pass
 
             continue
+
+
+        self.IDs -= 1 # Correcting for indexing: [1,..,N] => [0,..,N-1]
         print "  * Browsing FOF-files (IDs): Complete"
 
 

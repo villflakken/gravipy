@@ -220,10 +220,10 @@ class readDo(readArgs, readProcedures):
             continue # to next user-specified task...
         
 
-        if self.multiset == True: # As long as some data is to
-            self.keychainer() # Adds the keys for self.datadict, & its subdicts,
-                              # to be items in the (outermost) dictionary itself,
-                              # in a readable &/ sorted manner.
+        
+        self.keychainer() # Adds the keys for self.datadict, & its subdicts,
+                          # to be items in the (outermost) dictionary itself,
+                          # in a readable &/ sorted manner.
 
         print "    Done with loop, now returning data. "
         # returns 'None'
@@ -371,16 +371,20 @@ class readDo(readArgs, readProcedures):
         to be items in the (outermost) dictionary itself,
         in a readable &/ sorted manner - and as strings!
         """
-        " 1: Best tasks-key sorting: the order in which they were input "
-        self.datadict["datakeys"]  = N.array(self.what_set ) # Array of strings
 
-        " 2: Sorting indra-keys by numeral value "
-        self.datadict["indrakeys"] = N.array(sorted(
-            self.datadict[self.what_set[0]].keys(),
-            key=float 
-        ))
-        # NB: No. of indra simulations is equal
-        # for each performed task in self.what_set!
+        " 1: Best tasks-key sorting: the order in which they were input "
+        self.datadict["tasks"]  = N.array(self.what_set ) # Array of strings
+
+        " 2: Sorting indra-keys by numeral value " # Only relevant for multiple simulations
+        if self.multiset == True: 
+            
+            self.datadict["indrakeys"] = N.array(sorted(
+                self.datadict[self.what_set[0]].keys(),
+                key=float 
+            ))
+            pass
+            # NB: No. of indra simulations is equal
+            # for each performed task in self.what_set!
 
         " 3: Sorting snap-keys by their numeral value "
         # self.datadict["snapkeys"] = N.array(self.subfolder_set)
