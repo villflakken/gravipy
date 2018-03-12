@@ -9,20 +9,19 @@ Fix indexation in **fof** & **subh**
     - From Bridget's `read_indra.py` => `read_indra_wdiffsort.py` 
     - Return all variables, not just those that `read_sub.pro` returns 
 
-Comparing sorters:
+Comparing sorters: 
 - [ ] Old sorting time 
 - [ ] New sorting time 
 
 
 ## Halo statistics over time
 
-#### fof-statistics 
+### fof-statistics 
 - [ ] number of halos found in every snapshot 
 
 - [ ] number of halo particles found in every snapshot 
 
 - [ ] isolate a single halo and track it backwards in time 
-
     - begin at *z = 0* 
     - [ ] retrieve halo's outermost coordinates at a step; store the "box" 
     - [ ] numbers retrieved and/or produced should be returned 
@@ -32,7 +31,7 @@ Comparing sorters:
 
     - [ ] should be able to return particle IDs belonging to halo in question 
 
-#### origami-statistics 
+### origami-statistics 
 - [ ] numbers of categorized particles found in every snapshot 
 
 ## Plots 
