@@ -1,9 +1,11 @@
-# Current goals
+### Current goals
 
-## Code & programming
+---
+
+### Code & programming: 
 
 Fix indexation in **fof** & **subh**: 
-- [ ] subtract **fof** & **subh** IDs by 1 
+- [ ] subtract **fof** & **subh** IDs by 1
 
 - [ ] Finish code update in **subh** 
     - From Bridget's `read_indra.py` => `read_indra_wdiffsort.py` 
@@ -13,10 +15,11 @@ Comparing sorters:
 - [ ] Old sorting time 
 - [ ] New sorting time 
 
+---
 
-## Halo statistics over time
+### Halo statistics over time: 
 
-### fof-statistics 
+**fof-statistics** 
 - [ ] number of halos found in every snapshot 
 - [ ] number of halo particles found in every snapshot 
 - [ ] isolate a single halo and track it backwards in time 
@@ -28,12 +31,15 @@ Comparing sorters:
         - (i.e.: for **origami** to use)
     - [ ] should be able to return particle IDs belonging to halo in question 
 
-### origami-statistics 
+**origami-statistics**
 - [ ] numbers of categorized particles found in every snapshot 
 
-## Plots 
+---
+
+### Plots: 
+
 - [ ] number of halo particles found in every snapshot 
     - (both: **origami** and **fof**) 
-- [ ] number of h,f,w,v particles found in every snapshot 
+- [ ] number of h,f,w,v particles found in every snapshot (**origami**)
 - [ ] number of halos found in every snapshot (**fof**) 
 - [ ] mass-binned power spectrum 

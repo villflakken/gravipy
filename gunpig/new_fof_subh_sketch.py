@@ -1,97 +1,41 @@
-# ==============================================
-# File interpreters for read.py's interface.
-# ==============================================
-import sys, glob
-import numpy as N
+# Original file received before I got sick in February,
+# coarsely adapted for GRAVIPy after middle of March.
+# Contains functions belonging to: 
+# * read_procedures,
+# * read_miscTools
+# * read_sifters
+# - Magnus, d:21 m:March y:18
 
 
-
-
-
-
-class Sifters(object):
-    """
-    The down-to-the-byte data sifters.
-    """
-    def __init__(self):
-        # self.bitmask      = N.int64(2**34 - 1) # these are both\
-        self.bitshiftmask = (N.int64(1)<<34) - 1 # the same value!
+    def read_fof(self): # new method
         """
-        shortest init yet... not a lot is needed! :/
+        Reads friend of friend/group files' id and tab files;
+        this function is a playground for what ever I would want to do.
         """
+        gtab_name, gids_name = self.fof_pathstrings() # Generating names
+        # maxfileCount_gtb = self.findCount(gtab_name) # May be used for debugging
+        # iterLen          = maxfileCount_gtb + 1
 
-    def findCount(self, almostpath):
-        """
-        To figure out the count integer of last file:
-        these filenames need to be sorted;
-        by way of "human"/"natural" sorting.
-        """
-        pathstrlen  = len(almostpath) # i.e. snappath is 49 characters long
-        filelist    = glob.glob(almostpath+'*')
-        filenumbers = []
+        groupLen, groupOffset, TotNgroups = self.fof_tab_sifter(gtab_name)
+        groupLen, groupOffset, fofIDs = self.fof_ids_sifter(gids_name, groupLen, groupOffset)
 
-        for filename in filelist:
-            filenumbers.append(filename[pathstrlen:])
-            continue # Could have used numpy array ops for this
-
-        filenumbers.sort(key=float)
-        maxfileCount = N.int32(filenumbers[-1])
-
-        return maxfileCount 
-
-
-    def posvel_sifter(self, f):
-        """
-        Sifts through the position/velocities file's data content.
-        'f' is the file object for data retrieval.
-        """
-        header_size = N.fromfile(f, N.int32, 1)[0] # = 256: error catch here?
-        numpart     = N.fromfile(f, N.int32, 6)
-        npart       = numpart[1] # Number of DM-particles in this file
-
-        mass  = N.fromfile(f, N.float64, 6)
-        pmass = mass[1]     # In units of 10^10 solar masses?
+        print " => Finished reading '"+str(self.what)+"', indra"       \
+                +str(self.indraN)+', iA='+str(self.iA)+', iB='+str(self.iB)  \
+                +', snapshot='+str(self.subfolder)
         
-        scalefact, redshift     = N.fromfile(f, N.float64, 2)
-        flag_sfr, flag_feedback = N.fromfile(f, N.int32, 2)
-        
-        numpart_tot = N.fromfile(f, N.int32, 6) # not used
-        # ntotal = numpart_tot[1]                 # not used
-        
-        flag_cooling, num_files                   = N.fromfile(f, N.int32, 2)
-        boxsize, omega0, omegal, hubble           = N.fromfile(f, N.float64, 4)
-        flag_stellarage, flag_metals, hashtabsize = N.fromfile(f, N.int32, 3)
-        # Read rest of header_size + 2 dummy integers:
-        dummy = N.fromfile(f, dtype=N.int32, count=23)
-        # So in total a count of 21 units of useless header info
-        # w/in header_size, and 2 dummy ints.
+        return TotNgroups, groupLen, groupOffset, fofIDs
 
-        pos = N.fromfile(f, N.float32, 3*npart)
-        pos = N.reshape(pos, [npart, 3])# .astype(N.float64)
-        # This is the way to format for row-major use!
-        """
-        The velocities were initially listed in the 'redshift's else:section,
-        because they're not needed in the "main" program,
-        for which this was written
-        (unless when redshift was investigated?)
-        """
-        dummy = N.fromfile(f, N.int32, 2)
-        vel   = N.fromfile(f, N.float32, 3*npart)
-        vel   = N.reshape(vel, [npart, 3])#.astype(N.float64)
-        
-        """
-        Looking at read_indra_snap.pro and other snippet;    
-        looks like this will read the assigned IDs:
-        """
-        dummy = N.fromfile(f, N.int32, 2)
-        idarr = N.fromfile(f, N.int64, npart)
 
-        # Next line for clarity on use of IDs as indexations:
-        idarr = idarr - N.int64(1)
-        # ...now they may be used with indexations on/over arrays!
+    def fof_pathstrings(self):
+        """
+        Generates paths & filenames for tabs and ids
+        """
+        indrapath = self.dsp  +  self.indraPathParser()
+        snappath  = indrapath +  "/snapdir_{0:03d}/".format(self.subfolder)
+        gtab_name = snappath  + "group_tab_{0:03d}.".format(self.subfolder)
+        gids_name = snappath  + "group_ids_{0:03d}.".format(self.subfolder)
 
-        f.close()
-        return pos, vel, idarr, npart, scalefact, redshift
+        return gtab_name, gids_name
 
 
     def fof_headsift(self, gtab_name=None):
@@ -206,11 +150,49 @@ class Sifters(object):
                     f.close()        
                 continue
         
+            fofIDs -= 1 # Takes care of indexation discrepancy
             print "  . Browsing FOF-files (IDs): Complete!"
             pass # endELSE
-        
-        fofIDs -= 1 # Takes care of indexation discrepancy
         return groupLen, groupOffset, fofIDs
+
+
+
+
+# --------- --------- ---------- ----------
+
+    def read_subhalo(self):
+        """
+        Reads subhalo id and tab files. But not in that order.
+        """
+        stab_name, sids_name = self.subh_pathstrings()
+        # s(ubhalo)tab_(file)name
+        # s(ubhalo)IDs_(file)name
+
+        TotNgroups, NTask = self.fof_headersift(gids_name)
+        TotNsubs,   NTask = self.subh_headsift(stab_name, NTask=NTask)
+
+        # Catalogue output
+        caput   = self.subh_cater(TotNgroups, TotNsubs, NTask)
+        catalog = caput # cataloguer output # I imagine I may want more variables as output?
+        subIDs  = self.subh_idsifter(TotNsubs, NTask)
+
+        print " => Finished reading '"+str(self.what)+"', indra"       \
+                +str(self.indraN)+', iA='+str(self.iA)+', iB='+str(self.iB)  \
+                +', snapshot='+str(self.subfolder)
+
+        return subIDs, catalog
+
+
+    def subh_pathstrings(self):
+        """
+        Generates paths & filenames for tabs and ids
+        """
+        indrapath = self.dsp  + self.indraPathParser()
+        postpath  = indrapath + "/postproc_{0:03d}/".format(self.subfolder)
+        stab_name = postpath  +   "sub_tab_{0:03d}.".format(self.subfolder)
+        sids_name = postpath  +   "sub_ids_{0:03d}.".format(self.subfolder)
+
+        return stab_name, sids_name
 
 
     def subh_headsift(self, stab_name=None, NTask=None):
@@ -363,7 +345,7 @@ class Sifters(object):
         return catalog # only the catalogue?
 
 
-    def subh_idsifter(self, sids_name=None, TotNsubs=None, NTask=None):
+    def subh_ids(self, sids_name=None, TotNsubs=None, NTask=None):
         """
         Extract subhalo IDs from post processed data.
         If there are subhalos in the data, then the data will be read from binary file
@@ -415,59 +397,4 @@ class Sifters(object):
                 continue
             pass # endELSE
 
-        subIDs -= 1  # Indexation discrepancy correction
-        return subIDs
-
-
-    def fft_sifter(self, f):
-        """
-        Sifts through FFT data.
-        """
-        L       = N.int32(128)
-        Lhalf   = L/2
-
-        time2 = N.fromfile(f, N.float64, 1)
-        nsize = N.fromfile(f, N.int32, 1) # long integer, should display value
-                                          # (Lhalf+1)*(L+1)*(L+1)
-        print 'time2:  ', time2
-        print 'nsize:  ', nsize
-
-        fft_re = N.fromfile(f, N.float32, (L+1)*(Lhalf+1)*(L+1) )
-        fft_re =   N.reshape(fft_re, [L+1, Lhalf+1, L+1] ).astype(N.float64)
-
-        fft_im = N.fromfile(f, N.float32, (L+1)*(Lhalf+1)*(L+1) )
-        fft_im = N.reshape(fft_im, [L+1, Lhalf+1, L+1] ).astype(N.float64)
-
-        f.close()
-
-        return time2, nsize, fft_re, fft_im
-
-
-    def origami_sifter(self, f):
-        """
-        Sifts through Origami binary data.
-        """
-        npart = N.fromfile(f, N.int32, 1)
-        tag   = N.fromfile(f, N.int8, npart)
-        return npart, tag
-
-    def time_sifter(self, f):
-        """
-        Designed specifically to retrieve redshift data.
-        * Reads a single .i-file.
-        """
-        header_size = N.fromfile(f, N.int32, 1)[0] # = 256: error catch here?
-        numpart     = N.fromfile(f, N.int32, 6)
-        npart       = numpart[1] # Number of DM-particles in this file
-
-        mass = N.fromfile(f, N.float64, 6)
-        
-        scalefact, redshift = N.fromfile(f, N.float64, 2)
-
-        return scalefact, redshift
-
-
-if __name__ == '__main__':
-    sys.exit("Attempt at running code from unintended source. \n\
-             Please run read.py instead.")
-    # run read.py instead
+        return subIDs-1 # indexation corrected

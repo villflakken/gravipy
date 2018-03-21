@@ -85,6 +85,31 @@ class MiscTools(object):
 
         return indrapath
 
+
+    def fof_pathstrings(self):
+        """
+        Generates paths & unnumerated filenames for tabs and ids: FOF
+        """
+        indrapath = self.dsp  +  self.indraPathParser()
+        snappath  = indrapath +  "/snapdir_{0:03d}/".format(self.subfolder)
+        gtab_name = snappath  + "group_tab_{0:03d}.".format(self.subfolder)
+        gids_name = snappath  + "group_ids_{0:03d}.".format(self.subfolder)
+
+        return gtab_name, gids_name
+
+
+    def subh_pathstrings(self):
+        """
+        Generates paths & unnumerated filenames for tabs and ids: SUBHALO
+        """
+        indrapath = self.dsp  + self.indraPathParser()
+        postpath  = indrapath + "/postproc_{0:03d}/".format(self.subfolder)
+        stab_name = postpath  +   "sub_tab_{0:03d}.".format(self.subfolder)
+        sids_name = postpath  +   "sub_ids_{0:03d}.".format(self.subfolder)
+
+        return stab_name, sids_name
+
+
     def origamiPathParser(self):
         """
         Handles how the script interprets 

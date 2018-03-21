@@ -169,7 +169,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         print endread
 
         " returns what user needs, specifically: "
-        if   self.what == "pos":
+        if self.what == "pos":
             return IDsA, posA, scalefA[0], rsA[0]
 
         elif self.what == "vel":
@@ -179,59 +179,237 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
             sys.exit("\n    *** read_posvel task name error *** \n")
 
 
-    def read_fof(self):
+    def read_fof_old(self):
         """
         Reads friend of friend/group files' id and tab files;
         Takes care of the loops,
         engages byte sifters in each loop.
+        Basic error handling.
         """
+        indrapath = self.dsp + self.indraPathParser()
+        snappath = indrapath + '/snapdir_{0:03d}/'.format(self.subfolder)
+
+        gtb = snappath + "group_tab_{0:03d}.".format(self.subfolder)
+        gid = snappath + "group_ids_{0:03d}.".format(self.subfolder)
+
+        skip             = 0
+        maxfileCount_gtb = self.findCount(gtb)
+        iterLen          = maxfileCount_gtb + 1
+        Ngroups_thusfar  = N.zeros(iterLen, dtype=N.int32)
+
+        " Need header to get lengths of GroupLen&Offset "
+        self.GroupLen    = None # Declare first to clear namespace,
+        self.GroupOffset = None # just to be thorough.
+        self.IDs         = None
+
+        " Opens first file of snapshot set; retrieve partial header info "
+        get_aheader = gtb + str(0) # First file in sequence
+        with open(get_aheader, 'rb') as openfile:
+            # , as in, the 'TotNgroups' variable
+            glgo_lengths = N.fromfile(openfile, N.int32, 4)[2] 
+            self.GroupLen    = N.zeros(glgo_lengths, dtype=N.int32)
+            self.GroupOffset = N.zeros(glgo_lengths, dtype=N.int32)
+            openfile.close()
+
+        print "  * Browsing FOF-files (tabs):"
+        headertext = """\
+        ---------------------------------------------------------------------
+        |  i  | NIDs    | Ngroups | sum(Ngroups) | TotNgroups | Completion: |
+        ---------------------------------------------------------------------"""
+        if self.subfolder % 7 == 0:
+            " Don't print for every subfolder "
+            print headertext
+            pass
+
+        readtext = """\
+        | {0:>3d} | {1:>7d} | {2:>7d} | {3:>12d} | {4:>10d} | {5:>9.2f}%  |
+        ---------------------------------------------------------------------"""
+
+        for i in N.arange(0, iterLen):
+
+            filepath = gtb + str(i)
+            with open(filepath, 'rb') as openfile:
+                fts_output = self.fof_tab_sifter(openfile, i, skip)
+                Ngroups, Nids, TotNgroups, skip = fts_output
+                
+                Ngroups_thusfar[i] = Ngroups
+                itertext = readtext.format( 
+                    i,
+                    Nids,
+                    Ngroups,
+                    N.sum(Ngroups_thusfar),
+                    TotNgroups,
+                    N.sum(Ngroups_thusfar[:i+1]) \
+                        *100./float(TotNgroups)  \
+                            if TotNgroups > 0 else 0
+                )
+
+            if self.subfolder % 7 == 0:
+                " Don't print for every subfolder "
+                self.itertextPrinter(itertext, i, iterLen, 50)
+                pass
+
+            continue
+
+        print "  * Browsing FOF-files (tabs): Complete"
+
+        if self.sub_asks_for_length == True: # enabling LDT
+            return 0 # self.length has been set already, now exiting func 
+                     # to continue down in read_sub.
+  
+
+        skip = 0    # resetting the variable.
+        maxfileCount_gid = self.findCount(gid)
+        iterLen          = maxfileCount_gid + 1
+
+        print "\n  * Browsing FOF-files (IDs):"
+        for i in N.arange(0, iterLen):
+
+            filepath = gid + str(i)
+            with open(filepath, 'rb') as openfile:
+                fis_output = self.fof_ids_sifter(openfile, i, skip)
+                skip       = fis_output
+            
+            continue
 
 
-        return Ngroups, Nids, TotNgroups, self.GroupLen, self.GroupOffset, self.IDs
+        self.IDs -= 1 # Correcting for indexing: [1,..,N] => [0,..,N-1]
+        print "  * Browsing FOF-files (IDs): Complete"
 
 
-    def read_fof(self): # new method
-        """
-        Reads friend of friend/group files' id and tab files;
-        this function is a playground for what ever I would want to do.
-        """
-        gtab_name, gids_name = self.fof_pathstrings() # Generating names
-        # maxfileCount_gtb = self.findCount(gtab_name) # May be used for debugging
-        # iterLen          = maxfileCount_gtb + 1
-
-        groupLen, groupOffset, TotNgroups = self.fof_tab_sifter(gtab_name)
-        groupLen, groupOffset, fofIDs = self.fof_ids_sifter(gids_name, groupLen, groupOffset)
-
-        print " => Finished reading '"+str(self.what)+"', indra"             \
+        print " => Finished reading '"+str(self.what)+"', indra"       \
                 +str(self.indraN)+', iA='+str(self.iA)+', iB='+str(self.iB)  \
                 +', snapshot='+str(self.subfolder)
         
-        return TotNgroups, groupLen, groupOffset, fofIDs
+        return Ngroups, Nids, TotNgroups, self.GroupLen, self.GroupOffset, self.IDs
 
 
-    def read_subhalo(self):
+    def read_subhalo_old(self):
         """
         Reads subhalo id and tab files. But not in that order.
         """
-        stab_name, sids_name = self.subh_pathstrings()
-        # s(ubhalo)tab_(file)name
-        # s(ubhalo)IDs_(file)name
+        indrapath = self.dsp + "/indra%d/%d_%d_%d" \
+            % (self.indraN, self.indraN, self.iA, self.iB)
+        postpath = indrapath + "/postproc_%03d/" % (self.subfolder)
+        stb = postpath + "sub_tab_%03d." % (self.subfolder) # sub tab file name
+        sid = postpath + "sub_ids_%03d." % (self.subfolder)
+        
+        nnn         = N.int32(500000)
+        # mass_sub   = N.zeros(nnn, dtype=N.float32)    # LDT
+        # pos_sub    = N.zeros((3,nnn), dtype=float32)  # LDT
+        # First need total # subhalos, not saved like TotNgroups...
+        TotNsubs    = N.int32(0)
+        
+        self.missingfiles = 0
+        maxfileCount_stb  = self.findCount(stb)
+        iterLen           = maxfileCount_stb + 1
+        for i in N.arange(0, iterLen): 
+            """
+            will cover all files.
+            in case an intermediate file is missing, have an option ready.
+            in case 2 intermediate files are missing, abort.
+            """
+            filepath = stb + str(i)
+            
+            try:
+                with open(filepath, 'rb') as openfile:
+                    " Building NSubs' value "
+                    Ngroups, Nids, TotNgroups, NTask, NSubs = \
+                        N.fromfile(openfile, N.int32, 5)
+                    TotNsubs += NSubs
+                    openfile.close()
+                pass
 
-        " Need 'TotNgroups' from fof-reading, for the subh. catalog as well: "
-        TotNgroups, NTask = self.fof_headersift(gids_name)
-        TotNsubs,   NTask = self.subh_headsift(stab_name, NTask=NTask)
+            except IOError:
+                self.readLoopError(filepath, 1, 3, i)
+                pass
 
-        # Ca(talogue out)put
-        caput   = self.subh_cater(TotNgroups, TotNsubs, NTask)
-        catalog = caput # cataloguer output # I imagine I may want more variables as output?
-        subIDs  = self.subh_idsifter(TotNsubs, NTask)
+            continue
+        # endfor
 
-        print " => Finished reading '"+str(self.what)+"', indra"             \
-                +str(self.indraN)+', iA='+str(self.iA)+', iB='+str(self.iB)  \
-                +', snapshot='+str(self.subfolder)
+        """
+        ### ----------------------- END OF LOOP 1/3 ABOVE
+        ### TotNsubs NOW FOUND, as well as TotNgroups from last iteration
+        ### ----------------------- NEXT LOOP   2/3 BELOW
+        """
+        skip        = 0
+        count       = 0
+        count_sub   = 0     # Is only used in commented lines
+        # next declarations: necessary? -------------------------\
+        SubLen      = N.zeros(TotNsubs,       dtype=N.int32)    #| DNC
+        SubOffset   = N.zeros(TotNsubs,       dtype=N.int32)    #| DNC
+        M200        = N.zeros(TotNgroups,     dtype=N.float32)  #| DNC
+        # pos         = N.zeros(TotNgroups*3, dtype=N.float32)    #| DNC
+        pos         = N.zeros((TotNgroups,3), dtype=N.float32)  #| DNC
+        # -------------------------------------------------------/
+        
+        self.missingfiles = 0
+        for i in N.arange(0, iterLen): # [0, 255]
+
+            filepath = stb + str(i)
+            try:
+
+                with open(filepath, 'rb') as openfile:
+                    sts_output = self.sub_tab_sifter(
+                        openfile, SubLen, SubOffset, M200, 
+                        count, count_sub, pos, skip, i
+                    )
+                    SubLen, SubOffset, M200, count, count_sub, pos, skip = sts_output
+                pass
+
+            except IOError:
+                self.readLoopError(filepath, 2, 3, i)
+                pass
+            continue
+
+        # mass_sub  = mass_sub[ 0:count_sub-1 ]
+        # pos_sub   = pos_sub[ : , 0:count_sub-1 ]
+        
+        # print "\n ",  TotNgroups   =", TotNgroups
+        # print ""\n ", Largest group of length ", GroupLen[0]
+        """
+        ### ----------------------- END OF LOOP 2/3 ABOVE
+        ;-------select the biggest subhalo in the first group 
+        ;-------load all of the IDs
+        ### ----------------------- NEXT LOOP   3/3 BELOW
+        """
+            
+        if self.bssdt == True: # Big Skip ShutDown Toggle
+            self.sub_asks_for_length = True ### should be logical consequence.
+            self.read_FOF() # LDT - need to run a section of FOF to get this
+                            # one.
+        skip    = 0
+        self.missingfiles = 0
+        maxfileCount_sid  = self.findCount(sid)
+
+        for i in range(0, self.subidCount + 1):
+
+            filepath = sid + str(i)
+            try:
+                with open(filepath, 'rb') as openfile:
+                    sis_output = self.sub_ids_sifter(
+                        openfile, TotNsubs, nnn, other, IDs, i, skip
+                    )
+                    dummy, IDs = sis_output
                 
-        return subIDs, catalog
+                    if self.bssdt == True:
+                        if skip > 1.01*self.length: # LDT !
+                            print "\n skip > 1.01*length - encountered;\n " \
+                                    +"reading", self.what, "data;\n "       \
+                                    +"for-loop aborted at \n"+filepath
+                            return 0
+                pass
 
+            except IOError:
+                self.readLoopError(filepath, 3, 3, i)
+                pass
+
+            continue
+
+        print "Finished reading '"+str(self.what)+"', indra"                \
+                +str(self.indraN)+', iA='+str(self.iA)+', iB='+str(self.iB) \
+                +', snapshot='+str(self.subfolder)
+        return 0 
 
     def read_fft(self):
         """
