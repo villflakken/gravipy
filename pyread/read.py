@@ -94,9 +94,9 @@ class readDo(readArgs, readProcedures):
             { # Function library for initializing data reading.
                 "pos"     : self.read_posvel  , 
                 "vel"     : self.read_posvel  , 
-                "fof"     : self.read_FOF     , 
+                "fof"     : self.read_fof     , 
                 "subhalo" : self.read_subhalo , 
-                "fft"     : self.read_FFT     ,
+                "fft"     : self.read_fft     ,
                 "origami" : self.read_origami ,
                 "time"    : self.read_time
             }
