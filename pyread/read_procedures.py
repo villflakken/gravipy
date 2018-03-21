@@ -182,12 +182,20 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
     def read_fof(self):
         """
         Reads friend of friend/group files' id and tab files;
-        Takes care of the loops,
-        engages byte sifters in each loop.
+        this function is a playground for what ever I would want to do.
         """
+        gtab_name, gids_name = self.fof_pathstrings() # Generating names
+        # maxfileCount_gtb = self.findCount(gtab_name) # May be used for debugging
+        # iterLen          = maxfileCount_gtb + 1
 
+        groupLen, groupOffset, TotNgroups = self.fof_tab_sifter(gtab_name)
+        groupLen, groupOffset, fofIDs = self.fof_ids_sifter(gids_name, groupLen, groupOffset)
 
-        return Ngroups, Nids, TotNgroups, self.GroupLen, self.GroupOffset, self.IDs
+        print "\n    Finished reading '"+str(self.what)+"' of files, indra"\
+                +str(self.indraN)+', iA='+str(self.iA)+', iB='+str(self.iB)    \
+                +', snapshot='+str(self.subfolder)+"\n"
+        
+        return TotNgroups, groupLen, groupOffset, fofIDs
 
 
     def read_fof(self): # new method
@@ -202,9 +210,9 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         groupLen, groupOffset, TotNgroups = self.fof_tab_sifter(gtab_name)
         groupLen, groupOffset, fofIDs = self.fof_ids_sifter(gids_name, groupLen, groupOffset)
 
-        print " => Finished reading '"+str(self.what)+"', indra"             \
-                +str(self.indraN)+', iA='+str(self.iA)+', iB='+str(self.iB)  \
-                +', snapshot='+str(self.subfolder)
+        print "\n    Finished reading '"+str(self.what)+"' of files, indra"\
+                +str(self.indraN)+', iA='+str(self.iA)+', iB='+str(self.iB)    \
+                +', snapshot='+str(self.subfolder)+"\n"
         
         return TotNgroups, groupLen, groupOffset, fofIDs
 
