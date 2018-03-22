@@ -190,6 +190,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
 
         TotNgroups, groupLen, groupOffset = self.fof_tab_sifter(gtab_name)
         fofIDs,     groupLen, groupOffset = self.fof_ids_sifter(gids_name, groupLen, groupOffset)
+        print type(TotNgroups), TotNgroups
         print "    TotNgroups = ({0:>10d})".format(TotNgroups)
 
         print "\n    Finished reading '"+str(self.what)+"' of files, indra" \
