@@ -233,7 +233,7 @@ class Sifters(object):
             pass # endIF
 
         TotNsubs = 0  # Summation value to yield to the outside
-        for i in N.arange(0, Ntask):
+        for i in N.arange(0, NTask):
             with open(stab_name + str(i), 'rb') as f:
                 Ngroups, Nids, TotNgroups, NTask, Nsubs = N.fromfile(f, N.int32, 5)
                 TotNsubs += Nsubs
