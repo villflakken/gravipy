@@ -222,7 +222,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
                 +str(self.indraN)+', iA='+str(self.iA)+', iB='+str(self.iB) \
                 +', snapshot='+str(self.subfolder)+"\n"
                 
-        return subIDs, catalog
+        return subIDs, TotNsubs, catalog
 
 
     def read_fft(self):
