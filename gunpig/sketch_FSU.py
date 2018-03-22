@@ -1,11 +1,12 @@
 # Original file received before I got sick in February,
-# coarsely adapted for GRAVIPy after middle of March.
+# now coarsely adapted for GRAVIPy after middle of March.
 # Contains functions belonging to: 
 # * read_procedures,
 # * read_miscTools
 # * read_sifters
 # - Magnus, d:21 m:March y:18
 
+#: read_procedures
 
     def read_fof(self): # new method
         """
@@ -16,35 +17,52 @@
         # maxfileCount_gtb = self.findCount(gtab_name) # May be used for debugging
         # iterLen          = maxfileCount_gtb + 1
 
-        groupLen, groupOffset, TotNgroups = self.fof_tab_sifter(gtab_name)
-        groupLen, groupOffset, fofIDs = self.fof_ids_sifter(gids_name, groupLen, groupOffset)
+        TotNgroups, groupLen, groupOffset = self.fof_tab_sifter(gtab_name)
+        fofIDs    , groupLen, groupOffset = self.fof_ids_sifter(gids_name, groupLen, groupOffset)
+        print "    TotNgroups = ({0:>10d})".format(TotNgroups)
 
-        print " => Finished reading '"+str(self.what)+"', indra"       \
-                +str(self.indraN)+', iA='+str(self.iA)+', iB='+str(self.iB)  \
-                +', snapshot='+str(self.subfolder)
+        print "\n    Finished reading '"+str(self.what)+"' of files, indra" \
+                +str(self.indraN)+', iA='+str(self.iA)+', iB='+str(self.iB) \
+                +', snapshot='+str(self.subfolder)+"\n"
         
-        return TotNgroups, groupLen, groupOffset, fofIDs
+        return fofIDs, TotNgroups, groupLen, groupOffset
 
 
-    def fof_pathstrings(self):
+    def read_subhalo(self):
         """
-        Generates paths & filenames for tabs and ids
+        Reads subhalo id and tab files. But not in that order.
         """
-        indrapath = self.dsp  +  self.indraPathParser()
-        snappath  = indrapath +  "/snapdir_{0:03d}/".format(self.subfolder)
-        gtab_name = snappath  + "group_tab_{0:03d}.".format(self.subfolder)
-        gids_name = snappath  + "group_ids_{0:03d}.".format(self.subfolder)
+        gtab_name = self.fof_pathstrings()[0]
+        stab_name, sids_name = self.subh_pathstrings()
+        # s(ubhalo)tab_(file)name
+        # s(ubhalo)IDs_(file)name
 
-        return gtab_name, gids_name
+        " Need 'TotNgroups' from fof-reading, for the subh. catalog as well: "
+        TotNgroups, NTask = self.fof_headersift(gtab_name)
+        TotNsubs,   NTask = self.subh_headersift(stab_name, NTask=NTask)
+
+        # Ca(talogue out)put
+        caput   = self.subh_cater(stab_name, TotNgroups, TotNsubs, NTask)
+        catalog = caput # cataloguer output # I imagine I may want more variables as output?
+        subIDs  = self.subh_idsifter(sids_name, TotNsubs, NTask)
+        print "    TotNsubs = ({0:>10d})".format(TotNsubs)
+
+        print "\n    Finished reading '"+str(self.what)+"' of files, indra" \
+                +str(self.indraN)+', iA='+str(self.iA)+', iB='+str(self.iB) \
+                +', snapshot='+str(self.subfolder)+"\n"
+                
+        return subIDs, catalog
 
 
-    def fof_headsift(self, gtab_name=None):
+#: read_sifters
+
+    def fof_headersift(self, gtab_name=None):
         """
         Yields to the outside:
         * total number of groups/halos, in the set (of files)
         * number of files in the set
         """
-        if gtab_name == None:
+        if gtab_name is None:
             " No tabfile-path-name has been given "
             gtab_name = self.fof_pathstrings()[0]
             pass # endIF
@@ -61,7 +79,7 @@
         """
         Sifts through the group tab data.
         """
-        if gtab_name == None:
+        if gtab_name is None:
             " No tabfile-path-name has been given "
             gtab_name = self.fof_pathstrings()[0]
             pass # endIF
@@ -69,7 +87,7 @@
         TotNgroups, NTask = self.fof_headersift(gtab_name)
         if TotNgroups == 0:
             " This snap has no friends... :( "
-            return None, None, None # endIF
+            return 0, None, None # endIF
             # groupLen == None, groupOffset == None, TotNgroups == None
 
         else: 
@@ -85,31 +103,32 @@
 
                 tabpath = gtab_name + str(i)
                 with open(tabpath, 'rb') as f:
+
                     Ngroups, Nids, TotNgroups, NTask = N.fromfile(f, N.int32, 4)
+                    if Ngroups > 0:
+                        locLen    = N.fromfile(f,N.int32,Ngroups)
+                        locOffset = N.fromfile(f,N.int32,Ngroups)
+                        groupLen[    istartGroup : istartGroup+Ngroups ] = locLen  
+                        groupOffset[ istartGroup : istartGroup+Ngroups ] = locOffset + istartIDs
+                                                                                      # !! ^ !!
+                            # !istartIDs was not there in the original, as implemented above!!
+                        istartGroup += Ngroups
+                        istartIDs   += Nids
+                        pass  # endIF
                     f.close() # endWITH
-                    
-                if Ngroups > 0:
-                    locLen    = N.fromfile(f,N.int32,Ngroups)
-                    locOffset = N.fromfile(f,N.int32,Ngroups)
-                    groupLen[    istartGroup : istartGroup+Ngroups ] = locLen  
-                    groupOffset[ istartGroup : istartGroup+Ngroups ] = locOffset + istartIDs
-                                                                                  # !! ^ !!
-                        # !istartIDs was not there in the original, as implemented above!!
-                    istartGroup += Ngroups
-                    istartIDs   += Nids
-                    pass # endIF
                 continue
 
-            print "  . Browsing FOF-files (tabs): Complete!"
+            print "  . Browsing FOF-files (tabs): ...Complete!"
             pass # endELSE
-        return groupLen, groupOffset, TotNgroups
+
+        return TotNgroups, groupLen, groupOffset
 
 
     def fof_ids_sifter(self, gids_name, groupLen=None, groupOffset=None):
         """
         Sifts through the group ID data
         """
-        if gids_name == None:
+        if gids_name is None:
             " No tabfile-path-name has been given "
             gids_name = self.fof_pathstrings()[1]
             pass
@@ -123,7 +142,7 @@
         else: 
             " Friends detected! (find them!) "
             print "  - Browsing of FOF-files (IDs): Initiated..."
-            if groupLen == None and groupOffset == None:
+            if groupLen is None and groupOffset is None:
                 # Values not provided from the outside
                 gtab_name             = self.fof_pathstrings()[0]
                 groupLen, groupOffset = self.fof_tab_sifter(gtab_name)
@@ -150,64 +169,26 @@
                     f.close()        
                 continue
         
-            fofIDs -= 1 # Takes care of indexation discrepancy
-            print "  . Browsing FOF-files (IDs): Complete!"
+            print "  . Browsing FOF-files (IDs): ...Complete!"
             pass # endELSE
-        return groupLen, groupOffset, fofIDs
+        
+        fofIDs -= 1 # Takes care of indexation discrepancy
+        return fofIDs, groupLen, groupOffset
 
 
-
-
-# --------- --------- ---------- ----------
-
-    def read_subhalo(self):
-        """
-        Reads subhalo id and tab files. But not in that order.
-        """
-        stab_name, sids_name = self.subh_pathstrings()
-        # s(ubhalo)tab_(file)name
-        # s(ubhalo)IDs_(file)name
-
-        TotNgroups, NTask = self.fof_headersift(gids_name)
-        TotNsubs,   NTask = self.subh_headsift(stab_name, NTask=NTask)
-
-        # Catalogue output
-        caput   = self.subh_cater(TotNgroups, TotNsubs, NTask)
-        catalog = caput # cataloguer output # I imagine I may want more variables as output?
-        subIDs  = self.subh_idsifter(TotNsubs, NTask)
-
-        print " => Finished reading '"+str(self.what)+"', indra"       \
-                +str(self.indraN)+', iA='+str(self.iA)+', iB='+str(self.iB)  \
-                +', snapshot='+str(self.subfolder)
-
-        return subIDs, catalog
-
-
-    def subh_pathstrings(self):
-        """
-        Generates paths & filenames for tabs and ids
-        """
-        indrapath = self.dsp  + self.indraPathParser()
-        postpath  = indrapath + "/postproc_{0:03d}/".format(self.subfolder)
-        stab_name = postpath  +   "sub_tab_{0:03d}.".format(self.subfolder)
-        sids_name = postpath  +   "sub_ids_{0:03d}.".format(self.subfolder)
-
-        return stab_name, sids_name
-
-
-    def subh_headsift(self, stab_name=None, NTask=None):
+    def subh_headersift(self, stab_name=None, NTask=None):
         """
         Only opens the header of the first file in the set.
         Yields to the outside:
         * total number of subhalos, in the set (of files)
         * number of files in the set
         """
-        if stab_name == None:
+        if stab_name is None:
             " No tabfile-path-name has been given for subh files "
             stab_name = self.subh_pathstrings()[0]
             pass # endIF
 
-        if NTask == None: # Retrieve NTask
+        if NTask is None: # Retrieve NTask
             " User did not run fof_headersift before "
             with open(stab_name + str(0), 'rb') as f:
                 Ngroups, Nids, TotNgroups, NTask = N.fromfile(f, N.int32, 4)
@@ -215,7 +196,7 @@
             pass # endIF
 
         TotNsubs = 0  # Summation value to yield to the outside
-        for i in N.arange(0, Ntask):
+        for i in N.arange(0, NTask):
             with open(stab_name + str(i), 'rb') as f:
                 Ngroups, Nids, TotNgroups, NTask, Nsubs = N.fromfile(f, N.int32, 5)
                 TotNsubs += Nsubs
@@ -345,19 +326,19 @@
         return catalog # only the catalogue?
 
 
-    def subh_ids(self, sids_name=None, TotNsubs=None, NTask=None):
+    def subh_idsifter(self, sids_name=None, TotNsubs=None, NTask=None):
         """
         Extract subhalo IDs from post processed data.
         If there are subhalos in the data, then the data will be read from binary file
         """
         stab_name = self.subh_pathstrings()[0]
-        if sids_name == None:
+        if sids_name is None:
             sids_name = self.subh_pathstrings()[1]
             pass # endIF
 
         # Check/get TotNsubs first!:
-        if TotNsubs == None:
-            TotNsubs, NTask = self.subh_headsift(stab_name)
+        if TotNsubs is None:
+            TotNsubs, NTask = self.subh_headersift(stab_name)
             pass # endIF
 
         if TotNsubs == 0:
@@ -371,7 +352,7 @@
             TotSubids = 0
             for i in N.arange(0,NTask):
 
-                with open(idsfile + str(i), 'rb') as f:
+                with open(sids_name + str(i), 'rb') as f:
                     Ngroups, Nids, TotNgroups, NTask = N.fromfile(f, N.int32, 4)
                     TotSubids += Nids
                     f.close() # endWITH
@@ -384,7 +365,7 @@
             istart = 0
             for i in N.arange(0,NTask):
 
-                with open(idsfile + str(i), 'rb') as f:
+                with open(sids_name + str(i), 'rb') as f:
                     Ngroups, Nids, TotNgroups, NTask = N.fromfile(f, N.int32, 4)
                     if Nids > 0:
                         locIDs = N.fromfile(f,N.int64,Nids)
@@ -397,4 +378,31 @@
                 continue
             pass # endELSE
 
-        return subIDs-1 # indexation corrected
+        subIDs -= 1  # Indexation discrepancy correction
+        return subIDs
+
+
+#: read_misctools
+
+    def fof_pathstrings(self):
+        """
+        Generates paths & filenames for tabs and ids
+        """
+        indrapath = self.dsp  +  self.indraPathParser()
+        snappath  = indrapath +  "/snapdir_{0:03d}/".format(self.subfolder)
+        gtab_name = snappath  + "group_tab_{0:03d}.".format(self.subfolder)
+        gids_name = snappath  + "group_ids_{0:03d}.".format(self.subfolder)
+
+        return gtab_name, gids_name
+
+
+    def subh_pathstrings(self):
+        """
+        Generates paths & filenames for tabs and ids
+        """
+        indrapath = self.dsp  + self.indraPathParser()
+        postpath  = indrapath + "/postproc_{0:03d}/".format(self.subfolder)
+        stab_name = postpath  +   "sub_tab_{0:03d}.".format(self.subfolder)
+        sids_name = postpath  +   "sub_ids_{0:03d}.".format(self.subfolder)
+
+        return stab_name, sids_name

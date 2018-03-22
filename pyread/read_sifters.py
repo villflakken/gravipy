@@ -452,6 +452,7 @@ class Sifters(object):
         tag   = N.fromfile(f, N.int8, npart)
         return npart, tag
 
+
     def time_sifter(self, f):
         """
         Designed specifically to retrieve redshift data.
