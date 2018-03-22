@@ -231,7 +231,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         TotNsubs,   NTask = self.subh_headersift(stab_name, NTask=NTask)
 
         # Ca(talogue out)put
-        caput   = self.subh_cater(TotNgroups, TotNsubs, NTask)
+        caput   = self.subh_cater(stab_name, TotNgroups, TotNsubs, NTask)
         catalog = caput # cataloguer output # I imagine I may want more variables as output?
         subIDs  = self.subh_idsifter(TotNsubs, NTask)
 
