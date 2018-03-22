@@ -100,7 +100,7 @@ class Sifters(object):
         * total number of groups/halos, in the set (of files)
         * number of files in the set
         """
-        if gtab_name == None:
+        if gtab_name is None:
             " No tabfile-path-name has been given "
             gtab_name = self.fof_pathstrings()[0]
             pass # endIF
@@ -117,7 +117,7 @@ class Sifters(object):
         """
         Sifts through the group tab data.
         """
-        if gtab_name == None:
+        if gtab_name is None:
             " No tabfile-path-name has been given "
             gtab_name = self.fof_pathstrings()[0]
             pass # endIF
@@ -152,7 +152,7 @@ class Sifters(object):
                             # !istartIDs was not there in the original, as implemented above!!
                         istartGroup += Ngroups
                         istartIDs   += Nids
-                        pass # endIF
+                        pass  # endIF
                     f.close() # endWITH
                 continue
 
@@ -165,7 +165,7 @@ class Sifters(object):
         """
         Sifts through the group ID data
         """
-        if gids_name == None:
+        if gids_name is None:
             " No tabfile-path-name has been given "
             gids_name = self.fof_pathstrings()[1]
             pass
@@ -179,7 +179,7 @@ class Sifters(object):
         else: 
             " Friends detected! (find them!) "
             print "  - Browsing of FOF-files (IDs): Initiated..."
-            if groupLen == None and groupOffset == None:
+            if groupLen is None and groupOffset is None:
                 # Values not provided from the outside
                 gtab_name             = self.fof_pathstrings()[0]
                 groupLen, groupOffset = self.fof_tab_sifter(gtab_name)
@@ -210,7 +210,7 @@ class Sifters(object):
             pass # endELSE
         
         fofIDs -= 1 # Takes care of indexation discrepancy
-        return groupLen, groupOffset, fofIDs
+        return fofIDs, groupLen, groupOffset
 
 
     def subh_headersift(self, stab_name=None, NTask=None):
@@ -220,12 +220,12 @@ class Sifters(object):
         * total number of subhalos, in the set (of files)
         * number of files in the set
         """
-        if stab_name == None:
+        if stab_name is None:
             " No tabfile-path-name has been given for subh files "
             stab_name = self.subh_pathstrings()[0]
             pass # endIF
 
-        if NTask == None: # Retrieve NTask
+        if NTask is None: # Retrieve NTask
             " User did not run fof_headersift before "
             with open(stab_name + str(0), 'rb') as f:
                 Ngroups, Nids, TotNgroups, NTask = N.fromfile(f, N.int32, 4)
@@ -369,12 +369,12 @@ class Sifters(object):
         If there are subhalos in the data, then the data will be read from binary file
         """
         stab_name = self.subh_pathstrings()[0]
-        if sids_name == None:
+        if sids_name is None:
             sids_name = self.subh_pathstrings()[1]
             pass # endIF
 
         # Check/get TotNsubs first!:
-        if TotNsubs == None:
+        if TotNsubs is None:
             TotNsubs, NTask = self.subh_headersift(stab_name)
             pass # endIF
 
