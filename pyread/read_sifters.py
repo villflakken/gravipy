@@ -94,7 +94,7 @@ class Sifters(object):
         return pos, vel, idarr, npart, scalefact, redshift
 
 
-    def fof_headsift(self, gtab_name=None):
+    def fof_headersift(self, gtab_name=None):
         """
         Yields to the outside:
         * total number of groups/halos, in the set (of files)
@@ -213,7 +213,7 @@ class Sifters(object):
         return groupLen, groupOffset, fofIDs
 
 
-    def subh_headsift(self, stab_name=None, NTask=None):
+    def subh_headersift(self, stab_name=None, NTask=None):
         """
         Only opens the header of the first file in the set.
         Yields to the outside:
@@ -375,7 +375,7 @@ class Sifters(object):
 
         # Check/get TotNsubs first!:
         if TotNsubs == None:
-            TotNsubs, NTask = self.subh_headsift(stab_name)
+            TotNsubs, NTask = self.subh_headersift(stab_name)
             pass # endIF
 
         if TotNsubs == 0:
