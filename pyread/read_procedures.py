@@ -234,7 +234,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         caput   = self.subh_cater(stab_name, TotNgroups, TotNsubs, NTask)
         catalog = caput # cataloguer output # I imagine I may want more variables as output?
         subIDs  = self.subh_idsifter(TotNsubs, NTask)
-
+        print "    TotNsubs = ({0:>10g})".format(TotNsubs)
         print " => Finished reading '"+str(self.what)+"', indra"             \
                 +str(self.indraN)+', iA='+str(self.iA)+', iB='+str(self.iB)  \
                 +', snapshot='+str(self.subfolder)
