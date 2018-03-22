@@ -125,7 +125,7 @@ class Sifters(object):
         TotNgroups, NTask = self.fof_headersift(gtab_name)
         if TotNgroups == 0:
             " This snap has no friends... :( "
-            return None, None, None # endIF
+            return 0, None, None # endIF
             # groupLen == None, groupOffset == None, TotNgroups == None
 
         else: 
@@ -158,7 +158,7 @@ class Sifters(object):
 
             print "  . Browsing FOF-files (tabs): ...Complete!"
             pass # endELSE
-            
+
         return TotNgroups, groupLen, groupOffset
 
 
