@@ -141,19 +141,19 @@ class Sifters(object):
 
                 tabpath = gtab_name + str(i)
                 with open(tabpath, 'rb') as f:
+
                     Ngroups, Nids, TotNgroups, NTask = N.fromfile(f, N.int32, 4)
+                    if Ngroups > 0:
+                        locLen    = N.fromfile(f,N.int32,Ngroups)
+                        locOffset = N.fromfile(f,N.int32,Ngroups)
+                        groupLen[    istartGroup : istartGroup+Ngroups ] = locLen  
+                        groupOffset[ istartGroup : istartGroup+Ngroups ] = locOffset + istartIDs
+                                                                                      # !! ^ !!
+                            # !istartIDs was not there in the original, as implemented above!!
+                        istartGroup += Ngroups
+                        istartIDs   += Nids
+                        pass # endIF
                     f.close() # endWITH
-                    
-                if Ngroups > 0:
-                    locLen    = N.fromfile(f,N.int32,Ngroups)
-                    locOffset = N.fromfile(f,N.int32,Ngroups)
-                    groupLen[    istartGroup : istartGroup+Ngroups ] = locLen  
-                    groupOffset[ istartGroup : istartGroup+Ngroups ] = locOffset + istartIDs
-                                                                                  # !! ^ !!
-                        # !istartIDs was not there in the original, as implemented above!!
-                    istartGroup += Ngroups
-                    istartIDs   += Nids
-                    pass # endIF
                 continue
 
             print "  . Browsing FOF-files (tabs): Complete!"
