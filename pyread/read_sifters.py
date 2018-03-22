@@ -390,7 +390,7 @@ class Sifters(object):
             TotSubids = 0
             for i in N.arange(0,NTask):
 
-                with open(idsfile + str(i), 'rb') as f:
+                with open(sids_name + str(i), 'rb') as f:
                     Ngroups, Nids, TotNgroups, NTask = N.fromfile(f, N.int32, 4)
                     TotSubids += Nids
                     f.close() # endWITH
@@ -403,7 +403,7 @@ class Sifters(object):
             istart = 0
             for i in N.arange(0,NTask):
 
-                with open(idsfile + str(i), 'rb') as f:
+                with open(sids_name + str(i), 'rb') as f:
                     Ngroups, Nids, TotNgroups, NTask = N.fromfile(f, N.int32, 4)
                     if Nids > 0:
                         locIDs = N.fromfile(f,N.int64,Nids)
