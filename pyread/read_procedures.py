@@ -189,8 +189,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         # iterLen          = maxfileCount_gtb + 1
 
         TotNgroups, groupLen, groupOffset = self.fof_tab_sifter(gtab_name)
-        fofIDs,     groupLen, groupOffset = self.fof_ids_sifter(gids_name, groupLen, groupOffset)
-        print type(TotNgroups), TotNgroups
+        fofIDs    , groupLen, groupOffset = self.fof_ids_sifter(gids_name, groupLen, groupOffset)
         print "    TotNgroups = ({0:>10d})".format(TotNgroups)
 
         print "\n    Finished reading '"+str(self.what)+"' of files, indra" \
