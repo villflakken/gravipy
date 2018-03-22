@@ -228,7 +228,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
 
         " Need 'TotNgroups' from fof-reading, for the subh. catalog as well: "
         TotNgroups, NTask = self.fof_headersift(gtab_name)
-        TotNsubs,   NTask = self.subh_headsift(stab_name, NTask=NTask)
+        TotNsubs,   NTask = self.subh_headersift(stab_name, NTask=NTask)
 
         # Ca(talogue out)put
         caput   = self.subh_cater(TotNgroups, TotNsubs, NTask)
