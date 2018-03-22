@@ -158,7 +158,8 @@ class Sifters(object):
 
             print "  . Browsing FOF-files (tabs): ...Complete!"
             pass # endELSE
-        return groupLen, groupOffset, TotNgroups
+            
+        return TotNgroups, groupLen, groupOffset
 
 
     def fof_ids_sifter(self, gids_name, groupLen=None, groupOffset=None):

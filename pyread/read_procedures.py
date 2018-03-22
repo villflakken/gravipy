@@ -179,25 +179,6 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
             sys.exit("\n    *** read_posvel task name error *** \n")
 
 
-    def read_fof(self):
-        """
-        Reads friend of friend/group files' id and tab files;
-        this function is a playground for what ever I would want to do.
-        """
-        gtab_name, gids_name = self.fof_pathstrings() # Generating names
-        # maxfileCount_gtb = self.findCount(gtab_name) # May be used for debugging
-        # iterLen          = maxfileCount_gtb + 1
-
-        groupLen, groupOffset, TotNgroups = self.fof_tab_sifter(gtab_name)
-        groupLen, groupOffset, fofIDs = self.fof_ids_sifter(gids_name, groupLen, groupOffset)
-
-        print "\n    Finished reading '"+str(self.what)+"' of files, indra"\
-                +str(self.indraN)+', iA='+str(self.iA)+', iB='+str(self.iB)    \
-                +', snapshot='+str(self.subfolder)+"\n"
-        
-        return TotNgroups, groupLen, groupOffset, fofIDs
-
-
     def read_fof(self): # new method
         """
         Reads friend of friend/group files' id and tab files;
@@ -207,14 +188,15 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         # maxfileCount_gtb = self.findCount(gtab_name) # May be used for debugging
         # iterLen          = maxfileCount_gtb + 1
 
-        groupLen, groupOffset, TotNgroups = self.fof_tab_sifter(gtab_name)
-        groupLen, groupOffset, fofIDs = self.fof_ids_sifter(gids_name, groupLen, groupOffset)
+        TotNgroups, groupLen, groupOffset = self.fof_tab_sifter(gtab_name)
+        fofIDs,     groupLen, groupOffset = self.fof_ids_sifter(gids_name, groupLen, groupOffset)
+        print "    TotNgroups = ({0:>10g})".format(TotNgroups)
 
         print "\n    Finished reading '"+str(self.what)+"' of files, indra"\
                 +str(self.indraN)+', iA='+str(self.iA)+', iB='+str(self.iB)    \
                 +', snapshot='+str(self.subfolder)+"\n"
         
-        return TotNgroups, groupLen, groupOffset, fofIDs
+        return fofIDs, TotNgroups, groupLen, groupOffset
 
 
     def read_subhalo(self):
@@ -233,11 +215,12 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         # Ca(talogue out)put
         caput   = self.subh_cater(stab_name, TotNgroups, TotNsubs, NTask)
         catalog = caput # cataloguer output # I imagine I may want more variables as output?
-        subIDs  = self.subh_idsifter(TotNsubs, NTask)
+        subIDs  = self.subh_idsifter(sids_name, TotNsubs, NTask)
         print "    TotNsubs = ({0:>10g})".format(TotNsubs)
-        print " => Finished reading '"+str(self.what)+"', indra"             \
-                +str(self.indraN)+', iA='+str(self.iA)+', iB='+str(self.iB)  \
-                +', snapshot='+str(self.subfolder)
+
+        print "\n    Finished reading '"+str(self.what)+"' of files, indra"\
+                +str(self.indraN)+', iA='+str(self.iA)+', iB='+str(self.iB)    \
+                +', snapshot='+str(self.subfolder)+"\n"
                 
         return subIDs, catalog
 
