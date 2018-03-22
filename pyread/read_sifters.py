@@ -156,7 +156,7 @@ class Sifters(object):
                     f.close() # endWITH
                 continue
 
-            print "  . Browsing FOF-files (tabs): Complete!"
+            print "  . Browsing FOF-files (tabs): ...Complete!"
             pass # endELSE
         return groupLen, groupOffset, TotNgroups
 
@@ -206,7 +206,7 @@ class Sifters(object):
                     f.close()        
                 continue
         
-            print "  . Browsing FOF-files (IDs): Complete!"
+            print "  . Browsing FOF-files (IDs): ...Complete!"
             pass # endELSE
         
         fofIDs -= 1 # Takes care of indexation discrepancy

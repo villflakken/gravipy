@@ -221,12 +221,13 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         """
         Reads subhalo id and tab files. But not in that order.
         """
+        gtab_name = self.fof_pathstrings()[0]
         stab_name, sids_name = self.subh_pathstrings()
         # s(ubhalo)tab_(file)name
         # s(ubhalo)IDs_(file)name
 
         " Need 'TotNgroups' from fof-reading, for the subh. catalog as well: "
-        TotNgroups, NTask = self.fof_headersift(gids_name)
+        TotNgroups, NTask = self.fof_headersift(gtab_name)
         TotNsubs,   NTask = self.subh_headsift(stab_name, NTask=NTask)
 
         # Ca(talogue out)put
