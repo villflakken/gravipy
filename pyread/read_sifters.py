@@ -125,8 +125,8 @@ class Sifters(object):
         TotNgroups, NTask = self.fof_headersift(gtab_name)
         if TotNgroups == 0:
             " This snap has no friends... :( "
-            return 0, None, None # endIF
-            # groupLen == None, groupOffset == None, TotNgroups == None
+            return TotNgroups, N.zeros(TotNgroups), N.zeros(TotNgroups) # endIF
+            # TotNgroups == 0, groupLen == array([]), groupOffset == array([])
 
         else: 
             " Friends detected! "
@@ -152,12 +152,12 @@ class Sifters(object):
                             # !istartIDs was not there in the original, as implemented above!!
                         istartGroup += Ngroups
                         istartIDs   += Nids
-                        pass  # endIF
-                    f.close() # endWITH
+                        pass  # end.IF
+                    f.close() # end.WITH
                 continue
 
             print "  . Browsing FOF-files (tabs): ...Complete!"
-            pass # endELSE
+            pass # end.ELSE
 
         return TotNgroups, groupLen, groupOffset
 
@@ -174,8 +174,8 @@ class Sifters(object):
         TotNgroups, NTask = self.fof_headersift(gids_name)
         if TotNgroups == 0:
             " This snap has no friends... :( "
-            return None, None, None
-            # groupLen == None, groupOffset == None, fofIDs == None
+            return N.zeros(0), N.zeros(0), N.zeros(0)
+            # fofIDs == array([]), groupLen == array([]), groupOffset == array([])
 
         else: 
             " Friends detected! (find them!) "
@@ -184,7 +184,7 @@ class Sifters(object):
                 # Values not provided from the outside
                 gtab_name             = self.fof_pathstrings()[0]
                 groupLen, groupOffset = self.fof_tab_sifter(gtab_name)
-                pass
+                pass # end.IF
 
             TotNids = N.sum(groupLen, dtype=N.int64)
             fofIDs  = N.zeros(TotNids, dtype=N.int64)
@@ -208,7 +208,7 @@ class Sifters(object):
                 continue
         
             print "  . Browsing FOF-files (IDs): ...Complete!"
-            pass # endELSE
+            pass # end.ELSE
         
         fofIDs -= 1 # Takes care of indexation discrepancy
         return fofIDs, groupLen, groupOffset
@@ -372,16 +372,16 @@ class Sifters(object):
         stab_name = self.subh_pathstrings()[0]
         if sids_name is None:
             sids_name = self.subh_pathstrings()[1]
-            pass # endIF
+            pass # end.IF
 
         # Check/get TotNsubs first!:
         if TotNsubs is None:
             TotNsubs, NTask = self.subh_headersift(stab_name)
-            pass # endIF
+            pass # end.IF
 
         if TotNsubs == 0:
             " This snap has no subhs... :( "
-            return None # endIF
+            return N.zeros(TotNsubs) # end.IF
 
         else: # And retrieve the appropriate IDs if needed
             " Subh detected! (find them!) "
@@ -393,7 +393,7 @@ class Sifters(object):
                 with open(sids_name + str(i), 'rb') as f:
                     Ngroups, Nids, TotNgroups, NTask = N.fromfile(f, N.int32, 4)
                     TotSubids += Nids
-                    f.close() # endWITH
+                    f.close() # end.WITH
                 
                 continue
 
@@ -410,11 +410,11 @@ class Sifters(object):
                         # Bitshift to remove the hash table info from the IDs
                         subIDs[istart:(istart+Nids)] = N.bitwise_and(locIDs[:], (N.int64(1)<<34) - 1)
                         istart += Nids
-                        pass  # endIF
-                    f.close() # endWITH
+                        pass  # end.IF
+                    f.close() # end.WITH
 
                 continue
-            pass # endELSE
+            pass # end.ELSE
 
         subIDs -= 1  # Indexation discrepancy correction
         return subIDs
@@ -434,7 +434,7 @@ class Sifters(object):
         print 'nsize:  ', nsize
 
         fft_re = N.fromfile(f, N.float32, (L+1)*(Lhalf+1)*(L+1) )
-        fft_re =   N.reshape(fft_re, [L+1, Lhalf+1, L+1] ).astype(N.float64)
+        fft_re = N.reshape(fft_re, [L+1, Lhalf+1, L+1] ).astype(N.float64)
 
         fft_im = N.fromfile(f, N.float32, (L+1)*(Lhalf+1)*(L+1) )
         fft_im = N.reshape(fft_im, [L+1, Lhalf+1, L+1] ).astype(N.float64)

@@ -8,7 +8,7 @@
 
 #: read_procedures
 
-    def read_fof(self): # new method
+    def read_fof(self):
         """
         Reads friend of friend/group files' id and tab files;
         this function is a playground for what ever I would want to do.

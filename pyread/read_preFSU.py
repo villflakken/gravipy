@@ -136,49 +136,47 @@ class readDo(readArgs, readProcedures):
         """
         Prime example on how complex a set of permutations can become!
         """
+        for task in self.what_set:
+            " Current task as globvar (global variable) "
+            self.what = task
 
-        for iN in self.indraN_set:
-            " Current indraN as globvar "
-            self.indraN = iN
+            for iN in self.indraN_set:
+                " Current indraN as globvar "
+                self.indraN = iN
 
-            for iA in self.iA_set:
-                " Current iA as globvar "
-                self.iA = iA
+                for iA in self.iA_set:
+                    " Current iA as globvar "
+                    self.iA = iA
 
-                for iB in self.iB_set:
-                    " Current iB as globvar "
-                    self.iB = iB
+                    for iB in self.iB_set:
+                        " Current iB as globvar "
+                        self.iB = iB
 
-                    # Commenting out the below parts: allows the tasks-now-at-innermost-for-loop-
-                    # restructuring to do different tasks at similar hierarchy (RAM-friendly).
-                    
-                    # " Commented out: Not concerned with FFT-files for the time being "
-                    # sett, symbol = self.currentTaskParamsParser() 
-                    # 
-                    # for num in sett:                     #                (*)
-                    for subfolder in self.subfolder_set: #                (*)
-                        " Current subfolder/fftfile as globvar. "
-                        self.subfolder = subfolder # interchangable with: (**) 
+                        sett, symbol = self.currentTaskParamsParser()
 
-                        for task in self.what_set:
-                            " Current task as globvar (global variable) "
-                            self.what = task
+                        for num in sett:
+                            " Current subfolder/fftfile as globvar. "
+                            # if self.okGo == False: # DT
+                            #     self.intendedMachine()
+                            #     " Allows for remote debugging up to this point "
+                            #     pass 
 
-                            # if task != "fft": #                           (**)
-                            #     " When task is non-fft-related. "
-                            #     self.subfolder = num
-                            #     # print "self.subfolder =", self.subfolder # DT
-                            #     pass # endIF
-                            # else:
-                            #     " When task is fft reading. "
-                            #     self.fftfile   = num
-                            #     pass # endELSE
+                            if task != "fft":
+                                " When task is non-fft-related. "
+                                self.subfolder = num
+                                # print "self.subfolder =", self.subfolder # DT
+                                pass
+
+                            else:
+                                " When task is fft reading. "
+                                self.fftfile   = num
+                                pass
 
                             self.progressPrinter(symbol, num, sett)
 
                             " Task function call: "
                             parsed_data = self.action[self.what]()
-                            #             \=>: Main component of entire program.
+                            " >: Main component of program. "
 
                             " Creates 'candidate' for folder- and/or filename "
                             self.auto_outputPather(num)
@@ -190,17 +188,36 @@ class readDo(readArgs, readProcedures):
                                 and storage thereof.
                                 """
                                 self.pp_selector(parsed_data, num)
-                                pass # endIF
-                            
-                            " Clear variable's memory allocation, or store in dict"
+                                pass
+                            """
+                            Output for user to manipulate.
+                            * Base of filename seems a good candidate for 
+                              dictionary's indexation names.
+                              - Call on a list of the dictionary's keys, if confusion.
+                            """
+                            # Too Much Memory / TMM !!! 
+                            # parsed_datasets_dict[self.fileName] = parsed_data
+                            # Parsing 64 complete positional matrices with IDs:
+                            # ~ 20GiBs * 64 = ~ 1 280 GiBs
+
+                            # DT /*
+                            # parsed_datasets_dict[self.fileName] = parsed_data
+                            # print "sett:", sett
+                            # print
+                            # print "snap number :", num
+                            # print " Ngroups    :", parsed_data[0]
+                            # print " Nids       :", parsed_data[1]
+                            # print " TotNgroups :", parsed_data[2]
+                            # DT */
+
+                            " Clear variable memory allocation, or store in dict"
                             parsed_data = self.dataparser_iter(parsed_data, num)
 
-                            continue #:next task
-                        continue #:next num (snapnum/fftfile)...
-                    continue #:next iB
-                continue #:next iA
-            continue #:next iN
-        # endFOR:all
+                            continue # to next 'num' (snapnum/fftfile)...
+                        continue # to next iB...
+                    continue # to next iA...
+                continue # to next iN...
+            continue # to next user-specified task...
         
 
         

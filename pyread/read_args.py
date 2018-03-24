@@ -286,13 +286,12 @@ class readArgs(object):
         Incorporates user input integer number for any ints
         """
         integererrortext = """
-        Invalid number specified for {0}: '{1}'.
+        Invalid number specified for {0}: {1}.
         Allowed range: integer in [{2},{3}]
         """.format(name, uinput,
                    self.intRange_dict[name][0], self.intRange_dict[name][-1])
         
-        if type(uinput) == tuple or \
-            type(uinput) == list:
+        if hasattr(uinput, '__iter__'):
             " When multiple numbers are input. "
             
             " Check if user's unput is in specified ranges "
@@ -345,7 +344,7 @@ class readArgs(object):
 
             pass # Into return statement
         
-        elif type(uinput) == int and \
+        elif isinstance(uinput, int) and \
             uinput in self.intRange_dict[name]:
             " Single int object case recognized. "
             
@@ -368,7 +367,7 @@ class readArgs(object):
         # print "type(1) ==", type(1), "type(True) ==", type(True)
 
         toggleserrortext = """
-        Invalid value specified for {0}: '{1}'.
+        Invalid value specified for {0}: {1}.
         Allowed values: [ 0 , 1 ] / [ False, True ]
         """.format(name, uinput)
 

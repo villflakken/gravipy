@@ -239,6 +239,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
                 fft_output = self.fft_sifter(openfile)
                 pass
 
+
             except IOError:
                 self.readLoopError(filepath, 1, 1, i)
                 pass
