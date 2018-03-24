@@ -38,7 +38,7 @@ Parameters will be added and removed as needed.
 ### Task list for current tier of changelog:  
 [Task list on this gist](https://gist.github.uio.no/magnucb/44923531ed82979a0b465cdc5fb19cdd#file-current_goals-md)
 
----
+
 ### Changelog:
 
 **FSU01, from FSU00**: *(FSU = **F**of **S**ubhalo **U**pdate)* (WIP)
