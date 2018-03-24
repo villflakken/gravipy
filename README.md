@@ -31,12 +31,12 @@ Parameters will be added and removed as needed.
       + FoF data: clustered groups, group IDs, particle IDs for these.  
       + Subhalo data: smaller-scale structures (within FoF-groups), particle IDs for these.  
       + ORIGAMI data: structural type tags, ordered by particle ID.  
-  * return nothing, but user may specify for the script to have produced statistical plots or data, written to disk.  
+  * Return nothing, but user may specify for the script to have produced statistical plots or data, written to disk.  
 * Contains methods for post processing of the data, specifically to compare outputs from the two.  
 
 ---
 ### Task list for current tier of changelog:  
-<script src="https://gist.github.uio.no/magnucb/44923531ed82979a0b465cdc5fb19cdd.js?file=current_goals.md"></script>  
+[Task list on this gist](https://gist.github.uio.no/magnucb/44923531ed82979a0b465cdc5fb19cdd#file-current_goals-md)
 
 ---
 ### Changelog:
