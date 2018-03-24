@@ -41,7 +41,6 @@ Parameters will be added and removed as needed.
 ---
 ### Changelog:
 
-------
 **FSU01, from FSU00**: *(FSU = **F**of **S**ubhalo **U**pdate)* (WIP)
 * Implement current plot functionalities from Jupyter, to be performed iteratively in the GRAVIPy framework.
 * See task list.
