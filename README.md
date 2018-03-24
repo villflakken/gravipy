@@ -40,12 +40,12 @@ Parameters will be added and removed as needed.
 
 ---
 ### Changelog:
-  
+
 **FSU01, from FSU00**: *(FSU = **F**of **S**ubhalo **U**pdate)* (WIP)
 * Implement current plot functionalities from Jupyter, to be performed iteratively in the GRAVIPy framework.
 * See task list.
 
-------
+
 **FSU00, from 0.52**: *(FSU = **F**oF **S**ubhalo **U**pdate)*
 * Friends-of-Friends-reader method has received major update.
   - Each of the components that go into reading FoF-data have been more generalized; as long as the class instance is initialized, and values for `iN`, `iA`, `iB`, and snapshot numbers are given, then the FoF-reader-methods will be able to read corresponding data.  
@@ -55,7 +55,7 @@ Parameters will be added and removed as needed.
   - W.r.t. the positions vectors, these occupy ~**12**GiBs of RAM by themselves **per snapshot** (and the particle IDs are 8GiBs themselves). As such, when working on (i.e.) a Jupyter system, if any particles' position plots are to be made with FoF- and Origami tags, then these plots will have to be made individually (rather than loading up a whole range of snapshots of 64*(8+12)=~1280TiB), before memory is then released.  
     + The reason to include IDs every time, is in the case one does not want to sort the particles by ID, in their arrays; then you need the IDs in the same respective order.  
 
-------
+
 **0.52, from 0.51**:
 * Added the file and corresponding class `read_autotools.py` for when automated reading&postprocessing is wanted, but made `read_usertools.py` as a toolkit for live data manipulation w/ Jupyter - so that the latter's functions are less dependent on the parameters associated with the class' initialization.  
   - [x] Check: some of the most important tools now work as class-independent functions; but will need more work in the future.  
@@ -68,7 +68,7 @@ Parameters will be added and removed as needed.
 
 * `read_function` as a simplified reading caller may be implemented.  
 
-------
+
 **0.51, from 0.50**:  
 * Differentiated between `read_misctools.py`, and `read_usertools.py` - making it easier to go in and view user-relevant tools.  
 * Fixed array structure from  
@@ -80,7 +80,7 @@ Parameters will be added and removed as needed.
 * Left the config file- and command line initializations behind as legacy features that may be re-implemented in the future. Now put in `_betas/` folder.  
 * Particle boxing based on positions currently placed in reading procedures.  
 
-------
+
 **0.50, from scratch**:
 * Intrinsic structure initially designed to simply get input, process all data automatically, and yield output in forms of text and/or plots, with the least amount of interaction to be necessary from a user.  
   * `read.py` is the class system's initiator. It handles the general flow depending on wether the class was initialized to be used as a function call, or a pre-determined set of INDRA-variables to be read and processed. Then it sifts through the INDRA data as set by the user, and, if enabled, engages post processing.  
