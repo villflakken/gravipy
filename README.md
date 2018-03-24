@@ -1,6 +1,6 @@
 ### **GRAVIPy**    
 
-**G**eneral **R**esource for **A**nalyzing and **V**isualizing **I**ndra with **P**ython  
+**G**eneral **R**esource for **A**nalyzing and **V**isualizing **I**ndra with **Py**thon  
 
 ---
 ### About:  
@@ -36,7 +36,7 @@ Parameters will be added and removed as needed.
 
 ---
 ### Task list for current tier of changelog:  
-<script src="https://gist.github.uio.no/magnucb/44923531ed82979a0b465cdc5fb19cdd.js"></script>  
+<script src="https://gist.github.uio.no/magnucb/44923531ed82979a0b465cdc5fb19cdd.js?file=current_goals.md"></script>  
 
 ---
 ### Changelog:
