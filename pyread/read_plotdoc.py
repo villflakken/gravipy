@@ -167,8 +167,170 @@ class Plotter(object):
         return 0
 
 
+    def plot_haloCounts(self, fofHaloParticleNums, subHaloParticleNums):
+        """
+        Is given TotalN(fof- or sub-) halo counts, and plots them over time.
+        """
+        
+        ### """ ---- 1st plot ---- """
+        hcfig = pl.figure("haloCounts", figsize=(10,10))
+        ax1 = hcfig.add_subplot(111)
+
+        scale_y = 1.*1e+6
+        ax1.plot( 
+            self.datadict["time"]["redshifts"] , 
+            fofHaloParticleNums /scale_y       , 
+            label='FoF' ,
+            linestyle='-',  linewidth=3, color='black'
+        )
+        ax1.plot( 
+            self.datadict["time"]["redshifts"] , 
+            subHaloParticleNums /scale_y       , 
+            label='Subhalo' ,
+            linestyle='--', linewidth=3, color='gray'
+        )
+        ax1.set_xlabel(r"$z$ [redshift]")
+        ax1.set_ylabel(r"Halo counts of type over time")
+        ax1.plot()
+
+        # ax1.set_xscale("log", nonposx='clip')
+        # ax1.set_yscale("log", nonposy='clip')
+
+        ax1.grid('on')
+        # ax2.legend( 
+        #     bbox_to_anchor=(0,0.14, 1,-0.2),
+        #     loc="upper left", mode="expand",
+        #     ncol=4, prop={'size':15}, markerscale=4
+        # )
+        ax1.legend(loc='best')
+
+        # Ways to invert the axes:
+        ax1.set_xlim([7.5, redshifts[-1]])
+
+        plotfname = self.outfilePath + "_haloCounts_SubFoF"
+        pl.savefig( plotfname +".png", dpi=200 )
+        pl.show(   "haloCounts" )
+        pl.close(  "haloCounts" )
 
 
+        ### """ ---- 2nd plot ---- """
+        hcfig = pl.figure("haloCounts_zoom", figsize=(10,10))
+        ax2 = hcfig.add_subplot(111)
+
+        ax2.plot( self.datadict["time"]["redshifts"] , 
+                  fofHaloParticleNums/scale_y        , 
+            label='FoF'    , linestyle='-' , linewidth=3, color='black'
+        )
+        ax2.plot( self.datadict["time"]["redshifts"] , 
+                  subHaloParticleNums/scale_y        , 
+            label='Subhalo', linestyle='--', linewidth=3, color='gray'
+        )
+        ax2.set_xlabel(r"$z$ [redshift]")
+        ax2.set_ylabel(r"Halo counts of type over time")
+
+        # ax2.set_xscale("log", nonposx='clip')
+        ax2.set_yscale("log", nonposy='clip')
+
+        ax2.grid('on')
+        # ax2.legend( 
+        #     bbox_to_anchor=(0,0.14, 1,-0.2),
+        #     loc="upper left", mode="expand",
+        #     ncol=4, prop={'size':15}, markerscale=4
+        # )
+        ax2.legend(loc='best')
+
+        # Ways to invert the axes:
+        ax2.set_xlim([3, redshifts[-1]])
+        ax2.set_ylim([4e-1, 3.1])
+
+        # n(umber of)halop(articles)_f(of,)s(ubhalo,)o(rigami)
+        plotfname = self.outfilePath + "_haloCounts_zoom_SubFoF"
+        pl.savefig( plotfname +".png", dpi=200)
+        pl.show(   "haloCounts_zoom" )
+        pl.close(  "haloCounts_zoom" )
+        
+        return 0
+
+
+    def plot_sofa(self, nsp, nhtags, ngp):
+        """
+        Plotting views of particles pertaining to structure classifications:
+        * Subhalo groups
+        * Origami tags
+        * FoF halo groups
+        """
+        fig = pl.figure("haloparticles", figsize=(10,10))
+        ax = fig.add_subplot(111)
+
+        scale_y = 1024.**3
+        ax.plot( redshifts, ngp/scale_y,
+                 label='FOF'     , linestyle='-' , linewidth=3, color='black' )
+        ax.plot( redshifts, nsp/scale_y, 
+                 label='Subhalo' , linestyle='--', linewidth=3, color='cyan'  )
+        ax.plot( redshifts, nhtags/scale_y,
+                 label='Origami' , linestyle=':' , linewidth=3, color='red'   )
+        ax.set_xlabel(r"$z$ [redshift]")
+        ax.set_ylabel(r"Halo particle counts / Total no. of particles")
+
+        # ax.set_xscale("log")#, nonposy='clip')
+        # ax.set_yscale("log")#, nonposy='clip')
+
+        ax.grid('on')
+        # ax.legend(bbox_to_anchor=(0,0.14, 1,-0.2), \
+        #                       loc="upper left", mode="expand", ncol=4, prop={'size':15}, markerscale=4)
+        ax.legend(loc='best')
+
+        # Ways to invert the axes:
+        # ax.set_xlim([redshifts[0], redshifts[-1]]) 
+        # pl.gca().invert_xaxis()
+        ax.set_xlim([7.5, redshifts[-1]]) 
+
+        # n(umber of)halop(articles)_f(of,)s(ubhalo,)o(rigami)
+        plotfname = self.outfilePath + "numHaloPart_sofa"
+        pl.savefig( plotfname +".png", dpi=200)
+        pl.show(   "haloparticles" )
+        pl.close(  "haloparticles" )
+
+        return 0 
+
+    def plot_quori(self, nvtags, nwtags, nftags, nhtags):
+        """
+        Quantities of the Origami-tagged types
+        """
+        fig = pl.figure("quori", figsize=(10,10))
+        ax = fig.add_subplot(111)
+
+        scale_y = 1e9
+        ax.plot( redshifts, nvtags /scale_y, 
+                 label='Void',     linestyle='-',  linewidth=3, color='black'   )
+        ax.plot( redshifts, nwtags /scale_y,
+                 label='Wall',     linestyle='-',  linewidth=3, color='blue'    )
+        ax.plot( redshifts, nftags /scale_y, 
+                 label='Filament', linestyle='-',  linewidth=3, color='magenta' )
+        ax.plot( redshifts, nhtags /scale_y, 
+                 label='Halo',     linestyle='-',  linewidth=3, color='red'     )
+        ax.set_xlabel(r"$z$ [redshift]")
+        ax.set_ylabel(r"Origami-tagged particles / $10^9$")
+
+        # ax.set_xscale("log")#, nonposy='clip')
+        # ax.set_yscale("log")#, nonposy='clip')
+
+        ax.grid('on')
+        # ax.legend(bbox_to_anchor=(0,0.14, 1,-0.2), \
+        #                       loc="upper left", mode="expand", ncol=4, prop={'size':15}, markerscale=4)
+        ax.legend(loc='best')
+
+        # Ways to invert the axes:
+        # ax.set_xlim([redshifts[0], redshifts[-1]]) 
+        # pl.gca().invert_xaxis()
+        ax.set_xlim([7.5, redshifts[-1]]) 
+
+        # n(umber of)ori(gami)t(ags)_
+        plotfname = self.outfilePath + "quori"
+        pl.savefig( plotfname +".png", dpi=200)
+        pl.show("quori")
+        pl.close("quori")
+        return 0
 
 if __name__ == '__main__':
     sys.exit("Attempt at running code from unintended source. \n\

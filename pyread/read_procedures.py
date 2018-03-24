@@ -225,30 +225,6 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         return subIDs, TotNsubs, catalog
 
 
-    def read_fft(self):
-        """
-        FFT data reading procedure
-        """
-        indrapath = self.dsp + "/indra%d/%d_%d_%d" \
-            % (self.indraN, self.indraN, self.iA, self.iB)
-        fftpath = indrapath + '/FFT_DATA/FFT_128_%03d.dat' % self.fftfile
-
-        with open(fftpath, 'rb') as openfile:
-
-            try:
-                fft_output = self.fft_sifter(openfile)
-                pass
-
-
-            except IOError:
-                self.readLoopError(filepath, 1, 1, i)
-                pass
-        
-        dummy = fft_output # DO SOMETHING ABOUT THIS (,) DUMMY! (heh, gedit?)
-
-        return 0
-
-
     def read_origami(self):
         """
         Reads ORIGAMI's data output
@@ -298,6 +274,31 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
             openfile.close()
 
         return scalefact, redshift
+
+
+    # Not currently supported in the algorithm.
+    def read_fft(self):
+        """
+        FFT data reading procedure
+        """
+        indrapath = self.dsp + "/indra%d/%d_%d_%d" \
+            % (self.indraN, self.indraN, self.iA, self.iB)
+        fftpath = indrapath + '/FFT_DATA/FFT_128_%03d.dat' % self.fftfile
+
+        with open(fftpath, 'rb') as openfile:
+
+            try:
+                fft_output = self.fft_sifter(openfile)
+                pass
+
+
+            except IOError:
+                self.readLoopError(filepath, 1, 1, i)
+                pass
+        
+        dummy = fft_output # DO SOMETHING ABOUT THIS (,) DUMMY! (heh, gedit?)
+
+        return 0
 
 
 if __name__ == '__main__':

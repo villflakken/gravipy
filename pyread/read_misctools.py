@@ -169,7 +169,7 @@ class MiscTools(object):
         return oridatpath
 
 
-    def auto_outputPather(self, num):
+    def auto_outputPather(self):
         """
         Checks if output folder structure exists
         & creates output path for output file 
@@ -177,52 +177,67 @@ class MiscTools(object):
         * Note: based in user's home folder,
                 folder structure based on intended task.
         """
-        self.outfilePath = None
+        self.outfilePath = None # Clear variable
 
+        # Determines format of output path
         if bool(self.outputpath) == True:
             " User input specified data output path "
             folderPath = self.outputpath
             pass
         else:
-            folderPath = "output_gravipy/{0}_i{1}{2}{3}{4}_sf{5:02d}/"
+            folderPath = "/{data}_i{iN}{iA}{iB}{tmp}/"
             pass
+        fileName = "{data}_i{iN}{iA}{iB}{tmp}"
 
-        fileName = "{0}_i{1}{2}{3}{4}_sf{5:02d}"
-        if self.what == "posvel":
+        # Lowest hierarchy for user's folders, usually "~/"
+        if self.onIdies == True:
+            outdir_floor  = self.uname + "workspace/persistent/output_gravipy/"
+        
+            # Version-control-specific output variable
+            outdir_floor += "{version}/".format(version=self.version)
+            # example: "workspace/persistent/output_gravipy/{version}/"
             pass
         else:
+            # Assuming to be on the elephant-cluster
+            outdir_floor  = self.uname + "output_gravipy/"
             pass
 
-        if self.boolcheck(self.tmpfolder) == True:
-            " When 'indraX_tmp' data is processed "
-            folderPath = folderPath.format( 
-                            self.what, self.indraN, self.iA, self.iB, "tmp", num )
-            fileName   = fileName.format(   
-                            self.what, self.indraN, self.iA, self.iB, "tmp", num )
-            # Examples   : \
-            " folderpath : 'output_gravipy/{0}_i{1}{2}{3}{tmp}_sf{5:02d}/' "
-            " filename   :                '{0}_i{1}{2}{3}{tmp}_sf{5:02d}'  "
+
+        # The following test establishes these strings'(*) naming conventions:
+        " folderpath : 'output_gravipy/{data}_i{iN}{iA}{iB}{tmp}/' "
+        " filename   :                '{data}_i{iN}{iA}{iB}{tmp}'  "
+        if any([ # Confirms combination procedure or not
+                self.what_set in self.singleSnapActions.keys() ,
+                self.what_set in self.allSnapActions.keys()     
+            ]):
+            operationName = self.what_set
             pass
         else:
-            " When normal data structures are processed "
-            folderPath = folderPath.format( 
-                            self.what, self.indraN, self.iA, self.iB, "", num )
-            fileName   = fileName.format(   
-                            self.what, self.indraN, self.iA, self.iB, "", num )
-            # Examples   : \
-            " folderpath : 'output_gravipy/{0}_i{1}{2}{3}{None}_sf{5:02d}/' "
-            " filename   :                '{0}_i{1}{2}{3}{None}_sf{5:02d}'  "
+            operationName = self.what
             pass
+
+        tmpstr = "tmp" if self.tmpfolder == True else ""
+        # ... (*) and here they are set:
+        folderPath = folderPath.format( 
+            data = operationName, 
+            iN   = self.indraN, 
+            iA   = self.iA, 
+            iB   = self.iB, 
+            tmp  = tmpstr 
+        )
+        fileName = fileName.format(   
+            data = operationName, 
+            iN   = self.indraN, 
+            iA   = self.iA, 
+            iB   = self.iB, 
+            tmp  = tmpstr
+        )
         
         " May be used for dictionary storage of datasets "
-        self.fileName = fileName 
+        self.fileName = fileName
+        # Will need snap folder/number at times added to it!
         
         outfilePath   = folderPath + fileName
-
-        outdir_floor = self.uname # lowest hierarchy for user's folders, usually "~/"
-        if self.onIdies == True:
-            outdir_floor = outdir_floor + "workspace/persistent/"
-            pass
 
         if any((self.w2f, self.plotdata)) == True:
             " If any kind of output is requested "
@@ -240,7 +255,9 @@ class MiscTools(object):
             pass # Folders are verified
 
         self.outfilePath = outdir_floor + outfilePath 
-
+        ok = int(raw_input("Is this an OK output file path?:\n    "
+                       + self.outfilePath))
+        if not ok: sys.exit(" --- Filepath not ok :( ")
         return self.outfilePath
 
 

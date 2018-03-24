@@ -1,7 +1,7 @@
 # ==============================================
 # Indra data sets' reading MO.
 # ==============================================
-import os, sys, glob, time
+import os, sys, glob, time, gc
 import numpy as N
 import subprocess as sp
 from read_args import readArgs
@@ -76,33 +76,61 @@ class readDo(readArgs, readProcedures):
         Inherits two other scripts' classes and functionality.
         """
         readArgs.__init__(self)
-        readProcedures.__init__ (self)
+        readProcedures.__init__(self)
+        # self.version = "fsu00" # Earlier version of the system
+        self.version = "fsu01" # Version-control-notation, wrt. output folders
         """
         Actiondicts : commands for the program to act on
         """
-        self.actionkeys = \
-            [ # The types of data available to read.
-                "pos"     ,
-                "vel"     ,
-                "fof"     ,
-                "subhalo" , 
-                "fft"     ,
-                "origami" ,
-                "time"
-            ]
-        self.action = \
-            { # Function library for initializing data reading.
-                "pos"     : self.read_posvel  , 
-                "vel"     : self.read_posvel  , 
-                "fof"     : self.read_fof     , 
-                "subhalo" : self.read_subhalo , 
-                "fft"     : self.read_fft     ,
-                "origami" : self.read_origami ,
-                "time"    : self.read_time
-            }
+        self.actionkeys = [ # The types of data available to read.
+            "pos"     ,
+            "vel"     ,
+            "fof"     ,
+            "subhalo" , 
+            "origami" ,
+            # "fft"     , # currently not a feature
+            "time"
+        ]
+        # Function library for initializing actual data _reading_.
+        self.action  = { 
+            "pos"     : self.read_posvel  , 
+            "vel"     : self.read_posvel  , 
+            "fof"     : self.read_fof     , 
+            "subhalo" : self.read_subhalo , 
+            # "fft"     : self.read_fft     ,
+            "origami" : self.read_origami ,
+            "time"    : self.read_time
+        }
+        # Determines which datasets are allowed to store variables
+        self.AllowedDataAccumulation = [
+            "fof",
+            "subhalo",
+            "origami"
+        ] # i.e.: storing 64 snaps of 'pos'-data kills the RAM
+        
+        # Specific processing routines (c.f.: 'read_autotools.py'),
+        # format: dict = {'user input command' : ('data', 'types', 'involved') }
+        self.singleSnapActions = {
+            "posor"    : [ "pos", "origami"            ] ,
+            "pof"      : [ "pos", "fof"                ] ,
+            "porifof"  : [ "pos", "origami", "fof"     ] ,
+            "playOne"  : [ "pos", "origami", "fof"     ] # Dev. tests
+        }
+        self.allSnapActions = {
+            "sufo"     : [ "subhalo", "fof"            ] ,
+            "sofa"     : [ "subhalo", "origami", "fof" ] ,
+            "playAll"  : [ "subhalo", "origami", "fof" ] # Dev. tests
+        }
+        # self.allSnapActions[self.what_set] => substitutes
+        self.singleSnapActions_bools = { # Used for checking 'ppSingleSnaps' status;
+        }                                # is modified in 'read_args.py'
+        self.allSnapActions_bools = {    # Used for checking 'ppAllSnaps' status;
+        }                                # is modified in 'read_args.py'
+        
+        
         self.teststring = "\n   This is the test \n"
         """
-        end of init
+        End of init
         """
 
     def __call__(self, read_params):
@@ -117,7 +145,6 @@ class readDo(readArgs, readProcedures):
         self.read_params = read_params
         " 1. "
         self.callArgsChecker()
-        
         " 2. "
         return self.beginReading()
 
@@ -131,116 +158,202 @@ class readDo(readArgs, readProcedures):
         Will try to avoid that. But then it will be ugly.
         Assumes that parameters in arglist have been set.
         """
-        
-        self.datadict = {} # cf. function: self.storager()
+        self.datadict = {} # cf. function 'self.generalStorager()': The final, returned dict.
+        self.theTimeData() # Adds 'scale factor' & 'redshift data' to the set
+        # Useful by only being declared _once_. # snap Index:
+        self.sIndex = N.arange(0, len(self.subfolder_set))
         """
-        Prime example on how complex a set of permutations can become!
+        Prime example on how complex a set of permutations can become!:
         """
-
         for iN in self.indraN_set:
             " Current indraN as globvar "
             self.indraN = iN
-
             for iA in self.iA_set:
                 " Current iA as globvar "
                 self.iA = iA
-
                 for iB in self.iB_set:
                     " Current iB as globvar "
                     self.iB = iB
-
-                    # Commenting out the below parts: allows the tasks-now-at-innermost-for-loop-
-                    # restructuring to do different tasks at similar hierarchy (RAM-friendly).
+                    # Useful for dictionary addresses & file names
+                    self.iString = "{0:1d}{1:1d}{2:1d}".format(iN,iA,iB)
                     
-                    # " Commented out: Not concerned with FFT-files for the time being "
-                    # sett, symbol = self.currentTaskParamsParser() 
-                    # 
-                    # for num in sett:                     #                (*)
-                    for subfolder in self.subfolder_set: #                (*)
-                        " Current subfolder/fftfile as globvar. "
-                        self.subfolder = subfolder # interchangable with: (**) 
+                    # Indra variables set. Check task set:
+                    if   self.what_set in self.singleSnapActions.keys():
+                        " Calls algorithm that avoids RAM overload "
+                        parsed_data = self.performSingleSnaps()
+                        pass
 
-                        for task in self.what_set:
-                            " Current task as globvar (global variable) "
-                            self.what = task
+                    elif self.what_set in self.allSnapActions.keys():
+                        " Calls algorithm that potentially stores all given snapshots "
+                        parsed_data = self.performAllSnaps()
+                        pass
 
-                            # if task != "fft": #                           (**)
-                            #     " When task is non-fft-related. "
-                            #     self.subfolder = num
-                            #     # print "self.subfolder =", self.subfolder # DT
-                            #     pass # endIF
-                            # else:
-                            #     " When task is fft reading. "
-                            #     self.fftfile   = num
-                            #     pass # endELSE
+                    else:
+                        " Basic indra data reading "
+                        parsed_data = self.performBasicOps()
 
-                            self.progressPrinter(symbol, num, sett)
-
-                            " Task function call: "
-                            parsed_data = self.action[self.what]()
-                            #             \=>: Main component of entire program.
-
-                            " Creates 'candidate' for folder- and/or filename "
-                            self.auto_outputPather(num)
-
-                            " Function calls post processes as paramatrized: "
-                            if any((self.w2f, self.plotdata)) == True:
-                                """
-                                The program handles data post processing
-                                and storage thereof.
-                                """
-                                self.pp_selector(parsed_data, num)
-                                pass # endIF
-                            
-                            " Clear variable's memory allocation, or store in dict"
-                            parsed_data = self.dataparser_iter(parsed_data, num)
-
-                            continue #:next task
-                        continue #:next num (snapnum/fftfile)...
                     continue #:next iB
                 continue #:next iA
             continue #:next iN
-        # endFOR:all
-        
-
+        # end.FOR:all
         
         self.keychainer() # Adds the keys for self.datadict, & its subdicts,
                           # to be items in the (outermost) dictionary itself,
                           # in a readable &/ sorted manner.
 
         print "    Done with loop, now returning data. "
-        # returns 'None'
-        return self.datareturner(parsed_data)
+        return self.datareturner(parsed_data) # Requested data returned here
+            # Program is done!
 
 
-    def currentTaskParamsParser(self):
+    def performBasicOps(self):
         """
-        Sets some reading parameters into the environment's current scope,
-        because FFT as a task would be different than others, bla bla.
-        Also, working along with self.progressPrinter(X,Y,Z).
+        Performs the basic Indra reading, data structure building, etc.
+        * May return single pos-sets, or single/lesser/all sofa data sets
         """
-        if self.what != "fft":
-            # Second condition probably redundant condition, but 
-            " if not 'fft', then 'subfolder' systems! "
-            sett     = self.subfolder_set
-            symbol   = "subfolder"
-            pass
+        for subfolder in self.subfolder_set:
+            " Current subfolder/fftfile as globvar. "
+            self.subfolder = subfolder
 
-        elif self.what == "fft":
-            " if 'fft', then fftfiles! "
-            sett     = self.fftfile_set
-            symbol   = "fftfile"
-            pass
+            for task in self.what_set:
+                " Current task as globvar (global variable) "
+                self.what = task
+                self.progressPrinter(subfolder)
 
-        else:
-            sys.exit("Task name does not conform to any allowed.")
-            # Safety nets should already have picked up on this;
-            # maybe I'm coding this _too_ safe.
+                " Task function call: "
+                parsed_data = self.action[self.what]()
+                # \=>: Main component of entire program: Reading.
 
-        return sett, symbol
+                " IF-block below handles pp and output "
+                if any([self.w2f, self.plotdata]) == True:
+                    " Handles data post processing - during. "
+                    self.ppBasic(parsed_data, num)
+                    
+                    if subfolder == self.subfolder_set[-1]:
+                        " Handles data post processing - end of subfolder set. "
+                        self.ppBasicLast(parsed_data, num)
+                        pass # end.IF: last snap
+
+                    pass # end.IF: pp & output
+                
+                " Clear variable's memory allocation, or store in dict"
+                parsed_data = self.dataParserIter(parsed_data, num)
+
+                continue #:next task
+
+            continue #:next snapnum...
+
+        return parsed_data
 
 
-    def dataparser_iter(self, parsed_data, num):
+    def performSingleSnaps(self):
+        """
+        Performs reading and processing for multiple tasks, on a single snap.
+        * Combinations' operations determined through:
+            - user inputs name of a specific combination,
+            - 'readDo.__init__'s structure,
+            - contents of pp-function in question
+
+        any([self.autocombo_bools[key] 
+            for key in self.autocombo.keys()])
+        """
+        # TODO not done
+
+    
+        # May develop this one into a function that retrieves a set of tasks to do 
+        self.taskSingles = self.singleSnapActions[self.what_set] 
+        
+        for subfolder in self.subfolder_set:
+            " Current subfolder/fftfile as globvar. "
+            self.subfolder = subfolder
+
+            " Data dict for processing in type combination - singular snaps "
+            self.data1dict = {}
+
+            for task in self.taskSingles:
+                " Current task as globvar (global variable) "
+                self.what = task
+                self.progressPrinter(self.subfolder)
+
+                " Task function call: "
+                parsed_data = self.action[self.what]()
+                # \=>: Main component of entire program: Reading.
+
+                " IF-block below handles pp and output "
+                if any([self.w2f, self.plotdata]) == True:
+                    " Handles data post processing - during. "
+                    self.ppSingleSnaps(parsed_data, num)
+                        # temp. storage for pp-data is self-contained
+                        # inside self.'ppSingleSnaps'
+                    pass # end.IF: pp & output
+                
+                " Clear variable's memory allocation, or store in dict"
+                parsed_data = self.dataParserIter(parsed_data, num)
+                continue #:next task
+
+            " Clears dict for next iteration, if there is one "
+            self.data1dict.clear() 
+                # i.e.: Positions take up a lot of memory!
+            continue #:next snapnum...
+
+        return parsed_data
+
+        
+    def performAllSnaps(self):
+        """
+        Performs reading and processing for multiple tasks, on a single snap.
+        * Combinations' operations determined through:
+            - user inputs name of a specific combination,
+            - 'readDo.__init__'s structure,
+            - contents of pp-function in question
+
+        any([self.autocombo_bools[key] 
+            for key in self.autocombo.keys()])
+        """
+
+        " Data dict. for processing in type combination - all snaps in set "
+        self.dataAlldict = {}
+
+        # taskAlls = ...
+
+        for subfolder in self.subfolder_set:
+            " Current subfolder/fftfile as globvar. "
+            self.subfolder = subfolder
+
+            for task in self.allSnapActions[ self.what_set ]:
+                " Current task as globvar (global variable) "
+                self.what = task
+                self.progressPrinter(subfolder)
+                self.auto_outputPather() # Creates fitting strings
+                # Declare the condition for beginning pp at end of set
+                self.allCond = subfolder is self.subfolder_set[-1] \
+                    and task is self.allSnapActions[ self.what_set ][-1]:
+
+                " Task function call: "
+                parsed_data = self.action[self.what]()
+                # \=>: Main component of entire program: Reading.
+
+                " IF-block below handles pp and output "
+                if any([self.w2f, self.plotdata]) == True:
+                    " Handles data post processing - during. "
+                    self.ppAllSnaps(parsed_data, num) 
+                    # Function will initiate more specific processing
+                    pass # end.IF: pp & output
+                
+                " Clear variable's memory allocation, or store in dict"
+                parsed_data = self.dataParserIter(parsed_data, num)
+
+                continue #: Next task
+            continue #: Next     snapnum...
+
+        " Clears dict and pp cond for next outside iteration "
+        self.dataAlldict.clear()
+        self.allCond = False
+
+        return parsed_data
+
+
+    def dataParserIter(self, parsed_data, num):
         """
         Handles the three cases of how data will be stored or not,
         through an iteration.
@@ -260,7 +373,7 @@ class readDo(readArgs, readProcedures):
         * Single set runs should only return raw, non-post-processed data,
           for interpretation outside.
 
-        * This function's output is then sent along to self.storager(X,Y);
+        * This function's output is then sent along to self.generalStorager(X,Y);
           iow.: this function's output is what potentially be stored within 
           object's instance (and also)/(or simply) returned objects.
         """
@@ -271,10 +384,8 @@ class readDo(readArgs, readProcedures):
 
         elif self.multiset == "store":
             " Don't wipe completely; re-locate for storage "
-            # self.parsed_datasets_dict[self.fileName] = parsed_data
-            # return None   # temporary easy solution
-            return self.storager(parsed_data, num) # proper solution
-                                                   # WIP # done..!(?)
+            return self.generalStorager(parsed_data) # proper solution
+                                                   # WIP (# done..!(?))
 
         elif self.multiset == False:
             " Single set case, return parsed data "
@@ -282,12 +393,12 @@ class readDo(readArgs, readProcedures):
 
         else:
             print "Parse error"
-            pass # function returns False
+            pass # function returns 0/False
 
         return 0
 
 
-    def storager(self, parsed_data, num):
+    def generalStorager(self, parsed_data):
         """
         Stores the data into some kind of logical structure
         (? - feedback needed)
@@ -308,42 +419,50 @@ class readDo(readArgs, readProcedures):
         several items from the reading of a snapshot's data
         (pertaining to the data type/category/"task").
         """
-        task  = self.what           # -- --> Outermost dictionary key 
-                                       #   (already string).
+        task  = self.what           # -- --> Outermost dictionary key, str-type
         iN    = self.indraN         # -- --> These 3 form the middle key
         iA    = self.iA             # --^
         iB    = self.iB             # -^
-        indra = "{0:1d}{1:1d}{2:1d}".format(iN,iA,iB)
+        # indra = "{0:1d}{1:1d}{2:1d}".format(iN,iA,iB)
+        indra = self.iString
+        num   = self.subfolder      # -- --> Innermost key.
 
-        # num   = "{num:d}".format(num=num, )   # -- --> Innermost key.
-        # num   = str(num)            # -- --> Innermost key.
-        num   = num                 # -- --> Innermost key.
-        # Pure numbers is probably easier to handle in most cases
+        # NB: self.datadict was declared in 
+        #     the beginning of self.beginReading()
 
-        # self.datadict was declared in 
-        # the beginning of self.beginReading()
-        if task not in self.datadict.keys():
-            
+        " See if current task's data is _allowed_ to store "
+        if task in self.AllowedDataAccumulation:
+            " Then put in its correct dictionary "
+            self.dictMaker(self.datadict, task, indra, num)
+            pass # end.IF 0
+
+        return 0
+
+
+    def dictMaker(self, dictname, task, indra, num):
+        """
+        Contains the versatile if tests that make up
+        the dictionary updating sequence.
+        """
+        if task not in dictname.keys():
             " Declaration of task-name-key "
-            self.datadict[task] = { indra : { num : parsed_data } }
-            pass # Out of 1st if's IF block
+            dictname[task] = { indra : { num : parsed_data } }
+            pass # end.IF 1
 
         else:
-
             " Case: dict already has the task-name-key "
-            if indra not in self.datadict[task].keys():
+            if indra not in dictname[task].keys():
                 
                 " Declaration of indra-key "
-                self.datadict[task][indra] = { num : parsed_data }
-                pass # Out of 2nd if's IF block
+                dictname[task][indra] = { num : parsed_data }
+                pass # end.IF 2
 
             else:
 
                 " Case: dict already has indra-key "
-                self.datadict[task][indra][num] = parsed_data
-                pass # Out of 2nd if's ELSE block
-
-            pass # Out of 1st if's ELSE block
+                dictname[task][indra][num] = parsed_data
+                pass # end.ELSE 2
+            pass # end.ELSE 1
 
         return 0
 
@@ -354,9 +473,8 @@ class readDo(readArgs, readProcedures):
         to be items in the (outermost) dictionary itself,
         in a readable &/ sorted manner - and as strings!
         """
-
         " 1: Best tasks-key sorting: the order in which they were input "
-        self.datadict["tasks"]  = N.array(self.what_set ) # Array of strings
+        self.datadict["tasks"] = N.array(self.what_set)
 
         " 2: Sorting indra-keys by numeral value " # Only relevant for multiple simulations
         if self.multiset == True: 
@@ -365,9 +483,9 @@ class readDo(readArgs, readProcedures):
                 self.datadict[self.what_set[0]].keys(),
                 key=float 
             ))
-            pass
             # NB: No. of indra simulations is equal
-            # for each performed task in self.what_set!
+            #     for each performed task in self.what_set!
+            pass
 
         " 3: Sorting snap-keys by their numeral value "
         # self.datadict["snapkeys"] = N.array(self.subfolder_set)
@@ -395,30 +513,37 @@ class readDo(readArgs, readProcedures):
         self.datadict["--help"]["pos"] = """\
           * output object of a 'pos'-related object is:
         tuple(
-               IDs         , # numpy array
-               pos         , # numpy array
-               scalefactor , # scalar value
-               rs_value      # scalar value
+            IDs         , # numpy array
+            pos         , # numpy array
+            scalefactor , # scalar value
+            rs_value      # scalar value
         )
         """
 
         self.datadict["--help"]["fof"] = """\
           * output object of a 'fof'-related object is:
         tuple(
-               Ngroups     , # scalar value
-               Nids        , # scalar value
-               TotNgroups  , # scalar value
-               GroupLen    , # numpy array
-               GroupOffset , # numpy array
-               IDs           # numpy array
+            fofIDs      , # numpy array
+            TotNgroups  , # scalar value
+            GroupLen    , # numpy array
+            GroupOffset   # numpy array
+        )
+        """
+
+        self.datadict["--help"]["fof"] = """\
+          * output object of a 'fof'-related object is:
+        tuple(
+            subIDs      , # numpy array
+            TotNgroups  , # scalar value
+            catalog       # dictionary with LOTS of details
         )
         """
 
         self.datadict["--help"]["origami"] = """\
           * output object of an 'origami'-related object is:
         tuple(
-               tags  , # numpy array
-               Npart   # scalar value
+            tags  , # numpy array
+            Npart   # scalar value
         )
         """
 
@@ -466,30 +591,80 @@ class readDo(readArgs, readProcedures):
         return 0
 
 
-    def progressPrinter(self, symbol, num, sett):
+    def progressPrinter(self, num):
         """
         Printout of programs current progress through folder systems
         """
-        progress = """
-    --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- 
-        Currently reading:
-        Data type   : {task:>6}   (/out of sets: {set:^10} )
-        indraN      : {iN:>6}             ( /: {indraNset:^10} )
-        iA          : {iA:>6}             ( /: {iAset:^10} )
-        iB          : {iB:>6}             ( /: {iBset:^10} )
-        {symbol:<12}: {sn:>6}             ( /: {snset:^10} )
+        progress = """\
+        * i{iN:1d}{iA:1d}{iB:1d} > {task} > snap:{sn:02d}
         """
-        # Text formatting of program's 'progress bar' placeholder
-        taskSetStr = str(self.what_set).strip("[]")
         print progress.format(
-              task=self.what,            set=taskSetStr,
-                iN=self.indraN,    indraNset=self.indraN_set,
-                iA=self.iA,            iAset=self.iA_set,
-                iB=self.iB,            iBset=self.iB_set,
-            symbol=symbol,    sn=num,  snset=str(sett[0])+"..."+str(sett[-1])
-            ).strip("[]")
-
+            task   = self.what,  
+            iN     = self.indraN,
+            iA     = self.iA,    
+            iB     = self.iB,    
+            sn     = num
+        )
         return 0
+
+
+    def theTimeData(self):
+        """
+        Simply adds the redshift values to the dataset
+        """
+        scalefactors = N.array([0.0078125,    0.0123457,    0.0196078,
+        0.0322581,    0.0478106,    0.0519654,    0.0564194,    0.0611881,
+        0.066287,     0.0717322,    0.0775397,    0.0837254,    0.0903055,
+        0.0972961,    0.104713,     0.112572,     0.120887,     0.129675,
+        0.13895,      0.148724,     0.159012,     0.169824,     0.181174,
+        0.19307,      0.205521,     0.218536,     0.232121,     0.24628,
+        0.261016,     0.27633,      0.292223,     0.308691,     0.32573,
+        0.343332,     0.361489,     0.380189,     0.399419,     0.419161,
+        0.439397,     0.460105,     0.481261,     0.502839,     0.524807,
+        0.547136,     0.569789,     0.59273,      0.615919,     0.639314,
+        0.66287,      0.686541,     0.710278,     0.734031,     0.757746,
+        0.781371,     0.804849,     0.828124,     0.851138,     0.873833,
+        0.896151,     0.918031,     0.939414,     0.960243,     0.980457, 1])
+
+        redshifts = N.array([127, 79.9999, 50.0001, 30, 19.9159, 18.2436,
+        16.7244   , 15.343    , 14.0859   , 12.9407   , 11.8966   , 10.9438 ,
+        10.0735   , 9.2779    , 8.54991   , 7.8832    , 7.27219   , 6.71159 ,
+        6.19683   , 5.72386   , 5.28883   , 4.88845   , 4.51956   , 4.17947 ,
+        3.86568   , 3.57591   , 3.3081    , 3.06042   , 2.83118   , 2.61886 ,
+        2.42204   , 2.23949   , 2.07003   , 1.91263   , 1.76634   , 1.63027 ,
+        1.50364   , 1.38572   , 1.27585   , 1.17342   , 1.07787   , 0.988708,
+        0.905462  , 0.827699  , 0.755036  , 0.687109  , 0.62359   , 0.564177,
+        0.508591  , 0.456577  , 0.407899  , 0.36234   , 0.319703  , 0.279802,
+        0.242469  , 0.207549  , 0.174898  , 0.144383  , 0.115883  , 0.0892878, 
+        0.0644934 , 0.0414031 , 0.0199325 , 2.22045e-16])
+
+        self.datadict["time"] = {"scale" : scalefactors, "redshift" : redshifts}
+        return 0
+
+
+    def currentTaskParamsParser(self):
+        """
+        Sets some reading parameters into the environment's current scope,
+        because FFT as a task would be different than others, bla bla.
+        Also, working along with self.progressPrinter(X,Y,Z).
+        """
+        if self.what != "fft":
+            # Second condition probably redundant condition, but 
+            " if not 'fft', then 'subfolder' systems! "
+            sett     = self.subfolder_set
+            symbol   = "subfolder"
+            pass
+
+        elif self.what == "fft":
+            " if 'fft', then fftfiles! "
+            sett     = self.fftfile_set
+            symbol   = "fftfile"
+            pass
+
+        else:
+            sys.exit("Task name does not conform to any allowed.")
+
+        return sett, symbol
 
 
 if __name__ == '__main__':

@@ -154,6 +154,7 @@ class readDo(readArgs, readProcedures):
 
                         sett, symbol = self.currentTaskParamsParser()
 
+                        #FSU: num in sett == self.subfolder in self.subfolder_set
                         for num in sett:
                             " Current subfolder/fftfile as globvar. "
                             # if self.okGo == False: # DT
@@ -161,12 +162,11 @@ class readDo(readArgs, readProcedures):
                             #     " Allows for remote debugging up to this point "
                             #     pass 
 
-                            if task != "fft":
+                            if task != "fft": #FSU: entire block removed
                                 " When task is non-fft-related. "
                                 self.subfolder = num
                                 # print "self.subfolder =", self.subfolder # DT
                                 pass
-
                             else:
                                 " When task is fft reading. "
                                 self.fftfile   = num

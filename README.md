@@ -5,7 +5,9 @@
 ---
 ### About:  
 
-GRAVIPy is a pythonic companion toolkit for reading and processing INDRA's output data; INDRA being a set of numerical simulations that have modelled matter distributions over time in the universe, as affected by gravity.  
+GRAVIPy is a pythonic companion toolkit for reading and processing INDRA's output data. A general description, INDRA is a set of numerical simulations that have modelled matter distributions over time in the universe, as affected by gravity.  
+
+More elaborated, INDRA simulations are spatially large-scale ($1Gpc$) representations that show how the universe's matter content has evolved over time. The time frame begins at a point where the matter distribution of the universe is almost homogeneous (around time at redshift $z=127$), after which cosmological structures are accumulating *very* slowly at first. However, after redshift values $z\simeq7$ and beyond until today ($z=0$), structure formation seems to build up rather aggressively, resulting in the formation of what we today call [The Cosmic Web](https://www.google.no/search?q=cosmic+web&source=lnms&tbm=isch&sa=X&ved=0ahUKEwjyyfLOt4baAhWIHJoKHRKDCv0Q_AUICigB&biw=1094&bih=944).  
 
 All necessary scripts are located in folder **pyread/**.  
 Other folders and files are my own resources for project overview and debug
@@ -23,22 +25,22 @@ Parameters will be added and removed as needed.
 ### Current features:  
 * Reads binary INDRA, FoF, SubFind, and ORIGAMI data. It may then:  
   * Return these data out for the user to handle.
-    - Format:  
+    - Format depends on the :  
       + **Dictionary**: Multi-snapshot &/ multi-dataset runs; user opts to 'store' data.  
-      + **Tuple**: Single dataset, single snapshot; user opts to 'wipe' data.
-    - Currently reads:  
-      + INDRA data: positions, velocities, particle IDs.  
-      + FoF data: clustered groups, group IDs, particle IDs for these.  
-      + Subhalo data: smaller-scale structures (within FoF-groups), particle IDs for these.  
-      + ORIGAMI data: structural type tags, ordered by particle ID.  
-  * Return nothing, but user may specify for the script to have produced statistical plots or data, written to disk.  
+        * Values at dictionary's keys will be empty if user opts to 'wipe' data instead; which may be preferrable &/ necessary if user intends to work with large numbers of sets.
+      + **Tuple**: Single dataset, single snapshot.
+  * Currently reads:  
+    - INDRA data: positions, velocities, particle IDs.  
+    - FoF data: clustered groups, group IDs, particle IDs for these.  
+    - Subhalo data: smaller-scale structures (within FoF-groups), particle IDs for these.  
+    - ORIGAMI data: structural type tags, ordered by particle ID.  
 * Contains methods for post processing of the data, specifically to compare outputs from the two.  
 
 ---
 ### Task list for current tier of changelog:  
 [Task list on this gist](https://gist.github.uio.no/magnucb/44923531ed82979a0b465cdc5fb19cdd#file-current_goals-md)
 
----
+
 ### Changelog:
 
 **FSU01, from FSU00**: *(FSU = **F**of **S**ubhalo **U**pdate)* (WIP)

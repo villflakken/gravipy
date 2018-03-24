@@ -69,8 +69,7 @@ class readArgs(object):
                 "plotdim"     ,
                 "origamipath"
             ]
-        self.param_incorp = \
-            { # Function library: parameter validation
+        self.param_incorp = { # Function library: parameter validation
                      "what" : self.taskname_incorp   ,
                    "indraN" : self.integer_incorp    ,
                        "iA" : self.integer_incorp    ,
@@ -91,8 +90,7 @@ class readArgs(object):
                   "plotdim" : self.plotdim_incorp    ,
               "origamipath" : self.oripath_incorp
             }
-        self.intRange_dict = \
-            { # Ranges of integer numbers.
+        self.intRange_dict = { # Ranges of integer numbers.
                 "indraN" : N.arange(0,8),
                     "iA" : N.arange(0,8),
                     "iB" : N.arange(0,8),
@@ -177,18 +175,6 @@ class readArgs(object):
                 At the moment, it's useful to determine whether 'sf'
                 should be a set/range  **___pre-emptively___**  !
                 """
-                # print "key:", key
-                # print key, "in self.read_params.keys()?:"
-                # print key in self.read_params.keys()
-                # print
-                # print "self.read_params:"
-                # print self.read_params
-                # print 
-                # print "self.read_params[", key, "]?:"
-                # print self.read_params[key]
-                # self.param_incorp[key]("not valid", "also not") # DT
-                # print "self.toggles_incorp(self.read_params[key='sfset'], key='sfset')"
-                # print "self.sfset = ", self.sfset
                 self.param_incorp[key](self.read_params[key], key)
                 pass
 
@@ -248,38 +234,63 @@ class readArgs(object):
             column_of_actions = column_of_actions+action+"\n"+(8*" ")
             continue
 
-        if (type(uinput) == tuple) or \
-            (type(uinput) == list):
+        if type(uinput) == tuple or \
+            type(uinput) == list:
             " When multiple tasks are input. "
             
             for taskname in uinput:
                 " Check if each name is in library. "
                 
-                if (type(taskname) == str) and \
-                    (taskname in self.actionkeys):
+                if type(taskname) == str and \
+                    taskname in self.actionkeys:
                     " Task name(s) accepted"
                     pass
                 else:
                     sys.exit(tasknameErrortext.format(uinput)+column_of_actions)
-
                 continue
 
             setattr( self, "what_set" , uinput )
             # Returns, having checked & stored both items in the set.
             pass
 
-        elif (type(uinput) == str) and \
-            (uinput in self.actionkeys):
-            " String object recognized, input is compared & stored. "
-            setattr( self, "what_set" , uinput )
-            # After storing, returns to next item to be checked
-            pass
+        elif type(uinput) == str:
 
+            " String object recognized, input is compared & stored. "
+            if uinput in self.actionkeys:
+                " Basic task recognized: input stored. "
+                setattr( self, "what_set" , uinput )
+                pass
+
+            # Below are identifiers for task&/pp-combinations
+            elif uinput in self.ppSingleSnaps.keys():
+                " 'self.ppSingleSnap' determines combination. "
+                setattr( self , "what_set" , self.singleSnapActions[uinput] )
+                setattr( self , self.singleSnapActions_bools[uinput] , True )
+                pass
+
+            elif uinput in self.ppAllSnaps.keys():
+                " 'self.ppAllSnaps' determines combination. "
+                setattr( self , "what_set" , self.allSnapActions[uinput] )
+                setattr( self , self.allSnapActions_bools[uinput] , True )
+                pass
+            
+            else:
+                sys.exit(tasknameErrortext.format(uinput)+column_of_actions)
+                # Exit program
+            pass # Return to function baseline
+
+        # # Old elif-test, preFSU01:
+        # elif type(uinput) == str and \
+        #     uinput in self.actionkeys:
+        #     " String object recognized, input is compared & stored. "
+        #     setattr( self, "what_set" , uinput )
+        #     # After storing, returns to next item to be checked
+        #     pass
         else:
             sys.exit(tasknameErrortext.format(uinput)+column_of_actions)
-            # Aborts
 
         return 0
+
 
     def integer_incorp(self, uinput, name):
         """
