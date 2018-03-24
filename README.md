@@ -42,59 +42,59 @@ Parameters will be added and removed as needed.
 ### Changelog:
 
 **FSU01, from FSU00**: *(FSU = **F**of **S**ubhalo **U**pdate)* (WIP)
-* Implement current plot functionalities from Jupyter, to be performed iteratively in the GRAVIPy framework.
-* See task list.
+> * Implement current plot functionalities from Jupyter, to be performed iteratively in the GRAVIPy framework.
+> * See task list.
 
 
 **FSU00, from 0.52**: *(FSU = **F**oF **S**ubhalo **U**pdate)*
-* Friends-of-Friends-reader method has received major update.
-  - Each of the components that go into reading FoF-data have been more generalized; as long as the class instance is initialized, and values for `iN`, `iA`, `iB`, and snapshot numbers are given, then the FoF-reader-methods will be able to read corresponding data.  
-* SubFind's data-reader method has also received a major update, which in this case means that it is actually working as intended (as far as I can see)!  
-  - Almost as independent as the FoF-reader - may finish independence at a later date.  
-* Currently, all data-readers return a dictionary with their accumulated data.
-  - W.r.t. the positions vectors, these occupy ~**12**GiBs of RAM by themselves **per snapshot** (and the particle IDs are 8GiBs themselves). As such, when working on (i.e.) a Jupyter system, if any particles' position plots are to be made with FoF- and Origami tags, then these plots will have to be made individually (rather than loading up a whole range of snapshots of 64*(8+12)=~1280TiB), before memory is then released.  
-    + The reason to include IDs every time, is in the case one does not want to sort the particles by ID, in their arrays; then you need the IDs in the same respective order.  
+> * Friends-of-Friends-reader method has received major update.
+>   - Each of the components that go into reading FoF-data have been more generalized; as long as the class instance is initialized, and values for `iN`, `iA`, `iB`, and snapshot numbers are given, then the FoF-reader-methods will be able to read corresponding data.  
+> * SubFind's data-reader method has also received a major update, which in this case means that it is actually working as intended (as far as I can see)!  
+>   - Almost as independent as the FoF-reader - may finish independence at a later date.  
+> * Currently, all data-readers return a dictionary with their accumulated data.
+>   - W.r.t. the positions vectors, these occupy ~**12**GiBs of RAM by themselves **per snapshot** (and the particle IDs are 8GiBs themselves). As such, when working on (i.e.) a Jupyter system, if any particles' position plots are to be made with FoF- and Origami tags, then these plots will have to be made individually (rather than loading up a whole range of snapshots of 64*(8+12)=~1280TiB), before memory is then released.  
+>     + The reason to include IDs every time, is in the case one does not want to sort the particles by ID, in their arrays; then you need the IDs in the same respective order.  
 
 
 **0.52, from 0.51**:
-* Added the file and corresponding class `read_autotools.py` for when automated reading&postprocessing is wanted, but made `read_usertools.py` as a toolkit for live data manipulation w/ Jupyter - so that the latter's functions are less dependent on the parameters associated with the class' initialization.  
-  - [x] Check: some of the most important tools now work as class-independent functions; but will need more work in the future.  
-
-* Allowing the automated initialization-system to work out wether it is run from a Jupyter instance on SciServer, or that script is run from the elephant clusters - in order to get the INDRA data retrieved - unless the user specifies some datapath for these variables.  
-
-* Verified that the currently written method for reading of ORIGAMI works!  
-  - Also allows color-tagging plots of particles' positions.  
-    + This method will be worked in as a cleanly automatic function.  
-
-* `read_function` as a simplified reading caller may be implemented.  
+> * Added the file and corresponding class `read_autotools.py` for when automated reading&postprocessing is wanted, but made `read_usertools.py` as a toolkit for live data manipulation w/ Jupyter - so that the latter's functions are less dependent on the parameters associated with the class' initialization.  
+>   - [x] Check: some of the most important tools now work as class-independent functions; but will need more work in the future.  
+> 
+> * Allowing the automated initialization-system to work out wether it is run from a Jupyter instance on SciServer, or that script is run from the elephant clusters - in order to get the INDRA data retrieved - unless the user specifies some datapath for these variables.  
+> 
+> * Verified that the currently written method for reading of ORIGAMI works!  
+>   - Also allows color-tagging plots of particles' positions.  
+>     + This method will be worked in as a cleanly automatic function.  
+> 
+> * `read_function` as a simplified reading caller may be implemented.  
 
 
 **0.51, from 0.50**:  
-* Differentiated between `read_misctools.py`, and `read_usertools.py` - making it easier to go in and view user-relevant tools.  
-* Fixed array structure from  
-  `positions = 256(number of read files) * N_i(the i'th file's particle count) * 3(xyz coords)`   
-  into the more manageable   
-  `positions = N(total particle number in simulation) * 3(xyz coords)`.  
-
-* Implementing binary reading of **Origami** output (particle tagging, sorted by ID).  
-* Left the config file- and command line initializations behind as legacy features that may be re-implemented in the future. Now put in `_betas/` folder.  
-* Particle boxing based on positions currently placed in reading procedures.  
+> * Differentiated between `read_misctools.py`, and `read_usertools.py` - making it easier to go in and view user-relevant tools.  
+> * Fixed array structure from  
+>   `positions = 256(number of read files) * N_i(the i'th file's particle count) * 3(xyz coords)`   
+>   into the more manageable   
+>   `positions = N(total particle number in simulation) * 3(xyz coords)`.  
+> 
+> * Implementing binary reading of **Origami** output (particle tagging, sorted by ID).  
+> * Left the config file- and command line initializations behind as legacy features that may be re-implemented in the future. Now put in `_betas/` folder.  
+> * Particle boxing based on positions currently placed in reading procedures.  
 
 
 **0.50, from scratch**:
-* Intrinsic structure initially designed to simply get input, process all data automatically, and yield output in forms of text and/or plots, with the least amount of interaction to be necessary from a user.  
-  * `read.py` is the class system's initiator. It handles the general flow depending on wether the class was initialized to be used as a function call, or a pre-determined set of INDRA-variables to be read and processed. Then it sifts through the INDRA data as set by the user, and, if enabled, engages post processing.  
-  * `read_args.py` handles reading of arguments. In the beginning, this was designed to process  
-    * command line variables for the INDRA parameters.  
-    * config file initialization containing INDRA parameter variables (called `read_cfg`).  
-      * ...with a corresponding program to restore a "default parameter" config file (called `restore_default_cfg.py`).  
-    * user input INDRA parameters through class' call function.
-    * user input INDRA parameters through and outside function which initializes the class system for the user.  
-    At the time this script contained all these functions at the same time, it was well over 1k lines, and desperately needed tidying up... O.O  
-  * `read_procedures.py` outlines each data type's reading's program flow.  
-  * `read_misctools.py` contains miscellaneous tools; tools that would help the scripts function as intended - in most cases simply used as a a script in which to put smaller functions, thus increasing the programmer's ability to read the main program flow.  
-  * `read_sifters.py` contains all the binary data sifters, as directly translated from the IDL source code (the found in `src_scripts/`).  
-  * `testrun.py` is a simple script that shows an example of how one may initiate the system, and contains all the parameters one could need - a user is meant to run this function or copy-paste its contents, with as much parameters as the user would need.  
+> * Intrinsic structure initially designed to simply get input, process all data automatically, and yield output in forms of text and/or plots, with the least amount of interaction to be necessary from a user.  
+>   * `read.py` is the class system's initiator. It handles the general flow depending on wether the class was initialized to be used as a function call, or a pre-determined set of INDRA-variables to be read and processed. Then it sifts through the INDRA data as set by the user, and, if enabled, engages post processing.  
+>   * `read_args.py` handles reading of arguments. In the beginning, this was designed to process  
+>     * command line variables for the INDRA parameters.  
+>     * config file initialization containing INDRA parameter variables (called `read_cfg`).  
+>       * ...with a corresponding program to restore a "default parameter" config file (called `restore_default_cfg.py`).  
+>     * user input INDRA parameters through class' call function.
+>     * user input INDRA parameters through and outside function which initializes the class system for the user.  
+>     At the time this script contained all these functions at the same time, it was well over 1k lines, and desperately needed tidying up... O.O  
+>   * `read_procedures.py` outlines each data type's reading's program flow.  
+>   * `read_misctools.py` contains miscellaneous tools; tools that would help the scripts function as intended - in most cases simply used as a a script in which to put smaller functions, thus increasing the programmer's ability to read the main program flow.  
+>   * `read_sifters.py` contains all the binary data sifters, as directly translated from the IDL source code (the found in `src_scripts/`).  
+>   * `testrun.py` is a simple script that shows an example of how one may initiate the system, and contains all the parameters one could need - a user is meant to run this function or copy-paste its contents, with as much parameters as the user would need.  
 
 ---
 ###### If the program ever starts quoting the movie The Princess Bride (1987), then rest assured of the fact, and know this, that you have done something horribly wrong.  
