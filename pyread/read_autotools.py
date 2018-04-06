@@ -49,6 +49,36 @@ class AutoTools(object):
         End of init
         """
 
+
+    def ppTempStorage(self, parsed_data):
+        """
+        Handles temporary storing of data.
+        """
+        task  = self.what           # -- --> Outermost dictionary key, str-type
+        iN    = self.indraN         # -- --> These 3 form the middle key
+        iA    = self.iA             # --^
+        iB    = self.iB             # -^
+        # indra = "{0:1d}{1:1d}{2:1d}".format(iN,iA,iB)
+        indra = self.iString
+        num   = self.subfolder
+        
+        " Selects the correct dictionary for combinated pp-ing "
+        if   self.what_set in self.singleSnapActions.keys():
+            " Store data for single snaps in a set"
+            self.dictMaker(self.data1dict, task, indra, num)
+            pass # end.IF single snap storage
+
+        elif self.what_set in self.allSnapActions.keys():
+            " Store data for all snaps in a set "
+            self.dictMaker(self.dataAlldict, task, indra, num)
+            pass # end.IF all snap storage
+        else:
+            print " [...] Uh... error... maybe? "
+            pass # end.ELSE wtf-ery
+
+        return 0
+
+
     # -------- Initializers of pp-ing: --------
 
     def ppBasic(self, parsed_data, num):
@@ -118,32 +148,32 @@ class AutoTools(object):
 
         return 0
 
+    ##################################################################
+    # """ -------- Here are "Single Snap pp functions": -------- """ #
 
-    def ppTempStorage(self, parsed_data):
+    def pp_posor(self):
         """
-        Handles temporary storing of data.
+        Positions and Origami
         """
-        task  = self.what           # -- --> Outermost dictionary key, str-type
-        iN    = self.indraN         # -- --> These 3 form the middle key
-        iA    = self.iA             # --^
-        iB    = self.iB             # -^
-        # indra = "{0:1d}{1:1d}{2:1d}".format(iN,iA,iB)
-        indra = self.iString
-        num   = self.subfolder
+
+        return 0
+
+    def pp_pof(self):
+        """
         
-        " Selects the correct dictionary for combinated pp-ing "
-        if   self.what_set in self.singleSnapActions.keys():
-            " Store data for single snaps in a set"
-            self.dictMaker(self.data1dict, task, indra, num)
-            pass # end.IF single snap storage
+        """
 
-        elif self.what_set in self.allSnapActions.keys():
-            " Store data for all snaps in a set "
-            self.dictMaker(self.dataAlldict, task, indra, num)
-            pass # end.IF all snap storage
-        else:
-            print " [...] Uh... error... maybe? "
-            pass # end.ELSE wtf-ery
+        return 0
+    def pp_porifof(self):
+        """
+        
+        """
+
+        return 0
+    def pp_playOne(self):
+        """
+        
+        """
 
         return 0
 

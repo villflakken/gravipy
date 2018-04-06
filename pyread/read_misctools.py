@@ -351,6 +351,52 @@ class MiscTools(object):
     # of negligible importance, and mainly used in debugging. #
     ###########################################################
 
+
+    def measure_time(f):
+        """
+        Measures runtime of a function called thereafter
+        Usage:
+        '''
+        @measure_time
+        def foo():
+            #content of function 
+        '''
+        URL: 'https://stackoverflow.com/a/25958593/8387070'
+        """
+
+        def timed(*args, **kw):
+            ts = time.time()
+            result = f(*args, **kw)
+            te = time.time()
+
+            print '%r (%r, %r) %2.2f sec' % \
+                  (f.__name__, args, kw, te-ts)
+            return result
+
+        return timed
+
+
+    def timeprint(totsecs, reverse=None):
+        """
+        Takes integer/float input: an amount of time (in seconds),
+        returns string of hours, minutes, seconds. Usage:
+        | >>> print "timetest: {0}".format(timeprint(4220.))
+        | timetest:   1h , 10m , 20.00s
+        | >>> print "timetest: {0}".format(timeprint(4220., reverse=True))
+        | timetest: s:20.00 , m:10 , h:  1
+        """   
+        seconds_in_an_hour  = 3600.
+        seconds_in_a_minute = 60.
+        hours   = int(  totsecs // seconds_in_an_hour )
+        minutes = int( (totsecs %  seconds_in_an_hour) // seconds_in_a_minute )
+        seconds = int( (totsecs %  seconds_in_an_hour) %  seconds_in_a_minute )
+        if reverse == True:
+            timestring = "s:{s:>2.2f} , m:{m:>2d} , h:{h:>3d}"
+            return timestring.format(s=seconds, m=minutes, h=hours)
+        timestring = "{h:>3d}h , {m:>2d}m , {s:>2.2f}s"
+        return timestring.format(h=hours, m=minutes, s=seconds)
+
+
     def readLoopError(self, filepath, loop, loops, i):
         """
         *  In case an intermediate file is missing, have an option ready.
@@ -454,30 +500,7 @@ class MiscTools(object):
         print messToScreen.fill(str("'"+self.funcNameOver("1up")+"'"))
 
         return 0
-        
 
-    def measure_time(f):
-        """
-        Measures runtime of a function called thereafter
-        Usage:
-        '''
-        @measure_time
-        def foo():
-            #content of function 
-        '''
-        URL: 'https://stackoverflow.com/a/25958593/8387070'
-        """
-
-        def timed(*args, **kw):
-            ts = time.time()
-            result = f(*args, **kw)
-            te = time.time()
-
-            print '%r (%r, %r) %2.2f sec' % \
-                  (f.__name__, args, kw, te-ts)
-            return result
-
-        return timed
 
 
 if __name__ == '__main__':

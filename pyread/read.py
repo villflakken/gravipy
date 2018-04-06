@@ -327,7 +327,7 @@ class readDo(readArgs, readProcedures):
                 self.auto_outputPather() # Creates fitting strings
                 # Declare the condition for beginning pp at end of set
                 self.allCond = subfolder is self.subfolder_set[-1] \
-                    and task is self.allSnapActions[ self.what_set ][-1]:
+                    and task is self.allSnapActions[ self.what_set ][-1]
 
                 " Task function call: "
                 parsed_data = self.action[self.what]()
@@ -344,7 +344,7 @@ class readDo(readArgs, readProcedures):
                 parsed_data = self.dataParserIter(parsed_data, num)
 
                 continue #: Next task
-            continue #: Next     snapnum...
+            continue     #: Next snapnum...
 
         " Clears dict and pp cond for next outside iteration "
         self.dataAlldict.clear()
