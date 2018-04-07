@@ -281,7 +281,7 @@ class readDo(readArgs, readProcedures):
                 " IF-block below handles pp and output "
                 if any([self.w2f, self.plotdata]) == True:
                     " Handles data post processing - during. "
-                    self.ppSingleSnaps(parsed_data, self.subfolder)
+                    self.ppSingleSnaps(parsed_data)
                         # temp. storage for pp-data is self-contained
                         # inside self.'ppSingleSnaps'
                     pass # end.IF: pp & output
@@ -332,10 +332,9 @@ class readDo(readArgs, readProcedures):
                 parsed_data = self.action[self.what]()
                 # \=>: Main component of entire program: Reading.
 
-                " IF-block below handles pp and output "
+                " This IF-block handles pp and output: during & last snap "
                 if any([self.w2f, self.plotdata]) == True:
-                    " Handles data post processing - during. "
-                    self.ppAllSnaps(parsed_data, self.subfolder) 
+                    self.ppAllSnaps(parsed_data) 
                     # Function will initiate more specific processing
                     pass # end.IF: pp & output
                 
