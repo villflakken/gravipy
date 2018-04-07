@@ -238,9 +238,11 @@ class readArgs(object):
             continue
 
         print "uinput:", uinput # DT
-        if type(uinput) == tuple or \
-            type(uinput) == list: # Important annoyance: Strings are iterable.
+        if (type(uinput) == tuple or type(uinput) == list) and \
+            len(uinput) > 1:
             " When multiple tasks are input. "
+            # Important annoyance: Strings are iterable.
+            
             print "a)" # DT
             for taskname in uinput:
                 " Check if each name is in library. "
