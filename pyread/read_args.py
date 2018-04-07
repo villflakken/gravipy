@@ -225,6 +225,10 @@ class readArgs(object):
         """
         Incorporates user input task name(s).
         """
+        # Accepted user input for task names or combination jobs:
+        self.permitWhat = self.action.keys() + self.singleSnapActions.keys() \
+                          + self.allSnapActions.keys()
+        
         tasknameErrortext = """
         Invalid task name specification(s), or format(s) thereof: {0}
         Allowed task names listed below.""".format(uinput)
@@ -232,10 +236,6 @@ class readArgs(object):
         for action in self.permitWhat:
             column_of_actions = column_of_actions+action+"\n"+(8*" ")
             continue
-
-        # Accepted user input for task names or combination jobs:
-        self.permitWhat = self.action.keys() + self.singleSnapActions.keys() \
-                          + self.allSnapActions.keys()
 
         print "uinput:", uinput # DT
         if type(uinput) == tuple or \
