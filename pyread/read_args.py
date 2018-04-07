@@ -265,20 +265,20 @@ class readArgs(object):
             " String object recognized, input is compared & stored. "
             if   uinput[0] in self.permitWhat:
                 " Basic task recognized: input stored. "
-                setattr( self , "what_set" , uinput )
+                setattr( self , "what_set" , uinput[0] )
                 pass
 
             # Below are identifiers for task&/pp-combinations
             elif uinput[0] in self.ppFuncsSingleSnaps.keys():
                 " 'self.ppSingleSnap' determines combination. "
-                setattr( self , "what_set" , self.singleSnapActions[uinput] )
-                setattr( self , self.singleSnapActions_bools[uinput] , True )
+                setattr( self , "what_set" , self.singleSnapActions[uinput[0]] )
+                setattr( self , self.singleSnapActions_bools[uinput[0]] , True )
                 pass
 
             elif uinput[0] in self.ppFuncsAllSnaps.keys():
                 " 'self.ppAllSnaps' determines combination. "
-                setattr( self , "what_set" , self.allSnapActions[uinput] )
-                setattr( self , self.allSnapActions_bools[uinput] , True )
+                setattr( self , "what_set" , self.allSnapActions[uinput[0]] )
+                setattr( self , self.allSnapActions_bools[uinput[0]] , True )
                 pass
             
             else:
