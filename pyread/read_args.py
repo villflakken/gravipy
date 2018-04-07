@@ -234,7 +234,7 @@ class readArgs(object):
         Allowed task names listed below.""".format(uinput) + "\n"
         column_of_actions = "\t"
         for action in self.permitWhat:
-            column_of_actions = column_of_actions+action+"\n"+(8*" ")
+            column_of_actions = " * "+column_of_actions+action+"\n"+(8*" ")
             continue
 
         print "uinput:", uinput # DT
@@ -263,19 +263,19 @@ class readArgs(object):
             print "b)" # DT
 
             " String object recognized, input is compared & stored. "
-            if uinput in self.permitWhat:
+            if   uinput[0] in self.permitWhat:
                 " Basic task recognized: input stored. "
                 setattr( self , "what_set" , uinput )
                 pass
 
             # Below are identifiers for task&/pp-combinations
-            elif uinput in self.ppFuncsSingleSnaps.keys():
+            elif uinput[0] in self.ppFuncsSingleSnaps.keys():
                 " 'self.ppSingleSnap' determines combination. "
                 setattr( self , "what_set" , self.singleSnapActions[uinput] )
                 setattr( self , self.singleSnapActions_bools[uinput] , True )
                 pass
 
-            elif uinput in self.ppFuncsAllSnaps.keys():
+            elif uinput[0] in self.ppFuncsAllSnaps.keys():
                 " 'self.ppAllSnaps' determines combination. "
                 setattr( self , "what_set" , self.allSnapActions[uinput] )
                 setattr( self , self.allSnapActions_bools[uinput] , True )
