@@ -227,17 +227,17 @@ class readArgs(object):
         """
         tasknameErrortext = """
         Invalid task name specification(s), or format(s) thereof: {0}
-        Allowed task names listed below.
-        """.format(uinput)
+        Allowed task names listed below.""".format(uinput)
         column_of_actions = "\t"
         for action in self.actionkeys:
             column_of_actions = column_of_actions+action+"\n"+(8*" ")
             continue
 
+        print "uinput:", uinput
         if type(uinput) == tuple or \
             type(uinput) == list:
             " When multiple tasks are input. "
-            
+            print "a)"
             for taskname in uinput:
                 " Check if each name is in library. "
                 
@@ -254,6 +254,7 @@ class readArgs(object):
             pass
 
         elif type(uinput) == str:
+            print "b)"
 
             " String object recognized, input is compared & stored. "
             if uinput in self.actionkeys:
@@ -287,6 +288,7 @@ class readArgs(object):
         #     # After storing, returns to next item to be checked
         #     pass
         else:
+            print "c)"
             sys.exit(tasknameErrortext.format(uinput)+column_of_actions)
 
         return 0
