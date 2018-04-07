@@ -213,7 +213,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         subIDs  = self.subh_idsifter(sids_name, TotNsubs, NTask)
         print "    TotNsubs   = ({0:>10d})".format(TotNsubs)
                 
-        print "   . Finished reading 'SubHalo"
+        print "   . Finished reading 'SubHalo'"
         return subIDs, TotNsubs, catalog
 
 
