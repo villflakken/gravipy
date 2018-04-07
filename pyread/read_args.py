@@ -237,13 +237,13 @@ class readArgs(object):
             column_of_actions = " * "+column_of_actions+action+"\n"+(8*" ")
             continue
 
-        print "uinput:", uinput # DT
+        # print "uinput:", uinput # DT
+        # Important annoyance: Strings are iterable.
         if (type(uinput) == tuple or type(uinput) == list) and \
             len(uinput) > 1:
             " When multiple tasks are input. "
-            # Important annoyance: Strings are iterable.
             
-            print "a)" # DT
+            # print "a)" # DT
             for taskname in uinput:
                 " Check if each name is in library. "
                 
@@ -260,8 +260,8 @@ class readArgs(object):
             pass
 
         elif type(uinput[0]) == str:
-            print "b)" # DT
 
+            # print "b)" # DT
             " String object recognized, input is compared & stored. "
             if   uinput[0] in self.permitWhat:
                 " Basic task recognized: input stored. "
@@ -294,7 +294,7 @@ class readArgs(object):
         #     # After storing, returns to next item to be checked
         #     pass
         else:
-            print "c)" # DT
+            # print "c)" # DT
             sys.exit(tasknameErrortext.format(uinput)+column_of_actions)
 
         return 0
