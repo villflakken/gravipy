@@ -226,17 +226,17 @@ class readDo(readArgs, readProcedures):
                 " IF-block below handles pp and output "
                 if any([self.w2f, self.plotdata]) == True:
                     " Handles data post processing - during. "
-                    self.ppBasic(parsed_data, num)
+                    self.ppBasic(parsed_data, self.subfolder)
                     
                     if subfolder == self.subfolder_set[-1]:
                         " Handles data post processing - end of subfolder set. "
-                        self.ppBasicLast(parsed_data, num)
+                        self.ppBasicLast(parsed_data, self.subfolder)
                         pass # end.IF: last snap
 
                     pass # end.IF: pp & output
                 
                 " Clear variable's memory allocation, or store in dict"
-                parsed_data = self.dataParserIter(parsed_data, num)
+                parsed_data = self.dataParserIter(parsed_data, self.subfolder)
 
                 continue #:next task
 
@@ -281,13 +281,13 @@ class readDo(readArgs, readProcedures):
                 " IF-block below handles pp and output "
                 if any([self.w2f, self.plotdata]) == True:
                     " Handles data post processing - during. "
-                    self.ppSingleSnaps(parsed_data, num)
+                    self.ppSingleSnaps(parsed_data, self.subfolder)
                         # temp. storage for pp-data is self-contained
                         # inside self.'ppSingleSnaps'
                     pass # end.IF: pp & output
                 
                 " Clear variable's memory allocation, or store in dict"
-                parsed_data = self.dataParserIter(parsed_data, num)
+                parsed_data = self.dataParserIter(parsed_data, self.subfolder)
                 continue #:next task
 
             " Clears dict for next iteration, if there is one "
@@ -335,12 +335,12 @@ class readDo(readArgs, readProcedures):
                 " IF-block below handles pp and output "
                 if any([self.w2f, self.plotdata]) == True:
                     " Handles data post processing - during. "
-                    self.ppAllSnaps(parsed_data, num) 
+                    self.ppAllSnaps(parsed_data, self.subfolder) 
                     # Function will initiate more specific processing
                     pass # end.IF: pp & output
                 
                 " Clear variable's memory allocation, or store in dict"
-                parsed_data = self.dataParserIter(parsed_data, num)
+                parsed_data = self.dataParserIter(parsed_data, self.subfolder)
 
                 continue #: Next task
             continue     #: Next snapnum...
