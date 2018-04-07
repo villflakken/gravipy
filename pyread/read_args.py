@@ -231,7 +231,7 @@ class readArgs(object):
         
         tasknameErrortext = """
         Invalid task name specification(s), or format(s) thereof: {0}
-        Allowed task names listed below.""".format(uinput)
+        Allowed task names listed below.\n""".format(uinput)
         column_of_actions = "\t"
         for action in self.permitWhat:
             column_of_actions = column_of_actions+action+"\n"+(8*" ")
@@ -259,7 +259,7 @@ class readArgs(object):
             # Returns, having checked & stored both items in the set.
             pass
 
-        elif type(uinput) == str:
+        elif type(uinput[0]) == str:
             print "b)" # DT
 
             " String object recognized, input is compared & stored. "
