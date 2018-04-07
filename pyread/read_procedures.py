@@ -160,7 +160,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
 
         # The reading is done, the bells have toll'd;
         # print out the stats, parameters, and all!
-        endread = "\n    Finished reading '"+str(self.what)+"' of files, indra"\
+        endread = "   . Finished reading '"+str(self.what)+"' of files, indra"\
                 +str(self.indraN)+', iA='+str(self.iA)+', iB='+str(self.iB)    \
                 +', snapshot='+str(self.subfolder)+"\n"
         if self.boolcheck(self.sortIDs):
@@ -192,7 +192,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         fofIDs    , groupLen, groupOffset = self.fof_ids_sifter(gids_name, groupLen, groupOffset)
         print "    TotNgroups = ({0:>10d})".format(TotNgroups)
 
-        print "    Finished reading '"+str(self.what)+"' of files, indra" \
+        print "  . Finished reading '"+str(self.what)+"' of files, indra" \
                 +str(self.indraN)+', iA='+str(self.iA)+', iB='+str(self.iB) \
                 +', snapshot='+str(self.subfolder)+"\n"
         
@@ -218,7 +218,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         subIDs  = self.subh_idsifter(sids_name, TotNsubs, NTask)
         print "    TotNsubs = ({0:>10d})".format(TotNsubs)
 
-        print "    Finished reading '"+str(self.what)+"' of files, indra" \
+        print "   . Finished reading '"+str(self.what)+"' of files, indra" \
                 +str(self.indraN)+', iA='+str(self.iA)+', iB='+str(self.iB) \
                 +', snapshot='+str(self.subfolder)+"\n"
                 
@@ -248,6 +248,10 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
 
         except IOError:
             sys.exit(ori_open_error_str)
+
+        print "   . Finished reading '"+str(self.what)+"' of files, indra" \
+                +str(self.indraN)+', iA='+str(self.iA)+', iB='+str(self.iB) \
+                +', snapshot='+str(self.subfolder)+"\n"
 
         return tags, Npart[0]
 
