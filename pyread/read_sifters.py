@@ -156,7 +156,7 @@ class Sifters(object):
                     f.close() # end.WITH
                 continue
 
-            print "  . Browsing FOF-files (tabs): ...Complete!"
+            print "  . Browsing of FOF-files (tabs): ...Complete!"
             pass # end.ELSE
 
         return TotNgroups, groupLen, groupOffset
@@ -207,7 +207,7 @@ class Sifters(object):
                     f.close()        
                 continue
         
-            print "  . Browsing FOF-files (IDs): ...Complete!"
+            print "  . Browsing of FOF-files (IDs): ...Complete!"
             pass # end.ELSE
         
         fofIDs -= 1 # Takes care of indexation discrepancy
@@ -259,6 +259,7 @@ class Sifters(object):
         else: 
             # Sifts through the file
             " Subh detected! (find them!) "
+            print "  - Browsing of Subhalo-files (tabs): Initiated..."
             catalog = {}
             catalog['NsubPerHalo']    = N.zeros( TotNgroups,  dtype=N.int32   )
             catalog['FirstSubOfHalo'] = N.zeros( TotNgroups,  dtype=N.int32   ) # file specific!
@@ -359,6 +360,7 @@ class Sifters(object):
                         pass  # endIF
                     f.close() # endWITH
                 continue
+            print "  . Browsing of Subhalo-files (tabs): ...Complete!"
             pass # endELSE
 
         return catalog # only the catalogue?
@@ -385,6 +387,7 @@ class Sifters(object):
 
         else: # And retrieve the appropriate IDs if needed
             " Subh detected! (find them!) "
+            print "  - Browsing of Subhalo-files (IDs): Initiated..."
             
             # Get total number of IDs (including unbound particle IDs)
             TotSubids = 0
@@ -414,6 +417,7 @@ class Sifters(object):
                     f.close() # end.WITH
 
                 continue
+            print "  . Browsing of Subhalo-files (IDs): ...Complete!"
             pass # end.ELSE
 
         subIDs -= 1  # Indexation discrepancy correction
