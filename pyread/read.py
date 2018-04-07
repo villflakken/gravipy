@@ -28,34 +28,33 @@ def read_ini( what        = "pos" ,
               origamipath = False
             ):
 
-    data_params = \
-        { # Data structure parameters:
-               "what" :( list(what)  ),
-             "indraN" :( indraN      ),
-                 "iA" :( iA          ),
-                 "iB" :( iB          ),
-          "subfolder" :( subfolder   ),
-            "fftfile" :( fftfile     ),
+    data_params = { # Data structure parameters:
+               "what" :([ what       ]),
+             "indraN" :(  indraN      ),
+                 "iA" :(  iA          ),
+                 "iB" :(  iB          ),
+          "subfolder" :(  subfolder   ),
+            "fftfile" :(  fftfile     ),
             # Reading options:
-          "tmpfolder" :( tmpfolder   ),
-              "sfset" :( sfset       ),
-            "sortIDs" :( sortIDs     ),
-          "lessprint" :( lessprint   ),
-           "multiset" :( multiset    ),
+          "tmpfolder" :(  tmpfolder   ),
+              "sfset" :(  sfset       ),
+            "sortIDs" :(  sortIDs     ),
+          "lessprint" :(  lessprint   ),
+           "multiset" :(  multiset    ),
             # Extracts data from a coordinate box at positions specified:
-         "box_params" :( box_params  ),
+         "box_params" :(  box_params  ),
             # Desired output filepath, 
             # or False (=> program storing to user's own folder).
-         "outputpath" :( outputpath  ),
+         "outputpath" :(  outputpath  ),
             # Write 2 file: Probably a bad idea ...
-                "w2f" :( w2f         ),
-           "plotdata" :( plotdata    ),
+                "w2f" :(  w2f         ),
+           "plotdata" :(  plotdata    ),
             # Apply floats as "([min,max], [min,max], [min,max])" in Mpc/h units,
             # respectively for directions x, y, z. # Turned off w/: None/False
-            "plotdim" :( plotdim     ), # Dimensions projected in plot
+            "plotdim" :(  plotdim     ), # Dimensions projected in plot
             # Origami functionality
-        "origamipath" :( origamipath )
-        }
+        "origamipath" :(  origamipath )
+    }
 
     tmp = sp.call('clear',shell=True)
 
@@ -82,15 +81,6 @@ class readDo(readArgs, readProcedures):
         """
         Actiondicts : commands for the program to act on
         """
-        self.actionkeys = [ # The types of data available to read.
-            "pos"     ,
-            "vel"     ,
-            "fof"     ,
-            "subhalo" , 
-            "origami" ,
-            # "fft"     , # currently not a feature
-            "time"
-        ]
         # Function library for initializing actual data _reading_.
         self.action  = { 
             "pos"     : self.read_posvel  , 
@@ -101,12 +91,15 @@ class readDo(readArgs, readProcedures):
             "origami" : self.read_origami ,
             "time"    : self.read_time
         }
-        # Determines which datasets are allowed to store variables
-        self.AllowedDataAccumulation = [
-            "fof",
-            "subhalo",
-            "origami"
-        ] # i.e.: storing 64 snaps of 'pos'-data kills the RAM
+        self.actionkeys = [ # Types of data available to read.
+            "pos"     ,
+            "vel"     ,
+            "fof"     ,
+            "subhalo" , 
+            "origami" ,
+            # "fft"     , # currently not a feature
+            "time"
+        ]
         
         # Specific processing routines (c.f.: 'read_autotools.py'),
         # format: dict = {'user input command' : ('data', 'types', 'involved') }
@@ -126,8 +119,14 @@ class readDo(readArgs, readProcedures):
         }                                # is modified in 'read_args.py'
         self.allSnapActions_bools = {    # Used for checking 'ppAllSnaps' status;
         }                                # is modified in 'read_args.py'
-        
-        
+
+        # Determines which datasets are allowed to store variables:
+        self.AllowedDataAccumulation = [
+            "fof"     ,
+            "subhalo" ,
+            "origami"
+        ] #( i.e.: storing 64 snaps of 'pos'-data will definitely kill the RAM!)
+
         self.teststring = "\n   This is the test \n"
         """
         End of init

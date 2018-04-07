@@ -37,15 +37,16 @@ class readArgs(object):
         self.keys_read      = []
         self.onElephant = False # ---> To determine filesystem.
         self.onIdies    = False # --^
-        self.plotdim2n3 = False # => True, when user wants plots in 2D+3D
+        self.plotdim2n3 = False # => True; when user wants plots in 2D+3D
         
         self.origamidata_exists = False # For activating autoripy?
         
         """
         Definitions of keywords to be used, script's interpretation +++.
-        When adding a new user input parameter, write it into the below
-        init-lists.
-        If a new type-checker is needed for an individual purpose;
+        When adding a new user input parameter:
+            write it into the below init-lists.
+
+        If a new type-checker is needed for an individual purpose,
         then write a new function into the group of functions below.
         """
         self.arglist = [ # Parameter keys available
@@ -68,7 +69,7 @@ class readArgs(object):
                 "plotdata"    ,
                 "plotdim"     ,
                 "origamipath"
-            ]
+        ]
         self.param_incorp = { # Function library: parameter validation
                      "what" : self.taskname_incorp   ,
                    "indraN" : self.integer_incorp    ,
@@ -89,7 +90,7 @@ class readArgs(object):
                  "plotdata" : self.toggles_incorp    ,
                   "plotdim" : self.plotdim_incorp    ,
               "origamipath" : self.oripath_incorp
-            }
+        }
         self.intRange_dict = { # Ranges of integer numbers.
                 "indraN" : N.arange(0,8),
                     "iA" : N.arange(0,8),
@@ -97,32 +98,31 @@ class readArgs(object):
              "subfolder" : N.arange(0,64),
                "fftfile" : N.arange(0,505),
                "plotdim" : N.arange(2,4)
-            } # Rember format: [x0, ..., x1 - 1]
+        } # Rember format: [x0, ..., x1 - 1]
         """
         Dictionaries: some default parameter values
         """
-        self.read_params = \
-            { # None-types are ignored in flow after validation.
-                     "what" :["pos"],
-                   "indraN" :   0   ,
-                       "iA" :   0   ,
-                       "iB" :   0   , 
-                "subfolder" :  None , 
-                  "fftfile" :  None ,
+        self.read_params = { # None-types are ignored in flow after validation.
+                     "what" :[ "pos" ],
+                   "indraN" :    0    ,
+                       "iA" :    0    ,
+                       "iB" :    0    , 
+                "subfolder" :  None   , 
+                  "fftfile" :  None   ,
               # Optional stuff
-                "tmpfolder" :   0   ,
-                    "sfset" :   0   ,
-                  "sortIDs" :   1   ,
-                "lessprint" :   1   ,
-                 "multiset" : False ,
-               "box_params" :   0   ,
+                "tmpfolder" :    0    ,
+                    "sfset" :    0    ,
+                  "sortIDs" :    1    ,
+                "lessprint" :    1    ,
+                 "multiset" :  False  ,
+               "box_params" :    0    ,
               # Output related
-               "outputpath" :  None ,
-                      "w2f" :   0   ,
-                 "plotdata" :   1   ,
-                  "plotdim" :  (2,) ,
-              "origamipath" : None
-            }
+               "outputpath" :  None   ,
+                      "w2f" :    0    ,
+                 "plotdata" :    1    ,
+                  "plotdim" :   (2,)  ,
+              "origamipath" :  None
+        }
 
         """
         end of init
@@ -195,8 +195,8 @@ class readArgs(object):
 
             continue
 
-        if ("subfolder" not in self.keys_read) and \
-                ("fftfile" not in self.keys_read):
+        if "subfolder" not in self.keys_read \
+            and "fftfile" not in self.keys_read:
             # Oh no!
             neither_fft_sf = """
             Parameters specified contain neither a snapshot number,
@@ -229,37 +229,41 @@ class readArgs(object):
         Invalid task name specification(s), or format(s) thereof: {0}
         Allowed task names listed below.""".format(uinput)
         column_of_actions = "\t"
-        for action in self.actionkeys:
+        for action in self.permitWhat:
             column_of_actions = column_of_actions+action+"\n"+(8*" ")
             continue
 
-        print "uinput:", uinput
+        # Accepted user input for task names or combination jobs:
+        self.permitWhat = self.action.keys() + self.singleSnapActions.keys() \
+                          + self.allSnapActions.keys()
+
+        print "uinput:", uinput # DT
         if type(uinput) == tuple or \
-            type(uinput) == list:
+            type(uinput) == list: # Important annoyance: Strings are iterable.
             " When multiple tasks are input. "
-            print "a)"
+            print "a)" # DT
             for taskname in uinput:
                 " Check if each name is in library. "
                 
                 if type(taskname) == str and \
-                    taskname in self.actionkeys:
+                    taskname in self.permitWhat:
                     " Task name(s) accepted"
                     pass
                 else:
                     sys.exit(tasknameErrortext.format(uinput)+column_of_actions)
                 continue
 
-            setattr( self, "what_set" , uinput )
+            setattr( self , "what_set" , uinput )
             # Returns, having checked & stored both items in the set.
             pass
 
         elif type(uinput) == str:
-            print "b)"
+            print "b)" # DT
 
             " String object recognized, input is compared & stored. "
-            if uinput in self.actionkeys:
+            if uinput in self.permitWhat:
                 " Basic task recognized: input stored. "
-                setattr( self, "what_set" , uinput )
+                setattr( self , "what_set" , uinput )
                 pass
 
             # Below are identifiers for task&/pp-combinations
@@ -282,13 +286,13 @@ class readArgs(object):
 
         # # Old elif-test, preFSU01:
         # elif type(uinput) == str and \
-        #     uinput in self.actionkeys:
+        #     uinput in self.permitWhat:
         #     " String object recognized, input is compared & stored. "
         #     setattr( self, "what_set" , uinput )
         #     # After storing, returns to next item to be checked
         #     pass
         else:
-            print "c)"
+            print "c)" # DT
             sys.exit(tasknameErrortext.format(uinput)+column_of_actions)
 
         return 0
