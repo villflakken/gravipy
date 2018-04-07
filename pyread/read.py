@@ -594,15 +594,14 @@ class readDo(readArgs, readProcedures):
         """
         Printout of programs current progress through folder systems
         """
-        progress = """\
-        * i{iN:1d}{iA:1d}{iB:1d} > {task} > snap:{sn:02d}
-        """
+        progress = """ * i{iN:1d}{iA:1d}{iB:1d} > {task}(/{oftasks}) > snap:{sn:02d}"""
         print progress.format(
-            task   = self.what,  
-            iN     = self.indraN,
-            iA     = self.iA,    
-            iB     = self.iB,    
-            sn     = num
+            task    = self.what,     
+            oftasks = self.what_set, 
+            iN      = self.indraN,   
+            iA      = self.iA,       
+            iB      = self.iB,       
+            sn      = num
         )
         return 0
 

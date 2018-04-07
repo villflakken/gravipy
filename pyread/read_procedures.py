@@ -192,7 +192,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         fofIDs    , groupLen, groupOffset = self.fof_ids_sifter(gids_name, groupLen, groupOffset)
         print "    TotNgroups = ({0:>10d})".format(TotNgroups)
 
-        print "\n    Finished reading '"+str(self.what)+"' of files, indra" \
+        print "    Finished reading '"+str(self.what)+"' of files, indra" \
                 +str(self.indraN)+', iA='+str(self.iA)+', iB='+str(self.iB) \
                 +', snapshot='+str(self.subfolder)+"\n"
         
@@ -218,7 +218,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         subIDs  = self.subh_idsifter(sids_name, TotNsubs, NTask)
         print "    TotNsubs = ({0:>10d})".format(TotNsubs)
 
-        print "\n    Finished reading '"+str(self.what)+"' of files, indra" \
+        print "    Finished reading '"+str(self.what)+"' of files, indra" \
                 +str(self.indraN)+', iA='+str(self.iA)+', iB='+str(self.iB) \
                 +', snapshot='+str(self.subfolder)+"\n"
                 
