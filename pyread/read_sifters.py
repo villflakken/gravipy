@@ -179,7 +179,7 @@ class Sifters(object):
 
         else: 
             " Friends detected! (find them!) "
-            print "  - Browsing of FOF-files (IDs): Initiated..."
+            print "  - Browsing of FOF-files (IDs ): Initiated..."
             if groupLen is None and groupOffset is None:
                 # Values not provided from the outside
                 gtab_name             = self.fof_pathstrings()[0]
@@ -207,7 +207,7 @@ class Sifters(object):
                     f.close()        
                 continue
         
-            print "  . Browsing of FOF-files (IDs): ...Complete!"
+            print "  . Browsing of FOF-files (IDs ): ...Complete!"
             pass # end.ELSE
         
         fofIDs -= 1 # Takes care of indexation discrepancy
@@ -387,7 +387,7 @@ class Sifters(object):
 
         else: # And retrieve the appropriate IDs if needed
             " Subh detected! (find them!) "
-            print "  - Browsing of Subhalo-files (IDs): Initiated..."
+            print "  - Browsing of Subhalo-files (IDs ): Initiated..."
             
             # Get total number of IDs (including unbound particle IDs)
             TotSubids = 0
@@ -417,7 +417,7 @@ class Sifters(object):
                     f.close() # end.WITH
 
                 continue
-            print "  . Browsing of Subhalo-files (IDs): ...Complete!"
+            print "  . Browsing of Subhalo-files (IDs ): ...Complete!"
             pass # end.ELSE
 
         subIDs -= 1  # Indexation discrepancy correction

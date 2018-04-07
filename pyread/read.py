@@ -87,7 +87,7 @@ class readDo(readArgs, readProcedures):
             "vel"     : self.read_posvel  , 
             "fof"     : self.read_fof     , 
             "subhalo" : self.read_subhalo , 
-            # "fft"     : self.read_fft     ,
+            "fft"     : self.read_fft     ,
             "origami" : self.read_origami ,
             "time"    : self.read_time
         }
@@ -97,7 +97,7 @@ class readDo(readArgs, readProcedures):
             "fof"     ,
             "subhalo" , 
             "origami" ,
-            # "fft"     , # currently not a feature
+            "fft"     , # currently not a feature
             "time"
         ]
         
