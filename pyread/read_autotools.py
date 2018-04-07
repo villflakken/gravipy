@@ -65,12 +65,12 @@ class AutoTools(object):
         " Selects the correct dictionary for combinated pp-ing "
         if   self.what_set in self.singleSnapActions.keys():
             " Store data for single snaps in a set"
-            self.dictMaker(self.data1dict, task, indra, num)
+            self.dictMaker(parsed_data, self.data1dict, task, indra, num)
             pass # end.IF single snap storage
 
         elif self.what_set in self.allSnapActions.keys():
             " Store data for all snaps in a set "
-            self.dictMaker(self.dataAlldict, task, indra, num)
+            self.dictMaker(parsed_data, self.dataAlldict, task, indra, num)
             pass # end.IF all snap storage
         else:
             print " [...] Uh... error... maybe? "
