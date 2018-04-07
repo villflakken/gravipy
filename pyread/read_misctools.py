@@ -255,8 +255,8 @@ class MiscTools(object):
 
         outfilePath      = folderPath + fileName
         self.outfilePath = outdir_floor + outfilePath 
-        ok = int(raw_input("Is this an OK output file path?:\n    "
-                       + self.outfilePath))
+        # ok = int(raw_input("Is this an OK output file path?:\n    "
+        #                + self.outfilePath))
         if not ok: sys.exit(" --- Filepath not ok :( ")
         return self.outfilePath
 

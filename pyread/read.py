@@ -432,13 +432,13 @@ class readDo(readArgs, readProcedures):
         " See if current task's data is _allowed_ to store "
         if task in self.AllowedDataAccumulation:
             " Then put in its correct dictionary "
-            self.dictMaker(self.datadict, task, indra, num)
+            self.dictMaker(parsed_data, self.datadict, task, indra, num)
             pass # end.IF 0
 
         return 0
 
 
-    def dictMaker(self, dictname, task, indra, num):
+    def dictMaker(self, parsed_data, dictname, task, indra, num):
         """
         Contains the versatile if tests that make up
         the dictionary updating sequence.
