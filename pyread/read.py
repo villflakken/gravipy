@@ -341,7 +341,7 @@ class readDo(readArgs, readProcedures):
                 
                 " Clear variable's memory allocation, or store in dict"
                 parsed_data = self.dataParserIter(parsed_data, self.subfolder)
-
+                print    # ..=> progress printing easily discernable at a glance.
                 continue #: Next task
             continue     #: Next snapnum...
 
