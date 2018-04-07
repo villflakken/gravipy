@@ -269,13 +269,13 @@ class readArgs(object):
                 pass
 
             # Below are identifiers for task&/pp-combinations
-            elif uinput in self.ppSingleSnaps.keys():
+            elif uinput in self.ppFuncsSingleSnaps.keys():
                 " 'self.ppSingleSnap' determines combination. "
                 setattr( self , "what_set" , self.singleSnapActions[uinput] )
                 setattr( self , self.singleSnapActions_bools[uinput] , True )
                 pass
 
-            elif uinput in self.ppAllSnaps.keys():
+            elif uinput in self.ppFuncsAllSnaps.keys():
                 " 'self.ppAllSnaps' determines combination. "
                 setattr( self , "what_set" , self.allSnapActions[uinput] )
                 setattr( self , self.allSnapActions_bools[uinput] , True )
