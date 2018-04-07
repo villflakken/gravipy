@@ -25,7 +25,7 @@ Parameters will be added and removed as needed.
 ### Current features:  
 * Reads binary INDRA, FoF, SubFind, and ORIGAMI data. It may then:  
   * Return these data out for the user to handle.
-    - Format depends on the requested command:  
+    - Format depends on the required job; combining datasets or single runs:  
       + **Dictionary**: Multi-snapshot &/ multi-dataset runs; user opts to 'store' data.  
         * Values at dictionary's keys will be empty if user opts to 'wipe' data instead; which may be preferrable &/ necessary if user intends to work with large numbers of sets.
       + **Tuple**: Single dataset, single snapshot.
