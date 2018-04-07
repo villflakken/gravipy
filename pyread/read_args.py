@@ -231,7 +231,7 @@ class readArgs(object):
         
         tasknameErrortext = """
         Invalid task name specification(s), or format(s) thereof: {0}
-        Allowed task names listed below.\n""".format(uinput)
+        Allowed task names listed below.""".format(uinput) + "\n"
         column_of_actions = "\t"
         for action in self.permitWhat:
             column_of_actions = column_of_actions+action+"\n"+(8*" ")
