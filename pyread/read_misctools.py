@@ -177,17 +177,7 @@ class MiscTools(object):
         * Note: based in user's home folder,
                 folder structure based on intended task.
         """
-        self.outfilePath = None # Clear variable
-
-        # Determines format of output path
-        if bool(self.outputpath) == True:
-            " User input specified data output path "
-            folderPath = self.outputpath
-            pass
-        else:
-            folderPath = "/{data}_i{iN}{iA}{iB}{tmp}/"
-            pass
-        fileName = "{data}_i{iN}{iA}{iB}{tmp}"
+        self.outfilePath = None # Clear the variable
 
         # Lowest hierarchy for user's folders, usually "~/"
         if self.onIdies == True:
@@ -216,6 +206,16 @@ class MiscTools(object):
             operationName = self.what
             pass
 
+        # Determines format of output path
+        if bool(self.outputpath) == True:
+            " User input specified data output path "
+            folderPath = self.outputpath
+            pass
+        else:
+            folderPath = "{data}_i{iN}{iA}{iB}{tmp}/"
+            pass
+        fileName = "{data}_i{iN}{iA}{iB}{tmp}"
+
         tmpstr = "tmp" if self.tmpfolder == True else ""
         # ... (*) and here they are set:
         folderPath = folderPath.format( 
@@ -237,7 +237,6 @@ class MiscTools(object):
         self.fileName = fileName
         # Will need snap folder/number at times added to it!
         
-        outfilePath   = folderPath + fileName
 
         if any((self.w2f, self.plotdata)) == True:
             " If any kind of output is requested "
@@ -254,6 +253,7 @@ class MiscTools(object):
                 pass
             pass # Folders are verified
 
+        outfilePath      = folderPath + fileName
         self.outfilePath = outdir_floor + outfilePath 
         ok = int(raw_input("Is this an OK output file path?:\n    "
                        + self.outfilePath))
