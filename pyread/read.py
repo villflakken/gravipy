@@ -324,9 +324,18 @@ class readDo(readArgs, readProcedures):
                 self.what = task
                 self.progressPrinter(subfolder)
                 self.auto_outputPather() # Creates fitting strings
-                # Declare the condition for beginning pp at end of set
+                # Declare the condition for beginning pp - at end of set
                 self.allCond = subfolder is self.subfolder_set[-1] \
                     and task is self.allSnapActions[ self.what_set ][-1]
+                print "###################################################################"
+                print "subfolder                                =", subfolder
+                print "self.subfolder_set[-1]                   =", self.subfolder_set[-1]
+                print
+                print "task                                     =", task
+                print "self.allSnapActions[ self.what_set ][-1] =", self.allSnapActions[ self.what_set ][-1]
+                print
+                print "self.allCond =", self.allCond
+                print "###################################################################"
 
                 " Task function call: "
                 parsed_data = self.action[self.what]()
@@ -344,6 +353,7 @@ class readDo(readArgs, readProcedures):
             print        # ..=> progress printing easily discernable at a glance.
             continue     #: Next snapnum...
 
+        print 
         " Clears dict and pp cond for next outside iteration "
         self.dataAlldict.clear()
         self.allCond = False

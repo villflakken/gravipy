@@ -71,16 +71,7 @@ class MiscTools(object):
             indrapath = indrapath.format(
                 self.indraN, self.iA, self.iB
             )
-            # Before I made origamiPathParser, below stuff was shortcut:
 
-            # self.origamipath = \
-            #     "workspace/indra/origami/i{0:1d}{1:1d}{2:1d}{3:s}/i{0:1d}{1:1d}{2:1d}{3:s}_sf{4:02d}_tag.dat"
-            # self.origamipath = self.origamipath\
-            #     .format(
-            #                 self.indraN , self.iA , self.iB , 
-            #                 "tmp" if self.tmpfolder == True else "" ,
-            #                 self.subfolder
-            #            )
             pass
 
         return indrapath
@@ -249,7 +240,7 @@ class MiscTools(object):
 
             else:
                 print "Output folder already exists: ", \
-                       outdir_floor + folderPath, "\n"
+                       outdir_floor + folderPath#, "\n"
                 pass
             pass # Folders are verified
 

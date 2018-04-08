@@ -211,6 +211,7 @@ class AutoTools(object):
         ngp, nsp, tng, tns = self.pp_sufoCounters( len(self.subfolder_set) ,
                                                    self.sIndex             )
         nhtags = pp_oriFetch('h')
+        
         # Plot SubFind-subhalo-, Origami-halo, & FoF-halo- particle counts
         self.plot_sofa(nsp, nhtags, ngp)
         self.plot_quori(n)
