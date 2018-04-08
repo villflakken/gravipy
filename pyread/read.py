@@ -328,11 +328,13 @@ class readDo(readArgs, readProcedures):
                 self.allCond = subfolder is self.subfolder_set[-1] \
                     and task is self.allSnapActions[ self.what_set ][-1]
                 print "###################################################################"
-                print "subfolder                                =", subfolder
-                print "self.subfolder_set[-1]                   =", self.subfolder_set[-1]
+                print "subfolder                                        =", subfolder
+                print "self.subfolder_set[-1]                           =", self.subfolder_set[-1]
+                print "subfolder is self.subfolder_set[-1]              =", subfolder is self.subfolder_set[-1]
                 print
-                print "task                                     =", task
-                print "self.allSnapActions[ self.what_set ][-1] =", self.allSnapActions[ self.what_set ][-1]
+                print "task                                             =", task
+                print "self.allSnapActions[ self.what_set ][-1]         =", self.allSnapActions[ self.what_set ][-1]
+                print "task is self.allSnapActions[ self.what_set ][-1] =", task is self.allSnapActions[ self.what_set ][-1]
                 print
                 print "self.allCond =", self.allCond
                 print "###################################################################"
