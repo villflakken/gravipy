@@ -325,17 +325,17 @@ class readDo(readArgs, readProcedures):
                 self.progressPrinter(subfolder)
                 self.auto_outputPather() # Creates fitting strings
                 # Declare the condition for beginning pp - at end of set
-                self.allCond = subfolder is self.subfolder_set[-1] \
-                    and task is self.allSnapActions[ self.what_set ][-1]
+                self.allCond = subfolder == self.subfolder_set[-1] \
+                    and task == self.allSnapActions[ self.what_set ][-1]
                 print "###################################################################"
                 print "subfolder                                        =", subfolder
                 print "self.subfolder_set[-1]                           =", self.subfolder_set[-1]
-                print "subfolder is self.subfolder_set[-1]              =", subfolder is self.subfolder_set[-1]
+                print "subfolder == self.subfolder_set[-1]              =", subfolder is self.subfolder_set[-1]
                 print "type(subfolder), type(self.subfolder_set[-1])    =", type(subfolder), type(self.subfolder_set[-1])
                 print
                 print "task                                             =", task
                 print "self.allSnapActions[ self.what_set ][-1]         =", self.allSnapActions[ self.what_set ][-1]
-                print "task is self.allSnapActions[ self.what_set ][-1] =", task is self.allSnapActions[ self.what_set ][-1]
+                print "task == self.allSnapActions[ self.what_set ][-1] =", task == self.allSnapActions[ self.what_set ][-1]
                 print
                 print "self.allCond =", self.allCond
                 print "###################################################################"
