@@ -331,6 +331,7 @@ class readDo(readArgs, readProcedures):
                 print "subfolder                                        =", subfolder
                 print "self.subfolder_set[-1]                           =", self.subfolder_set[-1]
                 print "subfolder is self.subfolder_set[-1]              =", subfolder is self.subfolder_set[-1]
+                print "type(subfolder), type(self.subfolder_set[-1])    =", type(subfolder), type(self.subfolder_set[-1])
                 print
                 print "task                                             =", task
                 print "self.allSnapActions[ self.what_set ][-1]         =", self.allSnapActions[ self.what_set ][-1]
