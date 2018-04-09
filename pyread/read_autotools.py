@@ -63,6 +63,8 @@ class AutoTools(object):
             o ppro_<oper. func> - Self-contained, smaller operation of a routine's flow.
             o ppmf_<misc. func> - Misc. Functions, useful on the whole.
     """
+
+    
     ####################################################################
     # """ -------- Dev. Code Playground comes below here: -------- """ #
 
@@ -139,7 +141,7 @@ class AutoTools(object):
         Post-Processing Routine Operation
         
         Produces arrays that are better to handle than dict items,
-        returns items to sufoGoPlay, a.k.a. sufo data Playground.
+        returns items to the Post Processing Routine which called it.
         """
         # N of fof-group _particles_ , * all snaps
         ngp_all  = pl.zeros( snapSetLen , dtype=pl.int64 )
@@ -266,7 +268,7 @@ class AutoTools(object):
     #############################################
     # -------- Initializers of pp-ing: -------- #
 
-    def pp_basic(self, parsed_data, num):
+    def ppr_basic(self, parsed_data, num):
         """
         Initializes the simple readings & processings.
         """
@@ -285,7 +287,7 @@ class AutoTools(object):
         return 0
     
 
-    def pp_basicLast(self, parsed_data, num):
+    def ppr_basicLast(self, parsed_data, num):
         """
         Initializes the simple readings & processings, end of snap.
         """
@@ -304,7 +306,7 @@ class AutoTools(object):
         return 0
 
 
-    def pp_singleSnaps(self, parsed_data):
+    def ppr_singleSnaps(self, parsed_data):
         """
         Initializes single-snap readings & processings
         """
@@ -352,7 +354,7 @@ class AutoTools(object):
     ##################################################################
     # """ -------- Here are "Single Snap pp functions": -------- """ #
 
-    def pp_posor(self):
+    def ppr_posor(self):
         """
         Positions and Origami
         """
@@ -360,21 +362,21 @@ class AutoTools(object):
         return 0
 
 
-    def pp_pof(self):
+    def ppr_pof(self):
         """
         
         """
 
         return 0
 
-    def pp_porifof(self):
+    def ppr_porifof(self):
         """
         
         """
 
         return 0
 
-    def pp_playOne(self):
+    def ppr_playOne(self):
         """
         
         """
@@ -388,7 +390,7 @@ class AutoTools(object):
 
     def ppr_sufoIniter(self, sufo_data):
         """
-        PP Routine initializer: Subhalo & FoF output pp routine.
+        PP Routine initializer: Subhalo & FoF.
         """
         " Makes sure the temp. dict.s are enriched "
         self.ppmf_tempStorage(sufo_data)
@@ -411,7 +413,7 @@ class AutoTools(object):
         return 0
 
 
-    def pp_sufoGoPlay(self):
+    def ppr_sufoI(self):
         """
         Playground for pp-ing with the Subhalo and FoF data sets!
         
