@@ -252,6 +252,73 @@ class Plotter(object):
         return 0
 
 
+    def plot_sufoderiv(self, nFhaloGroups, nShaloGroups):
+        """
+        TODO TODO TODO : this is a copy paste from above plot function: rewrite!
+
+        Is given TotalN(fof- or sub-) halo counts, and plots them over time.
+        """
+        hcfig_prpts = pl.figure("haloCounts_subtracted", figsize=(20,10))
+        ax1 = hcfig_prpts.add_subplot(121)
+
+        scale_y = 1.
+        ax1.set_xlabel(r"$z$ [redshift]")
+        ax1.set_ylabel(r"Halo counts of type over time")
+        # ax1.plot(redshifts, (tng_all - tns_all)/scale_y, label='FoF-Subhalo', linestyle='-', color='green')
+        ax1.plot(redshifts[tns_all != 0], (tng_all[tns_all != 0])/(tns_all[tns_all != 0].astype(pl.float64)),
+                 label='FoF/Subhalo', linestyle='-', color='green')
+
+        # ax1.set_xscale("log")#, nonposy='clip')
+        # ax1.set_yscale("log")#, nonposy='clip')
+
+        ax1.grid('on')
+        # ax1.legend(bbox_to_anchor=(0,0.14, 1,-0.2), \
+        #             loc="upper left", mode="expand", ncol=4, prop={'size':15}, markerscale=4)
+        ax1.legend(loc='best')
+
+        # Ways to invert the axes:
+        # ax1.set_xlim([7.5, redshifts[-1]])
+        # ax1.set_xlim([redshifts[0], redshifts[-1]]) 
+        pl.gca().invert_xaxis()
+        pl.gca().set_aspect(aspect='auto', adjustable='datalim')
+
+
+        #### ####
+        # plot derivatives: d(tng_all)/dz, d(tns_all)/dz
+        dz = redshifts[1:] - redshifts[:-1] 
+        dtng = tng_all[:-1] - tng_all[1:]
+        dtns = tns_all[:-1] - tns_all[1:]
+
+        ax2 = hcfig_prpts.add_subplot(122)
+
+        ax2.set_xlabel(r"$z$ [redshift]")
+        ax2.set_ylabel(r"Ratio of halo counts of type over time")
+        ax2.plot(redshifts[1:], dtng/dz, label=r'd(FoF)/d$z$', linestyle='-', color='black')
+        ax2.plot(redshifts[1:], dtns/dz, label=r'd(Subhalo)/d$z$', linestyle='--', color='gray')
+
+        # ax2.set_xscale("log")#, nonposy='clip')
+        # ax2.set_yscale("log")#, nonposy='clip')
+
+        ax2.grid('on')
+        # ax2.legend(bbox_to_anchor=(0,0.14, 1,-0.2), \
+        #                       loc="upper left", mode="expand", ncol=4, prop={'size':15}, markerscale=4)
+        ax2.legend(loc='best')
+
+        # Ways to invert the axes:
+        ax2.set_xlim([7.5, redshifts[-1]])
+        # ax2.set_xlim([redshifts[0], redshifts[-1]]) 
+        # pl.gca().invert_xaxis()
+
+
+        # n(umber of)halop(articles)_f(of,)s(ubhalo,)o(rigami)
+        plotfname = oputfolder_plots + "haloCounts_SubFoF_prpts_{iN}{iA}{iB}".format(iN=iN, iA=iA, iB=iB)
+        pl.savefig( plotfname +".png", dpi=200)
+        pl.show(   "haloCounts" )
+        pl.close(  "haloCounts" )
+
+        return 0
+
+
     def plot_sofa(self, nsp, nhtags, ngp):
         """
         Plotting views of particles pertaining to structure classifications:
@@ -290,8 +357,8 @@ class Plotter(object):
         pl.savefig( plotfname +".png", dpi=200)
         pl.show(   "haloparticles" )
         pl.close(  "haloparticles" )
-
         return 0 
+
 
     def plot_quOri(self, nvtags, nwtags, nftags, nhtags):
         """

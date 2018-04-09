@@ -168,10 +168,13 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
 
         " returns what user needs, specifically: "
         if   self.what == "pos":
-            return IDsA, posA, scalefA[0], rsA[0]
+            print "   . Finished reading 'pos'"
+            return IDsA.astype(N.int32), posA, scalefA[0], rsA[0]
+            # Attempting to reduce data
 
         elif self.what == "vel":
-            return IDsA, velA, scalefA[0], rsA[0]
+            print "   . Finished reading 'vel'"
+            return IDsA.astype(N.int32), velA, scalefA[0], rsA[0]
 
         else:
             sys.exit("\n    *** read_posvel task name error *** \n")

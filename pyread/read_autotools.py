@@ -64,7 +64,7 @@ class AutoTools(object):
             o ppmf_<misc. func> - Misc. Functions, useful on the whole.
     """
 
-    
+
     ####################################################################
     # """ -------- Dev. Code Playground comes below here: -------- """ #
 
@@ -115,21 +115,22 @@ class AutoTools(object):
         "| >>> self.dataAlldict[ 'suhalo' ][ self.iString ][ snapNumber ] "
         #| subIDs, tNsubs, catalog
 
-        # Arrays are preferred to operate; so we build them:
-        ngp, nsp, tng, tns \
+        # Arrays are preferred over dictionaries to operate; so we build them:
+        nfp, nsp, tng, tns \
             = self.ppro_subfofCount( len(self.subfolder_set), self.sIndex )
                                     #           (array-len, specific snaps)
 
         # Origami-data turned into boolean arrays are turned into arrays of type
         # [sum(origamiParticleType) for each of (no. of snaps)]
-        nvtags = ppro_oritagNfetch('v')
-        nwtags = ppro_oritagNfetch('w')
-        nftags = ppro_oritagNfetch('f')
-        nhtags = ppro_oritagNfetch('h')
+        oNvtags = ppro_oritagNfetch('v')
+        oNwtags = ppro_oritagNfetch('w')
+        oNftags = ppro_oritagNfetch('f')
+        oNhtags = ppro_oritagNfetch('h')
 
+        # Plot 
+        self.plot_sufo(tng, tns)
         # Plot SubFind-subhalo-, Origami-halo, & FoF-halo- particle counts
-        self.plot_sufo()
-        self.plot_sofa(nsp, nhtags, ngp)
+        self.plot_sofa(nsp, nhtags, nfp)
         self.plot_quOri(nvtags, nwtags, nftags, nhtags) # Quantities of Origami (over time)
         
         print " . playAll pp-functions completed . "
@@ -144,14 +145,14 @@ class AutoTools(object):
         returns items to the Post Processing Routine which called it.
         """
         # N of fof-group _particles_ , * all snaps
-        ngp_all  = pl.zeros( snapSetLen , dtype=pl.int64 )
+        ngp_all  = N.zeros( snapSetLen , dtype=N.int64 )
         # N of subhalo _particles_   , * all snaps
-        nsp_all  = pl.zeros( snapSetLen , dtype=pl.int64 )
+        nsp_all  = N.zeros( snapSetLen , dtype=N.int64 )
 
         # N of fof _groups_     , * all snaps
-        tng_all  = pl.zeros( snapSetLen , dtype=pl.int64 )
+        tng_all  = N.zeros( snapSetLen , dtype=N.int64 )
         # N of subhalo _groups_ , * all snaps
-        tns_all  = pl.zeros( snapSetLen , dtype=pl.int64 )
+        tns_all  = N.zeros( snapSetLen , dtype=N.int64 )
 
         for sn in snapkeys:
             " Numbers of FoF / Subhalo Particles == len of their ID arrays "
@@ -180,7 +181,7 @@ class AutoTools(object):
         }
         if otype not in oTag_dict.keys(): sys.exit(" Invalid 'otype' (OrigamiParticleType) ")
 
-        nOtags = N.zeros( self.sIndex[-1], dtype=pl.int64 )
+        nOtags = N.zeros( self.sIndex[-1], dtype=N.int64 )
 
         for si in self.sIndex:
             sn = self.subfolder_set[si]
