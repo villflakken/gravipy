@@ -268,14 +268,17 @@ class readArgs(object):
                 setattr( self , "what_set" , uinput[0] )
                 pass
 
-            # Below are identifiers for task&/pp-combinations
-            elif uinput[0] in self.ppFuncsSingleSnaps.keys():
+            # Below are identifiers for task&/pp-combinations:
+
+            # Post Processing Combination job names on a single snapshot
+            elif uinput[0] in self.ppCombsSingleSnaps.keys():
                 " 'self.ppSingleSnap' determines combination. "
                 setattr( self , "what_set" , self.singleSnapActions[uinput[0]] )
                 setattr( self , self.singleSnapActions_bools[uinput[0]] , True )
                 pass
 
-            elif uinput[0] in self.ppFuncsAllSnaps.keys():
+            # Post Processing Combination job names over several snapshots
+            elif uinput[0] in self.ppCombsAllSnaps.keys():
                 " 'self.ppAllSnaps' determines combination. "
                 setattr( self , "what_set" , self.allSnapActions[uinput[0]] )
                 setattr( self , self.allSnapActions_bools[uinput[0]] , True )

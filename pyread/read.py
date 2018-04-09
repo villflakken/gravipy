@@ -226,11 +226,11 @@ class readDo(readArgs, readProcedures):
                 " IF-block below handles pp and output "
                 if any([self.w2f, self.plotdata]) == True:
                     " Handles data post processing - during. "
-                    self.ppBasic(parsed_data, self.subfolder)
+                    self.pp_basic(parsed_data, self.subfolder)
                     
                     if subfolder == self.subfolder_set[-1]:
                         " Handles data post processing - end of subfolder set. "
-                        self.ppBasicLast(parsed_data, self.subfolder)
+                        self.pp_basicLast(parsed_data, self.subfolder)
                         pass # end.IF: last snap
 
                     pass # end.IF: pp & output
@@ -281,7 +281,7 @@ class readDo(readArgs, readProcedures):
                 " IF-block below handles pp and output "
                 if any([self.w2f, self.plotdata]) == True:
                     " Handles data post processing - during. "
-                    self.ppSingleSnaps(parsed_data)
+                    self.pp_singleSnaps(parsed_data)
                         # temp. storage for pp-data is self-contained
                         # inside self.'ppSingleSnaps'
                     pass # end.IF: pp & output
@@ -327,18 +327,18 @@ class readDo(readArgs, readProcedures):
                 # Declare the condition for beginning pp - at end of set
                 self.allCond = subfolder == self.subfolder_set[-1] \
                     and task == self.allSnapActions[ self.what_set ][-1]
-                print "###################################################################"
-                print "subfolder                                        =", subfolder
-                print "self.subfolder_set[-1]                           =", self.subfolder_set[-1]
-                print "subfolder == self.subfolder_set[-1]              =", subfolder == self.subfolder_set[-1]
-                print "type(subfolder), type(self.subfolder_set[-1])    =", type(subfolder), type(self.subfolder_set[-1])
-                print
-                print "task                                             =", task
-                print "self.allSnapActions[ self.what_set ][-1]         =", self.allSnapActions[ self.what_set ][-1]
-                print "task == self.allSnapActions[ self.what_set ][-1] =", task == self.allSnapActions[ self.what_set ][-1]
-                print
-                print "self.allCond =", self.allCond
-                print "###################################################################"
+                # print "###################################################################"
+                # print "subfolder                                        =", subfolder
+                # print "self.subfolder_set[-1]                           =", self.subfolder_set[-1]
+                # print "subfolder == self.subfolder_set[-1]              =", subfolder == self.subfolder_set[-1]
+                # print "type(subfolder), type(self.subfolder_set[-1])    =", type(subfolder), type(self.subfolder_set[-1])
+                # print
+                # print "task                                             =", task
+                # print "self.allSnapActions[ self.what_set ][-1]         =", self.allSnapActions[ self.what_set ][-1]
+                # print "task == self.allSnapActions[ self.what_set ][-1] =", task == self.allSnapActions[ self.what_set ][-1]
+                # print
+                # print "self.allCond =", self.allCond
+                # print "###################################################################"
 
                 " Task function call: "
                 parsed_data = self.action[self.what]()
@@ -346,7 +346,7 @@ class readDo(readArgs, readProcedures):
 
                 " This IF-block handles pp and output: during & last snap "
                 if any([self.w2f, self.plotdata]) == True:
-                    self.ppAllSnaps(parsed_data) 
+                    self.pp_allSnaps(parsed_data) 
                     # Function will initiate more specific processing
                     pass # end.IF: pp & output
                 
