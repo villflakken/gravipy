@@ -167,7 +167,7 @@ class Plotter(object):
         return 0
 
 
-    def plot_haloCounts(self, fofHaloParticleNums, subHaloParticleNums):
+    def plot_sufo(self, fofHaloParticleNums, subHaloParticleNums):
         """
         Is given TotalN(fof- or sub-) halo counts, and plots them over time.
         """
@@ -293,7 +293,7 @@ class Plotter(object):
 
         return 0 
 
-    def plot_quori(self, nvtags, nwtags, nftags, nhtags):
+    def plot_quOri(self, nvtags, nwtags, nftags, nhtags):
         """
         Quantities of the Origami-tagged types
         """

@@ -11,7 +11,8 @@ rc('font',**{'family':'serif'})
 
 class AutoTools(object):
     """
-    Tools that function when used in the readProcedures instance's automatic mode.
+    Tools that function when used in the readProcedures instance's automatic mode,
+    as well as pp functions for automized runs.
     """
     def __init__(self):
         # Singular-type data readings' post-processing functions
@@ -32,44 +33,41 @@ class AutoTools(object):
             "fft"     : self.pp_Lfft     ,
             "origami" : self.pp_Lorigami
         }
-        # Dictionary of Post-Processing Action Combination Routines: 
-        self.ppd_actionCombSingle = { # Combining data types on a Single Snap.
+        # Post-Processing Routine Dictionary for Action-Combination Routines: Single Snap
+        self.pprd_actionCombSingle = { 
             "posor"   : self.ppr_posor   , # pos.s and Origami
             "pof"     : self.ppr_pof     , # pos.s and FoF
             "porifof" : self.ppr_porifof , # pos.s, Origami, and FoF
             "playOne" : self.ppr_playOne   # Dev. functions for testing
         }
-        # Dictionary of Post-Processing Action Combination Routines: 
-        self.pprd_actionCombAll = { # Combining data types over several snaps.
+        # Post-Processing Routine Dictionary for Action-Combination Routines: Several Snaps
+        self.pprd_actionCombAll = { 
             "sufo"    : self.ppr_sufoIniter , # Pertaining to Subhalo Halos & FoF Halos
             "sofa"    : self.ppr_sofaIniter , # Pertaining to Subhalo, Origami, and FoF analysis
             "playAll" : self.ppr_playAll      # Dev. functions for testing  
         }
         """
-        Naming convention of the functions contained herein are intended for hierarchical thinking,
-        i.e.:
-
-        ppAllSnaps - Initializes algorithm, from outside program flow that requires to run 
-           |         all snaps in a set (while single set runs are initialized from ppSingleSnap).
-           |
-           v... ppr_<name> - Initializes job Routine pertaining to <name> from user input.
-                   |
-                   v... ppmf_<misc func> - Misc. Functions 
-                    ... ppjf_< job func> - The job of the input-named routine as a awhole, is
-                                           accomplished from several jobs of lesser magnitude.
-        
-        pprd_<...> - pp routine dictionary.
-
         End of init
         """
+    """
+    The naming conventions of variables and functions contained herein are intended 
+    wrt. a sort of hierarchical thinking, i.e.:
+    
+    pprd_<...> - pp routine dictionary, contains functions with named routine flows
 
+    pp_<single/all snaps> - Initializes correct algorithm for single-snap pp.s or multi-snap,
+        |                   from the outside program flow.
+        |
+        o ppr_<name> - Initializes Routine pertaining to <name> from user input.
+            |
+            o ppro_<oper. func> - Self-contained, smaller operation of a routine's flow.
+            o ppmf_<misc. func> - Misc. Functions, useful on the whole.
+    """
     ####################################################################
     # """ -------- Dev. Code Playground comes below here: -------- """ #
 
 
-
-
-    def pp_allSnaps(self, parsed_data):
+    def pp_allSnaps(self, parsed_data, routine=None):
         """
         Initializes readings & processings for combined snapnumbers.
         """
@@ -79,13 +77,19 @@ class AutoTools(object):
             print " allSnap plot process has begun"
             pass
 
+        if routine != None:
+            self.what_set = routine
+            pass
+
         self.pprd_actionCombAll[self.what_set](parsed_data)
 
         return 0
 
 
-    def pp_playAll(self, playdata):
+    def ppr_playAll(self, playdata):
         """
+        Post-Processing Routine
+
         Playground pp-routine for post-processing of data sets,
         combining SubFind-, Origami, & FoF Analysis.
 
@@ -110,16 +114,82 @@ class AutoTools(object):
         #| subIDs, tNsubs, catalog
 
         # Arrays are preferred to operate; so we build them:
-        ngp, nsp, tng, tns = self.pp_sufoCounters( len(self.subfolder_set) ,
-                                                   self.sIndex             )
-        nhtags = pp_oriFetch('h')
+        ngp, nsp, tng, tns \
+            = self.ppro_subfofCount( len(self.subfolder_set), self.sIndex )
+                                    #           (array-len, specific snaps)
+
+        # Origami-data turned into boolean arrays are turned into arrays of type
+        # [sum(origamiParticleType) for each of (no. of snaps)]
+        nvtags = ppro_oritagNfetch('v')
+        nwtags = ppro_oritagNfetch('w')
+        nftags = ppro_oritagNfetch('f')
+        nhtags = ppro_oritagNfetch('h')
 
         # Plot SubFind-subhalo-, Origami-halo, & FoF-halo- particle counts
+        self.plot_sufo()
         self.plot_sofa(nsp, nhtags, ngp)
-        self.plot_quori(n)
+        self.plot_quOri(nvtags, nwtags, nftags, nhtags) # Quantities of Origami (over time)
         
         print " . playAll pp-functions completed . "
         return 0
+
+
+    def ppro_subfofCount(self, snapSetLen, snapkeys):
+        """
+        Post-Processing Routine Operation
+        
+        Produces arrays that are better to handle than dict items,
+        returns items to sufoGoPlay, a.k.a. sufo data Playground.
+        """
+        # N of fof-group _particles_ , * all snaps
+        ngp_all  = pl.zeros( snapSetLen , dtype=pl.int64 )
+        # N of subhalo _particles_   , * all snaps
+        nsp_all  = pl.zeros( snapSetLen , dtype=pl.int64 )
+
+        # N of fof _groups_     , * all snaps
+        tng_all  = pl.zeros( snapSetLen , dtype=pl.int64 )
+        # N of subhalo _groups_ , * all snaps
+        tns_all  = pl.zeros( snapSetLen , dtype=pl.int64 )
+
+        for sn in snapkeys:
+            " Numbers of FoF / Subhalo Particles == len of their ID arrays "
+            ngp_all[sn] = len( self.dataAlldict[ "fof"    ][self.iString][sn][0] )
+            nsp_all[sn] = len( self.dataAlldict[ "suhalo" ][self.iString][sn][0] )
+            
+            " Total Number of fof Groups "
+            tng_all[sn] = self.dataAlldict[ "fof"    ][self.iString][sn][1]
+            tns_all[sn] = self.dataAlldict[ "suhalo" ][self.iString][sn][1]
+            continue # Next snap
+
+        return ngp_all, nsp_all, tng_all, tns_all
+
+
+    def ppro_oritagNfetch(self, otype='h'):
+        """
+        Post-Processing Routine Operation
+
+        Runs through Origami output to retrieve requested tags.
+        """
+        oTag_dict = {
+            'v' : 0,
+            'w' : 1,
+            'f' : 2,
+            'h' : 3
+        }
+        if otype not in oTag_dict.keys(): sys.exit(" Invalid 'otype' (OrigamiParticleType) ")
+
+        nOtags = N.zeros( self.sIndex[-1], dtype=pl.int64 )
+
+        for si in self.sIndex:
+            sn = self.subfolder_set[si]
+            nOtags[si] = N.sum( # Sum(bools(type)) => N(type)
+                self.dataAlldict['origami'][self.iString][sn] == oTag_dict[otype]
+            )
+            continue
+
+        return nOtags
+
+
 
 
 
@@ -173,6 +243,25 @@ class AutoTools(object):
         return 0
 
     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     #############################################
     # -------- Initializers of pp-ing: -------- #
@@ -228,6 +317,33 @@ class AutoTools(object):
         self.ppCombsSingleSnaps[self.what_set](parsed_data)
 
         return 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -365,29 +481,6 @@ class AutoTools(object):
         self.plot_sofa(nsp, nhtags, ngp)
         return 0
 
-
-    def pp_oriFetch(self, otype):
-        """
-        Runs through Origami output to retrieve requested tags.
-        """
-        oTag_dict = {
-            'v' : 0,
-            'w' : 1,
-            'f' : 2,
-            'h' : 3
-        }
-        if otype not in oTag_dict.keys(): sys.exit(" Invalid 'otype' ")
-
-        nOtags = N.zeros( self.sIndex[-1], dtype=pl.int64 )
-
-        for si in self.sIndex:
-            sn = self.subfolder_set[si]
-            nOtags[si] = N.sum( # Sum(bools(type)) => N(type)
-                self.dataAlldict['origami'][self.iString][sn] == oTag_dict[otype]
-            )
-            continue
-
-        return nOtags
 
     ############################################################
     # """ -------- Here are "basic pp functions": -------- """ #
