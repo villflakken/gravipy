@@ -380,9 +380,9 @@ class MiscTools(object):
         """   
         seconds_in_an_hour  = 3600.
         seconds_in_a_minute = 60.
-        hours   = int(  totsecs // seconds_in_an_hour )
-        minutes = int( (totsecs %  seconds_in_an_hour) // seconds_in_a_minute )
-        seconds = int( (totsecs %  seconds_in_an_hour) %  seconds_in_a_minute )
+        hours   =   int(  totsecs // seconds_in_an_hour )
+        minutes =   int( (totsecs %  seconds_in_an_hour) // seconds_in_a_minute )
+        seconds = float( (totsecs %  seconds_in_an_hour) %  seconds_in_a_minute )
         if reverse == True:
             timestring = "s:{s:>2.2f} , m:{m:>2d} , h:{h:>3d}"
             return timestring.format(s=seconds, m=minutes, h=hours)

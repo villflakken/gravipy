@@ -38,7 +38,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
 
     def read_posvel(self):
         """
-        Analyzes positions and velocities dataset.
+       Reads positions and velocities datasets.
         """
         t_pvread_start = time.time() # Time manager
 
@@ -105,28 +105,11 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
 
             continue # Next binary file's turn
 
-        " Out-of-loop 'sorting' - by generation: IDs "
-        # if self.boolcheck(self.sortIDs):
-        #     IDsA = N.arange(0, Npart_tot, dtype=N.int64) # Readily sorted IDs! :)
-        #     print "    \=> positions' array now sorted by ID tag."
-        #     pass
 
         t_pvread_end = time.time()
         t_pvread_tot = t_pvread_end - t_pvread_start 
         print "      : dt = {0:g} s".format(t_pvread_tot)
 
-        # DT - getting a handle on why so many files would include RS data
-        if self.arrval_equaltest(scalefA) != True:
-            print "All scalefactor elements are _not_ equal!"
-            print "Scalefactor values retrieved:"
-            print scalefA
-            pass
-
-        if self.arrval_equaltest(rsA) != True:
-            print "All redshift elements are _not_ equal!"
-            print "Redshift values retrieved:"
-            print rsA
-            pass
 
         # File reading loop completed; print status
         countedNpart = N.sum(NpartA)
@@ -146,17 +129,6 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         print "    Size of array  NpartA = " + self.item_size_printer(NpartA.nbytes)
         print "    Total size of matrices IDsA, posA, velA, NpartA = " \
                + self.item_size_printer(matsizes) 
-
-        # Old ID-pos-vel sorting block
-        '''
-        if self.boolcheck(self.sortIDs):
-            print """
-    Sifter has completed reading all {0} files of snap {1}.
-    - Commencing method for sorting positions and velocities."""\
-                            .format(iterLen, self.subfolder)
-            IDsA, posA, velA = self.sort_from_IDsF(IDsA, posA, velA, self.what)
-            pass
-        '''
 
         # The reading is done, the bells have toll'd;
         # print out the stats, parameters, and all!

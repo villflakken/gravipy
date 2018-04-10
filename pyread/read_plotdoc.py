@@ -243,7 +243,7 @@ class Plotter(object):
         ax2.set_ylim([4e-1, 3.1])
 
 
-        plotfname = self.outfilePath + "_sufoHcount_subfof_zoom"
+        plotfname = self.outfilePath + "_sufoHcount_zoom"
         pl.savefig( plotfname +".png", dpi=200)
         pl.show(   "sufoHcount_zoom" )
         pl.close(  "sufoHcount_zoom" )
@@ -260,7 +260,7 @@ class Plotter(object):
         """
         scale_y = 1.
         redshifts = self.datadict["time"]["redshift"][self.subfolder_set] 
-        suforatiofig = pl.figure("sufoHcountratio", figsize=(10,10))
+        suforatiofig = pl.figure("sufoHcount_ratio", figsize=(10,10))
         ax1 = suforatiofig.add_subplot(111)
 
         # ax1.plot(redshifts, (tng_all - tns)/scale_y, label='FoF-Subhalo', linestyle='-', color='green')
@@ -285,8 +285,8 @@ class Plotter(object):
 
         plotfname = self.outfilePath + "_sufoHcount_ratio"
         pl.savefig( plotfname +".png", dpi=200)
-        pl.show(   "sufoHcountratio" )
-        pl.close(  "sufoHcountratio" )
+        pl.show(   "sufoHcount_ratio" )
+        pl.close(  "sufoHcount_ratio" )
 
         #### ####
         # plot derivatives: d(tng)/dz, d(tns)/dz
@@ -294,7 +294,7 @@ class Plotter(object):
         dtng = tng[:-1] - tng[1:]
         dtns = tns[:-1] - tns[1:]
         
-        sufoderivfig = pl.figure("sufoHcountderiv", figsize=(10,10))
+        sufoderivfig = pl.figure("sufoHcount_deriv", figsize=(10,10))
         ax2 = sufoderivfig.add_subplot(111)
 
         ax2.set_xlabel(r"$z$ [redshift]")
@@ -317,8 +317,8 @@ class Plotter(object):
 
         plotfname = self.outfilePath + "_sufoHcount_deriv"
         pl.savefig( plotfname +".png", dpi=200)
-        pl.show(   "sufoHcountderiv" )
-        pl.close(  "sufoHcountderiv" )
+        pl.show(   "sufoHcount_deriv" )
+        pl.close(  "sufoHcount_deriv" )
 
         return 0
 
@@ -334,7 +334,7 @@ class Plotter(object):
         scale_y = 1024.**3
 
 
-        fig = pl.figure("haloparticles", figsize=(10,10))
+        fig = pl.figure("sofa_NpartH", figsize=(10,10))
         ax = fig.add_subplot(111)
         ax.plot( redshifts, ngp/scale_y,
                  label='FOF'     , linestyle='-' , linewidth=3, color='black' )
@@ -358,10 +358,10 @@ class Plotter(object):
         # pl.gca().invert_xaxis()
         ax.set_xlim([7.5, redshifts[-1]]) 
 
-        plotfname = self.outfilePath + "_HaloPartN_sofa"
+        plotfname = self.outfilePath + "_sofa_NpartH"
         pl.savefig( plotfname +".png", dpi=200)
-        pl.show(   "haloparticles" )
-        pl.close(  "haloparticles" )
+        pl.show(   "sofa_NpartH" )
+        pl.close(  "sofa_NpartH" )
         return 0 
 
 
@@ -372,7 +372,7 @@ class Plotter(object):
         redshifts = self.datadict["time"]["redshift"][self.subfolder_set] 
         scale_y = 1e9
         
-        fig = pl.figure("quori", figsize=(10,10))
+        fig = pl.figure("quOri", figsize=(10,10))
         ax = fig.add_subplot(111)
         ax.plot( redshifts, nvtags /scale_y, 
                  label='Void',     linestyle='-',  linewidth=3, color='black'   )
@@ -401,8 +401,8 @@ class Plotter(object):
         # Quantities of Origami-tagged particles
         plotfname = self.outfilePath + "_quOri"
         pl.savefig( plotfname +".png", dpi=200)
-        pl.show("quori")
-        pl.close("quori")
+        pl.show("quOri")
+        pl.close("quOri")
         return 0
 
 

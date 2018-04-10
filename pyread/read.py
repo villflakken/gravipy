@@ -349,7 +349,7 @@ class readDo(readArgs, readProcedures):
             continue     #: Next snapnum...
 
         print 
-        " Clears dict and pp cond for next outside iteration "
+        " Clears the temporary dict and resets pp-cond for next outside iteration "
         self.dataAlldict.clear()
         self.allCond = False
 
