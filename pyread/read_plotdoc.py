@@ -112,6 +112,7 @@ class Plotter(object):
 
             time_2dplot_end = time.time()
             print "2D scatter plot time: {0:.2f} seconds".format((time_2dplot_end - time_2dplot_start))
+            pl.savefig(self.outfilePath + "_posori2d.png", dpi=200)
             pl.close("scatter2d")
             
             pass
@@ -155,6 +156,7 @@ class Plotter(object):
             pl.show("scatter3d")
             time_3dplot_end = time.time()
             print "3D scatter plot time: {0:.2f} seconds".format((time_3dplot_end - time_3dplot_start))
+            pl.savefig(self.outfilePath + "_posori3d.png", dpi=200)
             pl.close("scatter3d")
 
             # Return to function
@@ -207,7 +209,7 @@ class Plotter(object):
         # Ways to invert the axes:
         ax1.set_xlim([7.5, redshifts[-1]])
 
-        plotfname = self.outfilePath + "_haloCounts_SubFoF"
+        plotfname = self.outfilePath + "_haloCounts_subfof"
         pl.savefig( plotfname +".png", dpi=200 )
         pl.show(   "haloCounts" )
         pl.close(  "haloCounts" )
@@ -240,8 +242,8 @@ class Plotter(object):
         ax2.set_xlim([3, redshifts[-1]])
         ax2.set_ylim([4e-1, 3.1])
 
-        # n(umber of)halop(articles)_f(of,)s(ubhalo,)o(rigami)
-        plotfname = self.outfilePath + "_haloCounts_zoom_SubFoF"
+
+        plotfname = self.outfilePath + "_haloCounts_subfof_zoom"
         pl.savefig( plotfname +".png", dpi=200)
         pl.show(   "haloCounts_zoom" )
         pl.close(  "haloCounts_zoom" )
@@ -258,7 +260,7 @@ class Plotter(object):
         scale_y = 1.
         redshifts = self.datadict["time"]["redshift"][self.subfolder_set] 
 
-        hcfig_prpts = pl.figure("haloCounts_subtracted", figsize=(20,10))
+        hcfig_prpts = pl.figure("haloCounts_ratio", figsize=(20,10))
         ax1 = hcfig_prpts.add_subplot(121)
         # ax1.plot(redshifts, (tng_all - tns_all)/scale_y, label='FoF-Subhalo', linestyle='-', color='green')
         ax1.plot(redshifts[tns_all != 0], (tng_all[tns_all != 0])/(tns_all[tns_all != 0].astype(pl.float64)),
@@ -280,6 +282,10 @@ class Plotter(object):
         pl.gca().invert_xaxis()
         pl.gca().set_aspect(aspect='auto', adjustable='datalim')
 
+        plotfname = self.outfilePath  + "_haloCounts_subfof_ratio"
+        pl.savefig( plotfname +".png", dpi=200)
+        pl.show(   "haloCounts_ratio" )
+        pl.close(  "haloCounts_ratio" )
 
         #### ####
         # plot derivatives: d(tng_all)/dz, d(tns_all)/dz
@@ -309,11 +315,10 @@ class Plotter(object):
         # pl.gca().invert_xaxis()
 
 
-        # n(umber of)halop(articles)_f(of,)s(ubhalo,)o(rigami)
-        plotfname = oputfolder_plots + "haloCounts_SubFoF_prpts_{iN}{iA}{iB}".format(iN=iN, iA=iA, iB=iB)
+        plotfname = oputfolder_plots + "_haloCounts_subfof_deriv"
         pl.savefig( plotfname +".png", dpi=200)
-        pl.show(   "haloCounts" )
-        pl.close(  "haloCounts" )
+        pl.show(   "haloCounts_deriv" )
+        pl.close(  "haloCounts_deriv" )
 
         return 0
 
@@ -353,8 +358,7 @@ class Plotter(object):
         # pl.gca().invert_xaxis()
         ax.set_xlim([7.5, redshifts[-1]]) 
 
-        # n(umber of)halop(articles)_f(of,)s(ubhalo,)o(rigami)
-        plotfname = self.outfilePath + "numHaloPart_sofa"
+        plotfname = self.outfilePath + "_HaloPartN_sofa"
         pl.savefig( plotfname +".png", dpi=200)
         pl.show(   "haloparticles" )
         pl.close(  "haloparticles" )
@@ -394,12 +398,13 @@ class Plotter(object):
         # pl.gca().invert_xaxis()
         ax.set_xlim([7.5, redshifts[-1]]) 
 
-        # n(umber of)ori(gami)t(ags)_
-        plotfname = self.outfilePath + "quori"
+        # Quantities of Origami-tagged particles
+        plotfname = self.outfilePath + "_quOri"
         pl.savefig( plotfname +".png", dpi=200)
         pl.show("quori")
         pl.close("quori")
         return 0
+
 
 if __name__ == '__main__':
     sys.exit("Attempt at running code from unintended source. \n\
