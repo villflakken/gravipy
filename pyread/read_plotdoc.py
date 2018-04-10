@@ -169,7 +169,7 @@ class Plotter(object):
         return 0
 
 
-    def plot_sufoHcountHcself, tng, tns):
+    def plot_sufoHcount(self, tng, tns):
         """
         Is given TotalN(fof- or sub-) halo counts, and plots them over time.
         """
