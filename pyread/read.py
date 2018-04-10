@@ -349,9 +349,8 @@ class readDo(readArgs, readProcedures):
             continue     #: Next snapnum...
 
         print 
-        " Clears the temporary dict and resets pp-cond for next outside iteration "
-        self.dataAlldict.clear()
-        self.allCond = False
+        self.dataAlldict.clear() # Clears the temporary dict
+        self.allCond = False     # Resets pp-cond for next outside iteration
 
         return parsed_data
 
