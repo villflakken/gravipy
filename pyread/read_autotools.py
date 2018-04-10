@@ -122,10 +122,10 @@ class AutoTools(object):
 
         # Origami-data turned into boolean arrays are turned into arrays of type
         # [sum(origamiParticleType) for each of (no. of snaps)]
-        oNvtags = ppro_oritagNfetch('v')
-        oNwtags = ppro_oritagNfetch('w')
-        oNftags = ppro_oritagNfetch('f')
-        oNhtags = ppro_oritagNfetch('h')
+        oNvtags = self.ppro_oritagNfetch('v')
+        oNwtags = self.ppro_oritagNfetch('w')
+        oNftags = self.ppro_oritagNfetch('f')
+        oNhtags = self.ppro_oritagNfetch('h')
 
         # Plot 
         self.plot_sufo(tng, tns)

@@ -130,7 +130,7 @@ class Sifters(object):
 
         else: 
             " Friends detected! "
-            print "\t- Browsing of FOF-files (tabs): Initiated..." # string print begins
+            print "\t- Browsing of FOF-files (tabs): Initiated...", # string print begins
             groupLen    = N.zeros(TotNgroups, dtype=N.int32)
             groupOffset = N.zeros(TotNgroups, dtype=N.int32)
             istartGroup = 0
