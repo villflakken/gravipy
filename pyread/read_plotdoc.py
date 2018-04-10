@@ -169,7 +169,7 @@ class Plotter(object):
         return 0
 
 
-    def plot_sufo(self, fofHaloParticleNums, subHaloParticleNums):
+    def plot_sufo(self, tng, tns):
         """
         Is given TotalN(fof- or sub-) halo counts, and plots them over time.
         """
@@ -180,14 +180,14 @@ class Plotter(object):
         hcfig = pl.figure("haloCounts", figsize=(10,10))
         ax1 = hcfig.add_subplot(111)
         ax1.plot( 
-            redshifts                    , 
-            fofHaloParticleNums /scale_y , 
+            redshifts    , 
+            tng /scale_y , 
             label='FoF' ,
             linestyle='-',  linewidth=3, color='black'
         )
         ax1.plot( 
-            redshifts                    , 
-            subHaloParticleNums /scale_y , 
+            redshifts    , 
+            tns /scale_y , 
             label='Subhalo' ,
             linestyle='--', linewidth=3, color='gray'
         )
@@ -218,10 +218,10 @@ class Plotter(object):
         ### """ ---- 2nd plot ---- """
         hcfig = pl.figure("haloCounts_zoom", figsize=(10,10))
         ax2 = hcfig.add_subplot(111)
-        ax2.plot( redshifts , fofHaloParticleNums/scale_y  , 
+        ax2.plot( redshifts , tng/scale_y  , 
             label='FoF'    , linestyle='-' , linewidth=3, color='black'
         )
-        ax2.plot( redshifts , subHaloParticleNums/scale_y  , 
+        ax2.plot( redshifts , tns/scale_y  , 
             label='Subhalo', linestyle='--', linewidth=3, color='gray'
         )
         ax2.set_xlabel(r"$z$ [redshift]")
@@ -251,29 +251,28 @@ class Plotter(object):
         return 0
 
 
-    def plot_sufoderiv(self, nFhaloGroups, nShaloGroups):
+    def plot_sufoderiv(self, tng, tns):
         """
         TODO TODO TODO : this is a copy paste from above plot function: rewrite!
+        TODO : plot an abs(nFhg - nShg)
 
         Is given TotalN(fof- or sub-) halo counts, and plots them over time.
         """
         scale_y = 1.
         redshifts = self.datadict["time"]["redshift"][self.subfolder_set] 
 
-        hcfig_prpts = pl.figure("haloCounts_ratio", figsize=(20,10))
-        ax1 = hcfig_prpts.add_subplot(121)
-        # ax1.plot(redshifts, (tng_all - tns_all)/scale_y, label='FoF-Subhalo', linestyle='-', color='green')
-        ax1.plot(redshifts[tns_all != 0], (tng_all[tns_all != 0])/(tns_all[tns_all != 0].astype(pl.float64)),
-                 label='FoF/Subhalo', linestyle='-', color='green')
         ax1.set_xlabel(r"$z$ [redshift]")
         ax1.set_ylabel(r"Halo counts of type over time")
+        # ax1.plot(redshifts, (tng_all - tns)/scale_y, label='FoF-Subhalo', linestyle='-', color='green')
+        ax1.plot(redshifts[tns != 0], (tng[tns != 0])/(tns[tns != 0].astype(pl.float64)),
+                 label='FoF/Subhalo', linestyle='-', color='green')
 
         # ax1.set_xscale("log")#, nonposy='clip')
         # ax1.set_yscale("log")#, nonposy='clip')
 
         ax1.grid('on')
         # ax1.legend(bbox_to_anchor=(0,0.14, 1,-0.2), \
-        #             loc="upper left", mode="expand", ncol=4, prop={'size':15}, markerscale=4)
+        #                       loc="upper left", mode="expand", ncol=4, prop={'size':15}, markerscale=4)
         ax1.legend(loc='best')
 
         # Ways to invert the axes:
@@ -282,24 +281,19 @@ class Plotter(object):
         pl.gca().invert_xaxis()
         pl.gca().set_aspect(aspect='auto', adjustable='datalim')
 
-        plotfname = self.outfilePath  + "_haloCounts_subfof_ratio"
-        pl.savefig( plotfname +".png", dpi=200)
-        pl.show(   "haloCounts_ratio" )
-        pl.close(  "haloCounts_ratio" )
 
         #### ####
-        # plot derivatives: d(tng_all)/dz, d(tns_all)/dz
-        dz = redshifts[1:] - redshifts[:-1] 
-        dtng = tng_all[:-1] - tng_all[1:]
-        dtns = tns_all[:-1] - tns_all[1:]
+        # plot derivatives: d(tng)/dz, d(tns)/dz
+        dz  = redshifts[1:] - redshifts[:-1] 
+        dtng = tng[:-1] - tng[1:]
+        dtns = tns[:-1] - tns[1:]
 
         ax2 = hcfig_prpts.add_subplot(122)
-        ax2.plot( redshifts[1:], dtng/dz, 
-                  label=r'd(FoF)/d$z$', linestyle='-', color='black')
-        ax2.plot( redshifts[1:], dtns/dz, 
-                  label=r'd(Subhalo)/d$z$', linestyle='--', color='gray')
+
         ax2.set_xlabel(r"$z$ [redshift]")
         ax2.set_ylabel(r"Ratio of halo counts of type over time")
+        ax2.plot(redshifts[1:], dtng/dz, label=r'd(FoF)/d$z$', linestyle='-', color='black')
+        ax2.plot(redshifts[1:], dtns/dz, label=r'd(Subhalo)/d$z$', linestyle='--', color='gray')
 
         # ax2.set_xscale("log")#, nonposy='clip')
         # ax2.set_yscale("log")#, nonposy='clip')
@@ -313,7 +307,6 @@ class Plotter(object):
         ax2.set_xlim([7.5, redshifts[-1]])
         # ax2.set_xlim([redshifts[0], redshifts[-1]]) 
         # pl.gca().invert_xaxis()
-
 
         plotfname = oputfolder_plots + "_haloCounts_subfof_deriv"
         pl.savefig( plotfname +".png", dpi=200)

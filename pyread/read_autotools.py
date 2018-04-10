@@ -73,13 +73,7 @@ class AutoTools(object):
         """
         Initializes readings & processings for combined snapnumbers.
         """
-        " Just prints whether or not plotting is involved: "
-        if self.boolcheck(self.plotdata) == True and self.allCond == True:
-            " Tells user if plots are made "
-            print "   # allSnap plot process has begun"
-            pass
-
-        if routine != None:
+        if routine != None: # Allows for calling stuff from the outside # DT
             self.what_set = routine
             pass
 
@@ -87,7 +81,10 @@ class AutoTools(object):
 
         return 0
 
-
+        if self.boolcheck(self.plotdata) == True and self.allCond == True:
+            " Just prints whether or not plotting is involved: "
+            print "   # allSnap plot process has begun"
+            pass
     def ppr_playAll(self, playdata):
         """
         Post-Processing Routine
@@ -109,6 +106,11 @@ class AutoTools(object):
             print "   + playAll storage initialized "
             return 0 # end.ELSE: storage notifier
 
+        " Just prints whether or not plotting is involved: "
+        if self.boolcheck(self.plotdata) == True and self.allCond == True:
+            " Tells user if plots are made "
+            print "   # allSnap plot process has begun"
+            pass
         # Data is accessable at dictionary addresses:
         "| >>> self.dataAlldict[ 'fof'     ][ self.iString ][ snapNumber ] "
         #| fofIDs, tNgrps, groupLen, groupOffset
@@ -116,6 +118,8 @@ class AutoTools(object):
         #| subIDs, tNsubs, catalog
         "| >>> self.dataAlldict[ 'origami' ][ self.iString ][ snapNumber ] "
         #| origamitag_array, N_of_particles
+
+        # --- Put processing stuff here! ------------------------
 
         # Arrays are preferred over dictionaries to operate; so we build them:
         nfp, nsp, tng, tns \
@@ -129,10 +133,20 @@ class AutoTools(object):
         oNftags = self.ppro_oritagNfetch('f')
         oNhtags = self.ppro_oritagNfetch('h')
 
-        # Plot 
+
+
+        # --- Put plotting  stuff here! ------------------------
+        if self.boolcheck(self.plotdata) == True and self.allCond == True:
+            " Just prints whether or not plotting is involved: "
+            print "   # allSnap plot process has begun"
+            pass
+            
+        # Plot subhalo & fof data stuffs
         self.plot_sufo(tng, tns)
+        self.plot_sufoderiv(tng, tns)
         # Plot SubFind-subhalo-, Origami-halo, & FoF-halo- particle counts
         self.plot_sofa(nsp, oNhtags, nfp)
+        # Plot Origami's quantities over time
         self.plot_quOri(oNvtags, oNwtags, oNftags, oNhtags) # Quantities of Origami (over time)
         
         print "   . playAll pp-functions completed . "
@@ -150,27 +164,27 @@ class AutoTools(object):
 
 
         # N of fof-group _particles_ , * all snaps
-        ngp_all  = N.zeros( snapSetLen , dtype=N.int64 )
+        nfp_all  = N.zeros( snapSetLen , dtype=N.int64 )
         # N of subhalo _particles_   , * all snaps
         nsp_all  = N.zeros( snapSetLen , dtype=N.int64 )
 
         # N of fof _groups_     , * all snaps
-        tng_all  = N.zeros( snapSetLen , dtype=N.int64 )
+        tnf_all  = N.zeros( snapSetLen , dtype=N.int64 )
         # N of subhalo _groups_ , * all snaps
         tns_all  = N.zeros( snapSetLen , dtype=N.int64 )
 
         for si in snapkeys:
             sn = self.subfolder_set[si]
             " Numbers of FoF / Subhalo Particles == len of their ID arrays "
-            ngp_all[si] = len( self.dataAlldict[ "fof"     ][self.iString][sn][0] )
+            nfp_all[si] = len( self.dataAlldict[ "fof"     ][self.iString][sn][0] )
             nsp_all[si] = len( self.dataAlldict[ "subhalo" ][self.iString][sn][0] )
             
             " Total Number of fof Groups "
-            tng_all[si] = self.dataAlldict[ "fof"     ][self.iString][sn][1]
+            tnf_all[si] = self.dataAlldict[ "fof"     ][self.iString][sn][1]
             tns_all[si] = self.dataAlldict[ "subhalo" ][self.iString][sn][1]
             continue # Next snap
 
-        return ngp_all, nsp_all, tng_all, tns_all
+        return nfp_all, nsp_all, tnf_all, tns_all
 
 
     def ppro_oritagNfetch(self, otype='h'):
