@@ -132,7 +132,7 @@ class AutoTools(object):
         print "   # allSnap plot process has begun"
             
         # Plot subhalo & fof data stuffs
-        self.plot_sufo(tng, tns)
+        self.plot_sufoHcount(tng, tns)
         self.plot_sufoderiv(tng, tns)
         # Plot SubFind-subhalo-, Origami-halo, & FoF-halo- particle counts
         self.plot_sofa(nsp, oNhtags, nfp)
