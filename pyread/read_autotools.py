@@ -76,7 +76,7 @@ class AutoTools(object):
         " Just prints whether or not plotting is involved: "
         if self.boolcheck(self.plotdata) == True and self.allCond == True:
             " Tells user if plots are made "
-            print " allSnap plot process has begun"
+            print "  # allSnap plot process has begun"
             pass
 
         if routine != None:
@@ -102,11 +102,11 @@ class AutoTools(object):
 
         if self.allCond == True:
             " Engage playground on last snapshot in the set "
-            print " * playAll pp-functions initialized ! "
+            print " o playAll pp-functions initialized ! "
             pass # end.IF: last snap & datatype in set
             
         else:
-            print " + playAll storage initialized "
+            print "     + playAll storage initialized "
             return 0 # end.ELSE: storage notifier
 
         # Data is accessable at dictionary addresses:

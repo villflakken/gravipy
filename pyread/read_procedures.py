@@ -191,7 +191,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
 
         TotNgroups, groupLen, groupOffset = self.fof_tab_sifter(gtab_name)
         fofIDs    , groupLen, groupOffset = self.fof_ids_sifter(gids_name, groupLen, groupOffset)
-        print "    TotNgroups = ({0:>10d})".format(TotNgroups)
+        print "\tTotNgroups = ({0:>10d})".format(TotNgroups)
 
         print "   . Finished reading 'FoF'"
         return fofIDs, TotNgroups, groupLen, groupOffset
@@ -214,7 +214,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         caput   = self.subh_cater(stab_name, TotNgroups, TotNsubs, NTask)
         catalog = caput # cataloguer output # I imagine I may want more variables as output?
         subIDs  = self.subh_idsifter(sids_name, TotNsubs, NTask)
-        print "    TotNsubs   = ({0:>10d})".format(TotNsubs)
+        print "\tTotNsubs   = ({0:>10d})".format(TotNsubs)
                 
         print "   . Finished reading 'SubHalo'"
         return subIDs, TotNsubs, catalog

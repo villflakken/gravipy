@@ -234,13 +234,15 @@ class MiscTools(object):
             " -> Check if folder already exists; if not then make it "
             if not os.path.exists(outdir_floor + folderPath):
                 os.makedirs(outdir_floor + folderPath)
-                print "Creating output folder structure: ", \
+                print " ../ Creating output folder structure: ", \
                        outdir_floor + folderPath, "\n"
                 pass
 
             else:
-                print "Output folder already exists: ", \
-                       outdir_floor + folderPath#, "\n"
+                if self.subfolder == self.subfolder_set[0] \
+                    and self.what == self.what_set[0]:
+                    print " ../: Output folder already exists: ", \
+                           outdir_floor + folderPath#, "\n"
                 pass
             pass # Folders are verified
 
