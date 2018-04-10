@@ -260,12 +260,14 @@ class Plotter(object):
         """
         scale_y = 1.
         redshifts = self.datadict["time"]["redshift"][self.subfolder_set] 
+        suforatiofig = pl.figure("suforatio", figsize=(10,10))
+        ax1 = sufoderivfig.add_subplot(111)
 
-        ax1.set_xlabel(r"$z$ [redshift]")
-        ax1.set_ylabel(r"Halo counts of type over time")
         # ax1.plot(redshifts, (tng_all - tns)/scale_y, label='FoF-Subhalo', linestyle='-', color='green')
         ax1.plot(redshifts[tns != 0], (tng[tns != 0])/(tns[tns != 0].astype(pl.float64)),
                  label='FoF/Subhalo', linestyle='-', color='green')
+        ax1.set_xlabel(r"$z$ [redshift]")
+        ax1.set_ylabel(r"Halo counts of type over time")
 
         # ax1.set_xscale("log")#, nonposy='clip')
         # ax1.set_yscale("log")#, nonposy='clip')
@@ -287,13 +289,14 @@ class Plotter(object):
         dz  = redshifts[1:] - redshifts[:-1] 
         dtng = tng[:-1] - tng[1:]
         dtns = tns[:-1] - tns[1:]
-
-        ax2 = hcfig_prpts.add_subplot(122)
+        
+        sufoderivfig = pl.figure("sufoderiv", figsize=(10,10))
+        ax2 = sufoderivfig.add_subplot(111)
 
         ax2.set_xlabel(r"$z$ [redshift]")
         ax2.set_ylabel(r"Ratio of halo counts of type over time")
-        ax2.plot(redshifts[1:], dtng/dz, label=r'd(FoF)/d$z$', linestyle='-', color='black')
-        ax2.plot(redshifts[1:], dtns/dz, label=r'd(Subhalo)/d$z$', linestyle='--', color='gray')
+        ax2.plot(redshifts[:-1], dtng/dz, label=r'd(FoF)/d$z$', linestyle='-', color='black')
+        ax2.plot(redshifts[:-1], dtns/dz, label=r'd(Subhalo)/d$z$', linestyle='--', color='gray')
 
         # ax2.set_xscale("log")#, nonposy='clip')
         # ax2.set_yscale("log")#, nonposy='clip')
