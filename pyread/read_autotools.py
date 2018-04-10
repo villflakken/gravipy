@@ -110,10 +110,12 @@ class AutoTools(object):
             return 0 # end.ELSE: storage notifier
 
         # Data is accessable at dictionary addresses:
-        "| >>> self.dataAlldict[ 'fof'    ][ self.iString ][ snapNumber ] "
+        "| >>> self.dataAlldict[ 'fof'     ][ self.iString ][ snapNumber ] "
         #| fofIDs, tNgrps, groupLen, groupOffset
-        "| >>> self.dataAlldict[ 'suhalo' ][ self.iString ][ snapNumber ] "
+        "| >>> self.dataAlldict[ 'subhalo' ][ self.iString ][ snapNumber ] "
         #| subIDs, tNsubs, catalog
+        "| >>> self.dataAlldict[ 'origami' ][ self.iString ][ snapNumber ] "
+        #| origamitag_array, N_of_particles
 
         # Arrays are preferred over dictionaries to operate; so we build them:
         nfp, nsp, tng, tns \
@@ -130,7 +132,7 @@ class AutoTools(object):
         # Plot 
         self.plot_sufo(tng, tns)
         # Plot SubFind-subhalo-, Origami-halo, & FoF-halo- particle counts
-        self.plot_sofa(nsp, nhtags, nfp)
+        self.plot_sofa(nsp, oNhtags, nfp)
         self.plot_quOri(oNvtags, oNwtags, oNftags, oNhtags) # Quantities of Origami (over time)
         
         print "   . playAll pp-functions completed . "
