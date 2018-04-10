@@ -171,12 +171,12 @@ class Plotter(object):
         """
         Is given TotalN(fof- or sub-) halo counts, and plots them over time.
         """
+        redshifts = self.datadict["time"]["redshift"][self.subfolder_set] 
+        scale_y = 1.*1e+6
         
         ### """ ---- 1st plot ---- """
         hcfig = pl.figure("haloCounts", figsize=(10,10))
         ax1 = hcfig.add_subplot(111)
-        redshifts = self.datadict["time"]["redshift"][self.subfolder_set] 
-        scale_y = 1.*1e+6
         ax1.plot( 
             redshifts                    , 
             fofHaloParticleNums /scale_y , 
@@ -216,13 +216,10 @@ class Plotter(object):
         ### """ ---- 2nd plot ---- """
         hcfig = pl.figure("haloCounts_zoom", figsize=(10,10))
         ax2 = hcfig.add_subplot(111)
-
-        ax2.plot( redshifts                    , 
-                  fofHaloParticleNums/scale_y  , 
+        ax2.plot( redshifts , fofHaloParticleNums/scale_y  , 
             label='FoF'    , linestyle='-' , linewidth=3, color='black'
         )
-        ax2.plot( redshifts                    , 
-                  subHaloParticleNums/scale_y  , 
+        ax2.plot( redshifts , subHaloParticleNums/scale_y  , 
             label='Subhalo', linestyle='--', linewidth=3, color='gray'
         )
         ax2.set_xlabel(r"$z$ [redshift]")
@@ -258,17 +255,16 @@ class Plotter(object):
 
         Is given TotalN(fof- or sub-) halo counts, and plots them over time.
         """
-        hcfig_prpts = pl.figure("haloCounts_subtracted", figsize=(20,10))
-        ax1 = hcfig_prpts.add_subplot(121)
-
         scale_y = 1.
         redshifts = self.datadict["time"]["redshift"][self.subfolder_set] 
-        
-        ax1.set_xlabel(r"$z$ [redshift]")
-        ax1.set_ylabel(r"Halo counts of type over time")
+
+        hcfig_prpts = pl.figure("haloCounts_subtracted", figsize=(20,10))
+        ax1 = hcfig_prpts.add_subplot(121)
         # ax1.plot(redshifts, (tng_all - tns_all)/scale_y, label='FoF-Subhalo', linestyle='-', color='green')
         ax1.plot(redshifts[tns_all != 0], (tng_all[tns_all != 0])/(tns_all[tns_all != 0].astype(pl.float64)),
                  label='FoF/Subhalo', linestyle='-', color='green')
+        ax1.set_xlabel(r"$z$ [redshift]")
+        ax1.set_ylabel(r"Halo counts of type over time")
 
         # ax1.set_xscale("log")#, nonposy='clip')
         # ax1.set_yscale("log")#, nonposy='clip')
@@ -292,11 +288,12 @@ class Plotter(object):
         dtns = tns_all[:-1] - tns_all[1:]
 
         ax2 = hcfig_prpts.add_subplot(122)
-
+        ax2.plot( redshifts[1:], dtng/dz, 
+                  label=r'd(FoF)/d$z$', linestyle='-', color='black')
+        ax2.plot( redshifts[1:], dtns/dz, 
+                  label=r'd(Subhalo)/d$z$', linestyle='--', color='gray')
         ax2.set_xlabel(r"$z$ [redshift]")
         ax2.set_ylabel(r"Ratio of halo counts of type over time")
-        ax2.plot(redshifts[1:], dtng/dz, label=r'd(FoF)/d$z$', linestyle='-', color='black')
-        ax2.plot(redshifts[1:], dtns/dz, label=r'd(Subhalo)/d$z$', linestyle='--', color='gray')
 
         # ax2.set_xscale("log")#, nonposy='clip')
         # ax2.set_yscale("log")#, nonposy='clip')
@@ -328,10 +325,12 @@ class Plotter(object):
         * Origami tags
         * FoF halo groups
         """
+        redshifts = self.datadict["time"]["redshift"][self.subfolder_set] 
+        scale_y = 1024.**3
+
+
         fig = pl.figure("haloparticles", figsize=(10,10))
         ax = fig.add_subplot(111)
-
-        scale_y = 1024.**3
         ax.plot( redshifts, ngp/scale_y,
                  label='FOF'     , linestyle='-' , linewidth=3, color='black' )
         ax.plot( redshifts, nsp/scale_y, 
