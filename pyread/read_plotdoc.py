@@ -365,10 +365,11 @@ class Plotter(object):
         """
         Quantities of the Origami-tagged types
         """
+        redshifts = self.datadict["time"]["redshift"][self.subfolder_set] 
+        scale_y = 1e9
+        
         fig = pl.figure("quori", figsize=(10,10))
         ax = fig.add_subplot(111)
-
-        scale_y = 1e9
         ax.plot( redshifts, nvtags /scale_y, 
                  label='Void',     linestyle='-',  linewidth=3, color='black'   )
         ax.plot( redshifts, nwtags /scale_y,
