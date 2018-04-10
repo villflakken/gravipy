@@ -106,11 +106,6 @@ class AutoTools(object):
             print "   + playAll storage initialized "
             return 0 # end.ELSE: storage notifier
 
-        " Just prints whether or not plotting is involved: "
-        if self.boolcheck(self.plotdata) == True and self.allCond == True:
-            " Tells user if plots are made "
-            print "   # allSnap plot process has begun"
-            pass
         # Data is accessable at dictionary addresses:
         "| >>> self.dataAlldict[ 'fof'     ][ self.iString ][ snapNumber ] "
         #| fofIDs, tNgrps, groupLen, groupOffset

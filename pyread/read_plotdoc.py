@@ -261,7 +261,7 @@ class Plotter(object):
         scale_y = 1.
         redshifts = self.datadict["time"]["redshift"][self.subfolder_set] 
         suforatiofig = pl.figure("suforatio", figsize=(10,10))
-        ax1 = sufoderivfig.add_subplot(111)
+        ax1 = suforatiofig.add_subplot(111)
 
         # ax1.plot(redshifts, (tng_all - tns)/scale_y, label='FoF-Subhalo', linestyle='-', color='green')
         ax1.plot(redshifts[tns != 0], (tng[tns != 0])/(tns[tns != 0].astype(pl.float64)),
