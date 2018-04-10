@@ -144,7 +144,7 @@ class AutoTools(object):
         Produces arrays that are better to handle than dict items,
         returns items to the Post Processing Routine which called it.
         """
-        snapSetLen = len(subfolder_set)
+        snapSetLen = len(self.subfolder_set)
 
 
         # N of fof-group _particles_ , * all snaps
