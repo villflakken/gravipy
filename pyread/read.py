@@ -10,7 +10,7 @@ from read_procedures import readProcedures
 
 
 def read_ini( what        = "pos" ,
-              indraN      =  0    , 
+              iN          =  0    , 
               iA          =  0    , 
               iB          =  0    ,
               subfolder   = None  ,    
@@ -30,7 +30,7 @@ def read_ini( what        = "pos" ,
 
     data_params = { # Data structure parameters:
                "what" :([ what       ]),
-             "indraN" :(  indraN      ),
+             "indraN" :(  iN          ),
                  "iA" :(  iA          ),
                  "iB" :(  iB          ),
           "subfolder" :(  subfolder   ),

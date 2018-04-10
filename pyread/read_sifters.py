@@ -130,7 +130,7 @@ class Sifters(object):
 
         else: 
             " Friends detected! "
-            print "  - Browsing of FOF-files (tabs): Initiated..."
+            print "\t- Browsing of FOF-files (tabs): Initiated..." # string print begins
             groupLen    = N.zeros(TotNgroups, dtype=N.int32)
             groupOffset = N.zeros(TotNgroups, dtype=N.int32)
             istartGroup = 0
@@ -156,7 +156,7 @@ class Sifters(object):
                     f.close() # end.WITH
                 continue
 
-            print "  . Browsing of FOF-files (tabs): ...Complete!"
+            print " ...Complete!" # string print ends
             pass # end.ELSE
 
         return TotNgroups, groupLen, groupOffset
@@ -179,7 +179,7 @@ class Sifters(object):
 
         else: 
             " Friends detected! (find them!) "
-            print "  - Browsing of FOF-files (IDs ): Initiated..."
+            print "\t- Browsing of FOF-files (IDs ): Initiated...", # string print begins
             if groupLen is None and groupOffset is None:
                 # Values not provided from the outside
                 gtab_name             = self.fof_pathstrings()[0]
@@ -207,7 +207,7 @@ class Sifters(object):
                     f.close()        
                 continue
         
-            print "  . Browsing of FOF-files (IDs ): ...Complete!"
+            print " ...Complete!" # string print ends
             pass # end.ELSE
         
         fofIDs -= 1 # Takes care of indexation discrepancy
@@ -259,7 +259,8 @@ class Sifters(object):
         else: 
             # Sifts through the file
             " Subh detected! (find them!) "
-            print "  - Browsing of Subhalo-files (tabs): Initiated..."
+            print "\t- Browsing of Subhalo-files (tabs): Initiated...", # string print begins
+
             catalog = {}
             catalog['NsubPerHalo']    = N.zeros( TotNgroups,  dtype=N.int32   )
             catalog['FirstSubOfHalo'] = N.zeros( TotNgroups,  dtype=N.int32   ) # file specific!
@@ -360,7 +361,7 @@ class Sifters(object):
                         pass  # endIF
                     f.close() # endWITH
                 continue
-            print "  . Browsing of Subhalo-files (tabs): ...Complete!"
+            print " ...Complete!" # string print ends
             pass # endELSE
 
         return catalog # only the catalogue?
@@ -387,7 +388,7 @@ class Sifters(object):
 
         else: # And retrieve the appropriate IDs if needed
             " Subh detected! (find them!) "
-            print "  - Browsing of Subhalo-files (IDs ): Initiated..."
+            print "\t- Browsing of Subhalo-files (IDs ): Initiated..." , #string print begins
             
             # Get total number of IDs (including unbound particle IDs)
             TotSubids = 0
@@ -417,7 +418,7 @@ class Sifters(object):
                     f.close() # end.WITH
 
                 continue
-            print "  . Browsing of Subhalo-files (IDs ): ...Complete!"
+            print " ...Complete!" # string print ends
             pass # end.ELSE
 
         subIDs -= 1  # Indexation discrepancy correction

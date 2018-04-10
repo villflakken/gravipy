@@ -56,10 +56,10 @@ class AutoTools(object):
     pprd_<...> - pp routine dictionary, contains functions with named routine flows
 
     pp_<single/all snaps> - Initializes correct algorithm for single-snap pp.s or multi-snap,
-        |                   from the outside program flow.
-        |
+        :                   from the outside program flow.
+        :
         o ppr_<name> - Initializes Routine pertaining to <name> from user input.
-            |
+            :
             o ppro_<oper. func> - Self-contained, smaller operation of a routine's flow.
             o ppmf_<misc. func> - Misc. Functions, useful on the whole.
     """
@@ -117,8 +117,8 @@ class AutoTools(object):
 
         # Arrays are preferred over dictionaries to operate; so we build them:
         nfp, nsp, tng, tns \
-            = self.ppro_subfofCount( len(self.subfolder_set), self.sIndex )
-                                    #           (array-len, specific snaps)
+            = self.ppro_subfofCount( self.subfolder_set, self.sIndex )
+                                #  ( specific snaps, snap width range)
 
         # Origami-data turned into boolean arrays are turned into arrays of type
         # [sum(origamiParticleType) for each of (no. of snaps)]
@@ -144,6 +144,9 @@ class AutoTools(object):
         Produces arrays that are better to handle than dict items,
         returns items to the Post Processing Routine which called it.
         """
+        snapSetLen = len(subfolder_set)
+
+
         # N of fof-group _particles_ , * all snaps
         ngp_all  = N.zeros( snapSetLen , dtype=N.int64 )
         # N of subhalo _particles_   , * all snaps
@@ -154,14 +157,15 @@ class AutoTools(object):
         # N of subhalo _groups_ , * all snaps
         tns_all  = N.zeros( snapSetLen , dtype=N.int64 )
 
-        for sn in snapkeys:
+        for si in snapkeys:
+            sn = self.subfolder_set[si]
             " Numbers of FoF / Subhalo Particles == len of their ID arrays "
-            ngp_all[sn] = len( self.dataAlldict[ "fof"    ][self.iString][sn][0] )
-            nsp_all[sn] = len( self.dataAlldict[ "suhalo" ][self.iString][sn][0] )
+            ngp_all[si] = len( self.dataAlldict[ "fof"     ][self.iString][sn][0] )
+            nsp_all[si] = len( self.dataAlldict[ "subhalo" ][self.iString][sn][0] )
             
             " Total Number of fof Groups "
-            tng_all[sn] = self.dataAlldict[ "fof"    ][self.iString][sn][1]
-            tns_all[sn] = self.dataAlldict[ "suhalo" ][self.iString][sn][1]
+            tng_all[si] = self.dataAlldict[ "fof"     ][self.iString][sn][1]
+            tns_all[si] = self.dataAlldict[ "subhalo" ][self.iString][sn][1]
             continue # Next snap
 
         return ngp_all, nsp_all, tng_all, tns_all
@@ -238,7 +242,7 @@ class AutoTools(object):
         elif self.what_set in self.allSnapActions.keys():
             " Store data for all snaps in a set "
             self.dictMaker(parsed_data, self.dataAlldict, task, indra, num)
-            pass # end.IF all snap storage
+            pass # end.ELIF all snap storage
         else:
             print " [...] Uh... error... maybe? "
             pass # end.ELSE wtf-ery
