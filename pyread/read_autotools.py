@@ -81,10 +81,7 @@ class AutoTools(object):
 
         return 0
 
-        if self.boolcheck(self.plotdata) == True and self.allCond == True:
-            " Just prints whether or not plotting is involved: "
-            print "   # allSnap plot process has begun"
-            pass
+
     def ppr_playAll(self, playdata):
         """
         Post-Processing Routine

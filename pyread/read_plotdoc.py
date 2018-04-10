@@ -264,7 +264,7 @@ class Plotter(object):
         ax1 = suforatiofig.add_subplot(111)
 
         # ax1.plot(redshifts, (tng_all - tns)/scale_y, label='FoF-Subhalo', linestyle='-', color='green')
-        ax1.plot(redshifts[tns != 0], (tng[tns != 0])/(tns[tns != 0].astype(pl.float64)),
+        ax1.plot(redshifts[tns != 0], (tng[tns != 0])/float(tns[tns != 0]),
                  label='FoF/Subhalo', linestyle='-', color='green')
         ax1.set_xlabel(r"$z$ [redshift]")
         ax1.set_ylabel(r"Halo counts of type over time")
