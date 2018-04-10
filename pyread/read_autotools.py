@@ -131,7 +131,7 @@ class AutoTools(object):
         self.plot_sufo(tng, tns)
         # Plot SubFind-subhalo-, Origami-halo, & FoF-halo- particle counts
         self.plot_sofa(nsp, nhtags, nfp)
-        self.plot_quOri(nvtags, nwtags, nftags, nhtags) # Quantities of Origami (over time)
+        self.plot_quOri(oNvtags, oNwtags, oNftags, oNhtags) # Quantities of Origami (over time)
         
         print "   . playAll pp-functions completed . "
         return 0
