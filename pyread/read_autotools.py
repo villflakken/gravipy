@@ -185,7 +185,7 @@ class AutoTools(object):
         }
         if otype not in oTag_dict.keys(): sys.exit(" Invalid 'otype' (OrigamiParticleType) ")
 
-        nOtags = N.zeros( self.sIndex[-1], dtype=N.int64 )
+        nOtags = N.zeros( len(self.sIndex), dtype=N.int64 )
 
         for si in self.sIndex:
             sn = self.subfolder_set[si]
