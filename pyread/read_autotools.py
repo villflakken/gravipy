@@ -102,11 +102,11 @@ class AutoTools(object):
 
         if self.allCond == True:
             " Engage playground on last snapshot in the set "
-            print " o playAll pp-functions initialized ! "
+            print "   o playAll pp-functions initialized ! "
             pass # end.IF: last snap & datatype in set
             
         else:
-            print "     + playAll storage initialized "
+            print "   + playAll storage initialized "
             return 0 # end.ELSE: storage notifier
 
         # Data is accessable at dictionary addresses:
@@ -133,7 +133,7 @@ class AutoTools(object):
         self.plot_sofa(nsp, nhtags, nfp)
         self.plot_quOri(nvtags, nwtags, nftags, nhtags) # Quantities of Origami (over time)
         
-        print " . playAll pp-functions completed . "
+        print "   . playAll pp-functions completed . "
         return 0
 
 

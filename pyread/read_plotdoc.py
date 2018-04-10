@@ -178,13 +178,13 @@ class Plotter(object):
 
         scale_y = 1.*1e+6
         ax1.plot( 
-            self.datadict["time"]["redshift"] , 
+            self.datadict["time"]["redshift"][self.subfolder_set] , 
             fofHaloParticleNums /scale_y       , 
             label='FoF' ,
             linestyle='-',  linewidth=3, color='black'
         )
         ax1.plot( 
-            self.datadict["time"]["redshifts"] , 
+            self.datadict["time"]["redshifts"][self.subfolder_set] , 
             subHaloParticleNums /scale_y       , 
             label='Subhalo' ,
             linestyle='--', linewidth=3, color='gray'
@@ -217,11 +217,11 @@ class Plotter(object):
         hcfig = pl.figure("haloCounts_zoom", figsize=(10,10))
         ax2 = hcfig.add_subplot(111)
 
-        ax2.plot( self.datadict["time"]["redshifts"] , 
+        ax2.plot( self.datadict["time"]["redshifts"][self.subfolder_set] , 
                   fofHaloParticleNums/scale_y        , 
             label='FoF'    , linestyle='-' , linewidth=3, color='black'
         )
-        ax2.plot( self.datadict["time"]["redshifts"] , 
+        ax2.plot( self.datadict["time"]["redshifts"][self.subfolder_set] , 
                   subHaloParticleNums/scale_y        , 
             label='Subhalo', linestyle='--', linewidth=3, color='gray'
         )
