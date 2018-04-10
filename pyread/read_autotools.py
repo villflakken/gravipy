@@ -76,7 +76,7 @@ class AutoTools(object):
         " Just prints whether or not plotting is involved: "
         if self.boolcheck(self.plotdata) == True and self.allCond == True:
             " Tells user if plots are made "
-            print "  # allSnap plot process has begun"
+            print "   # allSnap plot process has begun"
             pass
 
         if routine != None:

@@ -175,17 +175,17 @@ class Plotter(object):
         ### """ ---- 1st plot ---- """
         hcfig = pl.figure("haloCounts", figsize=(10,10))
         ax1 = hcfig.add_subplot(111)
-
+        redshifts = self.datadict["time"]["redshift"][self.subfolder_set] 
         scale_y = 1.*1e+6
         ax1.plot( 
-            self.datadict["time"]["redshift"][self.subfolder_set] , 
-            fofHaloParticleNums /scale_y       , 
+            redshifts                    , 
+            fofHaloParticleNums /scale_y , 
             label='FoF' ,
             linestyle='-',  linewidth=3, color='black'
         )
         ax1.plot( 
-            self.datadict["time"]["redshifts"][self.subfolder_set] , 
-            subHaloParticleNums /scale_y       , 
+            redshifts                    , 
+            subHaloParticleNums /scale_y , 
             label='Subhalo' ,
             linestyle='--', linewidth=3, color='gray'
         )
@@ -217,12 +217,12 @@ class Plotter(object):
         hcfig = pl.figure("haloCounts_zoom", figsize=(10,10))
         ax2 = hcfig.add_subplot(111)
 
-        ax2.plot( self.datadict["time"]["redshifts"][self.subfolder_set] , 
-                  fofHaloParticleNums/scale_y        , 
+        ax2.plot( redshifts                    , 
+                  fofHaloParticleNums/scale_y  , 
             label='FoF'    , linestyle='-' , linewidth=3, color='black'
         )
-        ax2.plot( self.datadict["time"]["redshifts"][self.subfolder_set] , 
-                  subHaloParticleNums/scale_y        , 
+        ax2.plot( redshifts                    , 
+                  subHaloParticleNums/scale_y  , 
             label='Subhalo', linestyle='--', linewidth=3, color='gray'
         )
         ax2.set_xlabel(r"$z$ [redshift]")
@@ -262,6 +262,8 @@ class Plotter(object):
         ax1 = hcfig_prpts.add_subplot(121)
 
         scale_y = 1.
+        redshifts = self.datadict["time"]["redshift"][self.subfolder_set] 
+        
         ax1.set_xlabel(r"$z$ [redshift]")
         ax1.set_ylabel(r"Halo counts of type over time")
         # ax1.plot(redshifts, (tng_all - tns_all)/scale_y, label='FoF-Subhalo', linestyle='-', color='green')
