@@ -96,7 +96,7 @@ class AutoTools(object):
 
         if self.allCond == True:
             " Engage playground on last snapshot in the set "
-            print "   o playAll pp-functions initialized ! "
+            print "   o playAll pp-functions initialized ... ", 
             pass # end.IF: last snap & datatype in set
             
         else:
@@ -127,11 +127,9 @@ class AutoTools(object):
 
 
 
-        # --- Put plotting  stuff here! ------------------------
-        if self.boolcheck(self.plotdata) == True and self.allCond == True:
-            " Just prints whether or not plotting is involved: "
-            print "   # allSnap plot process has begun"
-            pass
+        print "Completed."
+        # --- Put plotting  stuff here!  ------------------------
+        print "   # allSnap plot process has begun"
             
         # Plot subhalo & fof data stuffs
         self.plot_sufo(tng, tns)

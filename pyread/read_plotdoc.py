@@ -169,7 +169,7 @@ class Plotter(object):
         return 0
 
 
-    def plot_sufo(self, tng, tns):
+    def plot_sufoHcountHcself, tng, tns):
         """
         Is given TotalN(fof- or sub-) halo counts, and plots them over time.
         """
@@ -177,7 +177,7 @@ class Plotter(object):
         scale_y = 1.*1e+6
         
         ### """ ---- 1st plot ---- """
-        hcfig = pl.figure("haloCounts", figsize=(10,10))
+        hcfig = pl.figure("sufoHcount", figsize=(10,10))
         ax1 = hcfig.add_subplot(111)
         ax1.plot( 
             redshifts    , 
@@ -209,14 +209,14 @@ class Plotter(object):
         # Ways to invert the axes:
         ax1.set_xlim([7.5, redshifts[-1]])
 
-        plotfname = self.outfilePath + "_haloCounts_subfof"
+        plotfname = self.outfilePath + "_sufoHcount"
         pl.savefig( plotfname +".png", dpi=200 )
-        pl.show(   "haloCounts" )
-        pl.close(  "haloCounts" )
+        pl.show(   "sufoHcount" )
+        pl.close(  "sufoHcount" )
 
 
         ### """ ---- 2nd plot ---- """
-        hcfig = pl.figure("haloCounts_zoom", figsize=(10,10))
+        hcfig = pl.figure("sufoHcount_zoom", figsize=(10,10))
         ax2 = hcfig.add_subplot(111)
         ax2.plot( redshifts , tng/scale_y  , 
             label='FoF'    , linestyle='-' , linewidth=3, color='black'
@@ -243,10 +243,10 @@ class Plotter(object):
         ax2.set_ylim([4e-1, 3.1])
 
 
-        plotfname = self.outfilePath + "_haloCounts_subfof_zoom"
+        plotfname = self.outfilePath + "_sufoHcount_subfof_zoom"
         pl.savefig( plotfname +".png", dpi=200)
-        pl.show(   "haloCounts_zoom" )
-        pl.close(  "haloCounts_zoom" )
+        pl.show(   "sufoHcount_zoom" )
+        pl.close(  "sufoHcount_zoom" )
         
         return 0
 
@@ -260,7 +260,7 @@ class Plotter(object):
         """
         scale_y = 1.
         redshifts = self.datadict["time"]["redshift"][self.subfolder_set] 
-        suforatiofig = pl.figure("suforatio", figsize=(10,10))
+        suforatiofig = pl.figure("sufoHcountratio", figsize=(10,10))
         ax1 = suforatiofig.add_subplot(111)
 
         # ax1.plot(redshifts, (tng_all - tns)/scale_y, label='FoF-Subhalo', linestyle='-', color='green')
@@ -283,6 +283,10 @@ class Plotter(object):
         pl.gca().invert_xaxis()
         pl.gca().set_aspect(aspect='auto', adjustable='datalim')
 
+        plotfname = self.outfilePath + "_sufoHcount_ratio"
+        pl.savefig( plotfname +".png", dpi=200)
+        pl.show(   "sufoHcountratio" )
+        pl.close(  "sufoHcountratio" )
 
         #### ####
         # plot derivatives: d(tng)/dz, d(tns)/dz
@@ -290,7 +294,7 @@ class Plotter(object):
         dtng = tng[:-1] - tng[1:]
         dtns = tns[:-1] - tns[1:]
         
-        sufoderivfig = pl.figure("sufoderiv", figsize=(10,10))
+        sufoderivfig = pl.figure("sufoHcountderiv", figsize=(10,10))
         ax2 = sufoderivfig.add_subplot(111)
 
         ax2.set_xlabel(r"$z$ [redshift]")
@@ -311,10 +315,10 @@ class Plotter(object):
         # ax2.set_xlim([redshifts[0], redshifts[-1]]) 
         # pl.gca().invert_xaxis()
 
-        plotfname = oputfolder_plots + "_haloCounts_subfof_deriv"
+        plotfname = self.outfilePath + "_sufoHcount_deriv"
         pl.savefig( plotfname +".png", dpi=200)
-        pl.show(   "haloCounts_deriv" )
-        pl.close(  "haloCounts_deriv" )
+        pl.show(   "sufoHcountderiv" )
+        pl.close(  "sufoHcountderiv" )
 
         return 0
 
