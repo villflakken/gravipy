@@ -178,7 +178,7 @@ class Plotter(object):
 
         scale_y = 1.*1e+6
         ax1.plot( 
-            self.datadict["time"]["redshifts"] , 
+            self.datadict["time"]["redshift"] , 
             fofHaloParticleNums /scale_y       , 
             label='FoF' ,
             linestyle='-',  linewidth=3, color='black'

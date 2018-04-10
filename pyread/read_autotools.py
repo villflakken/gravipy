@@ -74,7 +74,7 @@ class AutoTools(object):
         Initializes readings & processings for combined snapnumbers.
         """
         " Just prints whether or not plotting is involved: "
-        if self.boolcheck(self.plotdata) == True:
+        if self.boolcheck(self.plotdata) == True and self.allCond == True:
             " Tells user if plots are made "
             print " allSnap plot process has begun"
             pass
@@ -316,7 +316,7 @@ class AutoTools(object):
         Initializes single-snap readings & processings
         """
         " Just prints whether or not plotting is involved: "
-        if self.boolcheck(self.plotdata) == True:
+        if self.boolcheck(self.plotdata) == True and self.allCond == True:
             " Tells user if plots are made "
             print " singleSnap plot process has begun "
             pass
