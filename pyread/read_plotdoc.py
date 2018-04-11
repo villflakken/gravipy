@@ -253,10 +253,8 @@ class Plotter(object):
 
     def plot_sufoderiv(self, tng, tns):
         """
-        TODO TODO TODO : this is a copy paste from above plot function: rewrite!
-        TODO : plot an abs(nFhg - nShg)
-
-        Is given TotalN(fof- or sub-) halo counts, and plots them over time.
+        Is given TotalN(fof- or sub-) halo counts,
+        and plots their ratios and differientials over time.
         """
         scale_y = 1.
         redshifts = self.datadict["time"]["redshift"][self.subfolder_set] 
@@ -405,6 +403,20 @@ class Plotter(object):
         pl.close("quOri")
         return 0
 
+
+    def plot_shippos(self, pos, fIDs=None, oIDs=None, subIDs=None):
+        """
+        A plot function for 
+        "Spotting Haloes in Indra Particles' Positions, Origami and Subhalo",
+        given positions and IDs.
+        
+        Takes optional argument for FoF IDs-array, to show for
+        Also takes an optional Origami IDs-array, that will supply the plot with information about 
+        nearby particles tagged by Origami;
+        and another optional Subhalo IDs-array, for similar purposes.
+        """
+
+        return 0
 
 if __name__ == '__main__':
     sys.exit("Attempt at running code from unintended source. \n\

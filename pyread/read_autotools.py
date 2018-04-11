@@ -65,8 +65,8 @@ class AutoTools(object):
     """
 
 
-    ####################################################################
-    # """ -------- Dev. Code Playground comes below here: -------- """ #
+    ################################################################################
+    # """ -------- Dev. Code Playground, all snaps, comes below here: -------- """ #
 
 
     def pp_allSnaps(self, parsed_data, routine=None):
@@ -104,11 +104,11 @@ class AutoTools(object):
             return 0 # end.ELSE: storage notifier
 
         # Data is accessable at dictionary addresses:
-        "| >>> self.dataAlldict[ 'fof'     ][ self.iString ][ snapNumber ] "
+        "| >>> self.tempAdata[ 'fof'     ][ self.iString ][ snapNumber ] "
         #| fofIDs, tNgrps, groupLen, groupOffset
-        "| >>> self.dataAlldict[ 'subhalo' ][ self.iString ][ snapNumber ] "
+        "| >>> self.tempAdata[ 'subhalo' ][ self.iString ][ snapNumber ] "
         #| subIDs, tNsubs, catalog
-        "| >>> self.dataAlldict[ 'origami' ][ self.iString ][ snapNumber ] "
+        "| >>> self.tempAdata[ 'origami' ][ self.iString ][ snapNumber ] "
         #| origamitag_array, N_of_particles
 
         # --- Put processing stuff here! ------------------------
@@ -166,12 +166,12 @@ class AutoTools(object):
         for si in snapkeys:
             sn = self.subfolder_set[si]
             " Numbers of FoF / Subhalo Particles == len of their ID arrays "
-            nfp_all[si] = len( self.dataAlldict[ "fof"     ][self.iString][sn][0] )
-            nsp_all[si] = len( self.dataAlldict[ "subhalo" ][self.iString][sn][0] )
+            nfp_all[si] = len( self.tempAdata[ "fof"     ][self.iString][sn][0] )
+            nsp_all[si] = len( self.tempAdata[ "subhalo" ][self.iString][sn][0] )
             
             " Total Number of fof Groups "
-            tnf_all[si] = self.dataAlldict[ "fof"     ][self.iString][sn][1]
-            tns_all[si] = self.dataAlldict[ "subhalo" ][self.iString][sn][1]
+            tnf_all[si] = self.tempAdata[ "fof"     ][self.iString][sn][1]
+            tns_all[si] = self.tempAdata[ "subhalo" ][self.iString][sn][1]
             continue # Next snap
 
         return nfp_all, nsp_all, tnf_all, tns_all
@@ -196,7 +196,7 @@ class AutoTools(object):
         for si in self.sIndex:
             sn = self.subfolder_set[si]
             nOtags[si] = N.sum( # Sum(bools(type)) => N(type)
-                self.dataAlldict['origami'][self.iString][sn][0] == oTag_dict[otype]
+                self.tempAdata['origami'][self.iString][sn][0] == oTag_dict[otype]
             )
             continue
 
@@ -208,6 +208,74 @@ class AutoTools(object):
 
 
 
+
+
+
+    ###################################################################################
+    # """ -------- Dev. Code Playground, single snaps, comes below here: -------- """ #
+
+    def ppr_singleSnaps(self, parsed_data, routine=None):
+        """
+        Initializes single-snap readings & processings
+        """
+        if routine != None: # Allows for calling stuff from the outside # DT 
+            self.what_set = routine
+            pass
+
+        self.pprd_actionCombSingle[self.what_set](parsed_data)
+
+        return 0
+
+
+    def ppr_playOne(self, playdata):
+        """
+        Post-Processing Routine
+
+        Playground pp-routine for post-processing of data sets,
+        combining positions-, Subhalo-, Origami, & FoF-data to suit my needs.
+
+        Will figure out routines here, then move them around accordingly.
+        """
+        " Makes sure the temp. dict.s are enriched "
+        self.ppmf_tempStorage(playdata)
+
+        if self.oneCond == True:
+            " Engage playground on last snapshot in the set "
+            print "   o playOne pp-functions initialized ... ", 
+            pass # end.IF: last snap & datatype in set
+            
+        else:
+            print "   + playOne storage initialized "
+            return 0 # end.ELSE: storage notifier
+
+        # Data is accessable at dictionary addresses:
+        "| >>> self.tempSdata[ 'fof'     ][ self.iString ][ snapNumber ] "
+        #| fofIDs, tNgrps, groupLen, groupOffset
+        "| >>> self.tempSdata[ 'subhalo' ][ self.iString ][ snapNumber ] "
+        #| subIDs, tNsubs, catalog
+        "| >>> self.tempSdata[ 'origami' ][ self.iString ][ snapNumber ] "
+        #| origamitag_array, N_of_particles
+
+        # --- Put processing stuff here! ------------------------
+
+        # Origami-data turned into boolean arrays are turned into arrays of type
+        # [sum(origamiParticleType) for each of (no. of snaps)]
+        oNvtags = self.ppro_oritagNfetch('v')
+        oNwtags = self.ppro_oritagNfetch('w')
+        oNftags = self.ppro_oritagNfetch('f')
+        oNhtags = self.ppro_oritagNfetch('h')
+
+
+        print "Completed."
+        # --- Put plotting  stuff here!  ------------------------
+        print "   # playOne plot process has begun "
+
+
+
+        print "   . playOne pp-functions completed . " # Next snapshot, then!
+        return 0
+
+        
 
 
 
@@ -242,12 +310,12 @@ class AutoTools(object):
         " Selects the correct dictionary for combinated pp-ing "
         if   self.what_set in self.singleSnapActions.keys():
             " Store data for single snaps in a set"
-            self.dictMaker(parsed_data, self.data1dict, task, indra, num)
+            self.dictMaker(parsed_data, self.dataSdict, task, indra, num)
             pass # end.IF single snap storage
 
         elif self.what_set in self.allSnapActions.keys():
             " Store data for all snaps in a set "
-            self.dictMaker(parsed_data, self.dataAlldict, task, indra, num)
+            self.dictMaker(parsed_data, self.dataAdict, task, indra, num)
             pass # end.ELIF all snap storage
         else:
             print " [...] Uh... error... maybe? "
@@ -317,19 +385,7 @@ class AutoTools(object):
         return 0
 
 
-    def ppr_singleSnaps(self, parsed_data):
-        """
-        Initializes single-snap readings & processings
-        """
-        " Just prints whether or not plotting is involved: "
-        if self.boolcheck(self.plotdata) == True and self.allCond == True:
-            " Tells user if plots are made "
-            print " singleSnap plot process has begun "
-            pass
 
-        self.ppCombsSingleSnaps[self.what_set](parsed_data)
-
-        return 0
 
 
 
@@ -398,6 +454,15 @@ class AutoTools(object):
     ##################################################################
     # """ -------- Here are "combinatory pp functions": -------- """ #
 
+    # Need revising; playAll may be working, but these calls still need updating
+
+    def ppr_quori(self):
+        """
+        
+        """
+
+        return 0
+
 
     def ppr_sufoIniter(self, sufo_data):
         """
@@ -422,31 +487,6 @@ class AutoTools(object):
             pass # end.ELSE storage notifier
 
         return 0
-
-
-    def ppr_sufoI(self):
-        """
-        Playground for pp-ing with the Subhalo and FoF data sets!
-        
-        Currently :
-        - Halo counting/comparing.
-        - More to come!
-        """
-        # Data is accessable at dictionary addresses:
-        "| >>> self.dataAlldict[ 'fof'    ][ self.iString ][ snapNumber ] "
-        #| fofIDs, tNgrps, groupLen, groupOffset
-        
-        "| >>> self.dataAlldict[ 'suhalo' ][ self.iString ][ snapNumber ] "
-        #| subIDs, tNsubs, catalog
-
-        # Arrays are preferred to operate; so we build them:
-        ngp, nsp, tng, tns = self.pp_sufoCounters( len(self.subfolder_set) ,
-                                                   self.sIndex             )
-        self.plot_haloCounts(ngp_all, nsp_all)
-
-        return 0
-
-
 
 
     def ppr_sofaIniter(self, sofa_data):
@@ -475,15 +515,15 @@ class AutoTools(object):
         return 0
 
     
-    def ppr_sofaSlouch(self):
+    def ppr_sofaSlouch(self): 
         """
         Collects Subhalo, Origami, & FoF Analysis functions
         """
         # Data is accessable at dictionary addresses:
-        "| >>> self.dataAlldict[ 'fof'    ][ self.iString ][ snapNumber ] "
+        "| >>> self.tempAdata[ 'fof'    ][ self.iString ][ snapNumber ] "
         #| fofIDs, tNgrps, groupLen, groupOffset
         
-        "| >>> self.dataAlldict[ 'suhalo' ][ self.iString ][ snapNumber ] "
+        "| >>> self.tempAdata[ 'suhalo' ][ self.iString ][ snapNumber ] "
         #| subIDs, tNsubs, catalog
 
         # Arrays are preferred to operate; so we build them:
@@ -493,6 +533,17 @@ class AutoTools(object):
         # Plot SubFind-subhalo-, Origami-halo, & FoF-halo- particle counts
         self.plot_sofa(nsp, nhtags, ngp)
         return 0
+
+
+
+
+
+
+
+
+
+
+
 
 
     ############################################################

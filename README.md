@@ -7,7 +7,7 @@
 
 GRAVIPy is a pythonic companion toolkit for reading and processing INDRA's output data. A general description, INDRA is a set of numerical simulations that have modelled matter distributions over time in the universe, as affected by gravity.  
 
-More elaborated, INDRA simulations are spatially large-scale ($1Gpc$) representations that show how the universe's matter content has evolved over time. The time frame begins at a point where the matter distribution of the universe is almost homogeneous (around time at redshift $z=127$), after which cosmological structures are accumulating *very* slowly at first. However, after redshift values $z\simeq7$ and beyond until today ($z=0$), structure formation seems to build up rather aggressively, resulting in the formation of what we today call [The Cosmic Web](https://www.google.no/search?q=cosmic+web&source=lnms&tbm=isch&sa=X&ved=0ahUKEwjyyfLOt4baAhWIHJoKHRKDCv0Q_AUICigB&biw=1094&bih=944).  
+More elaborated, INDRA simulations are spatially large-scale (**1Gpc**) representations that show how the universe's matter content has evolved over time. The time frame begins at a point where the matter distribution of the universe is almost homogeneous (around time at redshift **z = 127**), after which cosmological structures are accumulating *very* slowly at first. However, after redshift values **z ~= 7** and beyond until today (**z = 0**), structure formation seems to build up rather aggressively, resulting in the formation of what we today call [The Cosmic Web](https://www.google.no/search?q=cosmic+web&source=lnms&tbm=isch&sa=X&ved=0ahUKEwjyyfLOt4baAhWIHJoKHRKDCv0Q_AUICigB&biw=1094&bih=944).  
 
 All necessary scripts are located in folder **pyread/**.  
 Other folders and files are my own resources for project overview and debug
@@ -34,6 +34,20 @@ Parameters will be added and removed as needed.
     - FoF data: clustered groups, group IDs, particle IDs for these.  
     - Subhalo data: smaller-scale structures (within FoF-groups), particle IDs for these.  
     - ORIGAMI data: structural type tags, ordered by particle ID.  
+    - Time data - if you really want to; I've included the values pertaining to all snapshots' corresponding temporal value (scale factor values & redshift values) as an easy-to-retrieve array in the _standard output dictionary_.  
+  * Currently Plots:  
+    - Number of halo particles found in every/specified snapshot/s, for datasets:
+      + Subhalo.  
+      + Origami.  
+      + FoF.  
+      Affectionally referred to as the `sofa` task routine (`a` for Analysis! :) ).  
+    - Origami-type-tagged particle numbers of every/specified snapshot/s:  
+      Routine to produce this is named `quori`.
+    - Number of halo groups in every/specified snapshot/s, pertaining to the data in:  
+      + Subhalo  
+      + FoF  
+      Referred to as the `sufo` routine.  
+        + There exists a function to compare Subhalo and FoF halo numbers over time, producing one plot of the ratio between them, and another plot with their numerical gradients.  
 * Contains methods for post processing of the data, specifically to compare outputs from the two.  
 
 ---
