@@ -327,7 +327,7 @@ class AutoTools(object):
         if   self.what_set in self.singleSnapActions.keys():
             " Store data for single snaps in a set"
 
-            if not hasattr(self, dataSdict): # For first time creation (singleSnap)
+            if not hasattr(self, "tempSdict"): # For first time creation (singleSnap)
                 self.tempSdict = {}
                 pass # end.IF
 
@@ -338,7 +338,7 @@ class AutoTools(object):
         elif self.what_set in self.allSnapActions.keys():
             " Store data for all snaps in a set "
 
-            if not hasattr(self, dataAdict): # For first time creation (allSnap)
+            if not hasattr(self, "tempAdict"): # For first time creation (allSnap)
                 self.tempAdict = {}
                 pass # end.IF
 
