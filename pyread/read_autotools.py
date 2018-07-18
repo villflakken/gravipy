@@ -185,8 +185,8 @@ class AutoTools(object):
             nsp_all[si] = len( self.tempAdata[ "subhalo" ][self.iString][sn][0] )
             
             " Total Number of fof Groups "
-            tnf_all[si] = self.tempAdata[ "fof"     ][self.iString][sn][1]
-            tns_all[si] = self.tempAdata[ "subhalo" ][self.iString][sn][1]
+            tnf_all[si] = self.tempAdict[ "fof"     ][self.iString][sn][1]
+            tns_all[si] = self.tempAdict[ "subhalo" ][self.iString][sn][1]
             continue # Next snap
 
         return nfp_all, nsp_all, tnf_all, tns_all
