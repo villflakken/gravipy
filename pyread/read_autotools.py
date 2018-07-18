@@ -65,8 +65,10 @@ class AutoTools(object):
     """
 
 
+
+
     ################################################################################
-    # """ -------- Dev. Code Playground, all snaps, comes below here: -------- """ #
+    # """ -------- Dev. Code Playground, all snaps, comes below here: -------- """ #    
 
 
     def pp_allSnaps(self, parsed_data, routine=None):
@@ -91,25 +93,31 @@ class AutoTools(object):
 
         Will figure out routines here, then move them around accordingly.
         """
-        " Makes sure the temp. dict.s are enriched "
+        " Makes sure the temp. dict.s are updated with last run set "
         self.ppmf_tempStorage(playdata)
 
         if self.allCond == True:
             " Engage playground on last snapshot in the set "
-            print "   o playAll pp-functions initialized ... ", 
-            pass # end.IF: last snap & datatype in set
+            print "   o playAll pp-functions initialized ... "
+            pass # end.IF: last snap & datatype in set is stored at this point,
+                 # which means that the rest of the post-processing begins
+                 # (after the else)
             
         else:
             print "   + playAll storage initialized "
-            return 0 # end.ELSE: storage notifier
+            return 0 # end.ELSE: storage notifier,
+                     # so script returns to continue with next snapshot's 
+                     # data collection routines.
 
-        # Data is accessable at dictionary addresses:
+        # Data is accessable at dictionary addresses (in Jupyter):
         "| >>> self.tempAdata[ 'fof'     ][ self.iString ][ snapNumber ] "
         #| fofIDs, tNgrps, groupLen, groupOffset
         "| >>> self.tempAdata[ 'subhalo' ][ self.iString ][ snapNumber ] "
         #| subIDs, tNsubs, catalog
         "| >>> self.tempAdata[ 'origami' ][ self.iString ][ snapNumber ] "
         #| origamitag_array, N_of_particles
+
+
 
         # --- Put processing stuff here! ------------------------
 
@@ -130,22 +138,29 @@ class AutoTools(object):
         print "Completed."
         # --- Put plotting  stuff here!  ------------------------
         print "   # allSnap plot process has begun"
-            
-        # Plot subhalo & fof data stuffs
-        self.plot_sufoHcount(tng, tns)
-        self.plot_sufoderiv(tng, tns)
-        # Plot SubFind-subhalo-, Origami-halo, & FoF-halo- particle counts
-        self.plot_sofa(nsp, oNhtags, nfp)
-        # Plot Origami's quantities over time
-        self.plot_quOri(oNvtags, oNwtags, oNftags, oNhtags) # Quantities of Origami (over time)
+        
+        # # Plot subhalo & fof data stuffs
+        # self.plot_sufoHcount(tng, tns)
+        # self.plot_sufoderiv(tng, tns)
+        # # Plot SubFind-subhalo-, Origami-halo, & FoF-halo- particle counts
+        # self.plot_sofa(nsp, oNhtags, nfp)
+        # # Plot Origami's quantities over time
+        # self.plot_quOri(oNvtags, oNwtags, oNftags, oNhtags) # Quantities of Origami (over time)
         
         print "   . playAll pp-functions completed . "
         return 0
 
 
+
+
+
+
+    ########################################################################################
+    # """ -------- Dev. Code Playground's TOOLS, all snaps, comes below here: -------- """ #
+
     def ppro_subfofCount(self, snapSetLen, snapkeys):
         """
-        Post-Processing Routine Operation
+        A Post-Processing Routine Operation
         
         Produces arrays that are better to handle than dict items,
         returns items to the Post Processing Routine which called it.
@@ -297,7 +312,7 @@ class AutoTools(object):
 
     def ppmf_tempStorage(self, parsed_data):
         """
-        PP Misc. Func.: Handles temporary storing of data.
+        PP Misc. Func.: Handles !_TEMP_!orary storing of data.
         """
         task  = self.what           # -- --> Outermost dictionary key, str-type
         iN    = self.indraN         # -- --> These 3 form the middle key
@@ -306,19 +321,31 @@ class AutoTools(object):
         # indra = "{0:1d}{1:1d}{2:1d}".format(iN,iA,iB)
         indra = self.iString
         num   = self.subfolder
+
         
         " Selects the correct dictionary for combinated pp-ing "
         if   self.what_set in self.singleSnapActions.keys():
             " Store data for single snaps in a set"
-            self.dictMaker(parsed_data, self.dataSdict, task, indra, num)
+
+            if not hasattr(self, dataSdict): # For first time creation (singleSnap)
+                self.tempSdict = {}
+                pass # end.IF
+
+            self.dictMaker(parsed_data, self.tempSdict, task, indra, num)
             pass # end.IF single snap storage
+
 
         elif self.what_set in self.allSnapActions.keys():
             " Store data for all snaps in a set "
-            self.dictMaker(parsed_data, self.dataAdict, task, indra, num)
+
+            if not hasattr(self, dataAdict): # For first time creation (allSnap)
+                self.tempAdict = {}
+                pass # end.IF
+
+            self.dictMaker(parsed_data, self.tempAdict, task, indra, num)
             pass # end.ELIF all snap storage
         else:
-            print " [...] Uh... error... maybe? "
+            print " [...] Uh... error... maybe? But how? "
             pass # end.ELSE wtf-ery
 
         return 0

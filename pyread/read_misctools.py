@@ -172,14 +172,16 @@ class MiscTools(object):
 
         # Lowest hierarchy for user's folders, usually "~/"
         if self.onIdies == True:
-            outdir_floor  = self.uname + "workspace/persistent/output_gravipy/"
+            # outdir_floor  = self.uname + "workspace/persistent/output_gravipy/" 
+                # Deprecrated filepath from the SciServer Docker update, 10th.Apr.2018
         
-            # Version-control-specific output variable
+            outdir_floor = self.uname + "workspace/Storage/magnucb/persistent/output_gravipy/"
+            # Including: Version-control-specific output variable
             outdir_floor += "{version}/".format(version=self.version)
             # example: "workspace/persistent/output_gravipy/{version}/"
             pass
         else:
-            # Assuming to be on the elephant-cluster
+            # Assuming to be on the elephant-cluster 
             outdir_floor  = self.uname + "output_gravipy/"
             pass
 
