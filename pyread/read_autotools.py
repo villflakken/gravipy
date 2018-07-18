@@ -181,8 +181,8 @@ class AutoTools(object):
         for si in snapkeys:
             sn = self.subfolder_set[si]
             " Numbers of FoF / Subhalo Particles == len of their ID arrays "
-            nfp_all[si] = len( self.tempAdata[ "fof"     ][self.iString][sn][0] )
-            nsp_all[si] = len( self.tempAdata[ "subhalo" ][self.iString][sn][0] )
+            nfp_all[si] = len( self.tempAdict[ "fof"     ][self.iString][sn][0] )
+            nsp_all[si] = len( self.tempAdict[ "subhalo" ][self.iString][sn][0] )
             
             " Total Number of fof Groups "
             tnf_all[si] = self.tempAdict[ "fof"     ][self.iString][sn][1]
