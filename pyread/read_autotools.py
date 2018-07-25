@@ -354,7 +354,7 @@ class AutoTools(object):
                 self.dataSdict = {}
                 pass # end.IF
 
-            self.dictMaker(parsed_data, self.tempSdict, task, indra, num)
+            self.dictMaker(parsed_data, self.dataSdict, task, indra, num)
             pass # end.IF single snap storage
 
 
@@ -365,7 +365,7 @@ class AutoTools(object):
                 self.dataAdict = {}
                 pass # end.IF
 
-            self.dictMaker(parsed_data, self.tempAdict, task, indra, num)
+            self.dictMaker(parsed_data, self.dataAdict, task, indra, num)
             pass # end.ELIF all snap storage
         else:
             print " [...] Uh... error... maybe? But how? "
