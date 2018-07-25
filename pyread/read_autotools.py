@@ -110,11 +110,11 @@ class AutoTools(object):
                      # data collection routines.
 
         # Data is accessable at dictionary addresses (in Jupyter):
-        "| >>> self.tempAdata[ 'fof'     ][ self.iString ][ snapNumber ] "
+        "| >>> self.tempAdict[ 'fof'     ][ self.iString ][ snapNumber ] "
         #| fofIDs, tNgrps, groupLen, groupOffset
-        "| >>> self.tempAdata[ 'subhalo' ][ self.iString ][ snapNumber ] "
+        "| >>> self.tempAdict[ 'subhalo' ][ self.iString ][ snapNumber ] "
         #| subIDs, tNsubs, catalog
-        "| >>> self.tempAdata[ 'origami' ][ self.iString ][ snapNumber ] "
+        "| >>> self.tempAdict[ 'origami' ][ self.iString ][ snapNumber ] "
         #| origamitag_array, N_of_particles
 
 
@@ -139,15 +139,16 @@ class AutoTools(object):
         # --- Put plotting  stuff here!  ------------------------
         print "   # allSnap plot process has begun"
         
-        # # Plot subhalo & fof data stuffs
-        # self.plot_sufoHcount(tng, tns)
-        # self.plot_sufoderiv(tng, tns)
-        # # Plot SubFind-subhalo-, Origami-halo, & FoF-halo- particle counts
-        # self.plot_sofa(nsp, oNhtags, nfp)
-        # # Plot Origami's quantities over time
-        # self.plot_quOri(oNvtags, oNwtags, oNftags, oNhtags) # Quantities of Origami (over time)
+        # Plot subhalo & fof data stuffs
+        self.plot_sufoHcount(tng, tns)
+        self.plot_sufoderiv(tng, tns)
+        # Plot SubFind-subhalo-, Origami-halo, & FoF-halo- particle counts
+        self.plot_sofa(nsp, oNhtags, nfp)
+        # Plot Origami's quantities over time
+        self.plot_quOri(oNvtags, oNwtags, oNftags, oNhtags) # Quantities of Origami (over time)
         
         print "   . playAll pp-functions completed . "
+        # May now clear the temporary dictionary
         return 0
 
 
@@ -158,7 +159,7 @@ class AutoTools(object):
     ########################################################################################
     # """ -------- Dev. Code Playground's TOOLS, all snaps, comes below here: -------- """ #
 
-    def ppro_subfofCount(self, snapSetLen, snapkeys):
+    def ppro_subfofCount(self, snapSetLen, snapkeys, datadict=None):
         """
         A Post-Processing Routine Operation
         
@@ -166,7 +167,6 @@ class AutoTools(object):
         returns items to the Post Processing Routine which called it.
         """
         snapSetLen = len(self.subfolder_set)
-
 
         # N of fof-group _particles_ , * all snaps
         nfp_all  = N.zeros( snapSetLen , dtype=N.int64 )
@@ -181,12 +181,12 @@ class AutoTools(object):
         for si in snapkeys:
             sn = self.subfolder_set[si]
             " Numbers of FoF / Subhalo Particles == len of their ID arrays "
-            nfp_all[si] = len( self.tempAdict[ "fof"     ][self.iString][sn][0] )
-            nsp_all[si] = len( self.tempAdict[ "subhalo" ][self.iString][sn][0] )
+            nfp_all[si] = len( self.dataAdict[ "fof"     ][self.iString][sn][0] )
+            nsp_all[si] = len( self.dataAdict[ "subhalo" ][self.iString][sn][0] )
             
             " Total Number of fof Groups "
-            tnf_all[si] = self.tempAdict[ "fof"     ][self.iString][sn][1]
-            tns_all[si] = self.tempAdict[ "subhalo" ][self.iString][sn][1]
+            tnf_all[si] = self.dataAdict[ "fof"     ][self.iString][sn][1]
+            tns_all[si] = self.dataAdict[ "subhalo" ][self.iString][sn][1]
             continue # Next snap
 
         return nfp_all, nsp_all, tnf_all, tns_all
@@ -216,7 +216,30 @@ class AutoTools(object):
             continue
 
         return nOtags
+    def ppro_oritagNfetch(self, otype='h'):
+        """
+        Post-Processing Routine Operation
 
+        Runs through Origami output to retrieve requested tags.
+        """
+        oTag_dict = {
+            'v' : 0,
+            'w' : 1,
+            'f' : 2,
+            'h' : 3
+        }
+        if otype not in oTag_dict.keys(): sys.exit(" Invalid 'otype' (OrigamiParticleType) ")
+
+        nOtags = N.zeros( len(self.sIndex), dtype=N.int64 )
+
+        for si in self.sIndex:
+            sn = self.subfolder_set[si]
+            nOtags[si] = N.sum( # Sum(bools(type)) => N(type)
+                self.dataAlldict['origami'][self.iString][sn][0] == oTag_dict[otype]
+            )
+            continue
+
+        return nOtags
 
 
 
@@ -327,8 +350,8 @@ class AutoTools(object):
         if   self.what_set in self.singleSnapActions.keys():
             " Store data for single snaps in a set"
 
-            if not hasattr(self, "tempSdict"): # For first time creation (singleSnap)
-                self.tempSdict = {}
+            if not hasattr(self, "dataSdict"): # For first time creation (singleSnap)
+                self.dataSdict = {}
                 pass # end.IF
 
             self.dictMaker(parsed_data, self.tempSdict, task, indra, num)
@@ -338,8 +361,8 @@ class AutoTools(object):
         elif self.what_set in self.allSnapActions.keys():
             " Store data for all snaps in a set "
 
-            if not hasattr(self, "tempAdict"): # For first time creation (allSnap)
-                self.tempAdict = {}
+            if not hasattr(self, "dataAdict"): # For first time creation (allSnap)
+                self.dataAdict = {}
                 pass # end.IF
 
             self.dictMaker(parsed_data, self.tempAdict, task, indra, num)
