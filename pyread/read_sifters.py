@@ -364,7 +364,7 @@ class Sifters(object):
             print " ...Complete!" # string print ends
             pass # endELSE
 
-        return catalog # only the catalogue?
+        return catalog 
 
 
     def subh_idsifter(self, sids_name=None, TotNsubs=None, NTask=None):

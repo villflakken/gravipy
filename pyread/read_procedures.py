@@ -183,8 +183,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         TotNsubs,   NTask = self.subh_headersift(stab_name, NTask=NTask)
 
         # Ca(talogue out)put
-        caput   = self.subh_cater(stab_name, TotNgroups, TotNsubs, NTask)
-        catalog = caput # cataloguer output # I imagine I may want more variables as output?
+        catalog = self.subh_cater(stab_name, TotNgroups, TotNsubs, NTask)
         subIDs  = self.subh_idsifter(sids_name, TotNsubs, NTask)
         print "\tTotNsubs   = ({0:>10d})".format(TotNsubs)
                 

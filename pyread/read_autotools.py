@@ -110,35 +110,38 @@ class AutoTools(object):
                      # data collection routines.
 
         # Data is accessable at dictionary addresses (in Jupyter):
-        "| >>> self.tempAdict[ 'fof'     ][ self.iString ][ snapNumber ] "
+        "| >>> self.dataAdict[ 'fof'     ][ self.iString ][ snapNumber ] "
         #| fofIDs, tNgrps, groupLen, groupOffset
-        "| >>> self.tempAdict[ 'subhalo' ][ self.iString ][ snapNumber ] "
+        "| >>> self.dataAdict[ 'subhalo' ][ self.iString ][ snapNumber ] "
         #| subIDs, tNsubs, catalog
-        "| >>> self.tempAdict[ 'origami' ][ self.iString ][ snapNumber ] "
+        "| >>> self.dataAdict[ 'origami' ][ self.iString ][ snapNumber ] "
         #| origamitag_array, N_of_particles
 
 
 
         # --- Put processing stuff here! ------------------------
-
+        """
+        " Sums of FoF tags and Subhalo tags "
         # Arrays are preferred over dictionaries to operate; so we build them:
         nfp, nsp, tng, tns \
             = self.ppro_subfofCount( self.subfolder_set, self.sIndex )
                                 #  ( specific snaps, snap width range)
 
-        # Origami-data turned into boolean arrays are turned into arrays of type
+        " Origami-data turned into boolean arrays are turned into arrays of type "
         # [sum(origamiParticleType) for each of (no. of snaps)]
         oNvtags = self.ppro_oritagNfetch('v')
         oNwtags = self.ppro_oritagNfetch('w')
         oNftags = self.ppro_oritagNfetch('f')
         oNhtags = self.ppro_oritagNfetch('h')
-
-
+        """
 
         print "Completed."
         # --- Put plotting  stuff here!  ------------------------
         print "   # allSnap plot process has begun"
         
+        
+        " Preliminary plotters "
+        """
         # Plot subhalo & fof data stuffs
         self.plot_sufoHcount(tng, tns)
         self.plot_sufoderiv(tng, tns)
@@ -146,7 +149,14 @@ class AutoTools(object):
         self.plot_sofa(nsp, oNhtags, nfp)
         # Plot Origami's quantities over time
         self.plot_quOri(oNvtags, oNwtags, oNftags, oNhtags) # Quantities of Origami (over time)
+        """
+
+        """
+        " Do the backwards-thing: " #TODO 
+        self.choose_halo()
+        """
         
+
         print "   . playAll pp-functions completed . "
         # May now clear the temporary dictionary
         return 0
