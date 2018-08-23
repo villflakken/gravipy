@@ -438,7 +438,7 @@ class Plotter(object):
         ax.set_xlim([7.5, redshifts[-1]]) 
 
         # Quantities of Origami-tagged particles
-        plotfname = self.outfilePath + "_quOriG"+grp
+        plotfname = self.outfilePath + "_quOriG" + str(grp)
         pl.savefig( plotfname +".png", dpi=200)
         pl.show("quOriG")
         pl.close("quOriG")
