@@ -368,7 +368,7 @@ class Plotter(object):
         Quantities of the Origami-tagged types
         """
         redshifts = self.datadict["time"]["redshift"][self.subfolder_set] 
-        scale_y = 1e9
+        scale_y = max([nvtags.max(), nwtags.max(), nftags.max(), nhtags.max()])
         
         fig = pl.figure("quOri", figsize=(10,10))
         ax = fig.add_subplot(111)
@@ -381,7 +381,7 @@ class Plotter(object):
         ax.plot( redshifts, nhtags /scale_y, 
                  label='Halo',     linestyle='-',  linewidth=3, color='red'     )
         ax.set_xlabel(r"$z$ [redshift]")
-        ax.set_ylabel(r"Origami-tagged particles / $10^9$")
+        ax.set_ylabel(r"Origami-tagged particles / All particles")
 
         # ax.set_xscale("log")#, nonposy='clip')
         # ax.set_yscale("log")#, nonposy='clip')
@@ -401,6 +401,47 @@ class Plotter(object):
         pl.savefig( plotfname +".png", dpi=200)
         pl.show("quOri")
         pl.close("quOri")
+        return 0
+
+
+    def plot_quOriG(self, nvtags, nwtags, nftags, nhtags, grp=0):
+        """
+        Quantities of the Origami-tagged types --- within a FoF Group
+        """
+        redshifts = self.datadict["time"]["redshift"][self.subfolder_set] 
+        scale_y = max([nvtags.max(), nwtags.max(), nftags.max(), nhtags.max()])
+        
+        fig = pl.figure("quOri", figsize=(10,10))
+        ax = fig.add_subplot(111)
+        ax.plot( redshifts, nvtags /scale_y, 
+                 label='Void',     linestyle='-',  linewidth=3, color='black'   )
+        ax.plot( redshifts, nwtags /scale_y,
+                 label='Wall',     linestyle='-',  linewidth=3, color='blue'    )
+        ax.plot( redshifts, nftags /scale_y, 
+                 label='Filament', linestyle='-',  linewidth=3, color='magenta' )
+        ax.plot( redshifts, nhtags /scale_y, 
+                 label='Halo',     linestyle='-',  linewidth=3, color='red'     )
+        ax.set_xlabel(r"$z$ [redshift]")
+        ax.set_ylabel(r"Origami-tagged particles / Sum of part. in FoF-group at $z=0$.")
+
+        # ax.set_xscale("log")#, nonposy='clip')
+        # ax.set_yscale("log")#, nonposy='clip')
+
+        ax.grid('on')
+        # ax.legend(bbox_to_anchor=(0,0.14, 1,-0.2), \
+        #                       loc="upper left", mode="expand", ncol=4, prop={'size':15}, markerscale=4)
+        ax.legend(loc='best')
+
+        # Ways to invert the axes:
+        # ax.set_xlim([redshifts[0], redshifts[-1]]) 
+        # pl.gca().invert_xaxis()
+        ax.set_xlim([7.5, redshifts[-1]]) 
+
+        # Quantities of Origami-tagged particles
+        plotfname = self.outfilePath + "_quOriG"+grp
+        pl.savefig( plotfname +".png", dpi=200)
+        pl.show("quOriG")
+        pl.close("quOriG")
         return 0
 
 

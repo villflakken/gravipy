@@ -214,7 +214,8 @@ class AutoTools(object):
             'f' : 2,
             'h' : 3
         }
-        if otype not in oTag_dict.keys(): sys.exit(" Invalid 'otype' (OrigamiParticleType) ")
+        if otype not in oTag_dict.keys(): sys.exit(
+            " Invalid 'otype' (OrigamiParticleType) ")
 
         nOtags = N.zeros( len(self.sIndex), dtype=N.int64 )
 
@@ -226,11 +227,13 @@ class AutoTools(object):
             continue
 
         return nOtags
-    def ppro_oritagNfetch(self, otype='h'):
+
+
+    def ppro_oritagNfromGrp(self, otype='h', grp=0):
         """
         Post-Processing Routine Operation
 
-        Runs through Origami output to retrieve requested tags.
+        Runs through Origami output to retrieve requested tags --- !for specific particle IDs!
         """
         oTag_dict = {
             'v' : 0,
@@ -238,17 +241,30 @@ class AutoTools(object):
             'f' : 2,
             'h' : 3
         }
-        if otype not in oTag_dict.keys(): sys.exit(" Invalid 'otype' (OrigamiParticleType) ")
+        if otype not in oTag_dict.keys(): sys.exit(
+            " Invalid 'otype' (OrigamiParticleType) ")
+        
+        # Indexation phenomena of a FoF-halo's group of particles:
+        glen = play.datadict["fof"]["200"][63][2] # |IDL's GroupLen   |
+        goff = play.datadict["fof"]["200"][63][3] # |and   GroupOffset|
+            # glen : FoF-group's size (in num. of particles)
+            # goff : FoF-group's index at beginning first halo particle (in IDs)
 
+        IDsG = self.datadict["fof"]["200"][63][0][ goff[grp]:goff[grp]+glen[grp] ]
+            # Slicing from FoF's array of IDs, keeping only a group's IDs
+        
+        # Tag counting
         nOtags = N.zeros( len(self.sIndex), dtype=N.int64 )
-
         for si in self.sIndex:
-            sn = self.subfolder_set[si]
-            nOtags[si] = N.sum( # Sum(bools(type)) => N(type)
-                self.dataAdict['origami'][self.iString][sn][0] == oTag_dict[otype]
-            )
+            # For every snapshot
+            sn      = self.subfolder_set[si]
+            gOritag = self.datadict["origami"]["200"][sn][0][IDsG]
+                # Slicing the correct group from Origami's array
+            
+            nOtags[si] = N.sum( gOritag == oTag_dict[otype] )
+                         # Sum(bools(type)) => N(type)
             continue
-
+        
         return nOtags
 
 
