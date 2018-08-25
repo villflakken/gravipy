@@ -119,6 +119,11 @@ class AutoTools(object):
 
 
 
+        " I should have done this ages ago!..."
+        # ...and now it is finally being done:
+        sys.exit("Handing over control to Jupyter from this point onwards!")
+
+
         # --- Put processing stuff here! ------------------------
         """
         " Sums of FoF tags and Subhalo tags "
