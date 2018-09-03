@@ -368,7 +368,7 @@ class Plotter(object):
         Quantities of the Origami-tagged types
         """
         redshifts = self.datadict["time"]["redshift"][self.subfolder_set] 
-        scale_y = max([nvtags.max(), nwtags.max(), nftags.max(), nhtags.max()])
+        scale_y = float(max([nvtags.max(), nwtags.max(), nftags.max(), nhtags.max()]))
         
         fig = pl.figure("quOri", figsize=(10,10))
         ax = fig.add_subplot(111)
