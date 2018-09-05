@@ -244,8 +244,8 @@ class AutoTools(object):
             " Invalid 'otype' (OrigamiParticleType) ")
         
         # Indexation phenomena of a FoF-halo's group of particles:
-        glen = play.datadict["fof"]["200"][63][2] # |IDL's GroupLen   |
-        goff = play.datadict["fof"]["200"][63][3] # |and   GroupOffset|
+        glen = self.datadict["fof"]["200"][63][2] # |IDL's GroupLen   |
+        goff = self.datadict["fof"]["200"][63][3] # |and   GroupOffset|
             # glen : FoF-group's size (in num. of particles)
             # goff : FoF-group's index at beginning first halo particle (in IDs)
 
