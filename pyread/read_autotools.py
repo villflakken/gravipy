@@ -221,7 +221,7 @@ class AutoTools(object):
         for si in self.sIndex:
             sn = self.subfolder_set[si]
             nOtags[si] = N.sum( # Sum(bools(type)) => N(type)
-                self.dataAdict['origami'][self.iString][sn][0] == oTag_dict[otype]
+                self.datadict['origami'][self.iString][sn][0] == oTag_dict[otype]
             )
             continue
 

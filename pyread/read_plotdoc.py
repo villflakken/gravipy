@@ -388,7 +388,7 @@ class Plotter(object):
 
         ax.grid('on')
         # ax.legend(bbox_to_anchor=(0,0.14, 1,-0.2), \
-        #                       loc="upper left", mode="expand", ncol=4, prop={'size':15}, markerscale=4)
+        #           loc="upper left", mode="expand", ncol=4, prop={'size':15}, markerscale=4)
         ax.legend(loc='best')
 
         # Ways to invert the axes:
@@ -411,7 +411,7 @@ class Plotter(object):
         redshifts = self.datadict["time"]["redshift"][self.subfolder_set] 
         scale_y = float(max([nvtags.max(), nwtags.max(), nftags.max(), nhtags.max()]))
         
-        fig = pl.figure("quOri", figsize=(10,10))
+        fig = pl.figure("quOriG", figsize=(10,10))
         ax = fig.add_subplot(111)
         ax.plot( redshifts, nvtags /scale_y, 
                  label='Void',     linestyle='-',  linewidth=3, color='black'   )
@@ -429,7 +429,7 @@ class Plotter(object):
 
         ax.grid('on')
         # ax.legend(bbox_to_anchor=(0,0.14, 1,-0.2), \
-        #                       loc="upper left", mode="expand", ncol=4, prop={'size':15}, markerscale=4)
+        #           loc="upper left", mode="expand", ncol=4, prop={'size':15}, markerscale=4)
         ax.legend(loc='best')
 
         # Ways to invert the axes:
