@@ -368,7 +368,7 @@ class Plotter(object):
         Quantities of the Origami-tagged types
         """
         redshifts = self.datadict["time"]["redshift"][self.subfolder_set] 
-        scale_y = float(max([nvtags.max(), nwtags.max(), nftags.max(), nhtags.max()]))
+        scale_y = 1024.**3
         
         fig = pl.figure("quOri", figsize=(10,10))
         ax = fig.add_subplot(111)
@@ -458,6 +458,7 @@ class Plotter(object):
         """
 
         return 0
+
 
 if __name__ == '__main__':
     sys.exit("Attempt at running code from unintended source. \n\
