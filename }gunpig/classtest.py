@@ -5,7 +5,7 @@ class Test(object):
 
     def testfunc(self):
         self.x += 1
-        return x
+        return self.x
 
 # ini = Test()
-# print ini.x
+# print(ini.x)

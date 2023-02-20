@@ -37,7 +37,7 @@ class Sifters(object):
         filenumbers.sort(key=float)
         maxfileCount = N.int32(filenumbers[-1])
 
-        return maxfileCount 
+        return maxfileCount
 
 
     def posvel_sifter(self, f):
@@ -51,13 +51,13 @@ class Sifters(object):
 
         mass  = N.fromfile(f, N.float64, 6)
         pmass = mass[1]     # In units of 10^10 solar masses?
-        
+
         scalefact, redshift     = N.fromfile(f, N.float64, 2)
         flag_sfr, flag_feedback = N.fromfile(f, N.int32, 2)
-        
+
         numpart_tot = N.fromfile(f, N.int32, 6) # not used
         # ntotal = numpart_tot[1]                 # not used
-        
+
         flag_cooling, num_files                   = N.fromfile(f, N.int32, 2)
         boxsize, omega0, omegal, hubble           = N.fromfile(f, N.float64, 4)
         flag_stellarage, flag_metals, hashtabsize = N.fromfile(f, N.int32, 3)
@@ -78,9 +78,9 @@ class Sifters(object):
         dummy = N.fromfile(f, N.int32, 2)
         vel   = N.fromfile(f, N.float32, 3*npart)
         vel   = N.reshape(vel, [npart, 3])#.astype(N.float64)
-        
+
         """
-        Looking at read_indra_snap.pro and other snippet;    
+        Looking at read_indra_snap.pro and other snippet;
         looks like this will read the assigned IDs:
         """
         dummy = N.fromfile(f, N.int32, 2)
@@ -128,9 +128,9 @@ class Sifters(object):
             return TotNgroups, N.zeros(TotNgroups), N.zeros(TotNgroups) # endIF
             # TotNgroups == 0, groupLen == array([]), groupOffset == array([])
 
-        else: 
+        else:
             " Friends detected! "
-            print "\t- Browsing of FOF-files (tabs): Initiated...", # string print begins
+            # print "\t- Browsing of FOF-files (tabs): Initiated...", # string print begins
             groupLen    = N.zeros(TotNgroups, dtype=N.int32)
             groupOffset = N.zeros(TotNgroups, dtype=N.int32)
             istartGroup = 0
@@ -146,7 +146,7 @@ class Sifters(object):
                     if Ngroups > 0:
                         locLen    = N.fromfile(f,N.int32,Ngroups)
                         locOffset = N.fromfile(f,N.int32,Ngroups)
-                        groupLen[    istartGroup : istartGroup+Ngroups ] = locLen  
+                        groupLen[    istartGroup : istartGroup+Ngroups ] = locLen
                         groupOffset[ istartGroup : istartGroup+Ngroups ] = locOffset + istartIDs
                                                                                       # !! ^ !!
                             # !istartIDs was not there in the original, as implemented above!!
@@ -156,7 +156,7 @@ class Sifters(object):
                     f.close() # end.WITH
                 continue
 
-            print " ...Complete!" # string print ends
+            # print " ...Complete!" # string print ends
             pass # end.ELSE
 
         return TotNgroups, groupLen, groupOffset
@@ -177,9 +177,9 @@ class Sifters(object):
             return N.zeros(0), N.zeros(0), N.zeros(0)
             # fofIDs == array([]), groupLen == array([]), groupOffset == array([])
 
-        else: 
+        else:
             " Friends detected! (find them!) "
-            print "\t- Browsing of FOF-files (IDs ): Initiated...", # string print begins
+            # print "\t- Browsing of FOF-files (IDs ): Initiated...", # string print begins
             if groupLen is None and groupOffset is None:
                 # Values not provided from the outside
                 gtab_name             = self.fof_pathstrings()[0]
@@ -201,15 +201,15 @@ class Sifters(object):
                         locIDs = N.fromfile(f, N.int64, Nids)
                         fofIDs[istart:(istart+Nids)] = \
                             N.bitwise_and(locIDs[:], self.bitshiftmask)
-                        
+
                         istart += Nids
                         pass
-                    f.close()        
+                    f.close()
                 continue
-        
-            print " ...Complete!" # string print ends
+
+            # print " ...Complete!" # string print ends
             pass # end.ELSE
-        
+
         fofIDs -= 1 # Takes care of indexation discrepancy
         return fofIDs, groupLen, groupOffset
 
@@ -256,26 +256,26 @@ class Sifters(object):
             " This snap has no subhs... :( "
             return None # endIF
 
-        else: 
+        else:
             # Sifts through the file
             " Subh detected! (find them!) "
-            print "\t- Browsing of Subhalo-files (tabs): Initiated...", # string print begins
+            # print "\t- Browsing of Subhalo-files (tabs): Initiated...", # string print begins
 
             catalog = {}
             catalog['NsubPerHalo']    = N.zeros( TotNgroups,  dtype=N.int32   )
             catalog['FirstSubOfHalo'] = N.zeros( TotNgroups,  dtype=N.int32   ) # file specific!
-            
+
             catalog['subLen']         = N.zeros( TotNsubs,    dtype=N.int32   )
             catalog['subOffset']      = N.zeros( TotNsubs,    dtype=N.int32   ) # file specific!
             catalog['subParentHalo']  = N.zeros( TotNsubs,    dtype=N.int32   ) # file specific!
-            
+
             catalog['M200mean']       = N.zeros( TotNgroups,  dtype=N.float32 )
             catalog['R200mean']       = N.zeros( TotNgroups,  dtype=N.float32 )
             catalog['M200crit']       = N.zeros( TotNgroups,  dtype=N.float32 )
             catalog['R200crit']       = N.zeros( TotNgroups,  dtype=N.float32 )
             catalog['M200tophat']     = N.zeros( TotNgroups,  dtype=N.float32 )
             catalog['R200tophat']     = N.zeros( TotNgroups,  dtype=N.float32 )
-            
+
             catalog['SubPos']         = N.zeros((TotNsubs,3), dtype=N.float32 )
             catalog['SubVel']         = N.zeros((TotNsubs,3), dtype=N.float32 )
             catalog['SubVelDisp']     = N.zeros( TotNsubs,    dtype=N.float32 )
@@ -293,9 +293,9 @@ class Sifters(object):
 
                     Ngroups, Nids, TotNgroups, NTask, Nsubs = N.fromfile(f, N.int32, 5)
                     if Nsubs > 0:
-                        # Read catalog: Indexes need to include 
+                        # Read catalog: Indexes need to include
                         #               offset from previous files (istarts).
-                        # E.N.: This just won't become visually comprehensive, 
+                        # E.N.: This just won't become visually comprehensive,
                         #       no matter how I edit it...
 
                         catalog['NsubPerHalo'][    istartGroup:(istartGroup+Ngroups) ] \
@@ -303,7 +303,7 @@ class Sifters(object):
 
                         catalog['FirstSubOfHalo'][ istartGroup:(istartGroup+Ngroups) ] \
                             = N.fromfile(f,N.int32,Ngroups)+istartSub
-                
+
                         catalog['subLen'][         istartSub:(istartSub+Nsubs)  ] \
                             = N.fromfile(f,N.int32,Nsubs)
 
@@ -312,7 +312,7 @@ class Sifters(object):
 
                         catalog['subParentHalo'][  istartSub:(istartSub+Nsubs)  ] \
                             = N.fromfile(f,N.int32,Nsubs)+istartGroup
-                        
+
                         catalog['M200mean'][  istartGroup:(istartGroup+Ngroups)  ] \
                             = N.fromfile(f,N.float32,Ngroups)
 
@@ -361,10 +361,10 @@ class Sifters(object):
                         pass  # endIF
                     f.close() # endWITH
                 continue
-            print " ...Complete!" # string print ends
+            # print " ...Complete!" # string print ends
             pass # endELSE
 
-        return catalog 
+        return catalog
 
 
     def subh_idsifter(self, sids_name=None, TotNsubs=None, NTask=None):
@@ -388,8 +388,8 @@ class Sifters(object):
 
         else: # And retrieve the appropriate IDs if needed
             " Subh detected! (find them!) "
-            print "\t- Browsing of Subhalo-files (IDs ): Initiated..." , #string print begins
-            
+            # print "\t- Browsing of Subhalo-files (IDs ): Initiated..." , #string print begins
+
             # Get total number of IDs (including unbound particle IDs)
             TotSubids = 0
             for i in N.arange(0,NTask):
@@ -398,11 +398,11 @@ class Sifters(object):
                     Ngroups, Nids, TotNgroups, NTask = N.fromfile(f, N.int32, 4)
                     TotSubids += Nids
                     f.close() # end.WITH
-                
+
                 continue
 
             subIDs = N.zeros(TotSubids,dtype=N.int64)
-            
+
             # Store subIDs
             istart = 0
             for i in N.arange(0,NTask):
@@ -418,7 +418,7 @@ class Sifters(object):
                     f.close() # end.WITH
 
                 continue
-            print " ...Complete!" # string print ends
+            # print " ...Complete!" # string print ends
             pass # end.ELSE
 
         subIDs -= 1  # Indexation discrepancy correction
@@ -468,7 +468,7 @@ class Sifters(object):
         npart       = numpart[1] # Number of DM-particles in this file
 
         mass = N.fromfile(f, N.float64, 6)
-        
+
         scalefact, redshift = N.fromfile(f, N.float64, 2)
 
         return scalefact, redshift

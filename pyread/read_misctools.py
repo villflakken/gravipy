@@ -21,7 +21,7 @@ class MiscTools(object):
             Aborting!
             =========
             """
-        
+
         self.printNth = 5
 
         if sys.platform in ("linux", "linux2"):
@@ -48,7 +48,7 @@ class MiscTools(object):
         if self.onElephant == True:
             # Path structure for elephant cluster
             indrapath = "/indra{0:d}{1:s}/{0:d}_{2:d}_{3:d}"
-            
+
             if self.boolcheck(self.tmpfolder) == True:
                 " Inserts 'tmp' into address line, i.e.: "
                 " /indra{iN}{_tmp}/{iN}_{iA}_{iB} "
@@ -64,7 +64,7 @@ class MiscTools(object):
                     self.indraN, "", self.iA, self.iB
                 )
                 pass
-            
+
         elif self.onIdies == True:
             # Path structure for SciServer's Jupyter stuff
             indrapath = "/workspace/indra/{0:d}_{1:d}_{2:d}"
@@ -103,7 +103,7 @@ class MiscTools(object):
 
     def origamiPathParser(self):
         """
-        Handles how the script interprets 
+        Handles how the script interprets
         """
         iN  = self.indraN
         iA  = self.iA
@@ -120,7 +120,7 @@ class MiscTools(object):
         # print "self.origamipath:"                                           #
         # print self.origamipath                                              #
         # print                                                               #
-        
+
         if self.origamipath == False:
             # File name must be generated
             " Inital folder path, assuming on idies/SciServer machine "
@@ -128,7 +128,7 @@ class MiscTools(object):
             # print ifp                                                       #
 
             " Folder w/ origami output. "
-            foldp = ifp + "origami/i{iN}{iA}{iB}{tmp}/" 
+            foldp = ifp + "origami/i{iN}{iA}{iB}{tmp}/"
             foldp = foldp.format(iN=iN, iA=iA, iB=iB, sf=sf, tmp=tmp)
             # print foldp                                                     #
 
@@ -156,14 +156,14 @@ class MiscTools(object):
 
         # print oridatpath                                                    # DT
         # print                                                               # DT
-        
+
         return oridatpath
 
 
     def auto_outputPather(self):
         """
         Checks if output folder structure exists
-        & creates output path for output file 
+        & creates output path for output file
         & filepath- & name based on env. params.
         * Note: based in user's home folder,
                 folder structure based on intended task.
@@ -172,16 +172,16 @@ class MiscTools(object):
 
         # Lowest hierarchy for user's folders, usually "~/"
         if self.onIdies == True:
-            # outdir_floor  = self.uname + "workspace/persistent/output_gravipy/" 
+            # outdir_floor  = self.uname + "workspace/persistent/output_gravipy/"
                 # Deprecrated filepath from the SciServer Docker update, 10th.Apr.2018
-        
+
             outdir_floor = self.uname + "workspace/Storage/magnucb/persistent/output_gravipy/"
             # Including: Version-control-specific output variable
             outdir_floor += "{version}/".format(version=self.version)
             # example: "workspace/persistent/output_gravipy/{version}/"
             pass
         else:
-            # Assuming to be on the elephant-cluster 
+            # Assuming to be on the elephant-cluster
             outdir_floor  = self.uname + "output_gravipy/"
             pass
 
@@ -191,7 +191,7 @@ class MiscTools(object):
         " filename   :                '{data}_i{iN}{iA}{iB}{tmp}'  "
         if any([ # Confirms combination procedure or not
                 self.what_set in self.singleSnapActions.keys() ,
-                self.what_set in self.allSnapActions.keys()     
+                self.what_set in self.allSnapActions.keys()
             ]):
             operationName = self.what_set
             pass
@@ -211,25 +211,25 @@ class MiscTools(object):
 
         tmpstr = "tmp" if self.tmpfolder == True else ""
         # ... (*) and here they are set:
-        folderPath = folderPath.format( 
-            data = operationName, 
-            iN   = self.indraN, 
-            iA   = self.iA, 
-            iB   = self.iB, 
-            tmp  = tmpstr 
-        )
-        fileName = fileName.format(   
-            data = operationName, 
-            iN   = self.indraN, 
-            iA   = self.iA, 
-            iB   = self.iB, 
+        folderPath = folderPath.format(
+            data = operationName,
+            iN   = self.indraN,
+            iA   = self.iA,
+            iB   = self.iB,
             tmp  = tmpstr
         )
-        
+        fileName = fileName.format(
+            data = operationName,
+            iN   = self.indraN,
+            iA   = self.iA,
+            iB   = self.iB,
+            tmp  = tmpstr
+        )
+
         " May be used for dictionary storage of datasets "
         self.fileName = fileName
         # Will need snap folder/number at times added to it!
-        
+
 
         if any((self.w2f, self.plotdata)) == True:
             " If any kind of output is requested "
@@ -249,7 +249,7 @@ class MiscTools(object):
             pass # Folders are verified
 
         outfilePath      = folderPath + fileName
-        self.outfilePath = outdir_floor + outfilePath 
+        self.outfilePath = outdir_floor + outfilePath
         # ok = int(raw_input("Is this an OK output file path?:\n    "
         #                + self.outfilePath))
         # if not ok: sys.exit(" --- Filepath not ok :( ")
@@ -258,14 +258,14 @@ class MiscTools(object):
 
     def itertextPrinter(self, itertext, i, iterLen, modifier):
         " Less spam in terminal window "
-        # print 
+        # print
         # print "lessprint                         :", self.lessprint
         # print "i % (self.printNth*modifier) == 0 :", i % (self.printNth*modifier) == 0
         if self.boolcheck(self.lessprint) == False:
             # No output reduction:
             print itertext
             pass
-        
+
         else:
             # Output reduction:
             if i % (modifier) == 0:
@@ -282,7 +282,7 @@ class MiscTools(object):
 
 
     def item_size_printer(self, byte):
-        """ 
+        """
         Paired with 'item_size_calc'
         (which currently does not work reliably);
         takes number of bytes as int,
@@ -354,7 +354,7 @@ class MiscTools(object):
         '''
         @measure_time
         def foo():
-            #content of function 
+            #content of function
         '''
         URL: 'https://stackoverflow.com/a/25958593/8387070'
         """
@@ -379,7 +379,7 @@ class MiscTools(object):
         | timetest:   1h , 10m , 20.00s
         | >>> print "timetest: {0}".format(timeprint(4220., reverse=True))
         | timetest: s:20.00 , m:10 , h:  1
-        """   
+        """
         seconds_in_an_hour  = 3600.
         seconds_in_a_minute = 60.
         hours   =   int(  totsecs // seconds_in_an_hour )
@@ -405,7 +405,7 @@ class MiscTools(object):
         Filepath :    {1}  ;
         Reading loop: {2}/{3} ;
         File no. {4} seems to be missing.
-        Continue anyway? 
+        Continue anyway?
         """.format(self.what, filepath, loop, loops, i)
 
         self.missingfiles += 1
@@ -426,7 +426,7 @@ class MiscTools(object):
         """
         Checks if all values of an array is the same value.
         ** For debugging.
-        
+
         ''' # From google groups
         # How about the following?
         exact: numpy.all(a == a[0])
@@ -435,7 +435,7 @@ class MiscTools(object):
         # Looks like the following is even faster:
         np.max(a) == np.min(a)
         '''
-        
+
         """
         # My own method
         firstvalue  = array[0]
@@ -487,7 +487,7 @@ class MiscTools(object):
         messToScreen = textwrap.TextWrapper(initial_indent=nextLineIndent,
                                             subsequent_indent=nextLineIndent)
         errorDescr = "* " + str( sys.exc_info()[1] ).capitalize()
-              
+
         print prefix
         print messToScreen.fill(errorType)
         print messToScreen.fill(errorDescr)

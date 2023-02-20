@@ -14,7 +14,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
     """
     Contains structures which read the data in question.
     I.o.w.: Every read_*-function shows the program flow of reading procedures.
-    Misc. tools for post-processing or other functionalities 
+    Misc. tools for post-processing or other functionalities
       are imported from read_*tools classes.
     """
     def __init__(self):
@@ -38,7 +38,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
 
     def read_posvel(self):
         """
-       Reads positions and velocities datasets.
+        Reads positions and velocities datasets.
         """
         t_pvread_start = time.time() # Time manager
 
@@ -48,7 +48,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         # + particular count, comes in the for-loop ## dataset and indra path
         maxfileCount = self.findCount(snappath)
         iterLen      = maxfileCount + 1
-        
+
         " Total no. of particles is set: "
         Npart_tot = 1024**3
 
@@ -71,14 +71,14 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
             filepath = snappath + str(i)
             try:
                 with open(filepath, 'rb') as openfile:
-                    itertext = readtext.format( self.indraN, tmpftxt, 
+                    itertext = readtext.format( self.indraN, tmpftxt,
                                                 self.subfolder, i, self.what )
                     self.itertextPrinter(itertext, i, iterLen, 50)
-                    
+
                     " Retrieval "
                     pos, vel, IDsArr, Npart, scalefact, redshift = \
                         self.posvel_sifter(openfile)
-                    
+
                     " Inside-loop 'sorting' - by correct assignment: pos & vel "
                     if self.boolcheck(self.sortIDs):
                         posA[IDsArr, :]      = pos
@@ -107,7 +107,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
 
 
         t_pvread_end = time.time()
-        t_pvread_tot = t_pvread_end - t_pvread_start 
+        t_pvread_tot = t_pvread_end - t_pvread_start
         print "      : dt = {0:g} s".format(t_pvread_tot)
 
 
@@ -115,10 +115,10 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         countedNpart = N.sum(NpartA)
         maxN         = N.max(NpartA)
         Intermission = """
-    Byte sifter completed. 
+    Byte sifter completed.
     Max particle number in a file:      {0}
     Sum particles read / Tot. in sim.:  {1:g} / {2:g} ( {3:g}% )
-    Maximum indra particles read?:      {4}""".format( 
+    Maximum indra particles read?:      {4}""".format(
             maxN, countedNpart, 1024**3, 100*countedNpart/(1024.**3.),
             (countedNpart==1024**3) )
         print Intermission
@@ -128,28 +128,11 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         print "    Size of matrix   velA = " + self.item_size_printer(velA.nbytes)
         print "    Size of array  NpartA = " + self.item_size_printer(NpartA.nbytes)
         print "    Total size of matrices IDsA, posA, velA, NpartA = " \
-               + self.item_size_printer(matsizes) 
+               + self.item_size_printer(matsizes)
 
         # The reading is done, the bells have toll'd;
         # print out the stats, parameters, and all!
-        endread = "   . Finished reading '"+str(self.what)
-        if self.boolcheck(self.sortIDs):
-            endread+=" - and matrices are sorted after IDs' values.\n"
-            pass
-        print endread
-
-        " returns what user needs, specifically: "
-        if   self.what == "pos":
-            print "   . Finished reading 'pos'"
-            return IDsA.astype(N.int32), posA, scalefA[0], rsA[0]
-            # Attempting to reduce data
-
-        elif self.what == "vel":
-            print "   . Finished reading 'vel'"
-            return IDsA.astype(N.int32), velA, scalefA[0], rsA[0]
-
-        else:
-            sys.exit("\n    *** read_posvel task name error *** \n")
+        return IDsA.astype(N.int32), posA, velA
 
 
     def read_fof(self):
@@ -163,9 +146,9 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
 
         TotNgroups, groupLen, groupOffset = self.fof_tab_sifter(gtab_name)
         fofIDs    , groupLen, groupOffset = self.fof_ids_sifter(gids_name, groupLen, groupOffset)
-        print "\tTotNgroups = ({0:>10d})".format(TotNgroups)
+        # print "\tTotNgroups = ({0:>10d})".format(TotNgroups)
 
-        print "   . Finished reading 'FoF'"
+        # print "   . Finished reading 'FoF'"
         return fofIDs, TotNgroups, groupLen, groupOffset
 
 
@@ -185,9 +168,9 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
         # Ca(talogue out)put
         catalog = self.subh_cater(stab_name, TotNgroups, TotNsubs, NTask)
         subIDs  = self.subh_idsifter(sids_name, TotNsubs, NTask)
-        print "\tTotNsubs   = ({0:>10d})".format(TotNsubs)
-                
-        print "   . Finished reading 'SubHalo'"
+        # print "\tTotNsubs   = ({0:>10d})".format(TotNsubs)
+
+        # print "   . Finished reading 'SubHalo'"
         return subIDs, TotNsubs, catalog
 
 
@@ -216,8 +199,8 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
             sys.exit(ori_open_error_str)
 
 
-        print "   . Finished reading 'Origami'"
-        return tags, Npart[0]
+        # print "   . Finished reading 'Origami'"
+        return tags
 
 
     def read_time(self):
@@ -234,11 +217,11 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
 
         filepath = snappath + str(0)
         with open(filepath, 'rb') as openfile:
-            itertext = readtext.format( self.indraN, tmpftxt, 
+            itertext = readtext.format( self.indraN, tmpftxt,
                                        self.subfolder, 0, self.what )
-            print itertext
+            # print itertext
             scalefact, redshift = self.time_sifter(openfile)
-            
+
             openfile.close()
 
         return scalefact, redshift
@@ -263,7 +246,7 @@ class readProcedures(Sifters, MiscTools, UserTools, AutoTools, Plotter):
             except IOError:
                 self.readLoopError(filepath, 1, 1, i)
                 pass
-        
+
         dummy = fft_output # DO SOMETHING ABOUT THIS (,) DUMMY! (heh, gedit?)
 
         return 0

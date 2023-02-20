@@ -31,16 +31,16 @@ class readArgs(object):
         # Error messages get boring after a while.
         self.length              = None  # LDT (from IDL debugs)
         self.sub_asks_for_length = False # enabling LDT for subhalo
-        self.okGo                = False # checker for remote debugging 
+        self.okGo                = False # checker for remote debugging
         self.missingkeys_no = 0
         self.missingkeys    = []
         self.keys_read      = []
         self.onElephant = False # ---> To determine filesystem.
         self.onIdies    = False # --^
         self.plotdim2n3 = False # => True; when user wants plots in 2D+3D
-        
+
         self.origamidata_exists = False # For activating autoripy?
-        
+
         """
         Definitions of keywords to be used, script's interpretation +++.
         When adding a new user input parameter:
@@ -50,12 +50,12 @@ class readArgs(object):
         then write a new function into the group of functions below.
         """
         self.arglist = [ # Parameter keys available
-                "what"        , 
-                "indraN"      , 
-                "iA"          , 
-                "iB"          , 
-                "subfolder"   , 
-                "fftfile"     , 
+                "what"        ,
+                "indraN"      ,
+                "iA"          ,
+                "iB"          ,
+                "subfolder"   ,
+                "fftfile"     ,
               # Optional stuff
                 "tmpfolder"   ,
                 "sfset"       ,
@@ -106,22 +106,22 @@ class readArgs(object):
                      "what" :[ "pos" ],
                    "indraN" :    0    ,
                        "iA" :    0    ,
-                       "iB" :    0    , 
-                "subfolder" :  None   , 
+                       "iB" :    0    ,
+                "subfolder" :    63   ,
                   "fftfile" :  None   ,
               # Optional stuff
                 "tmpfolder" :    0    ,
                     "sfset" :    0    ,
                   "sortIDs" :    1    ,
                 "lessprint" :    1    ,
-                 "multiset" :  False  ,
-               "box_params" :    0    ,
+                 "multiset" : "store" ,
+               "box_params" :[[0., 60.], [0., 60.], [0., 60.]], # So as not to overload anything by default plots
               # Output related
-               "outputpath" :  None   ,
+               "outputpath" :  False  ,
                       "w2f" :    0    ,
-                 "plotdata" :    1    ,
+                 "plotdata" :  True   ,
                   "plotdim" :   (2,)  ,
-              "origamipath" :  None
+              "origamipath" :  False
         }
 
         """
@@ -141,23 +141,23 @@ class readArgs(object):
            3.1) Tuples or not
             a] Not: Proceed to 4.
             b] Tuple: Check contents for 3.
-        4. Check boundaries of value, 
+        4. Check boundaries of value,
             one range corresponding to each type.
         """
         " 1. "
         self.intendedMachine()
-        
+
         " 2. "
         self.collect_userArgs()
 
         " 2.1) Program initialized with... "
         self.loaded_parameters() # Screen-printed overview
-        
+
         for key in self.keys_read:
-            " 3. & 4., individual functions " 
+            " 3. & 4., individual functions "
             self.param_incorp[key](self.read_params[key], key)
             continue # Less output is good news!
-        
+
         print self.argsOKtext
         return 0
 
@@ -183,7 +183,7 @@ class readArgs(object):
                 self.missingkeys.append(key)
                 # self.keys_read.append(key) # Not useful to the user
                 pass
-            
+
             elif self.read_params[key] != None:
                 self.keys_read.append(key)
                 pass
@@ -209,7 +209,7 @@ class readArgs(object):
 
     def loaded_parameters(self):
         """
-        Screen-printed summary shows what values that  the user 
+        Screen-printed summary shows what values that  the user
         has assigned as parameters for the arguments.
         """
         print "\n Total parameters loaded:", len(self.keys_read)
@@ -228,13 +228,13 @@ class readArgs(object):
         # Accepted user input for task names or combination jobs:
         self.permitWhat = self.action.keys() + self.singleSnapActions.keys() \
                           + self.allSnapActions.keys()
-        
+
         tasknameErrortext = """
         Invalid task name specification(s), or format(s) thereof: {0}
         Allowed task names listed below.""".format(uinput) + "\n"
         column_of_actions = "\t"
         for action in self.permitWhat:
-            column_of_actions = " * "+column_of_actions+action+"\n"+(8*" ")
+            column_of_actions = " * \n"+column_of_actions+action+"\n"+(8*" ")
             continue
 
         # print "uinput:", uinput # DT
@@ -242,11 +242,11 @@ class readArgs(object):
         if (type(uinput) == tuple or type(uinput) == list) and \
             len(uinput) > 1:
             " When multiple tasks are input. "
-            
+
             # print "a)" # DT
             for taskname in uinput:
                 " Check if each name is in library. "
-                
+
                 if type(taskname) == str and \
                     taskname in self.permitWhat:
                     " Task name(s) accepted"
@@ -271,19 +271,19 @@ class readArgs(object):
             # Below are identifiers for task&/pp-combinations:
 
             # Post Processing Combination job names on a single snapshot
-            elif uinput[0] in self.ppCombsSingleSnaps.keys():
+            elif uinput[0] in self.singleSnapActions.keys():
                 " 'self.ppSingleSnap' determines combination. "
                 setattr( self , "what_set" , self.singleSnapActions[uinput[0]] )
                 setattr( self , self.singleSnapActions_bools[uinput[0]] , True )
                 pass
 
             # Post Processing Combination job names over several snapshots
-            elif uinput[0] in self.ppCombsAllSnaps.keys():
+            elif uinput[0] in self.allSnapActions.keys():
                 " 'self.ppAllSnaps' determines combination. "
                 setattr( self , "what_set" , self.allSnapActions[uinput[0]] )
                 setattr( self , self.allSnapActions_bools[uinput[0]] , True )
                 pass
-            
+
             else:
                 sys.exit(tasknameErrortext.format(uinput)+column_of_actions)
                 # Exit program
@@ -312,19 +312,19 @@ class readArgs(object):
         Allowed range: integer in [{2},{3}]
         """.format(name, uinput,
                    self.intRange_dict[name][0], self.intRange_dict[name][-1])
-        
+
         if hasattr(uinput, '__iter__'):
             " When multiple numbers are input. "
-            
+
             " Check if user's unput is in specified ranges "
             if  (len(uinput) == 2 and self.sfset == False) or \
                 (len(uinput) >= 2 and self.sfset == True):
                 " (Case: User has specified a range) or "
                 " (Case: User has specified a set  ) "
-                
+
                 for single_number in uinput:
                     " Check each number by range. "
-                    
+
                     if (type(single_number) == int) and \
                         (single_number in self.intRange_dict[name]):
                         " Value of number checks out! "
@@ -365,13 +365,13 @@ class readArgs(object):
                 pass
 
             pass # Into return statement
-        
+
         elif isinstance(uinput, int) and \
             uinput in self.intRange_dict[name]:
             " Single int object case recognized. "
-            
+
             setattr( self, name+"_set" , N.arange(uinput, uinput+1) )
-            pass                         # Single item list ^            
+            pass                         # Single item list ^
 
         else:
             sys.exit(integererrortext)
@@ -393,7 +393,7 @@ class readArgs(object):
         Allowed values: [ 0 , 1 ] / [ False, True ]
         """.format(name, uinput)
 
-        if (type(uinput) == int and uinput in N.range(0,2)) or \
+        if (type(uinput) == int and uinput in N.arange(0,2)) or \
             type(uinput) == bool:
             " Allowed object recognized then input is recognized. "
             setattr( self, name, uinput )
@@ -413,10 +413,10 @@ class readArgs(object):
         # print " ** key =", name, "| uinput =", uinput
         " Check uinput consists of _some_ objects "
         if type(uinput) == list or type(uinput) == tuple:
-            
+
             " Check that all items in uinput are also on this form "
             for pair in uinput: # 3 items.
-                
+
                 " Now check if they contain 2 numbers "
                 if type(pair) == list or type(pair) == tuple:
 
@@ -473,16 +473,16 @@ class readArgs(object):
         " All tests passed: apply dimension set to instance! "
         setattr(self, name, uinput)
 
-        return 0 
+        return 0
 
 
     def multiset_incorp(self, uinput, name):
         """
-        Interprets what kinds of multi-run sets that are to be 
+        Interprets what kinds of multi-run sets that are to be
         """
 
         allowed_uinput = \
-            [ 
+            [
                 "wipe",
                 "store",
                 False
@@ -514,7 +514,7 @@ class readArgs(object):
         elif uinput == False:
             """
             Allows program to decide where output should be stored:
-            [ ~/indraData/{what}_{indraN}{iA}{iB}{tmp/None}_sf{sf}/ ]
+            [ <gravipy scripts' folder>/../../output_gravipy/fsu01/{what}_{indraN}{iA}{iB}{tmp/None}_sf{sf}/
             """
             setattr(self, name, uinput)
             pass
@@ -554,28 +554,28 @@ class readArgs(object):
                 "\n| onIdies:", self.onIdies, "\n| onElephant:", self.onElephant
             sys.exit(" No origamipath to go from ")
         # Well, how strict can one be with a user's own preferences?
-        return 0 
+        return 0
 
 
     def errhand_userinput(self, problemstring):
         """
-        Error handling, with user input enabling: 
+        Error handling, with user input enabling:
         * Error message
         * User input
         * Recursion in case of stupid
         """
         ok2go = raw_input(problemstring+" Please input (1/0) or (y/n) : ").lower()
         if ok2go == "n" or ok2go == "0":
-            
+
             sys.exit("""
                 ---------------------------
-                 Dataset analysis aborted. 
+                 Dataset analysis aborted.
                 ---------------------------
                 """)
             return False
 
         elif ok2go == "y" or ok2go == "1":
-            
+
             print """
                 +++++++++++++
                  Continuing.
@@ -598,7 +598,7 @@ class readArgs(object):
         i.e.: may be used to clean up syntax while debugging.
 
         Very old function. Necessary in the beginning, if no
-        path for origami is provided. 
+        path for origami is provided.
         %TODO : Make independent function to incorporate into
                 beginning of the args-checking environment.
         """
@@ -625,7 +625,7 @@ class readArgs(object):
             self.onElephant = True
             self.dsp = "/datascope" # indra pathing follows
             pass ###### Modify as needed.
-    
+
         elif os.path.exists("/home/idies"):
             # On SciServer Idies etc
             self.onIdies = True
@@ -635,14 +635,14 @@ class readArgs(object):
         else:
             print "\n\tNot running from intended machine(s)"\
                   + " ('elephant' cluster or SciServer)."
-            
+
             if self.errhand_userinput(unknownOrigin):
                 self.okGo = True
                 pass
-            
+
             else:
                 sys.exit("\n\tNow exiting.")
-            
+
             pass
 
         return 0

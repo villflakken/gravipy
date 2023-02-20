@@ -9,23 +9,23 @@ from read_procedures import readProcedures
 
 
 
-def read_ini( what        = "pos" , 
-              iN          =  0    , 
-              iA          =  0    , 
-              iB          =  0    , 
-              subfolder   = None  , 
-              fftfile     = None  , 
-              tmpfolder   = False , 
-              sfset       = False , 
-              sortIDs     = False , 
-              lessprint   = True  , 
-              multiset    = False , 
-              box_params  = False , 
-              outputpath  = False , 
-              w2f         = False , 
-              plotdata    = False , 
-              plotdim     =  [2]  , 
-              origamipath = False   
+def read_ini( what        = "pos" ,
+              iN          =  0    ,
+              iA          =  0    ,
+              iB          =  0    ,
+              subfolder   = None  ,
+              fftfile     = None  ,
+              tmpfolder   = False ,
+              sfset       = False ,
+              sortIDs     = False ,
+              lessprint   = True  ,
+              multiset    = False ,
+              box_params  = False ,
+              outputpath  = False ,
+              w2f         = False ,
+              plotdata    = False ,
+              plotdim     =  [2]  ,
+              origamipath = False
             ):
 
     data_params = { # Data structure parameters:
@@ -43,7 +43,7 @@ def read_ini( what        = "pos" ,
            "multiset" :(  multiset    ),
             # Extracts data from a coordinate box at positions specified:
          "box_params" :(  box_params  ),
-            # Desired output filepath, 
+            # Desired output filepath,
             # or False (=> program storing to user's own folder).
          "outputpath" :(  outputpath  ),
             # Write 2 file: Probably a bad idea ...
@@ -58,7 +58,7 @@ def read_ini( what        = "pos" ,
 
     tmp = sp.call('clear',shell=True)
 
-    ini = readDo()                  # Initialize!
+    ini = gravipy()                  # Initialize!
     ini.read_params = data_params   # Set params
     " 1. "
     ini.callArgsChecker()           # Verify values
@@ -66,7 +66,7 @@ def read_ini( what        = "pos" ,
     return ini.beginReading(), ini  # Do the thing
 
 
-class readDo(readArgs, readProcedures):
+class gravipy(readArgs, readProcedures):
     """
     Commences data reading, sets into motion what to do.
     """
@@ -77,42 +77,49 @@ class readDo(readArgs, readProcedures):
         readArgs.__init__(self)
         readProcedures.__init__(self)
         # self.version = "fsu00" # Earlier version of the system
-        self.version = "fsu01" # Version-control-notation, wrt. output folders
+        self.version = "fsu01" # Notation wrt. output folders
         """
         Actiondicts : commands for the program to act on
         """
         # Function library for initializing actual data _reading_.
-        self.action  = { 
-            "pos"     : self.read_posvel  , 
-            "vel"     : self.read_posvel  , 
-            "fof"     : self.read_fof     , 
-            "subhalo" : self.read_subhalo , 
+        self.action  = {
+            "pos"     : self.read_posvel  ,
+            "vel"     : self.read_posvel  ,
+            "fof"     : self.read_fof     ,
+            "subhalo" : self.read_subhalo ,
             "fft"     : self.read_fft     ,
             "origami" : self.read_origami ,
-            "time"    : self.read_time
+            "time"    : self.read_time    ,
+            "custom_treatment" : self.custom_treatment
         }
         self.actionkeys = [ # Types of data available to read.
             "pos"     ,
             "vel"     ,
             "fof"     ,
-            "subhalo" , 
+            "subhalo" ,
             "origami" ,
             "fft"     , # currently not a feature
-            "time"
+            "time"    ,
+            "custom_treatment"
         ]
-        
+
         # Specific processing routines (c.f.: 'read_autotools.py'),
-        # format: dict = {'user input command' : ('data', 'types', 'involved') }
+        # format: dict = {'user input command' : ['data', 'types', 'involved'] }
         self.singleSnapActions = {
-            "posor"    : [ "pos", "origami"            ] ,
-            "pof"      : [ "pos", "fof"                ] ,
-            "porifof"  : [ "pos", "origami", "fof"     ] ,
-            "playOne"  : [ "pos", "origami", "fof"     ] # Dev. tests
+            "pos"      : [ "pos"                              ] ,
+            "origami"  : [ "origami"                          ] ,
+            "pori"     : [ "pos", "origami"                   ] ,
+            "pof"      : [ "pos", "fof"                       ] ,
+            "porifof"  : [ "pos", "origami", "fof"            ] ,
+            "playOne"  : [ "pos", "origami", "fof", "subhalo" ] # Dev. tests
+            # For the user to insert own operations
         }
         self.allSnapActions = {
+            "origami"  : [ "origami"                   ] ,
             "sufo"     : [ "subhalo", "fof"            ] ,
             "sofa"     : [ "subhalo", "origami", "fof" ] ,
             "playAll"  : [ "subhalo", "origami", "fof" ] # Dev. tests
+            # For the user to insert own operations
         }
         # self.allSnapActions[self.what_set] => substitutes
         self.singleSnapActions_bools = { # Used for checking 'ppSingleSnaps' status;
@@ -139,8 +146,8 @@ class readDo(readArgs, readProcedures):
         2 - Begin reading and initiate corresponding output.
         # Not finished.
         """
-        tmp = sp.call('clear',shell=True)
-        
+        tmp = sp.call('clear', shell=True)
+
         self.read_params = read_params
         " 1. "
         self.callArgsChecker()
@@ -148,7 +155,7 @@ class readDo(readArgs, readProcedures):
         return self.beginReading()
 
 
-    def beginReading(self):
+    def beginReading(self, custom_arg=None):
         """
         Primary program flow:
 
@@ -175,7 +182,7 @@ class readDo(readArgs, readProcedures):
                     self.iB = iB
                     # Useful for dictionary addresses & file names
                     self.iString = "{0:1d}{1:1d}{2:1d}".format(iN,iA,iB)
-                    
+
                     # Indra variables set. Check task set:
                     if   self.what_set in self.singleSnapActions.keys():
                         " Calls algorithm that avoids RAM overload "
@@ -188,15 +195,17 @@ class readDo(readArgs, readProcedures):
                         pass
 
                     else:
-                        " Basic indra data reading "         # Will be integrated 
-                        parsed_data = self.performBasicOps() # into the 2 options above.
+                        " Custom indra data reading "
+                        # Some automatic variables need 'manual' setting:
+                        self.what = "custom_treatment"
+                        parsed_data = self.custom_treatment(custom_arg)
                         pass
 
                     continue #:next iB
                 continue #:next iA
             continue #:next iN
         # end.FOR:all
-        
+
         self.keychainer() # Adds the keys for self.datadict, & its subdicts,
                           # to be items in the (outermost) dictionary itself,
                           # in a readable &/ sorted manner.
@@ -206,44 +215,23 @@ class readDo(readArgs, readProcedures):
             # Program is done!
 
 
-    def performBasicOps(self):
+    def custom_treatment(self, custom_arg): # Dummy method
         """
-        Performs the basic Indra reading, data structure building, etc.
-        * May return single pos-sets, or single/lesser/all sofa data sets
+        User's own playground for creating an algorithm as necessary.
         """
-        for subfolder in self.subfolder_set:
-            " Current subfolder/fftfile as globvar. "
-            self.subfolder = subfolder
+        print """ The user has not specified a custom reading algorithm.
+    Choose one of the pre-determined methods, or write your own,
+    call it 'custom_treatment', then implement your method via:
+    ' <initialized_gravipy_instance>.custom_treatment = custom_treatment.__get__(<initialized_gravipy_instance>, gravipy) '
 
-            for task in self.what_set:
-                " Current task as globvar (global variable) "
-                self.what = task
-                self.progressPrinter(subfolder)
-
-                " Task function call: "
-                parsed_data = self.action[self.what]()
-                # \=>: Main component of entire program: Reading.
-
-                " IF-block below handles pp and output "
-                if any([self.w2f, self.plotdata]) == True:
-                    " Handles data post processing - during. "
-                    self.pp_basic(parsed_data, self.subfolder)
-                    
-                    if subfolder == self.subfolder_set[-1]:
-                        " Handles data post processing - end of subfolder set. "
-                        self.pp_basicLast(parsed_data, self.subfolder)
-                        pass # end.IF: last snap
-
-                    pass # end.IF: pp & output
-                
-                " Clear variable's memory allocation, or store in dict"
-                parsed_data = self.dataParserIter(parsed_data, self.subfolder)
-
-                continue #:next task
-
-            continue #:next snapnum...
-
-        return parsed_data
+    PS: Make your implementation with a dummy argument, for example:
+    '''
+    def custom_treatment(custom_arg):
+        #etc ...
+    ''' as you can feed this into the reading method, should you need it:
+    ' gravipy.beginReading(custom_arg) '
+        """
+        return 0
 
 
     def performSingleSnaps(self):
@@ -251,74 +239,33 @@ class readDo(readArgs, readProcedures):
         Performs reading and processing for multiple tasks, on a single snap.
         * Combinations' operations determined through:
             - user inputs name of a specific combination,
-            - 'readDo.__init__'s structure,
+            - 'gravipy.__init__'s structure,
             - contents of pp-function in question
 
-        any([self.autocombo_bools[key] 
+        any([self.autocombo_bools[key]
             for key in self.autocombo.keys()])
         """
-        # TODO not done
-    
-        # May develop this one into a function that retrieves a set of tasks to do 
-        self.taskSingles = self.singleSnapActions[self.what_set] 
-        
-        for subfolder in self.subfolder_set:
-            " Current subfolder/fftfile as globvar. "
-            self.subfolder = subfolder
+        # TODO
 
-            " Data dict for processing in type combination - singular snaps "
-            self.data1dict = {}
+        # May develop this one into a function that retrieves a set of tasks to do
+        self.taskSingles = self.singleSnapActions[self.what_set]#WIP
 
-            for task in sself.singleSnapActions[self.what_set]:
-                " Current task as globvar (global variable) "
-                self.what = task
-                self.progressPrinter(self.subfolder)
-
-                " Task function call: "
-                parsed_data = self.action[self.what]()
-                # \=>: Main component of entire program: Reading.
-
-                " IF-block below handles pp and output "
-                if any([self.w2f, self.plotdata]) == True:
-                    " Handles data post processing - during. "
-                    self.pp_singleSnaps(parsed_data)
-                        # temp. storage for pp-data is self-contained
-                        # inside self.'ppSingleSnaps'
-                    pass # end.IF: pp & output
-                
-                " Clear variable's memory allocation, or store in dict"
-                parsed_data = self.dataParserIter(parsed_data, self.subfolder)
-                continue #:next task
-
-            " Clears dict for next iteration, if there is one "
-            self.data1dict.clear() 
-                # i.e.: Positions take up a lot of memory!
-            continue #:next snapnum...
-
-        """
-        Performs reading and processing for multiple tasks, on several snaps;
-        needing all snaps in a set loaded to perform an operation.
-
-        Combinations' operations determined through:
-        - 'user input's name of a specific combination,
-        - 'readDo.__init__'s structure,
-        - 'read_autotools.py's:
-            * hierarchy and contents of pp-functions that will be called.
-        """
         " Data dict. for processing in type combination - all snaps in set "
         self.dataSdict = {}
+        self.allCond   = False # If this method comes called after an AllSnaps-run
 
         for subfolder in self.subfolder_set:
+            self.dataSdict.clear() # Clears the temporary dict
+                                   # of previous sn's content.
             " Current subfolder/fftfile as globvar. "
             self.subfolder = subfolder
 
-            for task in self.allSnapActions[ self.what_set ]:
+            for task in self.singleSnapActions[ self.what_set ]:
                 " Current task as globvar (global variable) "
-                self.allCond = False    # Resets pp-cond for a set of tasks
                 self.what = task
 
                 # Declare the condition for beginning pp - at end of set
-                self.oneCond = task == self.oneSnapActions[ self.what_set ][-1]
+                self.one_sn_cond = task == self.singleSnapActions[ self.what_set ][-1]
                 self.auto_outputPather()    # Creates fitting strings
                 self.progressPrinter(subfolder)
 
@@ -326,25 +273,21 @@ class readDo(readArgs, readProcedures):
                 parsed_data = self.action[self.what]()
                 # \=>: Main component of entire program: Reading.
 
-                " This IF-block  "
-                if any([self.w2f, self.plotdata]) == True: 
-                    self.pp_allSnaps(parsed_data) # Temp-storage, pp, output;
-                    pass # end.IF: pp & output    # storage during; pp & output: last snap
-                
                 " Clear parseing variable's memory allocation, or store in dict"
                 parsed_data = self.dataParserIter(parsed_data, self.subfolder)
-                print
-                continue #: Next task
-            print "    .....................    ..................... "
-            print        # ..=> progress printing easily discernable at a glance.
-            continue     #: Next snapnum...
 
-        print 
-        self.dataSdict.clear() # Clears the temporary dict
+                if any([self.w2f, self.plotdata]) == True:
+                    self.pp_singleSnaps(parsed_data) # Temp-storage, pp, output;
+
+                    " The solution if all else fails: "
+                    # self.datadict.update(self.dataSdict)
+                    pass # end.IF: pp & output    # storage during; pp & output: last snap
+                continue #: Next task
+            continue     #: Next snapnum...
 
         return parsed_data
 
-        
+
     def performAllSnaps(self):
         """
         Performs reading and processing for multiple tasks, on several snaps;
@@ -352,12 +295,12 @@ class readDo(readArgs, readProcedures):
 
         Combinations' operations determined through:
         - 'user input's name of a specific combination,
-        - 'readDo.__init__'s structure,
+        - 'gravipy.__init__'s structure,
         - 'read_autotools.py's:
             * hierarchy and contents of pp-functions that will be called.
         """
         " Data dict. for processing in type combination - all snaps in set "
-        self.dataAdict = {} 
+        self.dataAdict = {}
         self.allCond = False    # Resets pp-cond for a set of snapshots
 
         for subfolder in self.subfolder_set:
@@ -379,19 +322,22 @@ class readDo(readArgs, readProcedures):
                 # \=>: Main component of entire program: Reading.
 
                 " This IF-block  "
-                if any([self.w2f, self.plotdata]) == True: 
+                if any([self.w2f, self.plotdata]) == True:
                     self.pp_allSnaps(parsed_data) # Temp-storage, pp, output;
                     pass # end.IF: pp & output    # storage during; pp & output: last snap
-                
+
                 " Clear parseing variable's memory allocation, or store in dict"
                 parsed_data = self.dataParserIter(parsed_data, self.subfolder)
-                print
+                # print
                 continue #: Next task
-            print "    .....................    ..................... "
-            print        # ..=> progress printing easily discernable at a glance.
+            # print "    .....................    ..................... "
+            # print        # ..=> progress printing easily discernable at a glance.
             continue     #: Next snapnum...
 
-        print 
+        # print
+
+        # Temporary measure
+        self.datadict.update(self.dataAdict)
         self.dataAdict.clear() # Clears the temporary dict
 
         return parsed_data
@@ -405,12 +351,12 @@ class readDo(readArgs, readProcedures):
         * Long, multi-valued sets expected to blow out RAM should yet
           still be postprocessed before the iterating variable 'parsed_data'
           is wiped.
-        
+
         * Small sets may be stored and returned to outerlying structure,
           i.e. on jupyter notebooks, to interact with after reading in
           a rather manual manner.
            # RAM availability is key to how many sets may be read at any
-           # one time. 
+           # one time.
              - Make a function to read RAM availability and allocate number?
                %TODO !
 
@@ -418,7 +364,7 @@ class readDo(readArgs, readProcedures):
           for interpretation outside.
 
         * This function's output is then sent along to self.generalStorager(X,Y);
-          iow.: this function's output is what potentially be stored within 
+          iow.: this function's output is what potentially be stored within
           object's instance (and also)/(or simply) returned objects.
         """
         if   self.multiset == "wipe":
@@ -429,7 +375,7 @@ class readDo(readArgs, readProcedures):
         elif self.multiset == "store":
             " Don't wipe completely; re-locate for storage "
             return self.generalStorager(parsed_data) # proper solution
-                                                   # WIP (# done..!(?))
+                                                     # WIP (# done..!(?))
         elif self.multiset == False:
             " Single set case, return parsed data "
             return parsed_data
@@ -448,7 +394,7 @@ class readDo(readArgs, readProcedures):
 
         ### Current proposal:
         3-leveled/indexed nested dictionary structure, shown below
-        
+
         output_dataset  # -> variable stored to outside (of this) script
             |
             |-: ["{task/data category}"]
@@ -470,14 +416,15 @@ class readDo(readArgs, readProcedures):
         indra = self.iString
         num   = self.subfolder      # -- --> Innermost key.
 
-        # NB: self.datadict was declared in 
+        # NB: self.datadict was declared in
         #     the beginning of self.beginReading()
 
-        " See if current task's data is _allowed_ to store "
-        if task in self.AllowedDataAccumulation:
-            " Then put in its correct dictionary "
-            self.dictMaker(parsed_data, self.datadict, task, indra, num)
-            pass # end.IF 0
+        # " See if current task's data is _allowed_ to store "
+        # if task in self.AllowedDataAccumulation:
+        #     " Then put in its correct dictionary "
+        self.dictMaker(parsed_data, self.datadict, task, indra, num)
+        #     pass # end.IF 0
+        " Bypassed safeguards for the time being "
 
         return 0
 
@@ -495,7 +442,7 @@ class readDo(readArgs, readProcedures):
         else:
             " Case: dict already has the task-name-key "
             if indra not in dictname[task].keys():
-                
+
                 " Declaration of indra-key "
                 dictname[task][indra] = { num : parsed_data }
                 pass # end.IF 2
@@ -520,11 +467,11 @@ class readDo(readArgs, readProcedures):
         self.datadict["tasks"] = N.array(self.what_set)
 
         " 2: Sorting indra-keys by numeral value " # Only relevant for multiple simulations
-        if self.multiset == True: 
-            
+        if self.multiset == True:
+
             self.datadict["indrakeys"] = N.array(sorted(
                 self.datadict[self.what_set[0]].keys(),
-                key=float 
+                key=float
             ))
             # NB: No. of indra simulations is equal
             #     for each performed task in self.what_set!
@@ -602,12 +549,12 @@ class readDo(readArgs, readProcedures):
         * Long, multi-valued sets expected to blow out RAM should yet
           still be postprocessed before the iterating variable 'parsed_data'
           is wiped.
-        
+
         * Small sets may be stored and returned to outerlying structure,
           i.e. on jupyter notebooks, to interact with after reading in
           a rather manual manner.
            # RAM availability is key to how many sets may be read at any
-           # one time. 
+           # one time.
              - Make a function to read RAM availability and allocate number?
                %TODO !
 
@@ -616,7 +563,7 @@ class readDo(readArgs, readProcedures):
         """
         if   self.multiset == "wipe":
             " No need to return anything "
-            pass 
+            pass
 
         elif self.multiset == "store":
             " Small set is returned "
@@ -628,7 +575,7 @@ class readDo(readArgs, readProcedures):
             # (equal to:) return self.datadict[self.fileName]
 
         else:
-            print "Parse error"
+            print "Parse error in datareturner"
             pass
 
         return 0
@@ -638,13 +585,14 @@ class readDo(readArgs, readProcedures):
         """
         Printout of programs current progress through folder systems
         """
+        # sys.stdout.flush() # aims to reset output screen
         progress = """ * i{iN:1d}{iA:1d}{iB:1d} > {task:8} (/{oftasks}) > snap:{sn:02d}"""
         print progress.format(
-            task    = self.what,     
-            oftasks = self.what_set, 
-            iN      = self.indraN,   
-            iA      = self.iA,       
-            iB      = self.iB,       
+            task    = self.what,
+            oftasks = self.what_set,
+            iN      = self.indraN,
+            iA      = self.iA,
+            iB      = self.iB,
             sn      = num
         )
         return 0
@@ -677,7 +625,7 @@ class readDo(readArgs, readProcedures):
         1.50364   , 1.38572   , 1.27585   , 1.17342   , 1.07787   , 0.988708,
         0.905462  , 0.827699  , 0.755036  , 0.687109  , 0.62359   , 0.564177,
         0.508591  , 0.456577  , 0.407899  , 0.36234   , 0.319703  , 0.279802,
-        0.242469  , 0.207549  , 0.174898  , 0.144383  , 0.115883  , 0.0892878, 
+        0.242469  , 0.207549  , 0.174898  , 0.144383  , 0.115883  , 0.0892878,
         0.0644934 , 0.0414031 , 0.0199325 , 2.22045e-16])
 
         self.datadict["time"] = {"scale" : scalefactors, "redshift" : redshifts}
@@ -691,7 +639,7 @@ class readDo(readArgs, readProcedures):
         Also, working along with self.progressPrinter(X,Y,Z).
         """
         if self.what != "fft":
-            # Second condition probably redundant condition, but 
+            # Second condition probably redundant condition, but
             " if not 'fft', then 'subfolder' systems! "
             sett     = self.subfolder_set
             symbol   = "subfolder"
@@ -712,6 +660,6 @@ class readDo(readArgs, readProcedures):
 if __name__ == '__main__':
     print """
     Import 'read' and initialize, i.e.:
-    'yourInstanceName = readDo()'
+    'yourInstanceName = gravipy()'
     'output = yourInstanceName(dictionaryOfDataParameters)'
     """

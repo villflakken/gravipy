@@ -33,7 +33,7 @@ class UserTools(object):
     def box_indexer(self, pos, box_params):
         """
         Extracts slices of data, determined from 3D positions.
-        self.box_params = [ [0.,20.],[0.,20.],[0.,5.] ] 
+        self.box_params = [ [0.,20.],[0.,20.],[0.,5.] ]
         """
         print "  * Boxing indexation commenced "
         xmin, xmax = box_params[0]
@@ -53,7 +53,7 @@ class UserTools(object):
 
         return box3D
 
-    
+
     def arrboxes(self, IDs, pos, arr2, box_params):
         """
         Simple function to minimize command lines, returns a boxed array.
@@ -67,7 +67,7 @@ class UserTools(object):
 
         return IDs, pos, arr2 # Because 'arr2' could be a FoF-thing or something...
 
-    
+
     def sort_from_IDsF(self, IDs, pos=None, vel=None, focus="what"):
         """
         Sorts IDs, and an accompanying array after sorted IDs.
@@ -82,34 +82,34 @@ class UserTools(object):
         IDsSortedArgs   = N.argsort(IDs)      # The actual ...
 
         t_argfind_end   = time.time()
-        t_argfind_tot   = t_argfind_end - t_argfind_start 
+        t_argfind_tot   = t_argfind_end - t_argfind_start
         print "    \=> IDs indexes sequenced. "
         print "      : dt = {0:g} s".format(t_argfind_tot)
 
         t_argsort_start = time.time()
         IDs             = IDs[IDsSortedArgs]  # ... sorting mechanism
         t_argsort_end   = time.time()
-        t_argsort_tot   = t_argsort_end - t_argsort_start 
+        t_argsort_tot   = t_argsort_end - t_argsort_start
         print "    \=> IDs sorted. "
         print "      : dt = {0:g} ss".format(t_argsort_tot)
 
         if focus == "pos":
             " Sorts positions "
-            
+
             print "  * Sorting positions."
             t_possort_start = time.time()
-            
+
             pos = pos[IDsSortedArgs]
 
             t_possort_end = time.time()
-            t_possort_tot = t_possort_end - t_possort_start 
+            t_possort_tot = t_possort_end - t_possort_start
             print "    \=> positions' array now sorted by ID tag."
             print "      : dt = {0:g} s".format(t_possort_tot)
             return IDs, pos, None
 
         elif focus == "vel":
             " Sorts velocities"
-            
+
             print "  * Sorting velocities."
             vel = vel[IDsSortedArgs]
             print "    \=> velocities' array now sorted by ID tag.\n"
@@ -133,14 +133,14 @@ class UserTools(object):
 
         print sort_of_errortext
         return 0
-    
+
 
     #### REWRITE THESE TO BE LESS DEPENDENT ON INSTANCE VARIABLES
 
     def outputPather(self, folderPath, fileName):
         """
         Checks if output folder structure exists
-        & creates output path for output file 
+        & creates output path for output file
         & filepath- & name based on env. params.
         * Note: based in user's home folder,
                 folder structure based on intended task.
@@ -148,7 +148,7 @@ class UserTools(object):
 
         folderPath = folderPath+fileName
 
-        self.fileName = fileName 
+        self.fileName = fileName
 
         if not os.path.exists(self.uname + folderPath):
             os.makedirs(self.uname + folderPath)

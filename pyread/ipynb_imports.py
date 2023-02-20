@@ -41,7 +41,7 @@ from read_args import readArgs
 # ==============================================
 # Indra data sets' reading MO.
 # ==============================================
-from read import readDo
+from read import gravipy
 
 time_init_end = time.time()
 

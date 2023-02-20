@@ -18,9 +18,9 @@ class AutoTools(object):
         # Singular-type data readings' post-processing functions
         # WIP and prone to change!
         self.ppd_actionBasic = {
-            "pos"     : self.pp_pos     , 
-            "vel"     : self.pp_vel     , 
-            "fof"     : self.pp_fof     , 
+            "pos"     : self.pp_pos     ,
+            "vel"     : self.pp_vel     ,
+            "fof"     : self.pp_fof     ,
             "subhalo" : self.pp_subhalo ,
             "fft"     : self.pp_fft     ,
             "origami" : self.pp_origami
@@ -34,25 +34,25 @@ class AutoTools(object):
             "origami" : self.pp_Lorigami
         }
         # Post-Processing Routine Dictionary for Action-Combination Routines: Single Snap
-        self.pprd_actionCombSingle = { 
-            "posor"   : self.ppr_posor   , # pos.s and Origami
+        self.pprd_actionCombSingle = {
+            "pori"    : self.ppr_pori    , # pos.s and Origami
             "pof"     : self.ppr_pof     , # pos.s and FoF
             "porifof" : self.ppr_porifof , # pos.s, Origami, and FoF
             "playOne" : self.ppr_playOne   # Dev. functions for testing
         }
         # Post-Processing Routine Dictionary for Action-Combination Routines: Several Snaps
-        self.pprd_actionCombAll = { 
+        self.pprd_actionCombAll = {
             "sufo"    : self.ppr_sufoIniter , # Pertaining to Subhalo Halos & FoF Halos
             "sofa"    : self.ppr_sofaIniter , # Pertaining to Subhalo, Origami, and FoF analysis
-            "playAll" : self.ppr_playAll      # Dev. functions for testing  
+            "playAll" : self.ppr_playAll      # Dev. functions for testing
         }
         """
         End of init
         """
     """
-    The naming conventions of variables and functions contained herein are intended 
+    The naming conventions of variables and functions contained herein are intended
     wrt. a sort of hierarchical thinking, i.e.:
-    
+
     pprd_<...> - pp routine dictionary, contains functions with named routine flows
 
     pp_<single/all snaps> - Initializes correct algorithm for single-snap pp.s or multi-snap,
@@ -68,7 +68,7 @@ class AutoTools(object):
 
 
     ################################################################################
-    # """ -------- Dev. Code Playground, all snaps, comes below here: -------- """ #    
+    # """ -------- Dev. Code Playground, all snaps, comes below here: -------- """ #
 
 
     def pp_allSnaps(self, parsed_data, routine=None):
@@ -102,11 +102,11 @@ class AutoTools(object):
             pass # end.IF: last snap & datatype in set is stored at this point,
                  # which means that the rest of the post-processing begins
                  # (after the else)
-            
+
         else:
-            print "   + playAll storage initialized "
+            # print "   + playAll storage initialized "
             return 0 # end.ELSE: storage notifier,
-                     # so script returns to continue with next snapshot's 
+                     # so script returns to continue with next snapshot's
                      # data collection routines.
 
         # Data is accessable at dictionary addresses (in Jupyter):
@@ -137,8 +137,8 @@ class AutoTools(object):
         print "Completed."
         # --- Put plotting  stuff here!  ------------------------
         print "   # allSnap plot process has begun"
-        
-        
+
+
         " Preliminary plotters "
         """
         # Plot subhalo & fof data stuffs
@@ -151,10 +151,10 @@ class AutoTools(object):
         """
 
         """
-        " Do the backwards-thing: " #TODO 
+        " Do the backwards-thing: " #TODO
         self.choose_halo()
         """
-        
+
 
         print "   . playAll pp-functions completed . "
         # May now clear the temporary dictionary
@@ -171,7 +171,7 @@ class AutoTools(object):
     def ppro_subfofCount(self, snapSetLen, snapkeys, datadict=None):
         """
         A Post-Processing Routine Operation
-        
+
         Produces arrays that are better to handle than dict items,
         returns items to the Post Processing Routine which called it.
         """
@@ -192,7 +192,7 @@ class AutoTools(object):
             " Numbers of FoF / Subhalo Particles == len of their ID arrays "
             nfp_all[si] = len( self.dataAdict[ "fof"     ][self.iString][sn][0] )
             nsp_all[si] = len( self.dataAdict[ "subhalo" ][self.iString][sn][0] )
-            
+
             " Total Number of fof Groups "
             tnf_all[si] = self.dataAdict[ "fof"     ][self.iString][sn][1]
             tns_all[si] = self.dataAdict[ "subhalo" ][self.iString][sn][1]
@@ -221,7 +221,7 @@ class AutoTools(object):
         for si in self.sIndex:
             sn = self.subfolder_set[si]
             nOtags[si] = N.sum( # Sum(bools(type)) => N(type)
-                self.datadict['origami'][self.iString][sn][0] == oTag_dict[otype]
+                self.datadict['origami'][self.iString][sn] == oTag_dict[otype]
             )
             continue
 
@@ -242,16 +242,16 @@ class AutoTools(object):
         }
         if otype not in oTag_dict.keys(): sys.exit(
             " Invalid 'otype' (OrigamiParticleType) ")
-        
+
         # Indexation phenomena of a FoF-halo's group of particles:
         glen = self.datadict["fof"]["200"][63][2] # |IDL's GroupLen   |
         goff = self.datadict["fof"]["200"][63][3] # |and   GroupOffset|
             # glen : FoF-group's size (in num. of particles)
             # goff : FoF-group's index at beginning first halo particle (in IDs)
 
-        IDsG = self.datadict["fof"]["200"][63][0][ goff[grp]:goff[grp]+glen[grp] ]
+        IDsG = self.datadict["fof"]["200"][63][ goff[grp]:goff[grp]+glen[grp] ]
             # Slicing from FoF's array of IDs, keeping only a group's IDs
-        
+
         # Tag counting
         nOtags = N.zeros( len(self.sIndex), dtype=N.int64 )
         for si in self.sIndex:
@@ -259,11 +259,11 @@ class AutoTools(object):
             sn      = self.subfolder_set[si]
             gOritag = self.datadict["origami"]["200"][sn][0][IDsG]
                 # Slicing the correct group from Origami's array
-            
+
             nOtags[si] = N.sum( gOritag == oTag_dict[otype] )
                          # Sum(bools(type)) => N(type)
             continue
-        
+
         return nOtags
 
 
@@ -277,11 +277,11 @@ class AutoTools(object):
     ###################################################################################
     # """ -------- Dev. Code Playground, single snaps, comes below here: -------- """ #
 
-    def ppr_singleSnaps(self, parsed_data, routine=None):
+    def pp_singleSnaps(self, parsed_data, routine=None):
         """
         Initializes single-snap readings & processings
         """
-        if routine != None: # Allows for calling stuff from the outside # DT 
+        if routine != None: # Allows for calling stuff from the outside # DT
             self.what_set = routine
             pass
 
@@ -289,8 +289,33 @@ class AutoTools(object):
 
         return 0
 
+    def ppr_pori(self, playdata): # WIP
+        """
+        Post-Processing Routine
 
-    def ppr_playOne(self, playdata):
+        Playground pp-routine for post-processing of data sets,
+        combining positions-, Subhalo-, Origami, & FoF-data to suit my needs.
+
+        Will figure out routines here, then move them around accordingly.
+        """
+        " Makes sure the temp. dict.s are enriched "
+        self.ppmf_tempStorage(playdata)
+
+        if self.one_sn_cond == True:
+            " Engage playground on last snapshot in the set "
+            # print "   o playOne pp-functions initialized ... ",
+            print " o PORI-method done. It's up to you, now, Jupyter!" #TODO: Integrate plotting stuff here
+            pass # end.IF: last snap & datatype in set
+
+        else:
+            # print "   + playOne storage initialized "
+            return 0 # end.ELSE: storage notifier
+
+
+        return 0
+
+
+    def ppr_playOne(self, playdata): # WIP
         """
         Post-Processing Routine
 
@@ -304,11 +329,11 @@ class AutoTools(object):
 
         if self.oneCond == True:
             " Engage playground on last snapshot in the set "
-            print "   o playOne pp-functions initialized ... ", 
+            print "   o playOne pp-functions initialized ... ",
             pass # end.IF: last snap & datatype in set
-            
+
         else:
-            print "   + playOne storage initialized "
+            # print "   + playOne storage initialized "
             return 0 # end.ELSE: storage notifier
 
         # Data is accessable at dictionary addresses:
@@ -338,7 +363,7 @@ class AutoTools(object):
         print "   . playOne pp-functions completed . " # Next snapshot, then!
         return 0
 
-        
+
 
 
 
@@ -370,7 +395,6 @@ class AutoTools(object):
         indra = self.iString
         num   = self.subfolder
 
-        
         " Selects the correct dictionary for combinated pp-ing "
         if   self.what_set in self.singleSnapActions.keys():
             " Store data for single snaps in a set"
@@ -398,7 +422,7 @@ class AutoTools(object):
 
         return 0
 
-    
+
 
 
 
@@ -422,7 +446,7 @@ class AutoTools(object):
     #############################################
     # -------- Initializers of pp-ing: -------- #
 
-    def ppr_basic(self, parsed_data, num):
+    def pp_basic(self, parsed_data, num):
         """
         Initializes the simple readings & processings.
         """
@@ -439,7 +463,7 @@ class AutoTools(object):
         self.ppActionBasic[self.what](parsed_data)
 
         return 0
-    
+
 
     def ppr_basicLast(self, parsed_data, num):
         """
@@ -506,21 +530,21 @@ class AutoTools(object):
 
     def ppr_pof(self):
         """
-        
+
         """
 
         return 0
 
     def ppr_porifof(self):
         """
-        
+
         """
 
         return 0
 
     def ppr_playOne(self):
         """
-        
+
         """
 
         return 0
@@ -533,7 +557,7 @@ class AutoTools(object):
 
     def ppr_quori(self):
         """
-        
+
         """
 
         return 0
@@ -553,7 +577,7 @@ class AutoTools(object):
                 print " * Subhalo & FoF pp-ing initialized ! "
                 self.pp_sufoCounters()
                 print " . Subhalo & FoF pp-ing completed . "
-                
+
                 pass # end.IF last data in set
             pass # end.IF     last snap in set
 
@@ -579,25 +603,25 @@ class AutoTools(object):
                 print " * Subhalo, Origami & FoF Analysis initialized ! "
                 self.pp_sofaSlouch()
                 print " . Subhalo, Origami & FoF Analysis completed . "
-                
+
                 pass # end.IF last data in set
             pass # end.IF     last snap in set
-            
+
         else:
             print " + Subhalo, Origami & FoF storage initialized "
             pass # end.ELSE storage notifier
 
         return 0
 
-    
-    def ppr_sofaSlouch(self): 
+
+    def ppr_sofaSlouch(self):
         """
         Collects Subhalo, Origami, & FoF Analysis functions
         """
         # Data is accessable at dictionary addresses:
         "| >>> self.tempAdata[ 'fof'    ][ self.iString ][ snapNumber ] "
         #| fofIDs, tNgrps, groupLen, groupOffset
-        
+
         "| >>> self.tempAdata[ 'suhalo' ][ self.iString ][ snapNumber ] "
         #| subIDs, tNsubs, catalog
 
@@ -624,9 +648,10 @@ class AutoTools(object):
     ############################################################
     # """ -------- Here are "basic pp functions": -------- """ #
 
+
     def pp_pos(self, pos_data):
         """
-        Positions post-processing function. 
+        Positions post-processing function.
         """
         IDs, pos, scalefactor, rs = pos_data
 
@@ -652,6 +677,42 @@ class AutoTools(object):
         return 0
 
 
+    def pp_sofaSlouch(self):
+        """
+        SubHalo-, Origami-, FoF- Analysis.
+        Everything necessary for this should already be in the class instance.
+        * Note: Simulation wide.
+        """
+        ### --- Summation tools
+        # Sim.-wide sums of each type
+        nfp, nsp, tng, tns \
+            = self.ppro_subfofCount( self.subfolder_set, self.sIndex )
+                                #  ( specific snaps, snap width range)
+        # Sim.-wide sums of each type
+        print " ### Origami sorting : Void"
+        oNvtags = self.ppro_oritagNfetch('v')
+        print "                     : Wall"
+        oNwtags = self.ppro_oritagNfetch('w')
+        print "                     : Filament"
+        oNftags = self.ppro_oritagNfetch('f')
+        print "                     : Halo"
+        oNhtags = self.ppro_oritagNfetch('h')
+        print " ### Origami sorting => Complete."
+
+
+        ### --- Plotting routines
+        # Plot subhalo & fof data stuffs
+        self.plot_sufoHcount(tng, tns)
+        self.plot_sufoderiv(tng, tns)
+        # Plot SubFind-subhalo-, Origami-halo, & FoF-halo- particle counts
+        self.plot_sofa(nsp, oNhtags, nfp)
+        # Plot Origami's quantities over time
+        self.plot_quOri(oNvtags, oNwtags, oNftags, oNhtags) # Quantities of Origami (over time)
+
+        print " SOFA completed."
+        return 0
+
+
     def pp_vel(self, vel_data):
         """
         Post processing of velocitiy data output.
@@ -664,7 +725,7 @@ class AutoTools(object):
         """
         Post processing of friends of friends data output.
         """
-        
+
 
         return 0
 
@@ -697,7 +758,7 @@ class AutoTools(object):
 
     def pp_Lpos(self, pos_data):
         """
-        Positions post-processing function. 
+        Positions post-processing function.
         """
 
         return 0
